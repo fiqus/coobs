@@ -2,7 +2,6 @@ from django.db import models
 import datetime
 
 
-# Create your models here.
 class Cooperative(models.Model):
     name = models.CharField(max_length=256)
 
