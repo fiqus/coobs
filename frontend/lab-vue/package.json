@@ -1,0 +1,24 @@
+{
+  "name": "lab-vue",
+  "version": "0.0.1",
+  "description": "Fiqus lab for investigate and building vuejs apps",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config build/webpack.config.dev.js",
+    "dev": "webpack-dev-server --progress --config build/webpack.config.dev.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vue": "^2.6.10",
+    "vue-router": "^3.0.7",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "vue-loader": "^15.7.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack-dev-server": "^3.7.2"
+  }
+}

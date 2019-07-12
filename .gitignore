@@ -12,3 +12,7 @@ node_modules/
 css/reveal.min.css
 js/reveal.min.js
 *.sqlite3
+
+frontend/lab-vue/dist/
+frontend/lab-vue/node_modules/
+frontend/lab-vue/package-lock.json
