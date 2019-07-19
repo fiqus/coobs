@@ -43,7 +43,7 @@
       }
     },
     methods: {
-      submit(aa) {
+      submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
           // TODO perform login action
