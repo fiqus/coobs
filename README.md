@@ -32,8 +32,10 @@
 ## Running Frontend
 
 1. Go to '/bscoop/frontend' and run:
+
         npm install
 2. Run:
+
         npm run dev
 
 3. Frontend now should be accessible in:
