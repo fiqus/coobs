@@ -1,6 +1,6 @@
 # Cooperative social balance app 
 
-## Running
+## Running Backend
 
 1. Create virtualenv using python3 (follow https://virtualenvwrapper.readthedocs.io/en/latest/install.html)
 
@@ -28,3 +28,14 @@
 7. API now should be accessible in:
 
         http://localhost:8000/api/
+
+## Running Frontend
+
+1. Go to '/bscoop/frontend' and run:
+        npm install
+2. Run:
+        npm run dev
+
+3. Frontend now should be accessible in:
+
+        http://localhost:8080/
