@@ -3,7 +3,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <font-awesome-icon icon="file-download" /> Generate Balance</a>
+      <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> <i class="fas fa-file-download"></i> Generate Balance</a>
     </div>
 
     <!-- Content Row -->
@@ -19,7 +19,7 @@
                 <div class="h5 mb-0 font-weight-bold text-gray-800">130</div>
               </div>
               <div class="col-auto">
-                <font-awesome-icon icon="calendar" class="fa-2x text-gray-300"/>
+                <i class="fas fa-calendar fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
@@ -36,7 +36,7 @@
                 <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
               </div>
               <div class="col-auto">
-                <font-awesome-icon icon="dollar-sign" class="fa-2x text-gray-300"/>
+                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <font-awesome-icon icon="coins" class="fa-2x text-gray-300"/>
+                <i class="fas fa-coins fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@
                 </div>
               </div>
               <div class="col-auto">
-                <font-awesome-icon icon="clipboard-list" class="fa-2x text-gray-300"/>
+                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
               </div>
             </div>
           </div>
