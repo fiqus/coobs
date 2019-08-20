@@ -2,16 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // route components
-import HomeScreen from './screens/home.vue';
+import DashboardScreen from './screens/dashboard.vue';
 import LoginScreen from './screens/login.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    name: "home",
+    name: "dashboard",
     path: "/",
-    component: HomeScreen
+    component: DashboardScreen
   },
   {
     name: "login",
@@ -19,7 +19,7 @@ const routes = [
     component: LoginScreen
   },
 
-  // otherwise redirect to home
+  // otherwise redirect to dashboard
   { path: '*', redirect: '/' }
 ];
 
