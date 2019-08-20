@@ -12,7 +12,9 @@ node_modules/
 css/reveal.min.css
 js/reveal.min.js
 *.sqlite3
+*.pyc
 
-frontend/lab-vue/dist/
-frontend/lab-vue/node_modules/
-frontend/lab-vue/package-lock.json
+frontend/dist/
+frontend/node_modules/
+frontend/package-lock.json
+api/migrations/__pycache__/__init__.cpython-36.pyc
