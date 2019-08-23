@@ -9,86 +9,43 @@
     <!-- Content Row -->
     <div class="row">
 
-      <!-- Cooperative Actions QTY -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Actions Done (Year)</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">130</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <smallcard-chart
+        label="Actions Done (Year)"
+        icon="calendar"
+        color-type="primary">
+        <div class="h5 mb-0 font-weight-bold text-gray-800">130</div>
+      </smallcard-chart>
 
-      <!-- Cooperative Actions Investment -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Co-op Investment</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <smallcard-chart
+        label="Co-op Investment"
+        icon="currency"
+        color-type="success">
+        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+      </smallcard-chart>
 
-      <!-- Cooperative promotion fund -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Co-op Promotion Fund</div>
-                <div class="row no-gutters align-items-center">
-                  <div class="col-auto">
-                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                  </div>
-                  <div class="col">
-                    <div class="progress progress-sm mr-2">
-                      <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-coins fa-2x text-gray-300"></i>
-              </div>
+      <smallcard-chart
+        label="Co-op Promotion Fund"
+        icon="coins"
+        color-type="info">
+        <div class="row no-gutters align-items-center">
+          <div class="col-auto">
+            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+          </div>
+          <div class="col">
+            <div class="progress progress-sm mr-2">
+              <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
         </div>
-      </div>
+      </smallcard-chart>
 
-      <!-- Pending Actions -->
-      <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-          <div class="card-body">
-            <div class="row no-gutters align-items-center">
-              <div class="col mr-2">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                  Pending Actions
-                </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                  18
-                </div>
-              </div>
-              <div class="col-auto">
-                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <smallcard-chart
+        label="Pending Actions"
+        icon="clipboard"
+        color-type="warning">
+        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+      </smallcard-chart>
+
     </div>
 
     <!-- Content Row -->
@@ -110,122 +67,24 @@
         </div>
       </div>
 
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 1</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle1" :series="principle1.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 2</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle2" :series="principle2.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 3</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle3" :series="principle3.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
+      <radialbar-chart
+        v-for="principle in firstRowPrinciples"
+        :key="principle.label"
+        :label="principle.label"
+        :percentage="principle.percentage">
+      </radialbar-chart>
 
     </div>
 
     <!-- Content Row -->
     <div class="row">
 
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 4</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle4" :series="principle4.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 5</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle5" :series="principle5.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 6</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle6" :series="principle6.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Principle Chart -->
-      <div class="col-xl-3 col-lg-4">
-        <div class="card shadow mb-4">
-          <!-- Card Header -->
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">Principle 7</h6>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            <div class="chart-area" style="height:210px;">
-              <apexchart height=300 type="radialBar" :options="principle7" :series="principle7.series"></apexchart>
-            </div>
-          </div>
-        </div>
-      </div>
+      <radialbar-chart
+        v-for="principle in secondRowPrinciples"
+        :key="principle.label"
+        :label="principle.label"
+        :percentage="principle.percentage">
+      </radialbar-chart>
 
     </div>
 
@@ -254,21 +113,25 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts'
+  import VueApexCharts from 'vue-apexcharts';
+  import RadialBarChart from "../components/radialbar-chart.vue";
+  import SmallCardChat from "../components/smallcard-chart.vue"
+
   const coopcolors = ['#ED0017', '#F06704', '#FEFF00', '#53CE00', '#61C9FF', '#1400CD', '#60009A']
-  const principleDataLabels = {
-          name: {
-            show: false
-          },
-          value: {
-            offsetY: 15,
-            fontSize: '22px'
-          }
-        }
 
   export default {
     components: {
-      "apexchart": VueApexCharts
+      "apexchart": VueApexCharts,
+      "radialbar-chart": RadialBarChart,
+      "smallcard-chart": SmallCardChat
+    },
+    computed: {
+      firstRowPrinciples() {
+        return this.principles.slice(0, 3);
+      },
+      secondRowPrinciples() {
+        return this.principles.slice(3);
+      }
     },
     data() {
       return {
@@ -320,259 +183,36 @@
           ],
           colors:coopcolors
         },
-        principle1: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
+        principles: [
+          {
+            label: "Principle 1",
+            percentage: 76
           },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
+          {
+            label: "Principle 2",
+            percentage: 24
           },
-          labels: ['Principle 1'],
-          series: [76]
-        },
-        principle2: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
+          {
+            label: "Principle 3",
+            percentage: 30
           },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
+          {
+            label: "Principle 4",
+            percentage: 48
           },
-          labels: ['Principle 2'],
-          series: [30]
-        },
-        principle3: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
+          {
+            label: "Principle 5",
+            percentage: 18
           },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
+          {
+            label: "Principle 6",
+            percentage: 52
           },
-          labels: ['Principle 2'],
-          series: [30]
-        },
-        principle4: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
-          },
-          labels: ['Principle 2'],
-          series: [30]
-        },
-        principle5: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
-          },
-          labels: ['Principle 2'],
-          series: [30]
-        },
-        principle6: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: {
-                name: {
-                  show: false
-                },
-                value: {
-                  offsetY: 15,
-                  fontSize: '22px'
-                }
-              }
-            }
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
-          },
-          labels: ['Principle 2'],
-          series: [30]
-        },
-        principle7: {
-          plotOptions: {
-            radialBar: {
-              startAngle: -90,
-              endAngle: 90,
-              track: {
-                background: "#e7e7e7",
-                strokeWidth: '97%',
-                margin: 5, // margin is in pixels
-                shadow: {
-                  enabled: true,
-                  top: 2,
-                  left: 0,
-                  color: '#999',
-                  opacity: 1,
-                  blur: 2
-                }
-              },
-              dataLabels: principleDataLabels
-            }
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              shade: 'light',
-              shadeIntensity: 0.4,
-              inverseColors: false,
-              opacityFrom: 1,
-              opacityTo: 1,
-              stops: [0, 50, 53, 91]
-            },
-          },
-          labels: ['Principle 2'],
-          series: [60]
-        },
+          {
+            label: "Principle 7",
+            percentage: 60
+          }
+        ],
         allPrinciplesPie: {
           responsive: [{
             breakpoint: 480,
