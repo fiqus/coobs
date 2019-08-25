@@ -16,6 +16,7 @@ const routes = [
   {
     name: "login",
     path: "/login",
+    meta: {layout: "empty"},
     component: LoginScreen
   },
 

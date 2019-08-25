@@ -1,27 +1,34 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-4 offset-sm-4">
-        <form v-on:submit.prevent="submit" class="needs-validation" novalidate>
-          <input-form
-            name="email"
-            type="email"
-            v-model="user.email"
-            label="Email: "
-            :error="$v.user.email.$error"
-            error-message="Ingrese un email válido">
-          </input-form>
-          <input-form
-            name="password"
-            type="password"
-            v-model="user.password"
-            label="Password: "
-            :error="$v.user.password.$error"
-            error-message="Ingrese un password válido">
-          </input-form>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
       </div>
+      <form v-on:submit.prevent="submit" class="needs-validation" novalidate>
+        <input-form
+          name="email"
+          type="email"
+          v-model="user.email"
+          placeholder="Email..."
+          :error="$v.user.email.$error"
+          error-message="Ingrese un email válido">
+        </input-form>
+        <input-form
+          name="password"
+          type="password"
+          v-model="user.password"
+          placeholder="Password..."
+          :error="$v.user.password.$error"
+          error-message="Ingrese un password válido">
+        </input-form>
+        <div class="form-group">
+          <div class="custom-control custom-checkbox small">
+            <input type="checkbox" class="custom-control-input" id="customCheck">
+            <label class="custom-control-label text-gray-900" for="customCheck">Remember Me</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+      </form>
     </div>
   </div>
 </template>

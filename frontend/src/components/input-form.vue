@@ -1,11 +1,12 @@
 <template>
   <div class="form-group">
-    <label>
+    <label v-if="label">
       {{label}}
     </label>
     <input class="form-control"
       :class="{'is-invalid': error}"
       :name="name"
+      :placeholder="placeholder"
       :type="type"
       v-model="value"
       @input="onInput"/>
@@ -36,7 +37,11 @@ export default {
     },
     errorMessage: {
       type: String
-    }
+    },
+    placeholder: {
+      type: String,
+      default: ""
+    },
   },
   methods: {
     onInput() {
