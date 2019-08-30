@@ -5,7 +5,7 @@
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{label}}</div>
-            <slot/>
+            <slot name="chart-content"/>
           </div>
           <div class="col-auto">
             <i class="fas fa-2x text-gray-300" :class="iconClass"></i>

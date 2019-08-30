@@ -4,7 +4,7 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" data-toggle="collapse" id="accordionSidebar">
+      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -42,7 +42,7 @@
 
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
-          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+          <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>
         </div>
 
       </ul>
@@ -103,7 +103,7 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- In this slot will be the screen content of this layout -->
-            <slot></slot>
+            <slot name="page-content"></slot>
           </div>
           <!-- /.container-fluid -->
 
@@ -151,3 +151,13 @@
     </div>
   </div>
 </template>
+<script>
+  export default {
+    data() {
+      return {
+        toggled: true
+      }
+    }
+  }
+</script>
+

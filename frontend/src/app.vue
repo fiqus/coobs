@@ -1,7 +1,9 @@
 <template>
   <div>
     <component :is="layout">
-      <router-view></router-view>
+      <template v-slot:page-content>
+        <router-view></router-view>
+      </template>
     </component>
   </div>
 </template>
