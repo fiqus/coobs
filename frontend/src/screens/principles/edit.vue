@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">Edit principle</h1>
+        <h1 class="h4 text-gray-900 mb-4">{{title}}</h1>
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
@@ -36,18 +36,26 @@
   import InputForm from "../../components/input-form.vue";
   import TextareaForm from "../../components/textarea-form.vue";
   import {required} from "vuelidate/lib/validators";
+  import {findPrinciple} from "../../mock-data";
 
   export default {
     components: {
       "input-form": InputForm,
       "textarea-form": TextareaForm
     },
+    created() {
+      if (this.$route.params.principleId) {
+        this.principle = findPrinciple(this.$route.params.principleId)
+      }
+    },
     data() {
       return {
         principle: {
           name: "",
           description: ""
-        }
+        },
+        isNew: !Boolean(this.$route.params.principleId),
+        title: this.isNew ? "Edit principle" : "Create a principle"
       }
     },
     methods: {
