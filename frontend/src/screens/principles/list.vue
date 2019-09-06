@@ -10,7 +10,8 @@
     <custom-table
       :headers="headers"
       :data="principles"
-      @onEdit="edit">
+      @onEdit="onEdit"
+      @onDelete="onDelete">
     </custom-table>
   </div>
 </template>
@@ -18,6 +19,8 @@
 <script>
   import CustomTable from "../../components/custom-table.vue";
   import {formatText} from "../../utils";
+
+  import swal from 'sweetalert';
 
   export default {
     components: {
@@ -52,8 +55,24 @@
       }
     },
     methods: {
-      edit(principle) {
+      onEdit(principle) {
         this.$router.push({name: "principle-edit", params: {principleId: principle.id}});
+      },
+      onDelete(principle) {
+        swal({
+          title: "Are you sure?",
+          text: "Once deleted, you will not be able to ...",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            swal("The principle has been deleted!", {
+              icon: "success",
+            });
+          }
+        });
       }
     }
   }
