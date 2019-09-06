@@ -26,18 +26,18 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#">
+          <router-link class="nav-link collapsed" :to="{name: 'events-list'}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>Events</span>
-          </a>
+          </router-link>
         </li>
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link" href="#">
-              <i class="fas fa-fw fa-map-signs"></i>
+          <router-link class="nav-link" :to="{name: 'principles-list'}">
+            <i class="fas fa-fw fa-map-signs"></i>
             <span>Principles</span>
-          </a>
+          </router-link>
         </li>
 
         <!-- Sidebar Toggler (Sidebar) -->
