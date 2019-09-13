@@ -3,13 +3,14 @@
     <label v-if="label">
       {{label}}
     </label>
-    <input class="form-control"
+    <textarea class="form-control"
       :class="{'is-invalid': error}"
       :name="name"
       :placeholder="placeholder"
       :type="type"
       v-model="value"
-      @input="onInput"/>
+      @input="onInput">
+    </textarea>
     <div v-if="error" class="invalid-feedback">
       {{errorMessage}}
     </div>
