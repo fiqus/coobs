@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from api.views import PrincipleView, EventView, CooperativeView
+from api.views import PrincipleView, ActionView, CooperativeView
 
 router = routers.DefaultRouter()
 router.register(r'principles', PrincipleView)
-router.register(r'events', EventView)
+router.register(r'actions', ActionView)
 router.register(r'cooperatives', CooperativeView)
 
 urlpatterns = [

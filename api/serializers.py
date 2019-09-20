@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Principle, Event, Cooperative
+from api.models import Principle, Action, Cooperative
 
 
 class CooperativeSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class PrincipleSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class EventSerializer(serializers.ModelSerializer):
+class ActionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Event
+        model = Action
         fields = "__all__"

@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from api.models import Principle, Event, Cooperative
-from api.serializers import PrincipleSerializer, EventSerializer, CooperativeSerializer
+from api.models import Principle, Action, Cooperative
+from api.serializers import PrincipleSerializer, ActionSerializer, CooperativeSerializer
 
 
 class CooperativeView(ModelViewSet):
@@ -13,6 +13,6 @@ class PrincipleView(ReadOnlyModelViewSet):
     serializer_class = PrincipleSerializer
 
 
-class EventView(ModelViewSet):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
+class ActionView(ModelViewSet):
+    queryset = Action.objects.all()
+    serializer_class = ActionSerializer

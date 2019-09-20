@@ -17,7 +17,7 @@ class Principle(models.Model):
         return self.name
 
 
-class Event(models.Model):
+class Action(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE)
     principle = models.ForeignKey(Principle, on_delete=models.CASCADE, null=True)
     date = models.DateField(default=datetime.date.today)
