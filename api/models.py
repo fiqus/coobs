@@ -12,6 +12,7 @@ class Cooperative(models.Model):
 class Principle(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField()
+    visible = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
