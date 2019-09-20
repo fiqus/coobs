@@ -11,6 +11,7 @@
         name="name"
         type="text"
         v-model="principle.name"
+        :disabled="true"
         :error="$v.principle.name.$error"
         error-message="Required">
       </input-form>
@@ -24,6 +25,11 @@
         error-message="Required">
       </textarea-form>
 
+      <div class="form-group custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="visibleCheck" v-model="principle.visible">
+        <label class="custom-control-label" for="visibleCheck">Visible</label>
+      </div>
+
       <div class="action-bar-buttons">
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
@@ -36,7 +42,8 @@
   import InputForm from "../../components/input-form.vue";
   import TextareaForm from "../../components/textarea-form.vue";
   import {required} from "vuelidate/lib/validators";
-  import {findPrinciple} from "../../mock-data";
+  import {httpGet, httpPut} from "../../api-client.js";
+  import swal from 'sweetalert';
 
   export default {
     components: {
@@ -45,15 +52,15 @@
     },
     created() {
       if (this.$route.params.principleId) {
-        this.principle = findPrinciple(this.$route.params.principleId)
+        httpGet(`/principles/${this.$route.params.principleId}`)
+          .then((response) => {
+            this.principle = response.data;
+          });
       }
     },
     data() {
       return {
-        principle: {
-          name: "",
-          description: ""
-        },
+        principle: {},
         isNew: !Boolean(this.$route.params.principleId),
         title: this.isNew ? "Edit principle" : "Create a principle"
       }
@@ -61,6 +68,17 @@
     methods: {
       submit() {
         this.$v.$touch();
+        if (!this.$v.$invalid) {
+          httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
+            .then(() => {
+              swal("The principle has been edited!", {
+                icon: "success",
+                buttons: false,
+                timer: 2000
+              });
+              this.$router.push({name: "principles-list"});
+            })
+        }
       }
     },
     validations: {

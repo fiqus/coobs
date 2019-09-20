@@ -26,9 +26,9 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'events-list'}">
+          <router-link class="nav-link collapsed" :to="{name: 'actions-list'}">
             <i class="fas fa-fw fa-calendar"></i>
-            <span>Events</span>
+            <span>Actions</span>
           </router-link>
         </li>
 

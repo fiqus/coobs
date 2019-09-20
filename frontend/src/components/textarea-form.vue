@@ -3,7 +3,7 @@
     <label v-if="label">
       {{label}}
     </label>
-    <textarea class="form-control"
+    <textarea class="form-control min-height-150"
       :class="{'is-invalid': error}"
       :name="name"
       :placeholder="placeholder"

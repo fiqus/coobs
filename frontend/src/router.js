@@ -4,7 +4,8 @@ import VueRouter from 'vue-router';
 // route components
 import DashboardScreen from './screens/dashboard.vue';
 import LoginScreen from './screens/login.vue';
-import EventsListScreen from './screens/events/list.vue';
+import ActionsListScreen from './screens/actions/list.vue';
+import ActionsEditScreen from './screens/actions/edit.vue';
 import PrinciplesListScreen from './screens/principles/list.vue';
 import PrincipleEditScreen from './screens/principles/edit.vue';
 
@@ -12,14 +13,20 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    name: "events-list",
-    path: "/events",
-    component: EventsListScreen
+    name: "actions-list",
+    path: "/actions",
+    component: ActionsListScreen
+  },
+  {
+    name: "action-edit",
+    path: "/action-edit/:actionId",
+    component: ActionsEditScreen
   },
   {
     name: "principles-list",
     path: "/principles",
-    component: PrinciplesListScreen
+    component: PrinciplesListScreen,
+    props: {edited: false}
   },
   {
     name: "principle-edit",

@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from api.models import Principle, Action, Cooperative
 from api.serializers import PrincipleSerializer, ActionSerializer, CooperativeSerializer
 
@@ -8,7 +8,7 @@ class CooperativeView(ModelViewSet):
     serializer_class = CooperativeSerializer
 
 
-class PrincipleView(ReadOnlyModelViewSet):
+class PrincipleView(ModelViewSet):
     queryset = Principle.objects.all()
     serializer_class = PrincipleSerializer
 

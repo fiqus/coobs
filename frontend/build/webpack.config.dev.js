@@ -14,7 +14,14 @@ module.exports = {
     watchOptions: {
       poll: true
     },
-    clientLogLevel: 'error' // https://webpack.js.org/configuration/dev-server/#devserverclientloglevel
+    clientLogLevel: 'error', // https://webpack.js.org/configuration/dev-server/#devserverclientloglevel
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        ws: true,
+        changeOrigin: true
+      }
+    }
   },
   module: {
     rules: [

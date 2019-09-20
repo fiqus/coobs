@@ -13,6 +13,8 @@ css/reveal.min.css
 js/reveal.min.js
 *.sqlite3
 *.pyc
+__pycache__/
+.vscode
 
 frontend/dist/
 frontend/node_modules/

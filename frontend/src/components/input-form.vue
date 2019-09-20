@@ -8,6 +8,7 @@
       :name="name"
       :placeholder="placeholder"
       :type="type"
+      :disabled="disabled"
       v-model="value"
       @input="onInput"/>
     <div v-if="error" class="invalid-feedback">
@@ -42,6 +43,10 @@ export default {
       type: String,
       default: ""
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     onInput() {
