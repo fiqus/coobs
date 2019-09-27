@@ -15,15 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, CooperativeView
+from api.views import PrincipleView, ActionView, CooperativeView, PeriodView
 
 router = routers.DefaultRouter()
 router.register(r'principles', PrincipleView)
 router.register(r'actions', ActionView)
 router.register(r'cooperatives', CooperativeView)
+router.register(r'periods', PeriodView)
 
 urlpatterns = [
+    path('', RedirectView.as_view(url='api/')),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
