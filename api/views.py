@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from api.models import Principle, Action, Cooperative
-from api.serializers import PrincipleSerializer, ActionSerializer, CooperativeSerializer
+from api.models import Principle, Action, Cooperative, Period
+from api.serializers import PrincipleSerializer, ActionSerializer, CooperativeSerializer, PeriodSerializer
 
 
 class CooperativeView(ModelViewSet):
@@ -16,3 +16,8 @@ class PrincipleView(ModelViewSet):
 class ActionView(ModelViewSet):
     queryset = Action.objects.all()
     serializer_class = ActionSerializer
+
+
+class PeriodView(ModelViewSet):
+    queryset = Period.objects.all()
+    serializer_class = PeriodSerializer

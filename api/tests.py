@@ -1,3 +1,5 @@
-from django.test import TestCase
+from rest_framework.test import RequestsClient
 
-# Create your tests here.
+client = RequestsClient()
+response = client.get('/principles/')
+assert response.status_code == 200
