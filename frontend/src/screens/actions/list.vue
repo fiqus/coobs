@@ -18,8 +18,10 @@
 </template>
 
 <script>
-  import {httpGet} from "../../api-client.js";
+  import {httpGet, httpDelete} from "../../api-client.js";
   import CustomTable from "../../components/custom-table.vue";
+  import {formatText} from "../../utils";
+
   export default {
     components: {
       "custom-table": CustomTable
@@ -41,8 +43,23 @@
       }
     },
     methods: {
-      onEdit() {},
-      onDelete() {}
+      onEdit(action) {
+        this.$router.push({name: "action-edit", params: {actionId: action.id}});
+      },
+      onDelete(action) {
+        httpDelete(`/actions/${action.id}`)
+          .then(() => {
+            swal("The action has been deleted!", {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            return httpGet("/actions")
+              .then((response) => {
+                this.actions = response.data;
+              })
+          });
+      }
     }
   }
 </script>

@@ -62,7 +62,7 @@
       return {
         principle: {},
         isNew: !Boolean(this.$route.params.principleId),
-        title: this.isNew ? "Edit principle" : "Create a principle"
+        title: this.isNew ? "Create a principle" : "Edit principle"
       }
     },
     methods: {
