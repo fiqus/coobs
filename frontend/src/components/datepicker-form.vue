@@ -4,6 +4,8 @@
     <datepicker
       :input-class="inputClasses"
       v-model="value"
+      :format="format"
+      :typeable="typeable"
       @selected="onDateSelected">
     </datepicker>
     <div v-if="error" class="invalid-feedback" :style="errorDivStyle">
@@ -36,14 +38,21 @@
       disabled: {
         type: Boolean,
         default: false
-      }
+      },
+      format: {
+        type: String
+      },
+      typeable: {
+        type: Boolean,
+        default: false
+      },
     },
     components: {
       "datepicker": Datepicker
     },
     computed: {
       inputClasses() {
-        const classes = "form-control width-30";
+        const classes = "form-control";
         return this.error ? `${classes} is-invalid` : classes;
       },
       errorDivStyle() {

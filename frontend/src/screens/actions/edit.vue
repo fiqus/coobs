@@ -1,11 +1,11 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-7">
       <div class="text-left">
         <h1 class="h4 text-gray-900 mb-4">{{title}}</h1>
       </div>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
+    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
         label="Name"
         name="name"
@@ -24,29 +24,44 @@
         error-message="Required">
       </textarea-form>
 
-      <datepicker-form
-        label="Date"
-        name="date"
-        v-model="date"
-        :error="$v.date.$error"
-        error-message="Required"
-        @input="onDateSelected">
-      </datepicker-form>
+      <div class="form-row">
+        <div class="col-6">
+          <select-form
+            v-model="action.principle"
+            :options="principles"
+            label="Principle"
+            default-value="Select a principle"
+            :error="$v.action.principle.$error"
+            error-message="Required">
+          </select-form>
+        </div>
+        <div class="col-6">
+          <datepicker-form
+            label="Date"
+            name="date"
+            format="dd/MM/yyyy"
+            v-model="date"
+            :error="$v.date.$error"
+            error-message="Required"
+            @input="onDateSelected">
+          </datepicker-form>
+        </div>
+      </div>
 
-      <select-form
-        v-model="action.principle"
-        :options="principles"
-        default-value="Select a principle"
-        :error="$v.action.principle.$error"
-        error-message="Required">
-      </select-form>
+      <div class="form-row">
+        
+      </div>
 
-      <input-form
-        label="Invested money"
-        name="money"
-        type="number"
-        v-model="action.invested_money">
-      </input-form>
+      <div class="form-row">
+        <div class="col-3">
+          <input-form
+            label="Invested money"
+            name="money"
+            type="number"
+            v-model="action.invested_money">
+          </input-form>
+        </div>
+      </div>
 
       <div class="action-bar-buttons">
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
