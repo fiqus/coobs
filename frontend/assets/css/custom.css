@@ -1,3 +1,7 @@
 .min-height-150 {
   min-height: 150px;
 }
+
+.width-30 {
+  width: 30% !important;
+}

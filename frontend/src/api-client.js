@@ -36,7 +36,7 @@ export function httpPut(url, data) {
 }
 
 export function httpDelete(url) {
-  return axios.delete(url, {headers: buildHeaders()});
+  return axios.delete(url, {headers: _buildHeaders()});
 }
 
 /* END HTTP METHODS */
