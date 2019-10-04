@@ -1,11 +1,11 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-10">
+    <div class="col-lg-7">
       <div class="text-left">
         <h1 class="h4 text-gray-900 mb-4">{{title}}</h1>
       </div>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
+    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
         label="Name"
         name="name"
@@ -25,9 +25,12 @@
         error-message="Required">
       </textarea-form>
 
-      <div class="form-group custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="visibleCheck" v-model="principle.visible">
-        <label class="custom-control-label" for="visibleCheck">Visible</label>
+      <div class="form-group">
+        <bootstrap-toggle class="form-control"
+          v-model="principle.visible"
+          data-toggle="toggle"
+          :options="{on: 'Visible', off: 'Hide', onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+          :disabled="false" />
       </div>
 
       <div class="action-bar-buttons">
@@ -41,6 +44,7 @@
 <script>
   import InputForm from "../../components/input-form.vue";
   import TextareaForm from "../../components/textarea-form.vue";
+  import BootstrapToggle from 'vue-bootstrap-toggle'
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut} from "../../api-client.js";
   import swal from 'sweetalert';
@@ -48,7 +52,8 @@
   export default {
     components: {
       "input-form": InputForm,
-      "textarea-form": TextareaForm
+      "textarea-form": TextareaForm,
+      "bootstrap-toggle": BootstrapToggle
     },
     created() {
       if (this.$route.params.principleId) {
@@ -69,7 +74,6 @@
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          if (isNew)
           httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
             .then(() => {
               swal("The principle has been edited!", {

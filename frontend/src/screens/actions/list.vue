@@ -37,7 +37,7 @@
         headers: [
           {key: "date", value: "Date"},
           {key: "description", value: "Description", parser: (p) => formatText(p.description, 50)},
-          {key: "principle", value: "Principle", parser: (p) => formatText(p.principle, 50)},
+          {key: "principle", value: "Principle", parser: (p) => formatText(p.principle_name, 50)},
         ],
         actions: []
       }

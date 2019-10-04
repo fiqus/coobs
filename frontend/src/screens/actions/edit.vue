@@ -101,7 +101,9 @@
     },
     data() {
       return {
-        action: {},
+        action: {
+          principle: ""
+        },
         date: this.action ? this.action.date : "",
         principles: [],
         title: !this.$route.params.actionId ? "Create action" : "Edit action"
