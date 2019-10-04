@@ -69,6 +69,7 @@
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
+          if (isNew)
           httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
             .then(() => {
               swal("The principle has been edited!", {

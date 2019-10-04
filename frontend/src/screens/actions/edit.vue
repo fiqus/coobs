@@ -24,28 +24,28 @@
         error-message="Required">
       </textarea-form>
 
-      <div class="form-group">
-        <label>Date</label>
-        <datepicker
-          input-class="form-control width-30"
-          v-model="date"
-          @selected="onDateSelected">
-        </datepicker>
-      </div>
+      <datepicker-form
+        label="Date"
+        name="date"
+        v-model="date"
+        :error="$v.date.$error"
+        error-message="Required"
+        @input="onDateSelected">
+      </datepicker-form>
 
       <select-form
         v-model="action.principle"
         :options="principles"
-        default-value="Select a principle">
+        default-value="Select a principle"
+        :error="$v.action.principle.$error"
+        error-message="Required">
       </select-form>
 
       <input-form
         label="Invested money"
         name="money"
         type="number"
-        v-model="action.investedMoney"
-        :error="$v.action.investedMoney.$error"
-        error-message="Required">
+        v-model="action.invested_money">
       </input-form>
 
       <div class="action-bar-buttons">
@@ -60,7 +60,7 @@
   import InputForm from "../../components/input-form.vue";
   import TextareaForm from "../../components/textarea-form.vue";
   import SelectForm from "../../components/select-form.vue";
-  import Datepicker from 'vuejs-datepicker';
+  import DatePickerForm from '../../components/datepicker-form.vue';
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut, httpPost} from "../../api-client.js";
 
@@ -69,10 +69,10 @@
       "input-form": InputForm,
       "textarea-form": TextareaForm,
       "select-form": SelectForm,
-      "datepicker": Datepicker
+      "datepicker-form": DatePickerForm
     },
     created() {
-      if (this.$route.params.actionId) {
+      if (this.$route.params.actionId && this.$route.params.actionId !== "0") {
         httpGet(`/actions/${this.$route.params.actionId}`)
           .then((response) => {
             this.action = response.data;
@@ -89,8 +89,7 @@
         action: {},
         date: this.action ? this.action.date : "",
         principles: [],
-        isNew: !this.$route.params.actionId,
-        title: this.isNew ? "Create action" : "Edit action"
+        title: !this.$route.params.actionId ? "Create action" : "Edit action"
       }
     },
     methods: {
@@ -109,7 +108,8 @@
           }
           return promise
             .then(() => {
-              swal("The action has been edited!", {
+              const actionPerformed = !actionId ? "created" : "edited";
+              swal(`The action has been ${actionPerformed}!`, {
                 icon: "success",
                 buttons: false,
                 timer: 2000
@@ -120,11 +120,11 @@
       }
     },
     validations: {
+      date: {required},
       action: {
         name: {required},
         description: {required},
-        principle: {required},
-        investedMoney: {required}
+        principle: {required}
       }
     }
   }

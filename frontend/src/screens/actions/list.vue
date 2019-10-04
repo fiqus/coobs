@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <h3 class="col-10">Actions</h3>
-      <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'action-edit'}">
+      <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'action-edit', params: {actionId: 0}}">
         Add new
         <i class="fa fa-plus"></i>
       </router-link>
