@@ -9,6 +9,8 @@ class PrincipleSerializer(serializers.ModelSerializer):
 
 
 class ActionSerializer(serializers.ModelSerializer):
+    principle_name = serializers.CharField(source='principle', read_only=True)
+
     class Meta:
         model = Action
         fields = "__all__"
