@@ -10,55 +10,43 @@
         label="Name"
         name="name"
         type="text"
-        v-model="action.name"
-        :error="$v.action.name.$error"
+        v-model="period.name"
+        :error="$v.period.name.$error"
         error-message="Required">
       </input-form>
 
-      <textarea-form
-        label="Description"
-        name="description"
-        type="text"
-        v-model="action.description"
-        :error="$v.action.description.$error"
-        error-message="Required">
-      </textarea-form>
-
       <div class="form-row">
         <div class="col-6">
-          <select-form
-            v-model="action.principle"
-            :options="principles"
-            label="Principle"
-            default-value="Select a principle"
-            :error="$v.action.principle.$error"
-            error-message="Required">
-          </select-form>
+          <datepicker-form
+            label="From"
+            name="from"
+            format="dd/MM/yyyy"
+            v-model="from"
+            :error="$v.from.$error"
+            error-message="Required"
+            @input="onDateSelected('from', $event)">
+          </datepicker-form>
         </div>
         <div class="col-6">
           <datepicker-form
-            label="Date"
-            name="date"
+            label="To"
+            name="to"
             format="dd/MM/yyyy"
-            v-model="date"
-            :error="$v.date.$error"
+            v-model="to"
+            :error="$v.to.$error"
             error-message="Required"
-            @input="onDateSelected">
+            @input="onDateSelected('to', $event)">
           </datepicker-form>
         </div>
       </div>
 
       <div class="form-row">
-        
-      </div>
-
-      <div class="form-row">
         <div class="col-3">
           <input-form
-            label="Invested money"
+            label="Actions budget"
             name="money"
             type="number"
-            v-model="action.invested_money">
+            v-model="period.actions_budget">
           </input-form>
         </div>
       </div>
@@ -87,11 +75,12 @@
       "datepicker-form": DatePickerForm
     },
     created() {
-      if (this.$route.params.actionId && this.$route.params.actionId !== "0") {
-        httpGet(`/actions/${this.$route.params.actionId}`)
+      if (this.$route.params.periodId && this.$route.params.periodId !== "0") {
+        httpGet(`/periods/${this.$route.params.periodId}`)
           .then((response) => {
-            this.action = response.data;
-            this.date = this.action.date;
+            this.period = response.data;
+            this.from = this.period.date_from;
+            this.to = this.period.date_to;
           });
       }
       return httpGet(`/principles/`)
@@ -100,48 +89,52 @@
         });
     },
     data() {
+      const isNew = this.$route.params.periodId == "0";
       return {
-        action: {
-          principle: ""
+        period: {
+          name: "",
+          date_from: "",
+          date_to: ""
         },
-        date: this.action ? this.action.date : "",
+        from: this.period ? this.period.date_from : "",
+        to: this.period ? this.period.date_to : "",
         principles: [],
-        title: !this.$route.params.actionId ? "Create action" : "Edit action"
+        isNew,
+        title: isNew ? "Create period" : "Edit period"
       }
     },
     methods: {
-      onDateSelected(newDate) {
-        this.action.date = new Date(newDate).toISOString().slice(0,10);
+      onDateSelected(dateField, value) {
+        this.period[`date_${dateField}`] = new Date(value).toISOString().slice(0,10);
       },
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          const actionId = this.$route.params.actionId;
+          const periodId = this.$route.params.periodId;
           let promise = null;
-          if (!actionId) {
-            promise = httpPost("actions/", this.action);
+          if (this.isNew) {
+            promise = httpPost("periods/", this.period);
           } else {
-            promise = httpPut(`/actions/${actionId}/`, this.action);
+            promise = httpPut(`/periods/${periodId}/`, this.period);
           }
           return promise
             .then(() => {
-              const actionPerformed = !actionId ? "created" : "edited";
-              swal(`The action has been ${actionPerformed}!`, {
+              const periodPerformed = this.isNew ? "created" : "edited";
+              swal(`The period has been ${periodPerformed}!`, {
                 icon: "success",
                 buttons: false,
                 timer: 2000
               });
-              this.$router.push({name: "actions-list"});
+              this.$router.push({name: "periods-list"});
             })
         }
       }
     },
     validations: {
-      date: {required},
-      action: {
-        name: {required},
-        description: {required},
-        principle: {required}
+      from: {required},
+      to: {required},
+      period: {
+        name: {required}
       }
     }
   }

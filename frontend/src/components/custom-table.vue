@@ -17,7 +17,7 @@
         </td>
       </tr>
       <tr v-if="!data.length">
-        <td :colspan="headers.length + 1">You don't have any actions yet!</td>
+        <td :colspan="headers.length + 1">{{emptyStateMsg}}</td>
       </tr>
     </tbody>
   </table>
@@ -41,6 +41,9 @@
           delete: false,
           edit: false
         }
+      },
+      emptyStateMsg: {
+        type: String
       }
     },
     methods: {

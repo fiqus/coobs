@@ -33,7 +33,7 @@
           :disabled="false" />
       </div>
 
-      <div class="action-bar-buttons">
+      <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
 			</div>

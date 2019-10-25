@@ -27,7 +27,7 @@
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'actions-list'}">
-            <i class="fas fa-fw fa-calendar"></i>
+            <i class="fas fa-fw fa-clipboard-list"></i>
             <span>Actions</span>
           </router-link>
         </li>
@@ -37,6 +37,14 @@
           <router-link class="nav-link" :to="{name: 'principles-list'}">
             <i class="fas fa-fw fa-map-signs"></i>
             <span>Principles</span>
+          </router-link>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'periods-list'}">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Periods</span>
           </router-link>
         </li>
 

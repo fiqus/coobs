@@ -7,6 +7,7 @@
       :headers="headers"
       :data="principles"
       :actions="{edit: true}"
+      empty-state-msg="You don't have any principles yet!"
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>

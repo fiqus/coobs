@@ -6,6 +6,7 @@
       v-model="value"
       :format="format"
       :typeable="typeable"
+      :use-utc="true"
       @selected="onDateSelected">
     </datepicker>
     <div v-if="error" class="invalid-feedback" :style="errorDivStyle">

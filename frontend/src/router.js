@@ -8,10 +8,22 @@ import ActionsListScreen from './screens/actions/list.vue';
 import ActionsEditScreen from './screens/actions/edit.vue';
 import PrinciplesListScreen from './screens/principles/list.vue';
 import PrincipleEditScreen from './screens/principles/edit.vue';
+import PeriodsListScreen from './screens/periods/list.vue';
+import PeriodEditScreen from './screens/periods/edit.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    name: "periods-list",
+    path: "/periods",
+    component: PeriodsListScreen
+  },
+  {
+    name: "period-edit",
+    path: "/period-edit/:periodId",
+    component: PeriodEditScreen
+  },
   {
     name: "actions-list",
     path: "/actions",

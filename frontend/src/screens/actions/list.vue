@@ -11,6 +11,7 @@
       :headers="headers"
       :data="actions"
       :actions="{edit: true, delete: true}"
+      empty-state-msg="You don't have any actions yet!"
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
