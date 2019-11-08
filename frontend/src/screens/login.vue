@@ -36,6 +36,8 @@
 <script>
   import InputForm from '../components/input-form.vue'
   import { required, email } from 'vuelidate/lib/validators';
+  import {httpPost} from '../api-client';
+  import swal from 'sweetalert';
 
   export default {
     components: {
@@ -53,9 +55,23 @@
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          // TODO perform login action
-          console.log(`Email: ${this.user.email}`);
-          console.log(`Password: ${this.user.password}`);
+          const body = {
+            username: this.user.email,
+            password: this.user.password
+          }
+          httpPost("/token/", body)
+            .then((res) => {
+              const token = res.data.access;
+              const refresh = res.data.refresh;
+              localStorage.setItem("user-token", token);
+              localStorage.setItem("user-token-refresh", refresh);
+              this.$router.push({name: "dashboard"});
+            })
+            .catch((err) => {
+              swal("login breaks", {
+                icon: "error"
+              });
+            })
         }
       }
     },

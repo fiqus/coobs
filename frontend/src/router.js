@@ -69,7 +69,7 @@ const publicScreens = ["login"];
 
 router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);
-  const loggedIn = true; // can be this an async op?
+  const loggedIn = localStorage.getItem("user-token");
 
   if (navToPrivateScreen && !loggedIn) {
     return next({name: "login"});
