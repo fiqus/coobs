@@ -66,6 +66,7 @@
   import DatePickerForm from '../../components/datepicker-form.vue';
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut, httpPost} from "../../api-client.js";
+  import swal from 'sweetalert';
 
   export default {
     components: {

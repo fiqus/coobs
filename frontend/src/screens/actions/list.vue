@@ -22,6 +22,7 @@
   import {httpGet, httpDelete} from "../../api-client.js";
   import CustomTable from "../../components/custom-table.vue";
   import {formatText} from "../../utils";
+  import swal from 'sweetalert';
 
   export default {
     components: {
