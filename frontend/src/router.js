@@ -10,10 +10,16 @@ import PrinciplesListScreen from './screens/principles/list.vue';
 import PrincipleEditScreen from './screens/principles/edit.vue';
 import PeriodsListScreen from './screens/periods/list.vue';
 import PeriodEditScreen from './screens/periods/edit.vue';
+import ProfileScreen from './screens/profile/profile.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    name: "profile",
+    path: "/profile",
+    component: ProfileScreen
+  },
   {
     name: "periods-list",
     path: "/periods",
