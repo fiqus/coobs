@@ -21,7 +21,7 @@
           :error="$v.user.password.$error"
           error-message="Ingrese un password válido">
         </input-form>
-        <div class="form-group">
+        <div class="form-group" v-if="false"> <!-- for now remem option is not enabled -->
           <div class="custom-control custom-checkbox small">
             <input type="checkbox" class="custom-control-input" id="customCheck">
             <label class="custom-control-label text-gray-900" for="customCheck">Remember Me</label>
@@ -68,7 +68,7 @@
               this.$router.push({name: "dashboard"});
             })
             .catch((err) => {
-              swal("login breaks", {
+              swal("Login has failed", {
                 icon: "error"
               });
             })
