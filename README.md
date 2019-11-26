@@ -31,7 +31,7 @@
 
 ## Running Frontend
 
-1. Go to '/bscoop/frontend' and run:
+1. Go to '/bscoop/frontend/lab-vue' and run:
 
         npm install
 2. Run:
