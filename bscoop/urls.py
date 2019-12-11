@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.DefaultRouter()
 router.register(r'principles', PrincipleView)
 router.register(r'actions', ActionView)
 router.register(r'periods', PeriodView)
+router.register(r'cooperatives', CooperativeView)
+router.register(r'partners', PartnerView)
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
