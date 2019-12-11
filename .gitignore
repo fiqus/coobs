@@ -15,6 +15,7 @@ js/reveal.min.js
 *.pyc
 __pycache__/
 .vscode
+/venv
 
 frontend/dist/
 frontend/node_modules/
