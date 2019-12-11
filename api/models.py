@@ -39,3 +39,21 @@ class Period(models.Model):
         today = datetime.date.today()
         # Note that if there are two periods that overlap, it returns the last one.
         return self.get_date_period(today).last()
+
+class Cooperative(models.Model):
+    name = models.CharField(max_length=128, null=False, blank=False, unique=True)
+    business_name = models.CharField(max_length=128, null=False, blank=False, unique=True)
+    starting_date = models.DateField(default=datetime.date.today)
+
+    def __str__(self):
+        return '%s' % (self.business_name)
+
+class Partner(models.Model):
+    first_name = models.CharField(max_length=128, null=False, blank=False)
+    last_name = models.CharField(max_length=128)
+    email = models.EmailField(max_length=128, null=False, blank=False, unique=True)
+    password = models.CharField(max_length=128, blank=False)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
+
+    def __str__(self):
+        return '%s %s - %s' % (self.first_name, self.last_name, self.cooperative)

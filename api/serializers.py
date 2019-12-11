@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import Principle, Action, Period
+from api.models import Principle, Action, Period, Cooperative, Partner
 
 
 class PrincipleSerializer(serializers.ModelSerializer):
@@ -34,3 +34,13 @@ class PeriodSerializer(serializers.ModelSerializer):
         if periods.count() > 0:
             raise serializers.ValidationError("The date to you entered is contained in another period.")
         return value
+
+class CooperativeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cooperative
+        fields = "__all__"
+
+class PartnerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Partner
+        fields = "__all__"
