@@ -3,7 +3,7 @@
     <label v-if="label">
       {{label}}
     </label>
-    <input class="form-control"
+    <input class="form-control form-control-user"
       :class="{'is-invalid': error}"
       :name="name"
       :placeholder="placeholder"

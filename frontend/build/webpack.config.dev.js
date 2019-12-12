@@ -4,12 +4,18 @@ const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require("path");
 
 module.exports = {
   mode: 'development',
-  entry: [
-    './src/app.js'
-  ],
+  entry: {
+    app: './src/app.js',
+    landing: './landing/app.js'
+  },
+  output: {
+    filename: "[name].bundle.js",
+    path: path.join(__dirname, "../dist"),
+  },
   devServer: {
     hot: true,
     watchOptions: {
@@ -31,10 +37,10 @@ module.exports = {
         use: 'vue-loader'
       },
       {
-        test: /\.css$/,
+        test: /\.(scss|css)$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          'css-loader',
         ]
       },
       {
@@ -42,7 +48,6 @@ module.exports = {
         use: [
           'file-loader'
         ]
-        // loader: 'url-loader?limit=100000'
       }
     ]
   },
@@ -51,8 +56,17 @@ module.exports = {
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
       template: 'index.html',
+      chunks: ["app"],
+      path: path.join(__dirname, "../dist/"),
+      filename: 'app.html',
+      inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: 'landing/index.html',
+      chunks: ["landing"],
+      path: path.join(__dirname, "../dist/"),
+      filename: 'landing.html',
       inject: true
     })
   ]

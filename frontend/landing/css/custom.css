@@ -1,0 +1,19 @@
+.showcase .showcase-img {
+  min-height: 30rem;
+  background-size: cover;
+}
+
+.showcase .showcase-text {
+  padding: 3rem;
+}
+
+@media (min-width: 768px) {
+  .showcase .showcase-text {
+      padding: 7rem;
+  }
+}
+
+.rotate-n-15{
+  -webkit-transform:rotate(-15deg);
+  transform:rotate(-15deg)
+}
