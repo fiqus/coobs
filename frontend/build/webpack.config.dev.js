@@ -3,6 +3,7 @@
 const webpack = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -35,12 +36,20 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ]
+      },
+      {
+        test: /\.(jpe?g|png|gif|woff|woff2|eot|ttf|svg)(\?[a-z0-9=.]+)?$/,
+        use: [
+          'file-loader'
+        ]
+        // loader: 'url-loader?limit=100000'
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
+    new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

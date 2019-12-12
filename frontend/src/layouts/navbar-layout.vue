@@ -4,14 +4,16 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
+      <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-          <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-handshake"></i>
+          <div v-if="toggled" class="sidebar-brand-icon rotate-n-15">
+            <img src="/images/bs.png" style="max-height: 45px;">
           </div>
-          <div class="sidebar-brand-text mx-3">SB Coop</div>
+          <div class="sidebar-brand-text mx-3">
+            <img src="/images/bscoop.png" style="max-height: 45px;">
+          </div>
         </a>
 
         <!-- Divider -->
