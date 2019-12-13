@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from api.models import Principle, Action, Period, Cooperative, Partner
 
+User = get_user_model()
 
 class PrincipleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,5 +44,24 @@ class CooperativeSerializer(serializers.ModelSerializer):
     
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Partner
-        fields = "__all__"
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'password', 'cooperative')
+        extra_kwargs = {'password': {'write_only': True}}
+
+class PartnerCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'email',
+            'password', 
+            'cooperative',
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
+
+        def create(self, validated_data):
+            user = get_user_model(**validated_data)
+            user.set_password(validated_data['password'])
+            user.is_staff = True
+            user.save()
+            return user

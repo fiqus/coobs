@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 import datetime
 
 
@@ -48,12 +49,11 @@ class Cooperative(models.Model):
     def __str__(self):
         return '%s' % (self.business_name)
 
-class Partner(models.Model):
-    first_name = models.CharField(max_length=128, null=False, blank=False)
-    last_name = models.CharField(max_length=128)
-    email = models.EmailField(max_length=128, null=False, blank=False, unique=True)
-    password = models.CharField(max_length=128, blank=False)
+class Partner(AbstractUser):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
+
+    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'username'
 
     def __str__(self):
         return '%s %s - %s' % (self.first_name, self.last_name, self.cooperative)

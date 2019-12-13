@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, PartnerCreateView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 router = routers.DefaultRouter()
@@ -26,6 +26,7 @@ router.register(r'actions', ActionView)
 router.register(r'periods', PeriodView)
 router.register(r'cooperatives', CooperativeView)
 router.register(r'partners', PartnerView)
+router.register(r'partner/create', PartnerCreateView)
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
