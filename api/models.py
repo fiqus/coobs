@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import ugettext_lazy as _
 import datetime
 
 
@@ -50,10 +51,11 @@ class Cooperative(models.Model):
         return '%s' % (self.business_name)
 
 class Partner(AbstractUser):
+    email = models.EmailField(_('email address'), unique=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
-    REQUIRED_FIELDS = ['email']
-    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'email'
 
     def __str__(self):
         return '%s %s - %s' % (self.first_name, self.last_name, self.cooperative)

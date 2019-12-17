@@ -1,0 +1,10 @@
+[
+  {
+    "fields": {
+      "name": "Fiqus",
+      "business_name": "Fiqus Cooperativa LTDA"
+    },
+    "model": "api.cooperative",
+    "pk": 1
+  }
+]
