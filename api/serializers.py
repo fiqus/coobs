@@ -39,7 +39,7 @@ class CooperativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cooperative
         fields = "__all__"
-
+    
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
