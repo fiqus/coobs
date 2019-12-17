@@ -23,9 +23,10 @@ class CooperativeView(viewsets.ModelViewSet):
     queryset = Cooperative.objects.all()
     serializer_class = CooperativeSerializer
     
-    # @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'])
     # def ask_to_create_cooperative_account(self, request):        
     #     #mandar mail a coop con link a form para crear coop y usuario con data del form
+    #     request.data
     #     return Response({'status':'Cooperative to be created'})
 
     # @action(detail=True, methods=['post'])
@@ -44,9 +45,9 @@ class CooperativeView(viewsets.ModelViewSet):
     
     @action(detail=False)
     def get_partners(self, request):
-        import pdb; pdb.set_trace()
-        partners = Partner.objects.all(cooperative__id=self)
-        return Response(partners, status=status.HTTP_200_OK)
+        partners = Partner.objects.all().filter(cooperative__id=self.queryset[0].id)
+        serializer = PartnerSerializer(partners, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PartnerView(viewsets.ModelViewSet):
     queryset = Partner.objects.all()
