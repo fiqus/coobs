@@ -20,7 +20,7 @@ axios.interceptors.response.use((response) => response,
     }
     if (err.response.status === 401 && err.response.data.code === "token_not_valid" && !originalRequest._retry) {
       originalRequest._retry = true;
-      return axios.post("/api-token-refresh/", {refresh: localStorage.getItem("user-token-refresh")})
+      return axios.post("/api-token-refresh/", {refresh: localStorage.getItem("user-token")})
         .then((res) => {
           localStorage.setItem("user-token", res.data.access);
           // update auth header for original request

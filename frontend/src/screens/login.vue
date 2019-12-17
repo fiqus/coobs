@@ -71,10 +71,8 @@
           const body = {...this.user};
           httpPost("/api-token-auth/", body)
             .then((res) => {
-              const token = res.data.access;
-              const refresh = res.data.refresh;
+              const token = res.data.token;
               localStorage.setItem("user-token", token);
-              localStorage.setItem("user-token-refresh", refresh);
               this.$router.push({name: "dashboard"});
             })
             .catch((err) => {

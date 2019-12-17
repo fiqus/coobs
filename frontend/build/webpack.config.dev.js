@@ -16,6 +16,8 @@ module.exports = {
     filename: "[name].bundle.js",
     path: path.join(__dirname, "../dist"),
   },
+  // cheap-module-eval-source-map is faster for development
+  devtool: "#cheap-module-eval-source-map",
   devServer: {
     hot: true,
     watchOptions: {

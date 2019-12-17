@@ -160,7 +160,6 @@
         .then((willLogout) => {
           if (willLogout) {
             localStorage.removeItem("user-token");
-            localStorage.removeItem("user-token-refresh");
             swal("Session ended.", {
               icon: "success",
               timer: 2000,
