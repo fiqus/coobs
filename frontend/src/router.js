@@ -11,6 +11,7 @@ import PrincipleEditScreen from './screens/principles/edit.vue';
 import PeriodsListScreen from './screens/periods/list.vue';
 import PeriodEditScreen from './screens/periods/edit.vue';
 import ProfileScreen from './screens/profile/profile.vue';
+import SignupScreen from './screens/signup.vue';
 
 Vue.use(VueRouter);
 
@@ -62,6 +63,13 @@ const routes = [
     meta: {layout: "login"},
     component: LoginScreen
   },
+  {
+    name: "signup",
+    path: "/signup",
+    meta: {layout: "login"},
+    component: SignupScreen,
+    props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
+  },
 
   // otherwise redirect to dashboard
   { path: '*', redirect: '/' }
@@ -71,7 +79,7 @@ const router = new VueRouter({
   routes
 });
 
-const publicScreens = ["login"];
+const publicScreens = ["login", "signup"];
 
 router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);

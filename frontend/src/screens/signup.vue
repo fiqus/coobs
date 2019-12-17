@@ -8,7 +8,8 @@
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  <h1 class="h4 text-gray-900 mb-2">Create user for</h1>
+                  <h1 class="h3 text-gray-900 mb-4">{{coopName}}</h1>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
@@ -27,15 +28,17 @@
                     :error="$v.user.password.$error"
                     error-message="Ingrese un password válido">
                   </input-form>
-                  <button type="summary" class="btn btn-primary btn-user btn-block">Login</button>
+                  <input-form
+                    name="password"
+                    type="password"
+                    v-model="user.repeatPassword"
+                    placeholder="Repeat..."
+                    :error="$v.user.repeatPassword.$error"
+                    error-message="Las passwords no coinciden">
+                  </input-form>
+                  <button type="summary" class="btn btn-primary btn-user btn-block">Create</button>
                 </form>
                 <hr>
-                <div class="text-center">
-                  <a class="small" href="#">Forgot Password?</a>
-                </div>
-                <div class="text-center">
-                  <a class="small" href="landing.html#signup">Create an Account!</a>
-                </div>
               </div>
             </div>
             <div class="col-lg-2"></div>
@@ -48,7 +51,7 @@
 
 <script>
   import InputForm from '../components/input-form.vue'
-  import { required, email } from 'vuelidate/lib/validators';
+  import { required, email, sameAs } from 'vuelidate/lib/validators';
   import {httpPost} from '../api-client';
   import swal from 'sweetalert';
 
@@ -56,11 +59,22 @@
     components: {
       InputForm
     },
+    props: {
+      coopEmail: {
+        type: String,
+        required: true
+      },
+      coopName: {
+        type: String,
+        required: true
+      }
+    },
     data() {
       return {
         user: {
           email: "",
-          password: ""
+          password: "",
+          repeatPassword: ""
         }
       }
     },
@@ -68,18 +82,8 @@
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          const body = {...this.user};
-          httpPost("/api-token-auth/", body)
-            .then((res) => {
-              const token = res.data.token;
-              localStorage.setItem("user-token", token);
-              this.$router.push({name: "dashboard"});
-            })
-            .catch((err) => {
-              swal("Login has failed", {
-                icon: "error"
-              });
-            })
+          const {email, password} = this.user;
+          // TODO post to create user/account endpoint
         }
       }
     },
@@ -91,6 +95,9 @@
         },
         password: {
           required
+        },
+        repeatPassword: {
+          sameAsPassword: sameAs('password')
         }
       }
     }
