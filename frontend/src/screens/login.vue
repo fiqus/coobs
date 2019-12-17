@@ -68,11 +68,8 @@
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          const body = {
-            username: this.user.email,
-            password: this.user.password
-          }
-          httpPost("/token/", body)
+          const body = {...this.user};
+          httpPost("/api-token-auth/", body)
             .then((res) => {
               const token = res.data.access;
               const refresh = res.data.refresh;
