@@ -15,6 +15,7 @@
         
 4. Run database migrations
 
+        python manage.py migrate api
         python manage.py migrate 
 
 5. Create a superuser
