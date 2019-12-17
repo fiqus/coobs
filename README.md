@@ -35,10 +35,17 @@
 1. Go to '/bscoop/frontend/' and run:
 
         npm install
-2. Run:
 
+2. Go to '/bscoop/frontend/landing' and run:
+
+        npm install
+
+2. Go to '/bscoop/frontend/' and run:
+        
         npm run dev
 
-3. Frontend now should be accessible in:
+3. App core and landing page should be accesible on:
 
-        http://localhost:8080/
+        http://localhost:8080/app.html
+        http://localhost:8080/landing.html
+
