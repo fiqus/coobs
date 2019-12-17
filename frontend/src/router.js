@@ -59,7 +59,7 @@ const routes = [
   {
     name: "login",
     path: "/login",
-    meta: {layout: "empty"},
+    meta: {layout: "login"},
     component: LoginScreen
   },
 
