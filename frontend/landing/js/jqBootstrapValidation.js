@@ -485,8 +485,11 @@
                   $helpBlock.html("<ul role=\"alert\"><li>" + errorsFound.join("</li><li>") + "</li></ul>" +
                     ( settings.options.prependExistingHelpBlock ? $helpBlock.data("original-contents") : "" ));
                 }
+
+                $this.addClass("is-invalid");
               } else {
                 $controlGroup.removeClass("warning error success");
+                $this.removeClass("is-invalid");
                 if (value.length > 0) {
                   $controlGroup.addClass("success");
                 }

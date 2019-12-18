@@ -71,10 +71,10 @@
             <div class="card-body p-0">
               <!-- Nested Row within Card Body -->
               <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-8">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10">
                   <div class="p-5">
-                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">add cooperative</h2>
+                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Join us!</h2>
                     <!-- Icon Divider -->
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
@@ -83,22 +83,44 @@
                       </div>
                       <div class="divider-custom-line"></div>
                     </div>
-                    <form id="registerForm" novalidate="novalidate">
-                      <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                          <label>Name</label>
-                          <input class="form-control" id="name" type="text" placeholder="Name" required="required" data-validation-required-message="Please enter your name.">
+                    <form id="registerForm" novalidate="novalidate" class="user">
+                      <div class="form-group control-group mb-45">
+                        <input type="text" class="form-control form-control-user" id="email" placeholder="Cooperative"
+                          required="required" data-validation-required-message="Please enter the cooperative name.">
+                        <p class="help-block text-danger"></p>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0 control-group">
+                          <input type="text" class="form-control form-control-user" id="firstName" placeholder="First Name"
+                            required="required" data-validation-required-message="Required">
+                          <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="col-sm-6 control-group">
+                          <input type="text" class="form-control form-control-user" id="lastName" placeholder="Last Name"
+                            required="required" data-validation-required-message="Required">
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
-                      <div class="control-group">
-                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
-                          <label>Email Address</label>
-                          <input class="form-control" id="email" type="email" placeholder="Email Address" required="required" data-validation-required-message="Please enter your email address.">
+                      <div class="form-group control-group  mb-45">
+                        <input type="email" class="form-control form-control-user" id="email" placeholder="Email Address"
+                          required="required" data-validation-required-message="Please enter your email address.">
+                          <p class="help-block text-danger"></p>
+                      </div>
+                      <div class="form-group row">
+                        <div class="col-sm-6 mb-3 mb-sm-0 control-group">
+                          <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password"
+                            required="required" data-validation-required-message="Required">
+                          <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="col-sm-6 control-group">
+                          <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="Repeat Password"
+                            data-validation-match-match="password" data-validation-match-message="Does not match.">
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
-                      <button id="registerButton" type="submit" class="btn btn-block btn-user btn-primary mb-5">Register account</button>
+                      <div class="form-group">
+                        <button id="registerButton" type="submit" class="btn btn-primary btn-user btn-block">Register account</button>
+                      </div>
                     </form>
                     <hr>
                     <div class="text-center">
@@ -106,7 +128,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-2"></div>
+                <div class="col-lg-1"></div>
               </div>
             </div>
           </div>
@@ -179,6 +201,30 @@
 
     </div>
   </section>
+
+  <!-- Footer -->
+  <footer class="footer text-center">
+    <div class="container">
+      <div class="row">
+
+        <!-- Footer Location -->
+        <div class="col-lg-2 mb-5 mb-lg-0">
+        </div>
+
+        <!-- Footer Social Icons -->
+        <div class="col-lg-8 mb-5 mb-lg-0">
+          <h4 class="mb-4">
+              Desarrollado en el FiqusLabs, un espacio en el que creamos tecnología libre orientada a la comunidad
+          </h4>
+        </div>
+
+        <!-- Footer About Text -->
+        <div class="col-lg-2">
+        </div>
+
+      </div>
+    </div>
+  </footer>
 
 
   <!-- Copyright Section -->

@@ -17,3 +17,19 @@
   -webkit-transform:rotate(-15deg);
   transform:rotate(-15deg)
 }
+
+.form-control-user{
+  font-size:.8rem;
+  border-radius:10rem;
+  padding:1.5rem 1rem
+}
+
+.btn-user{
+  font-size:.8rem;
+  border-radius:10rem;
+  padding:.75rem 1rem
+}
+
+.mb-45,.my-45{
+  margin-bottom:2rem!important
+}
