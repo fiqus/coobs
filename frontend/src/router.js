@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // route components
-import BalanceScreen from './screens/balance.vue';
 import DashboardScreen from './screens/dashboard.vue';
 import LoginScreen from './screens/login.vue';
 import ActionsListScreen from './screens/actions/list.vue';
@@ -13,6 +12,8 @@ import PeriodsListScreen from './screens/periods/list.vue';
 import PeriodEditScreen from './screens/periods/edit.vue';
 import ProfileScreen from './screens/profile/profile.vue';
 import SignupScreen from './screens/signup.vue';
+import BalanceScreen from './screens/balance.vue';
+import CooperativeScreen from './screens/cooperative.vue';
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,11 @@ const routes = [
     path: "/balance",
     component: BalanceScreen
   },
+  {
+    name: "cooperative",
+    path: "/cooperative",
+    component: CooperativeScreen
+  },  
   {
     name: "login",
     path: "/login",

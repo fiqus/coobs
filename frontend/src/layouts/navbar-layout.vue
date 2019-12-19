@@ -55,6 +55,13 @@
             <i class="fas fa-fw fa-balance-scale"></i>
             <span>Balance</span>
           </router-link>
+        </li>      
+
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'cooperative'}">
+            <i class="fas fa-fw fa-handshake"></i>
+            <span>Your coop</span>
+          </router-link>
         </li>
 
         <!-- Sidebar Toggler (Sidebar) -->
