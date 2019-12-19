@@ -13,7 +13,7 @@ def load_fixture(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0003_cooperative'),
+        ('api', '0002_load_principles'),
     ]
 
     operations = [

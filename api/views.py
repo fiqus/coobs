@@ -2,9 +2,11 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from random import seed, randint
+from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, PartnerCreateSerializer
+from django.conf import settings
 
 seed(1)
 class PrincipleView(viewsets.ModelViewSet):
@@ -40,7 +42,6 @@ class CooperativeView(viewsets.ModelViewSet):
             setattr(partner_data, 'last_name', data['lastName'])
             setattr(partner_data, 'email', data['email'])
             setattr(partner_data, 'username', data['email'])
-            setattr(partner_data, 'cooperative', cooperative)
             partner_data.set_password(data['password'])
             setattr(partner_data, 'is_active', False)
             return partner_data
@@ -48,7 +49,7 @@ class CooperativeView(viewsets.ModelViewSet):
         def send_email():
             text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}'
             html_content = f'<div><h1>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h1></div>'
-            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content, 'info@fiqus.coop', ['info@fiqus.coop'])
+            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content, 'info@fiqus.coop', [settings.EMAIL_ADMIN_ACCOUNT])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
@@ -65,10 +66,21 @@ class CooperativeView(viewsets.ModelViewSet):
             return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
         cooperative = set_coop_data()
-        cooperative.save()
         partner = set_partner_data()
-        partner.save()
-        send_email()
+
+        try:
+            with transaction.atomic():
+                cooperative.save()
+                partner.save()
+                send_email()
+        except Exception as errors:
+            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        def assign_coop_to_partner():
+            setattr(partner, 'cooperative', cooperative)
+            partner.save()
+
+        transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
     
     @action(detail=False)

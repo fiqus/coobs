@@ -80,9 +80,13 @@ WSGI_APPLICATION = 'bscoop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'coobs',
+        'USER': 'fiqus',
+        'PASSWORD': 'fiquspass',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
 }
 
 EMAIL_USE_TLS = True
@@ -94,6 +98,7 @@ EMAIL_HOST_PASSWORD = 'pxpmruoiiexkfnwf' #app password, we need to generate one 
 # EMAIL_HOST_PASSWORD = 'f1qu5c00p'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN_ACCOUNT = 'martin.vallone+coobs@fiqus.coop'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
