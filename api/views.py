@@ -48,7 +48,7 @@ class CooperativeView(viewsets.ModelViewSet):
         def send_email():
             text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}'
             html_content = f'<div><h1>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h1></div>'
-            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content, 'info@fiqus.coop', ['tinchogod@gmail.com'])
+            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content, 'info@fiqus.coop', ['info@fiqus.coop'])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
