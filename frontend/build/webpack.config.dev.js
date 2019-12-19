@@ -61,14 +61,14 @@ module.exports = {
       template: 'index.html',
       chunks: ["app"],
       path: path.join(__dirname, "../dist/"),
-      filename: 'app.html',
+      filename: 'app',
       inject: true
     }),
     new HtmlWebpackPlugin({
       template: 'landing/index.html',
       chunks: ["landing"],
       path: path.join(__dirname, "../dist/"),
-      filename: 'landing.html',
+      filename: 'landing',
       inject: true
     })
   ]
