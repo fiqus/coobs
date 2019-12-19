@@ -46,6 +46,14 @@ class Cooperative(models.Model):
     name = models.CharField(max_length=128, null=False, blank=False, unique=True)
     business_name = models.CharField(max_length=128, null=False, blank=False, unique=True)
     starting_date = models.DateField(default=datetime.date.today)
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )    
 
     def __str__(self):
         return '%s' % (self.business_name)
@@ -58,4 +66,4 @@ class Partner(AbstractUser):
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return '%s %s - %s' % (self.first_name, self.last_name, self.cooperative)
+        return '%s - %s' % (self.email, self.cooperative)

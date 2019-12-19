@@ -85,6 +85,15 @@ DATABASES = {
     }
 }
 
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'tinchogod@gmail.com'
+EMAIL_HOST_PASSWORD = 'pxpmruoiiexkfnwf' #app password, we need to generate one like this for info@fiqus.com
+# EMAIL_HOST_USER = 'info@fiqus.coop'
+# EMAIL_HOST_PASSWORD = 'f1qu5c00p'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -131,6 +140,8 @@ STATIC_URL = '/static/'
 #     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',)
 # }
 
+ALLOWED_HOSTS = ['*']
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -138,7 +149,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.BasicAuthentication',        
     )
 }
 

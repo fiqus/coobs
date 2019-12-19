@@ -26,7 +26,8 @@ router.register(r'actions', ActionView)
 router.register(r'periods', PeriodView)
 router.register(r'cooperatives', CooperativeView)
 router.register(r'partners', PartnerView)
-router.register(r'partner/create', PartnerCreateView)
+# router.register(r'partner/create', PartnerCreateView)
+
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
