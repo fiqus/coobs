@@ -27,10 +27,10 @@ class CooperativeView(viewsets.ModelViewSet):
     serializer_class = CooperativeSerializer
 
     def create(self, request):
-        data = request.data        
+        data = request.data
         def set_coop_data():
             cooperative_data = Cooperative()
-            setattr(cooperative_data, 'business_name', data['business_name'])
+            setattr(cooperative_data, 'business_name', data['businessName'])
             setattr(cooperative_data, 'is_active', False)
             return cooperative_data
 
@@ -41,10 +41,10 @@ class CooperativeView(viewsets.ModelViewSet):
             setattr(partner_data, 'email', data['email'])
             setattr(partner_data, 'username', data['email'])
             setattr(partner_data, 'cooperative', cooperative)
-            setattr(partner_data, 'password', data['password'])
+            partner_data.set_password(data['password'])
             setattr(partner_data, 'is_active', False)
             return partner_data
-        
+
         def send_email():
             text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}'
             html_content = f'<div><h1>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h1></div>'
@@ -69,7 +69,7 @@ class CooperativeView(viewsets.ModelViewSet):
         partner = set_partner_data()
         partner.save()
         send_email()
-        return Response(f'{data["business_name"]} Cooperative asked to be created', status=status.HTTP_200_OK)
+        return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
     
     @action(detail=False)
     def get_partners(self, request):

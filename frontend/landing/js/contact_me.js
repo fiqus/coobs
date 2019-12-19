@@ -6,57 +6,54 @@ $(function() {
     },
     submitSuccess: function($form, event) {
       event.preventDefault(); // prevent default submit behaviour
-      // get values from FORM
-      var name = $("input#name").val();
-      var email = $("input#email").val();
-      var phone = $("input#phone").val();
-      var message = $("textarea#message").val();
-      var firstName = name; // For Success/Failure Message
-      // Check for white space in name for Success/Fail message
-      if (firstName.indexOf(' ') >= 0) {
-        firstName = name.split(' ').slice(0, -1).join(' ');
-      }
+      const dataSerialized = $("#registerForm").serializeArray();
+      const data = dataSerialized.reduce((obj, elem) => {
+        obj[elem.name] = elem.value;
+        return obj;
+      }, {});
       $this = $("#registerButton");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
-      alert("Mail enviado!");
-      // $.ajax({
-      //   url: "landing/mail/contact_me.php",
-      //   type: "POST",
-      //   data: {
-      //     name: name,
-      //     phone: phone,
-      //     email: email,
-      //     message: message
-      //   },
-      //   cache: false,
-      //   success: function() {
-      //     // Success message
-      //     $('#success').html("<div class='alert alert-success'>");
-      //     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-      //       .append("</button>");
-      //     $('#success > .alert-success')
-      //       .append("<strong>Your message has been sent. </strong>");
-      //     $('#success > .alert-success')
-      //       .append('</div>');
-      //     //clear all fields
-      //     $('#registerForm').trigger("reset");
-      //   },
-      //   error: function() {
-      //     // Fail message
-      //     $('#success').html("<div class='alert alert-danger'>");
-      //     $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-      //       .append("</button>");
-      //     $('#success > .alert-danger').append($("<strong>").text("Sorry " + firstName + ", it seems that my mail server is not responding. Please try again later!"));
-      //     $('#success > .alert-danger').append('</div>');
-      //     //clear all fields
-      //     $('#registerForm').trigger("reset");
-      //   },
-      //   complete: function() {
-      //     setTimeout(function() {
-      //       $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
-      //     }, 1000);
-      //   }
-      // });
+      $.ajax({
+        url: "http://127.0.0.1:8000/api/cooperatives/", // TODO fix URL
+        type: "POST",
+        data,
+        cache: false,
+        success: function() {
+          // Success message
+          $('#success').html("<div class='alert alert-success'>");
+          $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+            .append("</button>");
+          $('#success > .alert-success')
+            .append(`<strong>The cooperative ${data.businessName} has been created for user ${data.firstName} ${data.lastName} with email ${data.email}.</strong>`);
+          $('#success > .alert-success')
+            .append('</div>');
+          //clear all fields
+          $('#registerForm').trigger("reset");
+        },
+        error: function(err) {
+          //err.status === 500
+          let message = "";
+          if (err.status === 400) {
+            message = "There has been an error. Check your data.";
+          } else {
+            message = "There has been an error. Please try again later.";
+          }
+          // Fail message
+          $('#success').html("<div class='alert alert-danger'>");
+          $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+            .append("</button>");
+          $('#success > .alert-danger').append($("<strong>")
+            .text(message));
+          $('#success > .alert-danger').append('</div>');
+          //clear all fields
+          // $('#registerForm').trigger("reset");
+        },
+        complete: function() {
+          setTimeout(function() {
+            $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+          }, 1000);
+        }
+      });
     },
     filter: function() {
       return $(this).is(":visible");

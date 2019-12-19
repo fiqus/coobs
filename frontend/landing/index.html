@@ -85,24 +85,24 @@
                     </div>
                     <form id="registerForm" novalidate="novalidate" class="user">
                       <div class="form-group control-group mb-45">
-                        <input type="text" class="form-control form-control-user" id="email" placeholder="Cooperative"
+                        <input type="text" class="form-control form-control-user" id="name" name="businessName" placeholder="Business name"
                           required="required" data-validation-required-message="Please enter the cooperative name.">
                         <p class="help-block text-danger"></p>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0 control-group">
-                          <input type="text" class="form-control form-control-user" id="firstName" placeholder="First Name"
+                          <input type="text" class="form-control form-control-user" id="firstName" name="firstName" placeholder="First Name"
                             required="required" data-validation-required-message="Required">
                           <p class="help-block text-danger"></p>
                         </div>
                         <div class="col-sm-6 control-group">
-                          <input type="text" class="form-control form-control-user" id="lastName" placeholder="Last Name"
+                          <input type="text" class="form-control form-control-user" id="lastName" name="lastName" placeholder="Last Name"
                             required="required" data-validation-required-message="Required">
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
                       <div class="form-group control-group  mb-45">
-                        <input type="email" class="form-control form-control-user" id="email" placeholder="Email Address"
+                        <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address"
                           required="required" data-validation-required-message="Please enter your email address.">
                           <p class="help-block text-danger"></p>
                       </div>
@@ -118,6 +118,7 @@
                           <p class="help-block text-danger"></p>
                         </div>
                       </div>
+                      <div id="success"></div>
                       <div class="form-group">
                         <button id="registerButton" type="submit" class="btn btn-primary btn-user btn-block">Register account</button>
                       </div>

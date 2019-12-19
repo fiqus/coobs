@@ -43,7 +43,7 @@ class Period(models.Model):
         return self.get_date_period(today).last()
 
 class Cooperative(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, blank=True)
     business_name = models.CharField(max_length=128, null=False, blank=False, unique=True)
     starting_date = models.DateField(default=datetime.date.today)
     is_active = models.BooleanField(
