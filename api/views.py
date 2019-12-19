@@ -28,22 +28,20 @@ class CooperativeView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data        
-        #mockear data para ver que funcione como espero y arreglar con el galgo los nombres de la data en req
-        # cooperative_data = data['cooperative_name']
-        # partner_data = data['email']
         def set_coop_data():
             cooperative_data = Cooperative()
-            setattr(cooperative_data, 'name', data['name'])
             setattr(cooperative_data, 'business_name', data['business_name'])
             setattr(cooperative_data, 'is_active', False)
             return cooperative_data
 
         def set_partner_data():
             partner_data = Partner()
-            setattr(partner_data, 'email', 'tinchogod@gmail.com')
-            setattr(partner_data, 'username', f'tinchogod+{randint(0,100)}@gmail.com')
+            setattr(partner_data, 'first_name', data['firstName'])
+            setattr(partner_data, 'last_name', data['lastName'])
+            setattr(partner_data, 'email', data['email'])
+            setattr(partner_data, 'username', data['email'])
             setattr(partner_data, 'cooperative', cooperative)
-            setattr(partner_data, 'password', 'admin')
+            setattr(partner_data, 'password', data['password'])
             setattr(partner_data, 'is_active', False)
             return partner_data
         
@@ -55,10 +53,10 @@ class CooperativeView(viewsets.ModelViewSet):
             email.attach_alternative(html_content, "text/html")
             email.send()
 
-        coop = {'name': data['name'], 'business_name': data['business_name']}
+        coop = {'business_name': data['businessName']}
         coop_serializer = CooperativeSerializer(data=coop)
 
-        partner = {'email': 'tinchogod@gmail.com', 'username':'tinchogod@gmail.com', 'password':'admin'}
+        partner = {'email': data['email'], 'username':data['email'], 'password':data['password'], 'first_name': data['firstName'], 'last_name': data['lastName']}
         partner_serializer = PartnerSerializer(data=partner)
 
         if not coop_serializer.is_valid():

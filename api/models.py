@@ -43,12 +43,12 @@ class Period(models.Model):
         return self.get_date_period(today).last()
 
 class Cooperative(models.Model):
-    name = models.CharField(max_length=128, null=False, blank=False, unique=True)
+    name = models.CharField(max_length=128)
     business_name = models.CharField(max_length=128, null=False, blank=False, unique=True)
     starting_date = models.DateField(default=datetime.date.today)
     is_active = models.BooleanField(
         _('active'),
-        default=True,
+        default=False,
         help_text=_(
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
