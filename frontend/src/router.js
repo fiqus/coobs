@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 // route components
+import BalanceScreen from './screens/balance.vue';
 import DashboardScreen from './screens/dashboard.vue';
 import LoginScreen from './screens/login.vue';
 import ActionsListScreen from './screens/actions/list.vue';
@@ -56,6 +57,11 @@ const routes = [
     name: "dashboard",
     path: "/",
     component: DashboardScreen
+  },
+  {
+    name: "balance",
+    path: "/balance",
+    component: BalanceScreen
   },
   {
     name: "login",

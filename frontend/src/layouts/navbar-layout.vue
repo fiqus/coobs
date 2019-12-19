@@ -21,7 +21,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-          <a class="nav-link" href="app.html">
+          <a class="nav-link" href="app">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
@@ -47,6 +47,13 @@
           <router-link class="nav-link collapsed" :to="{name: 'periods-list'}">
             <i class="fas fa-fw fa-calendar"></i>
             <span>Periods</span>
+          </router-link>
+        </li>
+        
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'balance'}">
+            <i class="fas fa-fw fa-balance-scale"></i>
+            <span>Balance</span>
           </router-link>
         </li>
 

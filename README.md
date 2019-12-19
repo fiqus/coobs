@@ -46,6 +46,6 @@
 
 3. App core and landing page should be accesible on:
 
-        http://localhost:8080/app.html
-        http://localhost:8080/landing.html
+        http://localhost:8080/app
+        http://localhost:8080/landing
 
