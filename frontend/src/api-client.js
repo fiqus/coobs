@@ -24,7 +24,7 @@ axios.interceptors.response.use((response) => response,
         .then((res) => {
           localStorage.setItem("user-token", res.data.access);
           // update auth header for original request
-          originalRequest.headers['Authorization'] = 'Bearer ' + localStorage.getItem("user-token");
+          originalRequest.headers['Authorization'] = 'JWT ' + localStorage.getItem("user-token");
           return axios(originalRequest);
         })
         .catch((errRefresh) => {
@@ -40,7 +40,7 @@ function _buildHeaders(defaultHeaders = {}) {
 
   if (token) {
     return Object.assign({}, defaultHeaders, {
-      "Authorization": `Bearer ${token}`
+      "Authorization": `JWT ${token}`
     });
   }
 
