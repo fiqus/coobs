@@ -11,19 +11,24 @@
         name="name"
         type="text"
         v-model="cooperative.name"
-        :disabled="false"
-        :error="$v.cooperative.name.$error">
+        :disabled="false">
       </input-form>
 
-      <textarea-form
+      <input-form
         label="Business name"
         name="business name"
         type="text"
-        v-model="cooperative.businessName"
-        :error="$v.cooperative.businessName.$error"
+        v-model="cooperative.business_name"
+        :error="$v.cooperative.business_name.$error"
         error-message="Required">
-      </textarea-form>
-
+      </input-form>
+      <datepicker-form
+        label="Starting date"
+        name="starting date"
+        format="dd/MM/yyyy"
+        v-model="cooperative.starting_date"
+        @input="onDateSelected('from', $event)">
+      </datepicker-form>
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
@@ -35,6 +40,7 @@
 <script>
   import InputForm from "../components/input-form.vue";
   import TextareaForm from "../components/textarea-form.vue";
+  import DatePickerForm from '../components/datepicker-form.vue';
   import BootstrapToggle from 'vue-bootstrap-toggle'
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut} from "../api-client.js";
@@ -44,33 +50,32 @@
     components: {
       "input-form": InputForm,
       "textarea-form": TextareaForm,
-      "bootstrap-toggle": BootstrapToggle
+      "bootstrap-toggle": BootstrapToggle,
+      "datepicker-form": DatePickerForm
     },
     created() {
-      httpGet(`http://127.0.0.1:8000/api/cooperatives/1`)
+      // TODO deberíamos usar el cooperative id del usuario logueado
+      // ${this.$route.params.cooperativeId}
+      httpGet(`/cooperatives/1`)
         .then((response) => {
           this.cooperative = response.data;
         });
-
-      // if (this.$route.params.cooperativeId) {
-      //   httpGet(`http://127.0.0.1:8000/api/cooperatives/${this.$route.params.cooperativeId}`)
-      //     .then((response) => {
-      //       this.cooperative = response.data;
-      //     });
-      // }
     },
     data() {
       return {
         cooperative: {},
-        isNew: !Boolean(this.$route.params.cooperativeId),
         title: "Edit cooperative"
       }
     },
     methods: {
+      onDateSelected(dateField, value) {
+        this.cooperative[`starting_date_${dateField}`] = new Date(value).toISOString().slice(0,10);
+      },      
       submit() {
         this.$v.$touch();
         if (!this.$v.$invalid) {
-          httpPut(`/cooperatives/${this.$route.params.cooperativeId}/`, this.cooperative)
+          // TODO deberíamos usar el cooperative id del usuario logueado
+          httpPut(`/cooperatives/1/`, this.cooperative)
             .then(() => {
               swal("The cooperative has been edited!", {
                 icon: "success",
@@ -84,7 +89,7 @@
     },
     validations: {
       cooperative: {
-        businessName: {required}
+        business_name: {required}
       }
     }
   }
