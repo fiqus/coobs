@@ -72,6 +72,7 @@
           httpPost("/api-token-auth/", body)
             .then((res) => {
               const token = res.data.token;
+              //TODO agregar el user mvallone
               localStorage.setItem("user-token", token);
               this.$router.push({name: "dashboard"});
             })

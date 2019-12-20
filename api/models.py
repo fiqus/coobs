@@ -12,18 +12,6 @@ class Principle(models.Model):
     def __str__(self):
         return self.name
 
-
-class Action(models.Model):
-    principle = models.ForeignKey(Principle, on_delete=models.CASCADE, null=True)
-    date = models.DateField(default=datetime.date.today)
-    name = models.CharField(max_length=256)
-    description = models.TextField(null=True, blank=True)
-    invested_money = models.DecimalField(max_digits=19, decimal_places=2, null=True)
-
-    def __str__(self):
-        return '%s - %s ' % (self.date, self.principle)
-
-
 class Period(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)
     date_from = models.DateField(default=datetime.date.today)
@@ -67,3 +55,15 @@ class Partner(AbstractUser):
 
     def __str__(self):
         return '%s - %s' % (self.email, self.cooperative)
+
+
+class Action(models.Model):
+    principle = models.ForeignKey(Principle, on_delete=models.CASCADE, null=True)
+    date = models.DateField(default=datetime.date.today)
+    name = models.CharField(max_length=256)
+    description = models.TextField(null=True, blank=True)
+    invested_money = models.DecimalField(max_digits=19, decimal_places=2, null=True)
+    partners_involved = models.ManyToManyField(Partner)
+
+    def __str__(self):
+        return '%s - %s ' % (self.date, self.principle)

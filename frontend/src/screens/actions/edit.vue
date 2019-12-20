@@ -36,6 +36,17 @@
           </select-form>
         </div>
         <div class="col-6">
+          <input-form
+            label="Partners involved"
+            name="partners involved"
+            type="text"
+            v-model="action.involved_partners">
+          </input-form>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-6">
           <datepicker-form
             label="Date"
             name="date"
@@ -46,13 +57,6 @@
             @input="onDateSelected">
           </datepicker-form>
         </div>
-      </div>
-
-      <div class="form-row">
-        
-      </div>
-
-      <div class="form-row">
         <div class="col-3">
           <input-form
             label="Invested money"
