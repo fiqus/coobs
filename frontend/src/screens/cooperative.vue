@@ -39,9 +39,7 @@
 
 <script>
   import InputForm from "../components/input-form.vue";
-  import TextareaForm from "../components/textarea-form.vue";
   import DatePickerForm from '../components/datepicker-form.vue';
-  import BootstrapToggle from 'vue-bootstrap-toggle'
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut} from "../api-client.js";
   import swal from 'sweetalert';
@@ -49,8 +47,6 @@
   export default {
     components: {
       "input-form": InputForm,
-      "textarea-form": TextareaForm,
-      "bootstrap-toggle": BootstrapToggle,
       "datepicker-form": DatePickerForm
     },
     created() {
