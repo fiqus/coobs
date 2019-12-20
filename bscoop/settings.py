@@ -162,3 +162,6 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': timedelta(days=1)
 }
+
+RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+RECAPTCHA_SECRET_KEY = '6LepzsgUAAAAADJeSo9WKnoMwiCTIJ2XTaFNr_QL'

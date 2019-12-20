@@ -7,6 +7,7 @@ from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, PartnerCreateSerializer
 from django.conf import settings
+import requests
 
 seed(1)
 class PrincipleView(viewsets.ModelViewSet):
@@ -53,6 +54,17 @@ class CooperativeView(viewsets.ModelViewSet):
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
+
+        recaptchaResult = requests.post(
+            settings.RECAPTCHA_VERIFY_URL,
+            data = {
+                'secret': settings.RECAPTCHA_SECRET_KEY,
+                'response': data['reCaptchaToken']
+            }
+        )
+
+        if not recaptchaResult.json()['success']:
+            return Response(coop_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         coop = {'business_name': data['businessName']}
         coop_serializer = CooperativeSerializer(data=coop)
