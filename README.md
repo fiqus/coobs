@@ -12,10 +12,18 @@
 3. Install the requirements
 
         pip install -R requirements.txt
-        
+
+4. Create your postgres db
+        sudo su - postgres psql
+        CREATE DATABASE coobs;
+        CREATE USER fiqus WITH PASSWORD 'fiquspass';
+        ALTER ROLE fiqus SET client_encoding TO 'utf8';
+        ALTER ROLE fiqus SET default_transaction_isolation TO 'read committed';
+        ALTER ROLE fiqus SET timezone TO 'UTC';
+        GRANT ALL PRIVILEGES ON DATABASE coobs TO fiqus;
+
 4. Run database migrations
 
-        python manage.py migrate api
         python manage.py migrate 
 
 5. Create a superuser
