@@ -57,3 +57,21 @@
         http://localhost:8080/app
         http://localhost:8080/landing
 
+## Frontend translations
+
+### Adding new language
+
+1. Go to '/bscoop/frontend/locales' and add the new language in 'langs.json' file
+
+        key -> language short ISO code
+        value -> language name
+
+2. In the same folder add a new file with ISO code as name and '.json' extension
+
+3. Add all existing translations for the new language.
+
+### Adding new translation
+
+1. Try to find if translation does not already exist.
+
+2. Add new pair key/value in each translations file.
