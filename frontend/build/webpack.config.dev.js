@@ -5,6 +5,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require("path");
+const Auxpack = require('auxpack'); 
 
 module.exports = {
   mode: 'development',
@@ -18,6 +19,7 @@ module.exports = {
   },
   // cheap-module-eval-source-map is faster for development
   devtool: "#cheap-module-eval-source-map",
+  watch: true,
   devServer: {
     hot: true,
     watchOptions: {

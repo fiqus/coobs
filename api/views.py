@@ -7,6 +7,7 @@ from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, PartnerCreateSerializer
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 import requests
 
 seed(1)
@@ -95,16 +96,17 @@ class CooperativeView(viewsets.ModelViewSet):
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
     
-    @action(detail=False)
-    def get_partners(self, request):
-        import pdb; pdb.set_trace()
-        partners = Partner.objects.all().filter(cooperative__id=self.queryset[0].id)
-        serializer = PartnerSerializer(partners, many=True)
+    @action(detail=True)
+    def partners(self, request, pk=None):
+        cooperative = get_object_or_404(Cooperative, pk=pk)
+        serializer = PartnerSerializer(cooperative.partner_set, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class PartnerView(viewsets.ModelViewSet):
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+
 
 class PartnerCreateView(viewsets.ModelViewSet):
     queryset = Partner.objects.all()

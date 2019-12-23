@@ -16,6 +16,7 @@ js/reveal.min.js
 __pycache__/
 .vscode
 /venv
+package-lock.json
 
 frontend/dist/
 frontend/images/

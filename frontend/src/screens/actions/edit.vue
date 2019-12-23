@@ -36,12 +36,18 @@
           </select-form>
         </div>
         <div class="col-6">
-          <input-form
-            label="Partners involved"
-            name="partners involved"
-            type="text"
-            v-model="action.involved_partners">
-          </input-form>
+          <label>Partners</label>
+          <multiselect
+            v-model="action.partners" 
+            tag-placeholder="Select partners" 
+            placeholder="Select partners" 
+            label="partner" 
+            track-by="id" 
+            :options="options" 
+            :multiple="true" 
+            :taggable="true" 
+          >
+          </multiselect>
         </div>
       </div>
 
@@ -83,13 +89,16 @@
   import {required} from "vuelidate/lib/validators";
   import {httpGet, httpPut, httpPost} from "../../api-client.js";
   import swal from 'sweetalert';
+  import Multiselect from 'vue-multiselect'
+
 
   export default {
     components: {
       "input-form": InputForm,
       "textarea-form": TextareaForm,
       "select-form": SelectForm,
-      "datepicker-form": DatePickerForm
+      "datepicker-form": DatePickerForm,
+      "multiselect": Multiselect
     },
     created() {
       if (this.$route.params.actionId && this.$route.params.actionId !== "0") {
@@ -99,10 +108,23 @@
             this.date = this.action.date;
           });
       }
-      return httpGet(`/principles/`)
-        .then((response) => {
-          this.principles = response.data;
+      
+      const cooperative_id = this._uid;
+
+      const principlesPromise = httpGet(`/principles/`);
+      const cooperativesPartnersPromise = httpGet(`/cooperatives/${cooperative_id}/partners`);
+
+      return Promise.all([principlesPromise, cooperativesPartnersPromise])
+        .then(([principlesResponse, cooperativesPartnersResponse]) => {
+          this.principles = principlesResponse.data;
+          this.options = cooperativesPartnersResponse.data.map(function(partner){
+              return {
+                partner: `${partner.first_name} ${partner.last_name}`, 
+                id: partner.id
+              }
+            });
         });
+      
     },
     data() {
       return {
@@ -111,7 +133,9 @@
         },
         date: this.action ? this.action.date : "",
         principles: [],
-        title: !this.$route.params.actionId ? "Create action" : "Edit action"
+        title: !this.$route.params.actionId ? "Create action" : "Edit action",
+        value: [],
+        options: []
       }
     },
     methods: {
