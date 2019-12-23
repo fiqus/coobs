@@ -50,7 +50,7 @@ class Partner(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     USERNAME_FIELD = 'email'
 
     def __str__(self):
