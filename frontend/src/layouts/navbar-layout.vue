@@ -5,7 +5,6 @@
 
       <!-- Sidebar -->
       <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
-
         <!-- Sidebar - Brand -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
           <div v-if="toggled" class="sidebar-brand-icon rotate-n-15">
@@ -58,12 +57,17 @@
         </li>      
 
         <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'cooperative'}">
+          <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-handshake"></i>
             <span>Your coop</span>
-          </router-link>
+          </a>
+          <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <router-link class="collapse-item" :to="{name: 'cooperative'}">Edit</router-link>
+              <router-link class="collapse-item" :to="{name: 'partners'}">Partners</router-link>
+            </div>
+          </div>
         </li>
-
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>
