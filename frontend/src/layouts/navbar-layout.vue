@@ -22,14 +22,14 @@
         <li class="nav-item active">
           <a class="nav-link" href="app">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span></a>
+            <span>{{$t("dashboard")}}</span></a>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'actions-list'}">
             <i class="fas fa-fw fa-clipboard-list"></i>
-            <span>Actions</span>
+            <span>{{$t("actions")}}</span>
           </router-link>
         </li>
 
@@ -37,7 +37,7 @@
         <li class="nav-item">
           <router-link class="nav-link" :to="{name: 'principles-list'}">
             <i class="fas fa-fw fa-map-signs"></i>
-            <span>Principles</span>
+            <span>{{$t("principles")}}</span>
           </router-link>
         </li>
 
@@ -45,21 +45,21 @@
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'periods-list'}">
             <i class="fas fa-fw fa-calendar"></i>
-            <span>Periods</span>
+            <span>{{$t("periods")}}</span>
           </router-link>
         </li>
         
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'balance'}">
             <i class="fas fa-fw fa-balance-scale"></i>
-            <span>Balance</span>
+            <span>{{$t("balance")}}</span>
           </router-link>
         </li>      
 
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
             <i class="fas fa-fw fa-handshake"></i>
-            <span>Your coop</span>
+            <span>{{$t("yourCoop")}}</span>
           </a>
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -92,7 +92,17 @@
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
-    
+
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="inputGroupSelect01" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <select class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-model="currentLanguage" @change="changeLanguage">
+                    <option v-for="locale in Object.keys(locales)" :key="locale" :value="locale">
+                      {{locales[locale]}}
+                    </option>
+                  </select>
+                </a>
+              </li>
+
               <div class="topbar-divider d-none d-sm-block"></div>
 
               <!-- Nav Item - User Information -->
@@ -105,7 +115,7 @@
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                   <router-link class="dropdown-item" :to="{name: 'profile'}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <span>Profile</span>
+                    <span>{{$t("profile")}}</span>
                   </router-link>
                   <router-link class="dropdown-item" :to="{name: 'change-password'}">
                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -114,7 +124,7 @@
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" @click="logout()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    {{$t("logout")}}
                   </a>
                 </div>
               </li>
@@ -138,7 +148,7 @@
         <footer class="sticky-footer bg-white">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyleft &copy; Social Balance Co-op 2019</span>
+              <span>{{$t("createdByFiqus")}} | &copy; COOBS 2019</span>
             </div>
           </div>
         </footer>
@@ -159,14 +169,21 @@
 </template>
 <script>
   import swal from 'sweetalert';
+  import {loadLanguageAsync} from '../i18n';
+  import locales from '../locales/langs';
 
   export default {
     data() {
       return {
-        toggled: true
+        toggled: true,
+        currentLanguage: localStorage.getItem("lang"),
+        locales
       }
     },
     methods: {
+      changeLanguage() {
+        loadLanguageAsync(this.currentLanguage);
+      },
       logout() {
         swal({
           title: "Ready to leave?",
@@ -182,6 +199,7 @@
         .then((willLogout) => {
           if (willLogout) {
             localStorage.removeItem("user-token");
+            localStorage.removeItem("lang");
             swal("Session ended.", {
               icon: "success",
               timer: 2000,

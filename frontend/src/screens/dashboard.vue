@@ -2,14 +2,14 @@
   <div>
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+      <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}</h1>
     </div>
 
     <!-- Content Row -->
     <div class="row">
 
       <smallcard-chart
-        label="Actions Done (Year)"
+        :label="$t('actionsDone')"
         icon="calendar"
         color-type="primary">
         <template v-slot:chart-content>
@@ -18,7 +18,7 @@
       </smallcard-chart>
 
       <smallcard-chart
-        label="Co-op Investment"
+        :label="$t('investment')"
         icon="currency"
         color-type="success">
         <template v-slot:chart-content>
@@ -27,7 +27,7 @@
       </smallcard-chart>
 
       <smallcard-chart
-        label="Co-op Promotion Fund"
+        :label="$t('promotionFund')"
         icon="coins"
         color-type="info">
         <template v-slot:chart-content>
@@ -45,7 +45,7 @@
       </smallcard-chart>
 
       <smallcard-chart
-        label="Pending Actions"
+        :label="$t('pendingActions')"
         icon="clipboard"
         color-type="warning">
         <template v-slot:chart-content>
@@ -60,7 +60,7 @@
 
       <!-- Principle Chart -->
       <donut-chart
-        label="All Principles"
+        :label="$t('allPrinciples')"
         :chart-data="allPrinciplesData">
 
       </donut-chart>
@@ -87,7 +87,7 @@
     </div>
 
     <stacked-columns-chart
-      title="All Principles (Year)"
+      :title="allPrinciplesYearLabel"
       :columns-data="allPrinciplesYearData">
     </stacked-columns-chart>
 
@@ -112,6 +112,9 @@
       "donut-chart": DonutChart
     },
     computed: {
+      allPrinciplesYearLabel() {
+        return `${this.$t("allPrinciples")} (${this.$t("yearly")})`
+      },
       firstRowPrinciples() {
         return this.principles.slice(0, 3);
       },
