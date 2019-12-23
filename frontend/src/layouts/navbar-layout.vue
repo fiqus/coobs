@@ -57,11 +57,11 @@
         </li>      
 
         <li class="nav-item">
-          <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
             <i class="fas fa-fw fa-handshake"></i>
             <span>Your coop</span>
           </a>
-          <div id="collapsePages" class="collapse show" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
+          <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
             <div class="bg-white py-2 collapse-inner rounded">
               <router-link class="collapse-item" :to="{name: 'cooperative'}">Edit</router-link>
               <router-link class="collapse-item" :to="{name: 'partners'}">Partners</router-link>
@@ -107,6 +107,10 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     <span>Profile</span>
                   </router-link>
+                  <router-link class="dropdown-item" :to="{name: 'change-password'}">
+                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <span>Change password</span>
+                  </router-link>                  
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" @click="logout()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
