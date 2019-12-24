@@ -4,7 +4,7 @@ export function formatText(text, limit) {
 
 export function partnersParser(selectedPartnersIdList, partnersObject) {
   let parsedPartners = selectedPartnersIdList.map(function(partnerId){
-    return {'id': partnerId,'name': partnersObject[partnerId]};
+    return {id: partnerId.toString(), name: partnersObject[partnerId]};
   });
   return parsedPartners;
 }

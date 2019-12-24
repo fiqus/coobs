@@ -74,104 +74,113 @@
       </div>
 
       <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)">
+          <i class="fa fa-arrow-left"></i> 
+          Cancel
+        </button>
+				<button type="submit" class="btn btn-success">
+          <i class="fa fa-save"></i> }
+          Save
+        </button>
 			</div>
     </form>
   </div>
 </template>
 
+<style>
+  @import './../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css';
+</style>
+
 <script>
-  require('./../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css')
-  import InputForm from "../../components/input-form.vue";
-  import TextareaForm from "../../components/textarea-form.vue";
-  import SelectForm from "../../components/select-form.vue";
-  import DatePickerForm from '../../components/datepicker-form.vue';
-  import swal from 'sweetalert';
-  import Multiselect from 'vue-multiselect'
-  import {required} from "vuelidate/lib/validators";
-  import {httpGet, httpPut, httpPost} from "../../api-client.js";
-  import {partnersParser} from "../../utils";
+import InputForm from "../../components/input-form.vue";
+import TextareaForm from "../../components/textarea-form.vue";
+import SelectForm from "../../components/select-form.vue";
+import DatePickerForm from "../../components/datepicker-form.vue";
+import swal from "sweetalert";
+import Multiselect from "vue-multiselect";
+import {required} from "vuelidate/lib/validators";
+import {httpPut, httpPost} from "../../api-client.js";
+import {partnersParser} from "../../utils";
+import * as api from "./../../services/api-service";
 
 
-  export default {
-    components: {
-      "input-form": InputForm,
-      "textarea-form": TextareaForm,
-      "select-form": SelectForm,
-      "datepicker-form": DatePickerForm,
-      "multiselect": Multiselect
-    },
-    async created() {
-      const response = await httpGet(`/actions/${this.$route.params.actionId}`)
-      this.action = response.data;
-      this.date = this.action.date;
+export default {
+  components: {
+    "input-form": InputForm,
+    "textarea-form": TextareaForm,
+    "select-form": SelectForm,
+    "datepicker-form": DatePickerForm,
+    "multiselect": Multiselect
+  },
+  async created() {
+    const actionId = this.$route.params.actionId;
+    const action = await api.getAction(actionId);
 
-      const cooperativesPartnersPromise = httpGet(`/cooperatives/${response.data.cooperative}/partners`);
-      const principlesPromise = httpGet(`/principles/`);
 
-      return Promise.all([principlesPromise, cooperativesPartnersPromise])
-        .then(([principlesResponse, cooperativesPartnersResponse]) => {
-          this.principles = principlesResponse.data;
-          this.partners = cooperativesPartnersResponse.data.reduce(function(acc, partner){
-              acc[partner.id] = `${partner['first_name']} ${partner['last_name']}`;
-              return acc;
-            }, {});
-            
-          this.partnersList = partnersParser(Object.keys(this.partners), this.partners)
-          this.partnersInvolved = partnersParser(this.action['partners_involved'], this.partners) 
-        });
-      
-    },
-    data() {
-      return {
-        action: {
-          principle: ""
-        },
-        date: this.action ? this.action.date : "",
-        principles: [],
-        title: !this.$route.params.actionId ? "Create action" : "Edit action",
-        partnersInvolved: [],
-        partnersList: []
-      }
-    },
-    methods: {
-      onDateSelected(newDate) {
-        this.action.date = new Date(newDate).toISOString().slice(0,10);
-      },
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          const actionId = this.$route.params.actionId;
-          this.action.partners_involved = this.partnersInvolved.map((partner) => {
-            return partner.id;
-          });
-          let promise = null;
-          if (!actionId) {
-            promise = httpPost("actions/", this.action);
-          } else {
-            promise = httpPut(`/actions/${actionId}/`, this.action);
-          }
-          return promise
-            .then(() => {
-              const actionPerformed = !actionId ? "created" : "edited";
-              swal(`The action has been ${actionPerformed}!`, {
-                icon: "success",
-                buttons: false,
-                timer: 2000
-              });
-              this.$router.push({name: "actions-list"});
-            })
-        }
-      }
-    },
-    validations: {
-      date: {required},
+    const [principles, partners] = await Promise.all([
+      api.getPrinciples(), 
+      api.getPartners(action.cooperative)
+    ]);
+
+    this.date = action.date;
+    this.principles = principles;
+    this.partners = partners.reduce(function(acc, partner){
+      acc[partner.id] = `${partner["first_name"]} ${partner["last_name"]}`;
+      return acc;
+    }, {});
+          
+    this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
+    this.partnersInvolved = partnersParser(action["partners_involved"], this.partners);
+  },
+  data() {
+    return {
       action: {
-        name: {required},
-        description: {required},
-        principle: {required}
+        principle: ""
+      },
+      date: this.action ? this.action.date : "",
+      principles: [],
+      title: !this.$route.params.actionId ? "Create action" : "Edit action",
+      partnersInvolved: [],
+      partnersList: []
+    };
+  },
+  methods: {
+    onDateSelected(newDate) {
+      this.action.date = new Date(newDate).toISOString().slice(0, 10);
+    },
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        const actionId = this.$route.params.actionId;
+        this.action.partners_involved = this.partnersInvolved.map((partner) => {
+          return partner.id;
+        });
+        let promise = null;
+        if (!actionId) {
+          promise = httpPost("actions/", this.action);
+        } else {
+          promise = httpPut(`/actions/${actionId}/`, this.action);
+        }
+        return promise
+          .then(() => {
+            const actionPerformed = !actionId ? "created" : "edited";
+            swal(`The action has been ${actionPerformed}!`, {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            this.$router.push({name: "actions-list"});
+          });
       }
     }
+  },
+  validations: {
+    date: {required},
+    action: {
+      name: {required},
+      description: {required},
+      principle: {required}
+    }
   }
+};
 </script>
