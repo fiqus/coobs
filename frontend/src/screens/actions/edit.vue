@@ -143,7 +143,7 @@
         this.$v.$touch();
         if (!this.$v.$invalid) {
           const actionId = this.$route.params.actionId;
-          this.action.partners_involved = this.action.partners.map((partner) => {
+          this.action.partners_involved = this.partnersInvolved.map((partner) => {
             return partner.id;
           });
           let promise = null;
