@@ -11,7 +11,7 @@
           <input-form
             label="Current password"
             name="current password"
-            type="text"
+            type="password"
             v-model="partner.password"
             :error="$v.partner.password.$error"
             error-message="Required">
@@ -23,9 +23,9 @@
           <input-form
             label="New password"
             name="new password"
-            type="text"
-            v-model="partner.new_password"
-            :error="$v.partner.new_password.$error"
+            type="password"
+            v-model="partner.newPassword"
+            :error="$v.partner.newPassword.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -35,10 +35,10 @@
           <input-form
             label="Confirm password"
             name="confirm password"
-            type="text"
-            v-model="partner.confirm_password"
-            :error="$v.partner.confirm_password.$error"
-            error-message="Required">
+            type="password"
+            v-model="partner.repeatPassword"
+            :error="$v.partner.repeatPassword.$error"
+            error-message="Does not match">
           </input-form>
         </div>
       </div>
@@ -52,7 +52,7 @@
 
 <script>
   import InputForm from "../../components/input-form.vue";
-  import {required} from "vuelidate/lib/validators";
+  import {required, sameAs} from "vuelidate/lib/validators";
   import {httpGet, httpPut} from "../../api-client.js";
   import swal from 'sweetalert';
 
@@ -93,8 +93,10 @@
     validations: {
       partner: {
         password: {required},
-        new_password: {required},
-        confirm_password: {required},
+        newPassword: {required},
+        repeatPassword: {
+          sameAsNewPassword: sameAs("newPassword")
+        },
       }
     }
   }
