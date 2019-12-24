@@ -79,7 +79,7 @@
           Cancel
         </button>
 				<button type="submit" class="btn btn-success">
-          <i class="fa fa-save"></i> }
+          <i class="fa fa-save"></i>
           Save
         </button>
 			</div>
@@ -100,7 +100,7 @@ import swal from "sweetalert";
 import Multiselect from "vue-multiselect";
 import {required} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {partnersParser} from "../../utils";
+import {partnersParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 
 
@@ -114,23 +114,23 @@ export default {
   },
   async created() {
     const actionId = this.$route.params.actionId;
-    const action = await api.getAction(actionId);
+    this.action = await api.getAction(actionId);
 
 
     const [principles, partners] = await Promise.all([
       api.getPrinciples(), 
-      api.getPartners(action.cooperative)
+      api.getPartners(this.action.cooperative)
     ]);
 
-    this.date = action.date;
+    this.date = this.action.date;
     this.principles = principles;
     this.partners = partners.reduce(function(acc, partner){
-      acc[partner.id] = `${partner["first_name"]} ${partner["last_name"]}`;
+      acc[partner.id] = `${capitalizeFirstChar(partner["first_name"])} ${capitalizeFirstChar(partner["last_name"])}`;
       return acc;
     }, {});
           
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
-    this.partnersInvolved = partnersParser(action["partners_involved"], this.partners);
+    this.partnersInvolved = partnersParser(this.action["partners_involved"], this.partners);
   },
   data() {
     return {

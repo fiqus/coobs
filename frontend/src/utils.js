@@ -8,3 +8,7 @@ export function partnersParser(selectedPartnersIdList, partnersObject) {
   });
   return parsedPartners;
 }
+
+export function capitalizeFirstChar(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+} 
