@@ -64,6 +64,7 @@ class Action(models.Model):
     description = models.TextField(null=True, blank=True)
     invested_money = models.DecimalField(max_digits=19, decimal_places=2, null=True)
     partners_involved = models.ManyToManyField(Partner)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         return '%s - %s ' % (self.date, self.principle)

@@ -38,12 +38,12 @@
         <div class="col-6">
           <label>Partners</label>
           <multiselect
-            v-model="action.partners" 
+            v-model="partnersInvolved" 
             tag-placeholder="Select partners" 
             placeholder="Select partners" 
-            label="partner" 
+            label="name" 
             track-by="id" 
-            :options="options" 
+            :options="partnersList" 
             :multiple="true" 
             :taggable="true" 
           >
@@ -82,14 +82,16 @@
 </template>
 
 <script>
+  require('./../../../node_modules/vue-multiselect/dist/vue-multiselect.min.css')
   import InputForm from "../../components/input-form.vue";
   import TextareaForm from "../../components/textarea-form.vue";
   import SelectForm from "../../components/select-form.vue";
   import DatePickerForm from '../../components/datepicker-form.vue';
-  import {required} from "vuelidate/lib/validators";
-  import {httpGet, httpPut, httpPost} from "../../api-client.js";
   import swal from 'sweetalert';
   import Multiselect from 'vue-multiselect'
+  import {required} from "vuelidate/lib/validators";
+  import {httpGet, httpPut, httpPost} from "../../api-client.js";
+  import {partnersParser} from "../../utils";
 
 
   export default {
@@ -100,29 +102,24 @@
       "datepicker-form": DatePickerForm,
       "multiselect": Multiselect
     },
-    created() {
-      if (this.$route.params.actionId && this.$route.params.actionId !== "0") {
-        httpGet(`/actions/${this.$route.params.actionId}`)
-          .then((response) => {
-            this.action = response.data;
-            this.date = this.action.date;
-          });
-      }
-      
-      const cooperative_id = this._uid;
+    async created() {
+      const response = await httpGet(`/actions/${this.$route.params.actionId}`)
+      this.action = response.data;
+      this.date = this.action.date;
 
+      const cooperativesPartnersPromise = httpGet(`/cooperatives/${response.data.cooperative}/partners`);
       const principlesPromise = httpGet(`/principles/`);
-      const cooperativesPartnersPromise = httpGet(`/cooperatives/${cooperative_id}/partners`);
 
       return Promise.all([principlesPromise, cooperativesPartnersPromise])
         .then(([principlesResponse, cooperativesPartnersResponse]) => {
           this.principles = principlesResponse.data;
-          this.options = cooperativesPartnersResponse.data.map(function(partner){
-              return {
-                partner: `${partner.first_name} ${partner.last_name}`, 
-                id: partner.id
-              }
-            });
+          this.partners = cooperativesPartnersResponse.data.reduce(function(acc, partner){
+              acc[partner.id] = `${partner['first_name']} ${partner['last_name']}`;
+              return acc;
+            }, {});
+            
+          this.partnersList = partnersParser(Object.keys(this.partners), this.partners)
+          this.partnersInvolved = partnersParser(this.action['partners_involved'], this.partners) 
         });
       
     },
@@ -134,8 +131,8 @@
         date: this.action ? this.action.date : "",
         principles: [],
         title: !this.$route.params.actionId ? "Create action" : "Edit action",
-        value: [],
-        options: []
+        partnersInvolved: [],
+        partnersList: []
       }
     },
     methods: {
@@ -146,6 +143,9 @@
         this.$v.$touch();
         if (!this.$v.$invalid) {
           const actionId = this.$route.params.actionId;
+          this.action.partners_involved = this.action.partners.map((partner) => {
+            return partner.id;
+          });
           let promise = null;
           if (!actionId) {
             promise = httpPost("actions/", this.action);
