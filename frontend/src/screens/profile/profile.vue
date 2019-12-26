@@ -61,54 +61,54 @@
 </template>
 
 <script>
-  import InputForm from "../../components/input-form.vue";
-  import BootstrapToggle from 'vue-bootstrap-toggle'
-  import {required} from "vuelidate/lib/validators";
-  import {httpGet, httpPut} from "../../api-client.js";
-  import swal from 'sweetalert';
+import InputForm from "../../components/input-form.vue";
+import {required} from "vuelidate/lib/validators";
+import {httpGet, httpPut} from "../../api-client.js";
+import swal from "sweetalert";
+import {getUser} from "./../../services/user-service";
 
-  export default {
-    components: {
-      "input-form": InputForm
-    },
-    created() {
-      // TODO deberíamos usar el partner id del usuario logueado
-      httpGet(`/partners/1`)
-        .then((response) => {
-          this.partner = response.data;
-        });
-    },
-    data() {
-      return {
-        partner: {},
-        title: "Edit partner"
-      }
-    },
-    methods: {
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          // TODO deberíamos usar el partner id del usuario logueado
-          httpPut(`/partners/1/`, this.partner)
-            .then(() => {
-              swal("The partner has been edited!", {
-                icon: "success",
-                buttons: false,
-                timer: 2000
-              });
-              this.$router.push({name: "partner"});
-            })
-        }
-      }
-    },
-    validations: {
-      partner: {
-        username: {required},
-        first_name: {required},
-        last_name: {required},
-        cooperative: {required},
-        email: {required},
+export default {
+  components: {
+    "input-form": InputForm
+  },
+  created() {
+    const partnerId = getUser().id;
+    httpGet(`/partners/${partnerId}/`)
+      .then((response) => {
+        this.partner = response.data;
+      });
+  },
+  data() {
+    return {
+      partner: {},
+      title: "Edit partner"
+    };
+  },
+  methods: {
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        const partnerId = getUser().id;
+        httpPut(`/partners/${partnerId}/`, this.partner)
+          .then(() => {
+            swal("The partner has been edited!", {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            this.$router.push({name: "partner"});
+          });
       }
     }
+  },
+  validations: {
+    partner: {
+      username: {required},
+      first_name: {required},
+      last_name: {required},
+      cooperative: {required},
+      email: {required},
+    }
   }
+};
 </script>

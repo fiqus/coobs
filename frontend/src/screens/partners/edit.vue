@@ -11,6 +11,7 @@
         name="firstName"
         type="text"
         v-model="partner.first_name"
+        :error="$v.partner.first_name.$error"
         error-message="Required">
       </input-form>
 
@@ -19,6 +20,7 @@
         name="lastName"
         type="text"
         v-model="partner.last_name"
+        :error="$v.partner.last_name.$error"
         error-message="Required">
       </input-form>
 
@@ -30,6 +32,7 @@
             name="email"
             type="email"
             v-model="partner.email"
+            :error="$v.partner.email.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -76,8 +79,7 @@ export default {
   methods: {
     submit() {
       this.$v.$touch();
-      //if (!this.$v.$invalid) {
-      if(true) {
+      if (!this.$v.$invalid) {
         const partnerId = this.$route.params.partnerId;
         let promise = null;
         if (this.isNew) {
@@ -100,8 +102,8 @@ export default {
   },
   validations: {
     partner: {
-      firstName: {required},
-      lastName: {required},
+      first_name: {required},
+      last_name: {required},
       email: {required}
     }
   }
