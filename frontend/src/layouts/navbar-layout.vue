@@ -64,7 +64,7 @@
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
             <div class="bg-white py-2 collapse-inner rounded">
               <router-link class="collapse-item" :to="{name: 'cooperative'}">{{$t("edit")}}</router-link>
-              <router-link class="collapse-item" :to="{name: 'partners'}">{{$t("partners")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'partners-list'}">{{$t("partners")}}</router-link>
             </div>
           </div>
         </li>

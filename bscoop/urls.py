@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, PartnerCreateView
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView #, PartnerCreateView
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
 router = routers.DefaultRouter()

@@ -10,8 +10,8 @@
         label="Name"
         name="name"
         type="text"
-        v-model="period.name"
-        :error="$v.period.name.$error"
+        v-model="partner.name"
+        :error="$v.partner.name.$error"
         error-message="Required">
       </input-form>
 
@@ -46,7 +46,7 @@
             label="Actions budget"
             name="money"
             type="number"
-            v-model="period.actions_budget">
+            v-model="partner.actions_budget">
           </input-form>
         </div>
       </div>
@@ -76,12 +76,13 @@ export default {
     "datepicker-form": DatePickerForm
   },
   created() {
-    if (this.$route.params.periodId && this.$route.params.periodId !== "0") {
-      httpGet(`/periods/${this.$route.params.periodId}`)
+    debugger
+    if (this.$route.params.partnerId && this.$route.params.partnerId !== "0") {
+      httpGet(`/partners/${this.$route.params.partnerId}`)
         .then((response) => {
-          this.period = response.data;
-          this.from = this.period.date_from;
-          this.to = this.period.date_to;
+          this.partner = response.data;
+          this.from = this.partner.date_from;
+          this.to = this.partner.date_to;
         });
     }
     return httpGet("/principles/")
@@ -90,43 +91,44 @@ export default {
       });
   },
   data() {
-    const isNew = this.$route.params.periodId == "0";
+    debugger
+    const isNew = this.$route.params.partnerId == "0";
     return {
-      period: {
+      partner: {
         name: "",
         date_from: "",
         date_to: ""
       },
-      from: this.period ? this.period.date_from : "",
-      to: this.period ? this.period.date_to : "",
+      from: this.partner ? this.partner.date_from : "",
+      to: this.partner ? this.partner.date_to : "",
       principles: [],
       isNew,
-      title: isNew ? "Create period" : "Edit period"
+      title: isNew ? "Create partner" : "Edit partner"
     };
   },
   methods: {
     onDateSelected(dateField, value) {
-      this.period[`date_${dateField}`] = new Date(value).toISOString().slice(0, 10);
+      this.partner[`date_${dateField}`] = new Date(value).toISOString().slice(0, 10);
     },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const periodId = this.$route.params.periodId;
+        const partnerId = this.$route.params.partnerId;
         let promise = null;
         if (this.isNew) {
-          promise = httpPost("periods/", this.period);
+          promise = httpPost("partners/", this.partner);
         } else {
-          promise = httpPut(`/periods/${periodId}/`, this.period);
+          promise = httpPut(`/partners/${partnerId}/`, this.partner);
         }
         return promise
           .then(() => {
-            const periodPerformed = this.isNew ? "created" : "edited";
-            swal(`The period has been ${periodPerformed}!`, {
+            const partnerPerformed = this.isNew ? "created" : "edited";
+            swal(`The partner has been ${partnerPerformed}!`, {
               icon: "success",
               buttons: false,
               timer: 2000
             });
-            this.$router.push({name: "periods-list"});
+            this.$router.push({name: "partners-list"});
           });
       }
     }
@@ -134,7 +136,7 @@ export default {
   validations: {
     from: {required},
     to: {required},
-    period: {
+    partner: {
       name: {required}
     }
   }

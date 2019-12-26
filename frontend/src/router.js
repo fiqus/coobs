@@ -1,20 +1,22 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from "vue";
+import VueRouter from "vue-router";
 
 // route components
-import DashboardScreen from './screens/dashboard.vue';
-import LoginScreen from './screens/login.vue';
-import ActionsListScreen from './screens/actions/list.vue';
-import ActionsEditScreen from './screens/actions/edit.vue';
-import PrinciplesListScreen from './screens/principles/list.vue';
-import PrincipleEditScreen from './screens/principles/edit.vue';
-import PeriodsListScreen from './screens/periods/list.vue';
-import PeriodEditScreen from './screens/periods/edit.vue';
-import ProfileScreen from './screens/profile/profile.vue';
-import ChangePasswordScreen from './screens/profile/change-password.vue';
-import SignupScreen from './screens/signup.vue';
-import BalanceScreen from './screens/balance.vue';
-import CooperativeScreen from './screens/cooperative.vue';
+import DashboardScreen from "./screens/dashboard.vue";
+import LoginScreen from "./screens/login.vue";
+import ActionsListScreen from "./screens/actions/list.vue";
+import ActionsEditScreen from "./screens/actions/edit.vue";
+import PrinciplesListScreen from "./screens/principles/list.vue";
+import PrincipleEditScreen from "./screens/principles/edit.vue";
+import PeriodsListScreen from "./screens/periods/list.vue";
+import PeriodEditScreen from "./screens/periods/edit.vue";
+import ProfileScreen from "./screens/profile/profile.vue";
+import ChangePasswordScreen from "./screens/profile/change-password.vue";
+import SignupScreen from "./screens/signup.vue";
+import BalanceScreen from "./screens/balance.vue";
+import CooperativeScreen from "./screens/cooperative.vue";
+import PartnersListScreen from "./screens/partners/list.vue";
+import PartnerEditScreen from "./screens/partners/edit.vue";
 
 import {getUser} from './services/user-service';
 
@@ -76,6 +78,16 @@ const routes = [
     name: "cooperative",
     path: "/cooperative",
     component: CooperativeScreen
+  },
+  {
+    name: "partners-list",
+    path: "/partners",
+    component: PartnersListScreen
+  },
+  {
+    name: "partner-edit",
+    path: "/partner-edit/:partnerId",
+    component: PartnerEditScreen
   },  
   {
     name: "login",
@@ -92,7 +104,7 @@ const routes = [
   },
 
   // otherwise redirect to dashboard
-  { path: '*', redirect: '/' }
+  { path: "*", redirect: "/" }
 ];
 
 const router = new VueRouter({

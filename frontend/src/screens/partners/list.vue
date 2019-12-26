@@ -1,17 +1,17 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">Periods</h3>
-      <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'period-edit', params: {periodId: 0}}">
+      <h3 class="col-10">{{$t("partners")}}</h3>
+      <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'partner-edit', params: {partnerId: 0}}">
         Add new
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
     <custom-table
       :headers="headers"
-      :data="periods"
+      :data="partners"
       :actions="{edit: true, delete: true}"
-      empty-state-msg="You don't have any periods yet!"
+      empty-state-msg="You don't have any partners yet!"
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
@@ -33,9 +33,10 @@ export default {
     "custom-table": CustomTable
   },
   created() {
-    httpGet("/periods")
+    debugger
+    httpGet("/partners")
       .then((response) => {
-        this.periods = response.data;
+        this.partners = response.data;
       });
   },
   data() {
@@ -46,24 +47,24 @@ export default {
         {key: "date_to", value: "To", parser: (p) => formatText(p.date_to, 50)},
         {key: "actions_budget", value: "Budget", parser: (p) => parseBoolean(p.actions_budget)},
       ],
-      periods: []
+      partners: []
     };
   },
   methods: {
-    onEdit(period) {
-      this.$router.push({name: "period-edit", params: {periodId: period.id}});
+    onEdit(partner) {
+      this.$router.push({name: "partner-edit", params: {partnerId: partner.id}});
     },
-    onDelete(period) {
-      httpDelete(`/periods/${period.id}`)
+    onDelete(partner) {
+      httpDelete(`/partners/${partner.id}`)
         .then(() => {
-          swal("The period has been deleted!", {
+          swal("The partner has been deleted!", {
             icon: "success",
             buttons: false,
             timer: 2000
           });
-          return httpGet("/periods")
+          return httpGet("/partners")
             .then((response) => {
-              this.periods = response.data;
+              this.partners = response.data;
             });
         });
     }

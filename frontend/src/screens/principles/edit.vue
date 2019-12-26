@@ -42,55 +42,55 @@
 </template>
 
 <script>
-  import InputForm from "../../components/input-form.vue";
-  import TextareaForm from "../../components/textarea-form.vue";
-  import BootstrapToggle from 'vue-bootstrap-toggle'
-  import {required} from "vuelidate/lib/validators";
-  import {httpGet, httpPut} from "../../api-client.js";
-  import swal from 'sweetalert';
+import InputForm from "../../components/input-form.vue";
+import TextareaForm from "../../components/textarea-form.vue";
+import BootstrapToggle from 'vue-bootstrap-toggle'
+import {required} from "vuelidate/lib/validators";
+import {httpGet, httpPut} from "../../api-client.js";
+import swal from 'sweetalert';
 
-  export default {
-    components: {
-      "input-form": InputForm,
-      "textarea-form": TextareaForm,
-      "bootstrap-toggle": BootstrapToggle
-    },
-    created() {
-      if (this.$route.params.principleId) {
-        httpGet(`/principles/${this.$route.params.principleId}`)
-          .then((response) => {
-            this.principle = response.data;
+export default {
+  components: {
+    "input-form": InputForm,
+    "textarea-form": TextareaForm,
+    "bootstrap-toggle": BootstrapToggle
+  },
+  created() {
+    if (this.$route.params.principleId) {
+      httpGet(`/principles/${this.$route.params.principleId}`)
+        .then((response) => {
+          this.principle = response.data;
+        });
+    }
+  },
+  data() {
+    return {
+      principle: {},
+      isNew: !Boolean(this.$route.params.principleId),
+      title: this.isNew ? "Create a principle" : "Edit principle"
+    };
+  },
+  methods: {
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
+          .then(() => {
+            swal("The principle has been edited!", {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            this.$router.push({name: "principles-list"});
           });
       }
-    },
-    data() {
-      return {
-        principle: {},
-        isNew: !Boolean(this.$route.params.principleId),
-        title: this.isNew ? "Create a principle" : "Edit principle"
-      }
-    },
-    methods: {
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
-            .then(() => {
-              swal("The principle has been edited!", {
-                icon: "success",
-                buttons: false,
-                timer: 2000
-              });
-              this.$router.push({name: "principles-list"});
-            })
-        }
-      }
-    },
-    validations: {
-      principle: {
-        name: {required},
-        description: {required}
-      }
+    }
+  },
+  validations: {
+    principle: {
+      name: {required},
+      description: {required}
     }
   }
+};
 </script>

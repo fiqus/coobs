@@ -1,12 +1,11 @@
-import router from './router'
-import {saveUser, getUser} from './services/user-service';
+import router from "./router";
 
 const { scheme, hostname } =
-  process.env.NODE_ENV === 'production'
-  ? { scheme: 'https'
-    , hostname: window.location.hostname }
-  : { scheme: 'http'
-    , hostname: 'localhost:8080' };
+  process.env.NODE_ENV === "production"
+    ? { scheme: "https"
+      , hostname: window.location.hostname }
+    : { scheme: "http"
+      , hostname: "localhost:8080" };
 
 const apiURL = `${scheme}://${hostname}/api`;
 
@@ -15,8 +14,8 @@ const axios = require("axios").create({baseURL: apiURL, timeout: 0, headers: {}}
 axios.interceptors.response.use((response) => response,
   (err) =>{
     const originalRequest = err.config;
-    if (err.response.status === 401 && originalRequest.url.indexOf("/api/refresh/") !== -1) {
-      router.push('/login');
+    if (err.response.status === 401 && originalRequest.url.indexOf("/api/refresh/") === -1) {
+      router.push("/login");
       return Promise.reject(err);
     }
     if (err.response.status === 401 && err.response.data.code === "token_not_valid" && !originalRequest._retry) {
@@ -26,12 +25,12 @@ axios.interceptors.response.use((response) => response,
           const {token, user} = res.data;
           saveUser({...user, token})
           // update auth header for original request
-          originalRequest.headers['Authorization'] = 'JWT ' + getUser().token;
+          originalRequest.headers["Authorization"] = "JWT " + localStorage.getItem("user-token");
           return axios(originalRequest);
         })
         .catch((errRefresh) => {
           return Promise.reject(errRefresh);
-        })
+        });
     }
     return Promise.reject(err);
   }

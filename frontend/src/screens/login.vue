@@ -47,54 +47,55 @@
 </template>
 
 <script>
-  import InputForm from '../components/input-form.vue'
-  import { required, email } from 'vuelidate/lib/validators';
-  import {httpPost} from '../api-client';
-  import swal from 'sweetalert';
-  import {saveUser} from '../services/user-service';
+import InputForm from '../components/input-form.vue'
+import { required, email } from 'vuelidate/lib/validators';
+import {httpPost} from '../api-client';
+import swal from 'sweetalert';
 
-  export default {
-    components: {
-      InputForm
-    },
-    data() {
-      return {
-        user: {
-          email: "",
-          password: ""
-        }
-      }
-    },
-    methods: {
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          const body = {...this.user};
-          httpPost("/api-token-auth/", body)
-            .then((res) => {
-              const {token, user} = res.data;
-              saveUser({...user, token});
-              this.$router.push({name: "dashboard"});
-            })
-            .catch((err) => {
-              swal("Login has failed", {
-                icon: "error"
-              });
-            })
-        }
-      }
-    },
-    validations: {
+export default {
+  components: {
+    InputForm
+  },
+  data() {
+    return {
       user: {
-        email: {
-          required,
-          email
-        },
-        password: {
-          required
-        }
+        email: "",
+        password: ""
+      }
+    }
+  },
+  methods: {
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        const body = {...this.user};
+        httpPost("/api-token-auth/", body)
+          .then((res) => {
+            const token = res.data.token;
+            //TODO agregar el user mvallone
+            localStorage.setItem("user-token", token);
+            debugger
+            this.$router.push({name: "dashboard"});
+          })
+          .catch((err) => {
+            swal("Login has failed", {
+              icon: "error"
+            });
+          });
+      }
+    }
+  },
+  validations: {
+    user: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required
       }
     }
   }
+}
 </script>
 
