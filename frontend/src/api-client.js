@@ -1,4 +1,5 @@
 import router from "./router";
+import {getUser, saveUser} from "./services/user-service";
 
 const { scheme, hostname } =
   process.env.NODE_ENV === "production"
@@ -23,7 +24,7 @@ axios.interceptors.response.use((response) => response,
       return axios.post("/api-token-refresh/", {refresh: getUser().token})
         .then((res) => {
           const {token, user} = res.data;
-          saveUser({...user, token})
+          saveUser({...user, token});
           // update auth header for original request
           originalRequest.headers["Authorization"] = "JWT " + localStorage.getItem("user-token");
           return axios(originalRequest);

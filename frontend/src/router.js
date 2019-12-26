@@ -17,8 +17,7 @@ import BalanceScreen from "./screens/balance.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
-
-import {getUser} from './services/user-service';
+import {getUser} from "./services/user-service";
 
 Vue.use(VueRouter);
 
