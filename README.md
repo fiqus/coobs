@@ -22,19 +22,19 @@
         ALTER ROLE fiqus SET timezone TO 'UTC';
         GRANT ALL PRIVILEGES ON DATABASE coobs TO fiqus;
 
-4. Run database migrations
+5. Run database migrations
 
         python manage.py migrate 
 
-5. Create a superuser
+6. Create a superuser
 
         python manage.py createsuperuser
 
-6. Run the server
+7. Run the server
 
         python manage.py runserver
 
-7. API now should be accessible in:
+8. API now should be accessible in:
 
         http://localhost:8000/api/
 
@@ -48,11 +48,14 @@
 
         npm install
 
-2. Go to '/bscoop/frontend/' and run:
+3. Install eslint extension for vscode and configure settings file 
+
+
+4. Go to '/bscoop/frontend/' and run:
         
         npm run dev
 
-3. App core and landing page should be accesible on:
+5. App core and landing page should be accesible on:
 
         http://localhost:8080/app
         http://localhost:8080/landing
