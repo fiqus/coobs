@@ -23,5 +23,6 @@
   "editCooperative": "Edit cooperative",
   "name": "Name",
   "businessName": "Business name",
-  "startingDate": "Starting date"
+  "startingDate": "Starting date",
+  "changePassword": "Change password"
 }

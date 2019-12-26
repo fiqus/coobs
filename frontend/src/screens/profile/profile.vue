@@ -2,7 +2,7 @@
 <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">Hello {{partner.username}}!</h1>
+        <h1 class="h4 text-gray-900 mb-4">{{$t("profile")}}</h1>
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
@@ -53,8 +53,8 @@
         </div>
       </div>
       <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
 			</div>
     </form>
   </div>

@@ -23,5 +23,6 @@
   "editCooperative": "Editar cooperativa",
   "name": "Nombre",
   "businessName": "Razón social",
-  "startingDate": "Fecha de inicio"
+  "startingDate": "Fecha de inicio",
+  "changePassword": "Cambiar contraseña"
 }
