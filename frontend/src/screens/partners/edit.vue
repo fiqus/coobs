@@ -76,7 +76,6 @@ export default {
     "datepicker-form": DatePickerForm
   },
   created() {
-    debugger
     if (this.$route.params.partnerId && this.$route.params.partnerId !== "0") {
       httpGet(`/partners/${this.$route.params.partnerId}`)
         .then((response) => {
@@ -91,7 +90,6 @@ export default {
       });
   },
   data() {
-    debugger
     const isNew = this.$route.params.partnerId == "0";
     return {
       partner: {

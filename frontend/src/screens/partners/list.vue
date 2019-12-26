@@ -23,6 +23,7 @@ import CustomTable from "../../components/custom-table.vue";
 import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
+import {getUser} from "./../../services/user-service";
 
 function parseBoolean(value) {
   return `<i class="fas fa-dollar-sign fa-1x"></i> ${value}`;
@@ -33,8 +34,8 @@ export default {
     "custom-table": CustomTable
   },
   created() {
-    debugger
-    httpGet("/partners")
+    const cooperativeId = getUser().cooperative;
+    httpGet(`/cooperatives/${cooperativeId}/partners`)
       .then((response) => {
         this.partners = response.data;
       });
