@@ -51,6 +51,7 @@ import InputForm from '../components/input-form.vue'
 import { required, email } from 'vuelidate/lib/validators';
 import {httpPost} from '../api-client';
 import swal from 'sweetalert';
+import {saveUser} from '../services/user-service';
 
 export default {
   components: {
@@ -71,10 +72,8 @@ export default {
         const body = {...this.user};
         httpPost("/api-token-auth/", body)
           .then((res) => {
-            const token = res.data.token;
-            //TODO agregar el user mvallone
-            localStorage.setItem("user-token", token);
-            debugger
+            const {token, user} = res.data;
+            saveUser({...user, token});
             this.$router.push({name: "dashboard"});
           })
           .catch((err) => {
