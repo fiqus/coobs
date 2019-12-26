@@ -171,6 +171,7 @@
   import swal from 'sweetalert';
   import {loadLanguageAsync} from '../i18n';
   import locales from '../locales/langs';
+  import {getUser} from '../services/user-service';
 
   export default {
     data() {
@@ -198,7 +199,7 @@
         })
         .then((willLogout) => {
           if (willLogout) {
-            localStorage.removeItem("user-token");
+            removeUser();
             localStorage.removeItem("lang");
             swal("Session ended.", {
               icon: "success",
