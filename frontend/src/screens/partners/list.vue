@@ -24,10 +24,7 @@ import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
 import {getUser} from "./../../services/user-service";
-
-function parseBoolean(value) {
-  return `<i class="fas fa-dollar-sign fa-1x"></i> ${value}`;
-}
+import {capitalizeFirstChar} from "./../../utils";
 
 export default {
   components: {
@@ -43,10 +40,8 @@ export default {
   data() {
     return {
       headers: [
-        {key: "name", value: "Name", parser: (p) => formatText(p.name)},
-        {key: "date_from", value: "From", parser: (p) => formatText(p.date_from, 50)},
-        {key: "date_to", value: "To", parser: (p) => formatText(p.date_to, 50)},
-        {key: "actions_budget", value: "Budget", parser: (p) => parseBoolean(p.actions_budget)},
+        {key: "firstName", value: this.$t("firstName"), parser: (p) => capitalizeFirstChar(formatText(p.first_name))},
+        {key: "lastName", value: this.$t("lastName"), parser: (p) => capitalizeFirstChar(formatText(p.last_name))}
       ],
       partners: []
     };

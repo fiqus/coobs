@@ -15,5 +15,9 @@
   "allPrinciples": "Todos los principios",
   "yearly": "Anualmente",
   "edit": "Editar",
-  "partners": "Socios"
+  "partners": "Socios",
+  "firstName": "Nombre",
+  "lastName": "Apellido",
+  "save": "Guardar",
+  "cancel": "Cancelar"
 }

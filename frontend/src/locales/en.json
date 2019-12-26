@@ -15,5 +15,9 @@
   "allPrinciples": "All principles",
   "yearly": "Yearly",
   "edit": "Edit",
-  "partners": "Partners"
+  "partners": "Partners",
+  "firstName": "Name",
+  "lastName": "Last Name",
+  "save": "Save",
+  "cancel": "Cancel"
 }

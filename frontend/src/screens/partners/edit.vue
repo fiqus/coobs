@@ -7,53 +7,37 @@
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
-        label="Name"
-        name="name"
+        label="First Name"
+        name="firstName"
         type="text"
-        v-model="partner.name"
-        :error="$v.partner.name.$error"
+        v-model="partner.first_name"
         error-message="Required">
       </input-form>
 
-      <div class="form-row">
-        <div class="col-6">
-          <datepicker-form
-            label="From"
-            name="from"
-            format="dd/MM/yyyy"
-            v-model="from"
-            :error="$v.from.$error"
-            error-message="Required"
-            @input="onDateSelected('from', $event)">
-          </datepicker-form>
-        </div>
-        <div class="col-6">
-          <datepicker-form
-            label="To"
-            name="to"
-            format="dd/MM/yyyy"
-            v-model="to"
-            :error="$v.to.$error"
-            error-message="Required"
-            @input="onDateSelected('to', $event)">
-          </datepicker-form>
-        </div>
-      </div>
+      <input-form
+        label="Last Name"
+        name="lastName"
+        type="text"
+        v-model="partner.last_name"
+        error-message="Required">
+      </input-form>
+
 
       <div class="form-row">
         <div class="col-3">
           <input-form
-            label="Actions budget"
-            name="money"
-            type="number"
-            v-model="partner.actions_budget">
+            label="Email"
+            name="email"
+            type="email"
+            v-model="partner.email"
+            error-message="Required">
           </input-form>
         </div>
       </div>
 
       <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
 			</div>
     </form>
   </div>
@@ -61,9 +45,6 @@
 
 <script>
 import InputForm from "../../components/input-form.vue";
-import TextareaForm from "../../components/textarea-form.vue";
-import SelectForm from "../../components/select-form.vue";
-import DatePickerForm from "../../components/datepicker-form.vue";
 import {required} from "vuelidate/lib/validators";
 import {httpGet, httpPut, httpPost} from "../../api-client.js";
 import swal from "sweetalert";
@@ -71,46 +52,32 @@ import swal from "sweetalert";
 export default {
   components: {
     "input-form": InputForm,
-    "textarea-form": TextareaForm,
-    "select-form": SelectForm,
-    "datepicker-form": DatePickerForm
   },
   created() {
     if (this.$route.params.partnerId && this.$route.params.partnerId !== "0") {
-      httpGet(`/partners/${this.$route.params.partnerId}`)
+      return httpGet(`/partners/${this.$route.params.partnerId}`)
         .then((response) => {
           this.partner = response.data;
-          this.from = this.partner.date_from;
-          this.to = this.partner.date_to;
         });
     }
-    return httpGet("/principles/")
-      .then((response) => {
-        this.principles = response.data;
-      });
   },
   data() {
-    const isNew = this.$route.params.partnerId == "0";
+    const isNew = this.$route.params.id == "0";
     return {
       partner: {
-        name: "",
-        date_from: "",
-        date_to: ""
+        firstName: "",
+        lastName: "",
+        email: ""
       },
-      from: this.partner ? this.partner.date_from : "",
-      to: this.partner ? this.partner.date_to : "",
-      principles: [],
       isNew,
       title: isNew ? "Create partner" : "Edit partner"
     };
   },
   methods: {
-    onDateSelected(dateField, value) {
-      this.partner[`date_${dateField}`] = new Date(value).toISOString().slice(0, 10);
-    },
     submit() {
       this.$v.$touch();
-      if (!this.$v.$invalid) {
+      //if (!this.$v.$invalid) {
+      if(true) {
         const partnerId = this.$route.params.partnerId;
         let promise = null;
         if (this.isNew) {
@@ -132,10 +99,10 @@ export default {
     }
   },
   validations: {
-    from: {required},
-    to: {required},
     partner: {
-      name: {required}
+      firstName: {required},
+      lastName: {required},
+      email: {required}
     }
   }
 };
