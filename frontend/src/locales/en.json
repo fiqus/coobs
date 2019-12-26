@@ -19,5 +19,9 @@
   "firstName": "Name",
   "lastName": "Last Name",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "editCooperative": "Edit cooperative",
+  "name": "Name",
+  "businessName": "Business name",
+  "startingDate": "Starting date"
 }

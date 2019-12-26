@@ -19,5 +19,9 @@
   "firstName": "Nombre",
   "lastName": "Apellido",
   "save": "Guardar",
-  "cancel": "Cancelar"
+  "cancel": "Cancelar",
+  "editCooperative": "Editar cooperativa",
+  "name": "Nombre",
+  "businessName": "Razón social",
+  "startingDate": "Fecha de inicio"
 }
