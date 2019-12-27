@@ -24,5 +24,8 @@
   "name": "Name",
   "businessName": "Business name",
   "startingDate": "Starting date",
-  "changePassword": "Change password"
+  "changePassword": "Change password",
+  "editPartner": "Edit partner",
+  "createPartner": "Create partner",
+  "pass": "Password"
 }

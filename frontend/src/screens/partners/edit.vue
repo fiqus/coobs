@@ -7,36 +7,41 @@
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
-        label="First Name"
+        :label="$t('firstName')"
         name="firstName"
         type="text"
-        v-model="partner.first_name"
-        :error="$v.partner.first_name.$error"
+        v-model="partner.firstName"
+        :error="$v.partner.firstName.$error"
         error-message="Required">
       </input-form>
 
       <input-form
-        label="Last Name"
+        :label="$t('lastName')"
         name="lastName"
         type="text"
-        v-model="partner.last_name"
-        :error="$v.partner.last_name.$error"
+        v-model="partner.lastName"
+        :error="$v.partner.lastName.$error"
         error-message="Required">
       </input-form>
 
+      <input-form
+        label="Email"
+        name="email"
+        type="email"
+        v-model="partner.email"
+        :error="$v.partner.email.$error"
+        error-message="Required">
+      </input-form>
 
-      <div class="form-row">
-        <div class="col-3">
-          <input-form
-            label="Email"
-            name="email"
-            type="email"
-            v-model="partner.email"
-            :error="$v.partner.email.$error"
-            error-message="Required">
-          </input-form>
-        </div>
-      </div>
+      <input-form
+        :label="$t('pass')"
+        name="password"
+        type="password"
+        v-if="isNew"
+        v-model="partner.password"
+        :error="$v.partner.password.$error"
+        error-message="Required">
+      </input-form>
 
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
@@ -49,31 +54,31 @@
 <script>
 import InputForm from "../../components/input-form.vue";
 import {required} from "vuelidate/lib/validators";
-import {httpGet, httpPut, httpPost} from "../../api-client.js";
+import {httpPut, httpPost} from "../../api-client.js";
 import swal from "sweetalert";
+import * as api from "./../../services/api-service";
 
 export default {
   components: {
     "input-form": InputForm,
   },
-  created() {
-    if (this.$route.params.partnerId && this.$route.params.partnerId !== "0") {
-      return httpGet(`/partners/${this.$route.params.partnerId}`)
-        .then((response) => {
-          this.partner = response.data;
-        });
+  async created() {
+    const partnerId = this.$route.params.partnerId;
+    if (partnerId && partnerId !== "0") {
+      this.partner = await api.getPartner(partnerId);
     }
   },
   data() {
-    const isNew = this.$route.params.id == "0";
+    const isNew = this.$route.params.partnerId == "0";
     return {
       partner: {
         firstName: "",
         lastName: "",
-        email: ""
+        email: "",
+        password: ""
       },
       isNew,
-      title: isNew ? "Create partner" : "Edit partner"
+      title: isNew ? this.$t("createPartner") : this.$t("editPartner")
     };
   },
   methods: {
@@ -83,6 +88,7 @@ export default {
         const partnerId = this.$route.params.partnerId;
         let promise = null;
         if (this.isNew) {
+
           promise = httpPost("partners/", this.partner);
         } else {
           promise = httpPut(`/partners/${partnerId}/`, this.partner);
@@ -102,9 +108,10 @@ export default {
   },
   validations: {
     partner: {
-      first_name: {required},
-      last_name: {required},
-      email: {required}
+      firstName: {required},
+      lastName: {required},
+      email: {required},
+      password: {required}
     }
   }
 };

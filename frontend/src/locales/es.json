@@ -24,5 +24,8 @@
   "name": "Nombre",
   "businessName": "Razón social",
   "startingDate": "Fecha de inicio",
-  "changePassword": "Cambiar contraseña"
+  "changePassword": "Cambiar contraseña",
+  "editPartner": "Modificar socio",
+  "createPartner": "Crear socio",
+  "pass": "Contraseña"
 }

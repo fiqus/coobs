@@ -15,3 +15,8 @@ export async function getPartners(cooperativeId){
   return partnersResponse.data;
 }
 
+
+export async function getPartner(partnerId){
+  const partnerResponse = await httpGet(`/partners/${partnerId}`);
+  return partnerResponse.data;
+}
