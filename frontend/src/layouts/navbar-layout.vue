@@ -168,41 +168,41 @@
   </div>
 </template>
 <script>
-  import swal from 'sweetalert';
-  import {loadLanguageAsync} from '../i18n';
-  import locales from '../locales/langs';
-  import {getUser} from '../services/user-service';
+import swal from "sweetalert";
+import {loadLanguageAsync} from "../i18n";
+import locales from "../locales/langs";
+import {getUser} from "../services/user-service";
 
-  export default {
-    computed: {
-      loggedInUser() {
-        const user = getUser();
-        return `${user.first_name} ${user.last_name}`;
-      }
+export default {
+  computed: {
+    loggedInUser() {
+      const user = getUser();
+      return `${user.firstName} ${user.lastName}`;
+    }
+  },
+  data() {
+    return {
+      toggled: true,
+      currentLanguage: localStorage.getItem("lang"),
+      locales
+    };
+  },
+  methods: {
+    changeLanguage() {
+      loadLanguageAsync(this.currentLanguage);
     },
-    data() {
-      return {
-        toggled: true,
-        currentLanguage: localStorage.getItem("lang"),
-        locales
-      }
-    },
-    methods: {
-      changeLanguage() {
-        loadLanguageAsync(this.currentLanguage);
-      },
-      logout() {
-        swal({
-          title: "Ready to leave?",
-          text: "Select 'Logout' if you're ready to end your current session.",
-          icon: "warning",
-          // buttons: true,
-          buttons: {
-            cancel: true,
-            confirm: "Logout"
-          },
-          dangerMode: true,
-        })
+    logout() {
+      swal({
+        title: "Ready to leave?",
+        text: "Select 'Logout' if you're ready to end your current session.",
+        icon: "warning",
+        // buttons: true,
+        buttons: {
+          cancel: true,
+          confirm: "Logout"
+        },
+        dangerMode: true,
+      })
         .then((willLogout) => {
           if (willLogout) {
             removeUser();
@@ -215,8 +215,8 @@
             this.$router.push({name: "login"});
           }
         });
-      }
     }
   }
+};
 </script>
 

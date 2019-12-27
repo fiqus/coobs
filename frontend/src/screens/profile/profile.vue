@@ -12,8 +12,8 @@
             label="First name"
             name="first name"
             type="text"
-            v-model="partner.first_name"
-            :error="$v.partner.first_name.$error"
+            v-model="partner.firstName"
+            :error="$v.partner.firstName.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -22,8 +22,8 @@
             label="Last name"
             name="last name"
             type="text"
-            v-model="partner.last_name"
-            :error="$v.partner.last_name.$error"
+            v-model="partner.lastName"
+            :error="$v.partner.lastName.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -104,8 +104,8 @@ export default {
   validations: {
     partner: {
       username: {required},
-      first_name: {required},
-      last_name: {required},
+      firstName: {required},
+      lastName: {required},
       cooperative: {required},
       email: {required},
     }

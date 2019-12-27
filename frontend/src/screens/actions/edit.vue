@@ -68,7 +68,7 @@
             label="Invested money"
             name="money"
             type="number"
-            v-model="action.invested_money">
+            v-model="action.investedMoney">
           </input-form>
         </div>
       </div>
@@ -125,12 +125,12 @@ export default {
     this.date = this.action.date;
     this.principles = principles;
     this.partners = partners.reduce(function(acc, partner){
-      acc[partner.id] = `${capitalizeFirstChar(partner["first_name"])} ${capitalizeFirstChar(partner["last_name"])}`;
+      acc[partner.id] = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
       return acc;
     }, {});
           
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
-    this.partnersInvolved = partnersParser(this.action["partners_involved"], this.partners);
+    this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
   },
   data() {
     return {
@@ -152,7 +152,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
-        this.action.partners_involved = this.partnersInvolved.map((partner) => {
+        this.action.partnersInvolved = this.partnersInvolved.map((partner) => {
           return partner.id;
         });
         let promise = null;

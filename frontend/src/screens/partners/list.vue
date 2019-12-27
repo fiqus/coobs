@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       headers: [
-        {key: "firstName", value: this.$t("firstName"), parser: (p) => capitalizeFirstChar(formatText(p.first_name))},
-        {key: "lastName", value: this.$t("lastName"), parser: (p) => capitalizeFirstChar(formatText(p.last_name))}
+        {key: "firstName", value: this.$t("firstName"), parser: (p) => capitalizeFirstChar(formatText(p.firstName))},
+        {key: "lastName", value: this.$t("lastName"), parser: (p) => capitalizeFirstChar(formatText(p.lastName))}
       ],
       partners: []
     };

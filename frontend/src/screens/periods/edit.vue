@@ -46,7 +46,7 @@
             label="Actions budget"
             name="money"
             type="number"
-            v-model="period.actions_budget">
+            v-model="period.actionsBudget">
           </input-form>
         </div>
       </div>
@@ -94,11 +94,11 @@ export default {
     return {
       period: {
         name: "",
-        date_from: "",
-        date_to: ""
+        dateFrom: "",
+        dateTo: ""
       },
-      from: this.period ? this.period.date_from : "",
-      to: this.period ? this.period.date_to : "",
+      from: this.period ? this.period.dateFrom : "",
+      to: this.period ? this.period.dateTo : "",
       principles: [],
       isNew,
       title: isNew ? "Create period" : "Edit period"
