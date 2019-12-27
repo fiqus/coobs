@@ -23,16 +23,16 @@ class PeriodSerializer(serializers.ModelSerializer):
         model = Period
         fields = "__all__"
 
-    @staticmethod
-    def validate_date_from(value):
-        periods = Period.get_date_period(value)
+    def validate_date_from(self, value):
+        id = self.instance.id if self.instance is not None else None
+        periods = Period.get_date_period(id, value)
         if periods.count() > 0:
             raise serializers.ValidationError("The date from you entered is contained in another period.")
         return value
 
-    @staticmethod
-    def validate_date_to(value):
-        periods = Period.get_date_period(value)
+    def validate_date_to(self, value):
+        id = self.instance.id if self.instance is not None else None
+        periods = Period.get_date_period(id, value)
         if periods.count() > 0:
             raise serializers.ValidationError("The date to you entered is contained in another period.")
         return value
@@ -47,31 +47,3 @@ class PartnerSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'password', 'cooperative', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
-
-class PartnerCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            'username',
-            'email',
-            'first_name',
-            'last_name',
-            'cooperative'
-        ]
-        extra_kwargs = {"password": {"write_only": True}}
-
-        # def create(self, validated_data):
-        #     user = get_user_model(**validated_data)
-        #     user.set_password(validated_data['password'])
-        #     user.is_staff = True
-        #     user.save()
-        #     return user
-        
-        # def create(self, validated_data):
-        #     profile_data = validated_data.pop('profile')
-        #     password = validated_data.pop('password')
-        #     user = User(**validated_data)
-        #     user.set_password(password)
-        #     user.save()
-        #     Partner.objects.create(user=user, **profile_data)
-        #     return user
