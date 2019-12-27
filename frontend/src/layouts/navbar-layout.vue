@@ -165,21 +165,28 @@
 </template>
 <script>
 import swal from "sweetalert";
-import {loadLanguageAsync} from "../i18n";
+import {loadLanguageAsync, setCurrentBorwserLang} from "../i18n";
 import locales from "../locales/langs";
-import {getUser} from "../services/user-service";
+import {getUser, removeUser} from "../services/user-service";
 
 export default {
   computed: {
     loggedInUser() {
       const user = getUser();
       return `${user.firstName} ${user.lastName}`;
+    },
+    currentLanguage() {
+      return localStorage.getItem("lang");
+    }
+  },
+  created() {
+    if (!localStorage.getItem("lang")) {
+      setCurrentBorwserLang();
     }
   },
   data() {
     return {
       toggled: true,
-      currentLanguage: localStorage.getItem("lang"),
       locales
     };
   },

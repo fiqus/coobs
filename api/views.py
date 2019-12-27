@@ -20,7 +20,7 @@ class ActionView(viewsets.ModelViewSet):
     serializer_class = ActionSerializer
 
     def get_queryset(self):
-        queryset = Action.objects.filter(cooperative=self.request.user.cooperative.id).values()
+        queryset = Action.objects.filter(cooperative=self.request.user.cooperative.id)
         return queryset
 
 class PeriodView(viewsets.ModelViewSet):
@@ -122,5 +122,5 @@ class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
 
     def get_queryset(self):
-        queryset = Partner.objects.filter(cooperative=self.request.user.cooperative.id).values()
+        queryset = Partner.objects.filter(cooperative=self.request.user.cooperative.id)
         return queryset

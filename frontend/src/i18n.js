@@ -49,3 +49,8 @@ export function loadLanguageAsync(lang) {
     }
   )
 }
+
+export function setCurrentBorwserLang() {
+  const currentLang = locale || 'en';
+  localStorage.setItem("lang", currentLang);
+}
