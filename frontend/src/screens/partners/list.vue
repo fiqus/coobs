@@ -3,7 +3,7 @@
     <div class="row">
       <h3 class="col-10">{{$t("partners")}}</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'partner-edit', params: {partnerId: 0}}">
-        Add new
+        {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
@@ -40,8 +40,8 @@ export default {
   data() {
     return {
       headers: [
-        {key: "firstName", value: this.$t("firstName"), parser: (p) => capitalizeFirstChar(formatText(p.first_name))},
-        {key: "lastName", value: this.$t("lastName"), parser: (p) => capitalizeFirstChar(formatText(p.last_name))}
+        {key: "firstName", value: this.$t("firstName"), parser: (p) => capitalizeFirstChar(formatText(p.firstName))},
+        {key: "lastName", value: this.$t("lastName"), parser: (p) => capitalizeFirstChar(formatText(p.lastName))}
       ],
       partners: []
     };

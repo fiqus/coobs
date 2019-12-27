@@ -46,14 +46,14 @@
             label="Actions budget"
             name="money"
             type="number"
-            v-model="period.actions_budget">
+            v-model="period.actionsBudget">
           </input-form>
         </div>
       </div>
 
       <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
 			</div>
     </form>
   </div>
@@ -94,11 +94,11 @@ export default {
     return {
       period: {
         name: "",
-        date_from: "",
-        date_to: ""
+        dateFrom: "",
+        dateTo: ""
       },
-      from: this.period ? this.period.date_from : "",
-      to: this.period ? this.period.date_to : "",
+      from: this.period ? this.period.dateFrom : "",
+      to: this.period ? this.period.dateTo : "",
       principles: [],
       isNew,
       title: isNew ? "Create period" : "Edit period"

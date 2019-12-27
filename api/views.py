@@ -5,7 +5,7 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, PartnerCreateSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import requests
@@ -17,14 +17,34 @@ class PrincipleView(viewsets.ModelViewSet):
 
 
 class ActionView(viewsets.ModelViewSet):
-    queryset = Action.objects.all()
     serializer_class = ActionSerializer
 
+    def get_queryset(self):
+        queryset = Action.objects.filter(cooperative=self.request.user.cooperative.id).values()
+        return queryset
 
 class PeriodView(viewsets.ModelViewSet):
-    queryset = Period.objects.all()
     serializer_class = PeriodSerializer
 
+    def get_queryset(self):
+        queryset = Period.objects.filter(cooperative=self.request.user.cooperative.id)
+        return queryset
+
+    def create(self, request):
+        period_serializer = PeriodSerializer(data=request.data)
+
+        if not period_serializer.is_valid():
+            return Response(period_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        period_data = Period()
+        setattr(period_data, 'name', request.data['name'])
+        setattr(period_data, 'date_from', request.data['date_from'])
+        setattr(period_data, 'date_to', request.data['date_to'])
+        setattr(period_data, 'actions_budget', request.data['actions_budget'])
+        setattr(period_data, 'cooperative_id', request.user.cooperative.id)
+
+        period_data.save()
+        return Response("PERIOD_CREATED", status=status.HTTP_200_OK)
 
 class CooperativeView(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
@@ -97,18 +117,10 @@ class CooperativeView(viewsets.ModelViewSet):
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
     
-    @action(detail=True)
-    def partners(self, request, pk=None):
-        cooperative = get_object_or_404(Cooperative, pk=pk)
-        serializer = PartnerSerializer(cooperative.partner_set, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class PartnerView(viewsets.ModelViewSet):
-    queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
 
-
-class PartnerCreateView(viewsets.ModelViewSet):
-    queryset = Partner.objects.all()
-    serializer_class = PartnerCreateSerializer
+    def get_queryset(self):
+        queryset = Partner.objects.filter(cooperative=self.request.user.cooperative.id).values()
+        return queryset

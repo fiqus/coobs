@@ -12,8 +12,8 @@
             :label="$t('firstName')"
             name="first name"
             type="text"
-            v-model="partner.first_name"
-            :error="$v.partner.first_name.$error"
+            v-model="partner.firstName"
+            :error="$v.partner.firstName.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -22,8 +22,8 @@
             :label="$t('lastName')"
             name="last name"
             type="text"
-            v-model="partner.last_name"
-            :error="$v.partner.last_name.$error"
+            v-model="partner.lastName"
+            :error="$v.partner.lastName.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -50,9 +50,6 @@
               type="password"
               v-model="partner.newPassword">
             </input-form>
-            <template slot="note">
-              Must be at least 8 characters and contain a lowercase character, uppercase character and a number.
-            </template>
           </div>
         </div>
         <div class="form-row">
@@ -119,17 +116,9 @@ export default {
   },
   validations: {
     partner: {
-      first_name: {required},
-      last_name: {required},
+      firstName: {required},
+      lastName: {required},
       email: {required},
-      password:{
-        goodPassword:(password) => { //a custom validator!
-          return password.length >= 8 &&
-          /[a-z]/.test(password) &&
-          /[A-Z]/.test(password) &&
-          /[0-9]/.test(password)
-        }
-      },      
       confirmPassword: {
         sameAsNewPassword: sameAs("password")
       },

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0003_load_cooperatives'),
+        ('api', '0003_load_principles'),
     ]
 
     operations = [

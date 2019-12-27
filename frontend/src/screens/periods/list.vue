@@ -3,7 +3,7 @@
     <div class="row">
       <h3 class="col-10">Periods</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'period-edit', params: {periodId: 0}}">
-        Add new
+        {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
@@ -11,7 +11,7 @@
       :headers="headers"
       :data="periods"
       :actions="{edit: true, delete: true}"
-      empty-state-msg="You don't have any periods yet!"
+      :empty-state-msg="$t('noPeriodsMessage')" 
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
@@ -42,9 +42,9 @@ export default {
     return {
       headers: [
         {key: "name", value: "Name", parser: (p) => formatText(p.name)},
-        {key: "date_from", value: "From", parser: (p) => formatText(p.date_from, 50)},
-        {key: "date_to", value: "To", parser: (p) => formatText(p.date_to, 50)},
-        {key: "actions_budget", value: "Budget", parser: (p) => parseBoolean(p.actions_budget)},
+        {key: "dateFrom", value: "From", parser: (p) => formatText(p.date_from, 50)},
+        {key: "dateTo", value: "To", parser: (p) => formatText(p.date_to, 50)},
+        {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: []
     };

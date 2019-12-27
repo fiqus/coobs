@@ -12,8 +12,8 @@
       <tr v-for="elem in data" :key="elem.id">
         <td class="cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
         <td>
-          <button v-if="actions.edit" class="btn btn-primary" @click.stop="onEdit(elem)" title="Edit"><i class="fa fa-edit"></i></button>
-          <button v-if="actions.delete" class="btn btn-danger" @click.stop="onDelete(elem)" title="Delete"><i class="fa fa-trash"></i></button>
+          <button v-if="actions.edit" class="btn btn-primary" @click.stop="onEdit(elem)" :title="$t('edit')"><i class="fa fa-edit"></i></button>
+          <button v-if="actions.delete" class="btn btn-danger" @click.stop="onDelete(elem)" :title="$t('delete')"><i class="fa fa-trash"></i></button>
         </td>
       </tr>
       <tr v-if="!data.length">
@@ -23,46 +23,46 @@
   </table>
 </template>
 <script>
-  export default {
-    props: {
-      headers: {
-        type: Array,
-        default: [],
-        required: true
-      },
-      data: {
-        type: Array,
-        default: [],
-        required: true
-      },
-      actions: {
-        type: Object,
-        default: {
-          delete: false,
-          edit: false
-        }
-      },
-      emptyStateMsg: {
-        type: String
+export default {
+  props: {
+    headers: {
+      type: Array,
+      default: [],
+      required: true
+    },
+    data: {
+      type: Array,
+      default: [],
+      required: true
+    },
+    actions: {
+      type: Object,
+      default: {
+        delete: false,
+        edit: false
       }
     },
-    methods: {
-      parseElem(header, elem) {
-        if (header.parser) {
-            try {
-              return header.parser(elem) || "";
-            } catch (err) {
-              console.trace(`Can't parse the element for '${header.key}'!`, err);
-            }
-          }
-          return elem[header.key] || "";
-      },
-      onEdit(elem) {
-        this.$emit("onEdit", elem);
-      },
-      onDelete(elem) {
-        this.$emit("onDelete", elem);
+    emptyStateMsg: {
+      type: String
+    }
+  },
+  methods: {
+    parseElem(header, elem) {
+      if (header.parser) {
+        try {
+          return header.parser(elem) || "";
+        } catch (err) {
+          console.trace(`Can't parse the element for '${header.key}'!`, err);
+        }
       }
+      return elem[header.key] || "";
+    },
+    onEdit(elem) {
+      this.$emit("onEdit", elem);
+    },
+    onDelete(elem) {
+      this.$emit("onDelete", elem);
     }
   }
+};
 </script>

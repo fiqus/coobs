@@ -16,72 +16,72 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
+import VueApexCharts from "vue-apexcharts";
 
-  export default {
-    props: {
-      label: {
-        type: String,
-      },
-      percentage: {
-        type: Number,
-        required: true
-      }
+export default {
+  props: {
+    label: {
+      type: String,
     },
-    components: {
-      "apexchart": VueApexCharts
-    },
-    data() {
-      const principleDataLabels = {
-        name: {
-          show: false
-        },
-        value: {
-          offsetY: 15,
-          fontSize: '22px'
-        }
-      };
-      const plotOptions = {
-        radialBar: {
-          startAngle: -90,
-          endAngle: 90,
-          track: {
-            background: "#e7e7e7",
-            strokeWidth: '97%',
-            margin: 5, // margin is in pixels
-            shadow: {
-              enabled: true,
-              top: 2,
-              left: 0,
-              color: '#999',
-              opacity: 1,
-              blur: 2
-            }
-          },
-          dataLabels: principleDataLabels
-        }
-      };
-      const fill = {
-        type: 'gradient',
-        gradient: {
-          shade: 'light',
-          shadeIntensity: 0.4,
-          inverseColors: false,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [0, 50, 53, 91]
-        },
-      };
-
-      return {
-        chartOptions: {
-          plotOptions,
-          fill,
-          labels: [this.label],
-          series: [this.percentage]
-        }
-      }
+    percentage: {
+      type: Number,
+      required: true
     }
+  },
+  components: {
+    "apexchart": VueApexCharts
+  },
+  data() {
+    const principleDataLabels = {
+      name: {
+        show: false
+      },
+      value: {
+        offsetY: 15,
+        fontSize: "22px"
+      }
+    };
+    const plotOptions = {
+      radialBar: {
+        startAngle: -90,
+        endAngle: 90,
+        track: {
+          background: "#e7e7e7",
+          strokeWidth: "97%",
+          margin: 5, // margin is in pixels
+          shadow: {
+            enabled: true,
+            top: 2,
+            left: 0,
+            color: "#999",
+            opacity: 1,
+            blur: 2
+          }
+        },
+        dataLabels: principleDataLabels
+      }
+    };
+    const fill = {
+      type: "gradient",
+      gradient: {
+        shade: "light",
+        shadeIntensity: 0.4,
+        inverseColors: false,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 50, 53, 91]
+      },
+    };
+
+    return {
+      chartOptions: {
+        plotOptions,
+        fill,
+        labels: [this.label],
+        series: [this.percentage]
+      }
+    };
   }
+};
 </script>
 

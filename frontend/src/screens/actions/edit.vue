@@ -7,7 +7,7 @@
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
-        label="Name"
+        :label="$t('name')"
         name="name"
         type="text"
         v-model="action.name"
@@ -16,7 +16,7 @@
       </input-form>
 
       <textarea-form
-        label="Description"
+        :label="$t('description')"
         name="description"
         type="text"
         v-model="action.description"
@@ -29,19 +29,19 @@
           <select-form
             v-model="action.principle"
             :options="principles"
-            label="Principle"
+            :label="$t('principle')"
             default-value="Select a principle"
             :error="$v.action.principle.$error"
             error-message="Required">
           </select-form>
         </div>
         <div class="col-6">
-          <label>Partners</label>
+          <label>{{$t("partners")}}</label>
           <multiselect
             v-model="partnersInvolved" 
             tag-placeholder="Select partners" 
             placeholder="Select partners" 
-            label="name" 
+            :label="$t('name')"
             track-by="id" 
             :options="partnersList" 
             :multiple="true" 
@@ -54,7 +54,7 @@
       <div class="form-row">
         <div class="col-6">
           <datepicker-form
-            label="Date"
+            :label="$t('date')"
             name="date"
             format="dd/MM/yyyy"
             v-model="date"
@@ -65,10 +65,10 @@
         </div>
         <div class="col-3">
           <input-form
-            label="Invested money"
+            :label="$t('investedMoney')"
             name="money"
             type="number"
-            v-model="action.invested_money">
+            v-model="action.investedMoney">
           </input-form>
         </div>
       </div>
@@ -76,11 +76,11 @@
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)">
           <i class="fa fa-arrow-left"></i> 
-          Cancel
+          {{$t("cancel")}}
         </button>
 				<button type="submit" class="btn btn-success">
           <i class="fa fa-save"></i>
-          Save
+          {{$t("save")}}
         </button>
 			</div>
     </form>
@@ -125,12 +125,12 @@ export default {
     this.date = this.action.date;
     this.principles = principles;
     this.partners = partners.reduce(function(acc, partner){
-      acc[partner.id] = `${capitalizeFirstChar(partner["first_name"])} ${capitalizeFirstChar(partner["last_name"])}`;
+      acc[partner.id] = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
       return acc;
     }, {});
           
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
-    this.partnersInvolved = partnersParser(this.action["partners_involved"], this.partners);
+    this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
   },
   data() {
     return {
@@ -139,7 +139,7 @@ export default {
       },
       date: this.action ? this.action.date : "",
       principles: [],
-      title: !this.$route.params.actionId ? "Create action" : "Edit action",
+      title: !this.$route.params.actionId ? this.$t("createAction") : this.$t("editAction"),
       partnersInvolved: [],
       partnersList: []
     };
@@ -152,7 +152,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
-        this.action.partners_involved = this.partnersInvolved.map((partner) => {
+        this.action.partnersInvolved = this.partnersInvolved.map((partner) => {
           return partner.id;
         });
         let promise = null;
@@ -163,8 +163,8 @@ export default {
         }
         return promise
           .then(() => {
-            const actionPerformed = !actionId ? "created" : "edited";
-            swal(`The action has been ${actionPerformed}!`, {
+            const actionPerformedMessage = !actionId ? this.$t("actionCreatedMsg") : this.$t("actionEditedMsg");
+            swal(actionPerformedMessage, {
               icon: "success",
               buttons: false,
               timer: 2000
