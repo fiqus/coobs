@@ -44,7 +44,7 @@ export default {
         {key: "name", value: "Name", parser: (p) => formatText(p.name)},
         {key: "dateFrom", value: "From", parser: (p) => formatText(p.date_from, 50)},
         {key: "dateTo", value: "To", parser: (p) => formatText(p.date_to, 50)},
-        {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
+        {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actions_budget)},
       ],
       periods: []
     };

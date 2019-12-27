@@ -46,7 +46,7 @@
             label="Actions budget"
             name="money"
             type="number"
-            v-model="period.actionsBudget">
+            v-model="period.actions_budget">
           </input-form>
         </div>
       </div>
