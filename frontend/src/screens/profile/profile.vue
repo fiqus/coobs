@@ -9,7 +9,7 @@
       <div class="form-row">
         <div class="col-6">
           <input-form
-            label="First name"
+            :label="$t('firstName')"
             name="first name"
             type="text"
             v-model="partner.first_name"
@@ -19,23 +19,11 @@
         </div>
         <div class="col-6">
           <input-form
-            label="Last name"
+            :label="$t('lastName')"
             name="last name"
             type="text"
             v-model="partner.last_name"
             :error="$v.partner.last_name.$error"
-            error-message="Required">
-          </input-form>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-12">
-          <input-form
-            label="Username"
-            name="username"
-            type="text"
-            v-model="partner.username"
-            :error="$v.partner.username.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -52,6 +40,34 @@
           </input-form>
         </div>
       </div>
+      <a class="btn btn-light mb-3 d-flex flex-row-reverse" data-toggle="collapse" href="#changePasswordDiv" role="button" aria-expanded="false" aria-controls="changePasswordDiv">{{$t('changePassword')}}</a>
+      <div class="collapse" id="changePasswordDiv">
+        <div class="form-row">
+          <div class="col-12">
+            <input-form
+              :label="$t('newPassword')"
+              name="new password"
+              type="password"
+              v-model="partner.newPassword">
+            </input-form>
+            <template slot="note">
+              Must be at least 8 characters and contain a lowercase character, uppercase character and a number.
+            </template>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-12">
+            <input-form
+              :label="$t('confirmPassword')"
+              name="confirm password"
+              type="password"
+              v-model="partner.confirmPassword"
+              :error="$v.partner.confirmPassword.$error"
+              error-message="Does not match">
+            </input-form>
+          </div>
+        </div>
+      </div>
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
@@ -62,7 +78,7 @@
 
 <script>
 import InputForm from "../../components/input-form.vue";
-import {required} from "vuelidate/lib/validators";
+import {required, sameAs} from "vuelidate/lib/validators";
 import {httpGet, httpPut} from "../../api-client.js";
 import swal from "sweetalert";
 import {getUser} from "./../../services/user-service";
@@ -81,7 +97,7 @@ export default {
   data() {
     return {
       partner: {},
-      title: "Edit partner"
+      title: '{{$t("editPartner")}}'
     };
   },
   methods: {
@@ -91,7 +107,7 @@ export default {
         const partnerId = getUser().id;
         httpPut(`/partners/${partnerId}/`, this.partner)
           .then(() => {
-            swal("The partner has been edited!", {
+            swal('{{$t("partnerEdited")}}', {
               icon: "success",
               buttons: false,
               timer: 2000
@@ -103,11 +119,20 @@ export default {
   },
   validations: {
     partner: {
-      username: {required},
       first_name: {required},
       last_name: {required},
-      cooperative: {required},
       email: {required},
+      password:{
+        goodPassword:(password) => { //a custom validator!
+          return password.length >= 8 &&
+          /[a-z]/.test(password) &&
+          /[A-Z]/.test(password) &&
+          /[0-9]/.test(password)
+        }
+      },      
+      confirmPassword: {
+        sameAsNewPassword: sameAs("password")
+      },
     }
   }
 };

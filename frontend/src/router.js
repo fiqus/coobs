@@ -11,7 +11,6 @@ import PrincipleEditScreen from "./screens/principles/edit.vue";
 import PeriodsListScreen from "./screens/periods/list.vue";
 import PeriodEditScreen from "./screens/periods/edit.vue";
 import ProfileScreen from "./screens/profile/profile.vue";
-import ChangePasswordScreen from "./screens/profile/change-password.vue";
 import SignupScreen from "./screens/signup.vue";
 import BalanceScreen from "./screens/balance.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
@@ -26,11 +25,6 @@ const routes = [
     name: "profile",
     path: "/profile",
     component: ProfileScreen
-  },
-  {
-    name: "change-password",
-    path: "/change-password",
-    component: ChangePasswordScreen
   },
   {
     name: "periods-list",

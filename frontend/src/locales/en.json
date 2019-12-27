@@ -16,6 +16,8 @@
   "yearly": "Yearly",
   "edit": "Edit",
   "partners": "Partners",
+  "editPartner": "Edit partners",
+  "partnerEdited": "The partner has been edited!",
   "firstName": "Name",
   "lastName": "Last Name",
   "save": "Save",
@@ -24,5 +26,8 @@
   "name": "Name",
   "businessName": "Business name",
   "startingDate": "Starting date",
+  "password": "Password",
+  "newPassword": "New password",
+  "confirmPassword": "Confirm password",
   "changePassword": "Change password"
 }

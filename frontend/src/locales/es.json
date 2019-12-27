@@ -15,7 +15,9 @@
   "allPrinciples": "Todos los principios",
   "yearly": "Anualmente",
   "edit": "Editar",
-  "partners": "Socios",
+  "partners": "Personas asociadas",
+  "editPartner": "Editar persona asociada",
+  "partnerEdited": "La persona asociada ha sido editada!",
   "firstName": "Nombre",
   "lastName": "Apellido",
   "save": "Guardar",
@@ -24,5 +26,8 @@
   "name": "Nombre",
   "businessName": "Razón social",
   "startingDate": "Fecha de inicio",
+  "password": "Contraseña",
+  "newPassword": "Nueva contraseña",
+  "confirmPassword": "Confirmar contraseña",  
   "changePassword": "Cambiar contraseña"
 }

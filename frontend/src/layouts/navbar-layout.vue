@@ -117,10 +117,6 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     <span>{{$t("profile")}}</span>
                   </router-link>
-                  <router-link class="dropdown-item" :to="{name: 'change-password'}">
-                    <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <span>{{$t("changePassword")}}</span>
-                  </router-link>                  
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" @click="logout()">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
