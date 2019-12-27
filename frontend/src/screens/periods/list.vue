@@ -3,7 +3,7 @@
     <div class="row">
       <h3 class="col-10">Periods</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'period-edit', params: {periodId: 0}}">
-        Add new
+        {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
