@@ -42,9 +42,9 @@ export default {
     return {
       headers: [
         {key: "name", value: "Name", parser: (p) => formatText(p.name)},
-        {key: "date_from", value: "From", parser: (p) => formatText(p.date_from, 50)},
-        {key: "date_to", value: "To", parser: (p) => formatText(p.date_to, 50)},
-        {key: "actions_budget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
+        {key: "dateFrom", value: "From", parser: (p) => formatText(p.date_from, 50)},
+        {key: "dateTo", value: "To", parser: (p) => formatText(p.date_to, 50)},
+        {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: []
     };
