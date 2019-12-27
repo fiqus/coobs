@@ -27,5 +27,6 @@
   "changePassword": "Cambiar contraseña",
   "editPartner": "Modificar socio",
   "createPartner": "Crear socio",
-  "pass": "Contraseña"
+  "pass": "Contraseña",
+  "noPeriodsMessage": "No hay periodos cargados aun!"
 }

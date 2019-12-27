@@ -27,5 +27,6 @@
   "changePassword": "Change password",
   "editPartner": "Edit partner",
   "createPartner": "Create partner",
-  "pass": "Password"
+  "pass": "Password",
+  "noPeriodsMessage": "You don't have any periods yet!"
 }

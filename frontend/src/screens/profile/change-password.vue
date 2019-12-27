@@ -43,8 +43,8 @@
         </div>
       </div>
       <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> Cancel</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
 			</div>
     </form>
   </div>

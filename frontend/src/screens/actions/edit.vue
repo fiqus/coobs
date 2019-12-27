@@ -76,11 +76,11 @@
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)">
           <i class="fa fa-arrow-left"></i> 
-          Cancel
+          {{$t("cancel")}}
         </button>
 				<button type="submit" class="btn btn-success">
           <i class="fa fa-save"></i>
-          Save
+          {{$t("save")}}
         </button>
 			</div>
     </form>

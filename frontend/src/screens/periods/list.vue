@@ -11,7 +11,7 @@
       :headers="headers"
       :data="periods"
       :actions="{edit: true, delete: true}"
-      empty-state-msg="You don't have any periods yet!"
+      :empty-state-msg="$t('noPeriodsMessage')" 
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
