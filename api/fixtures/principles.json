@@ -3,16 +3,18 @@
     "fields": {
       "name": "Open and voluntary membership",
       "description": "Co-operatives are voluntary organisations open to all those willing to use their services and to accept the responsibilities of membership without discrimination on the basis of gender, race, social class, political or religious position.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
-    "model": "api.principle",
+    "model": "api.principle",    
     "pk": 1
   },
   {
     "fields": {
       "name": "Democratic control of the members",
       "description": "Co-operatives are democratic organisations controlled by their members who actively participate in policy definition and decision-making. The men and women elected to represent their co-operative are accountable to the members. In grassroots co-operatives members have equal voting rights (one member, one vote), while in other level co-operatives they are also organised with democratic procedures.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 2
@@ -21,7 +23,8 @@
     "fields": {
       "name": "Economic participation of members",
       "description": "Members contribute equitably and democratically control the capital of the co-operative. At least part of this capital is the common property of the co-operative. They usually receive limited compensation, if any, on the subscribed capital as a condition of membership. Members allocate surpluses for any of the following purposes: The development of the co-operative through the possible creation of reserves, of which at least one part must be indivisible; the benefits to members in proportion to their transactions with the co-operative; and support for other activities as approved by the membership.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 3
@@ -30,7 +33,8 @@
     "fields": {
       "name": "Autonomy and independence",
       "description": "Co-operatives are autonomous mutual aid organisations controlled by their members. If they enter into agreements with other organisations (including governments) or have capital from external sources, they do so in terms that ensure democratic control by their members and maintain the autonomy of the co-operative.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 4
@@ -39,7 +43,8 @@
     "fields": {
       "name": "Education, training and information",
       "description": "Co-operatives provide education and training to their members, elected leaders, managers and employees in such a way that they contribute effectively to the development of their co-operatives. Co-operatives inform the general public, particularly young people and opinion formers, about the nature and benefits of co-operativism.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 5
@@ -48,7 +53,8 @@
     "fields": {
       "name": "Cooperation between cooperatives",
       "description": "Co-operatives serve their members more effectively and strengthen the co-operative movement by working together through local, national, regional and international structures.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 6
@@ -57,7 +63,8 @@
     "fields": {
       "name": "Commitment to the community",
       "description": "The cooperative works for the sustainable development of its community through policies accepted by its members.",
-      "visible": "True"
+      "visible": "True",
+      "cooperative_id": 1
     },
     "model": "api.principle",
     "pk": 7

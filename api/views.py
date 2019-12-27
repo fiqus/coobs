@@ -23,6 +23,25 @@ class ActionView(viewsets.ModelViewSet):
         queryset = Action.objects.filter(cooperative=self.request.user.cooperative.id)
         return queryset
 
+    def create(self, request):
+        action_serializer = ActionSerializer(data=request.data)
+
+        if not action_serializer.is_valid():
+            return Response(action_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        action_data = Action()
+        setattr(action_data, 'name', request.data['name'])
+        setattr(action_data, 'date', request.data['date'])
+        setattr(action_data, 'description', request.data['description'])
+        setattr(action_data, 'invested_money', request.data['invested_money'])
+        setattr(action_data, 'partners_involved', request.data['partners_involved'])
+        setattr(action_data, 'actions_budget', request.data['actions_budget'])
+        setattr(action_data, 'principle_id', request.data['principle'])
+        setattr(action_data, 'cooperative_id', request.user.cooperative.id)
+
+        action_data.save()
+        return Response("ACTION_CREATED", status=status.HTTP_200_OK)
+
 class PeriodView(viewsets.ModelViewSet):
     serializer_class = PeriodSerializer
 
