@@ -18,15 +18,15 @@
         :label="$t('businessName')"
         name="business name"
         type="text"
-        v-model="cooperative.business_name"
-        :error="$v.cooperative.business_name.$error"
+        v-model="cooperative.businessName"
+        :error="$v.cooperative.businessName.$error"
         error-message="Required">
       </input-form>
       <datepicker-form
         :label="$t('startingDate')"
         name="starting date"
         format="dd/MM/yyyy"
-        v-model="cooperative.starting_date"
+        v-model="cooperative.startingDate"
         @input="onDateSelected('from', $event)">
       </datepicker-form>
       <div>
@@ -65,7 +65,7 @@
     },
     methods: {
       onDateSelected(dateField, value) {
-        this.cooperative[`starting_date_${dateField}`] = new Date(value).toISOString().slice(0,10);
+        this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
       },
       submit() {
         this.$v.$touch();
@@ -84,7 +84,7 @@
     },
     validations: {
       cooperative: {
-        business_name: {required}
+        businessName: {required}
       }
     }
   }
