@@ -12,8 +12,8 @@
             :label="$t('firstName')"
             name="first name"
             type="text"
-            v-model="partner.firstName"
-            :error="$v.partner.firstName.$error"
+            v-model="partner.first_name"
+            :error="$v.partner.first_name.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -22,8 +22,8 @@
             :label="$t('lastName')"
             name="last name"
             type="text"
-            v-model="partner.lastName"
-            :error="$v.partner.lastName.$error"
+            v-model="partner.last_name"
+            :error="$v.partner.last_name.$error"
             error-message="Required">
           </input-form>
         </div>
@@ -116,8 +116,8 @@ export default {
   },
   validations: {
     partner: {
-      firstName: {required},
-      lastName: {required},
+      first_name: {required},
+      last_name: {required},
       email: {required},
       confirmPassword: {
         sameAsNewPassword: sameAs("password")

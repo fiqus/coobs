@@ -173,7 +173,7 @@ export default {
   computed: {
     loggedInUser() {
       const user = getUser();
-      return `${user.firstName} ${user.lastName}`;
+      return `${user.first_name} ${user.last_name}`;
     },
     currentLanguage() {
       return localStorage.getItem("lang");
