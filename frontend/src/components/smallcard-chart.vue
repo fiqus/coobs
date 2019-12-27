@@ -16,33 +16,33 @@
   </div>  
 </template>
 <script>
-  const typesMap = {
-    calendar: "fa-calendar",
-    currency: "fa-dollar-sign",
-    coins: "fa-coins",
-    clipboard: "fa-clipboard-list"
-  };
+const typesMap = {
+  calendar: "fa-calendar",
+  currency: "fa-dollar-sign",
+  coins: "fa-coins",
+  clipboard: "fa-clipboard-list"
+};
 
-  export default {
-    props: {
-      label: {
-        type: String
-      },
-      icon: {
-        type: String
-      },
-      colorType: {
-        type: String,
-        default: "primary"
-      }
+export default {
+  props: {
+    label: {
+      type: String
     },
-    data() {
-      return {
-        iconClass: typesMap[this.icon] || "",
-        labelClass: `text-${this.colorType}`,
-        borderLeftClass: `border-left-${this.colorType}`
-      }
+    icon: {
+      type: String
+    },
+    colorType: {
+      type: String,
+      default: "primary"
     }
+  },
+  data() {
+    return {
+      iconClass: typesMap[this.icon] || "",
+      labelClass: `text-${this.colorType}`,
+      borderLeftClass: `border-left-${this.colorType}`
+    };
   }
+};
 </script>
 

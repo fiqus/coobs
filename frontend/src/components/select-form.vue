@@ -16,32 +16,32 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      value: {
-        type: Number
-      },
-      label: {
-        type: String
-      },
-      options: {
-        type: Array
-      },
-      defaultValue: {
-        type: String
-      },
-      error: {
-        type: Boolean,
-        default: false
-      },
-      errorMessage: {
-        type: String
-      }
+export default {
+  props: {
+    value: {
+      type: Number
     },
-    methods: {
-      onInput(event) {
-        this.$emit('input', parseInt(event.target.value));
-      }
+    label: {
+      type: String
+    },
+    options: {
+      type: Array
+    },
+    defaultValue: {
+      type: String
+    },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    errorMessage: {
+      type: String
+    }
+  },
+  methods: {
+    onInput(event) {
+      this.$emit("input", parseInt(event.target.value));
     }
   }
+};
 </script>

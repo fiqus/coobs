@@ -16,55 +16,55 @@
 </template>
 
 <script>
-  import Datepicker from 'vuejs-datepicker';
+import Datepicker from "vuejs-datepicker";
 
-  export default {
-    props: {
-      value: {
-        type: String
-      },
-      name: {
-        type: String
-      },
-      label: {
-        type: String
-      },
-      error: {
-        type: Boolean,
-        default: false
-      },
-      errorMessage: {
-        type: String
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      },
-      format: {
-        type: String
-      },
-      typeable: {
-        type: Boolean,
-        default: false
-      },
+export default {
+  props: {
+    value: {
+      type: String
     },
-    components: {
-      "datepicker": Datepicker
+    name: {
+      type: String
     },
-    computed: {
-      inputClasses() {
-        const classes = "form-control";
-        return this.error ? `${classes} is-invalid` : classes;
-      },
-      errorDivStyle() {
-        return this.error ? "display: block !important;" : "";
-      }
+    label: {
+      type: String
     },
-    methods: {
-      onDateSelected(newDate) {
-        this.$emit("input", newDate);
-      },
+    error: {
+      type: Boolean,
+      default: false
+    },
+    errorMessage: {
+      type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    format: {
+      type: String
+    },
+    typeable: {
+      type: Boolean,
+      default: false
+    },
+  },
+  components: {
+    "datepicker": Datepicker
+  },
+  computed: {
+    inputClasses() {
+      const classes = "form-control";
+      return this.error ? `${classes} is-invalid` : classes;
+    },
+    errorDivStyle() {
+      return this.error ? "display: block !important;" : "";
     }
+  },
+  methods: {
+    onDateSelected(newDate) {
+      this.$emit("input", newDate);
+    },
   }
+};
 </script>
 

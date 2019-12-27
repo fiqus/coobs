@@ -16,44 +16,44 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
+import VueApexCharts from "vue-apexcharts";
 
-  const commonsChartOptions = {
-    colors: ['#ED0017', '#F06704', '#FEFF00', '#53CE00', '#61C9FF', '#1400CD', '#60009A'],
-    xaxis: {categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']},
-    chart: {
-      stacked: true,
-      height: 350,
-      zoom: {
-        enabled: false
-      }
-    },
-    dataLabels: {enabled: false},
-    stroke: {curve: 'straight'},
-
-  }
-
-  export default {
-    props: {
-      title: {
-        type: String
-      },
-      columnsData: {
-        type: Array,
-        required: true
-      }
-    },
-    components: {
-      "apexchart": VueApexCharts
-    },
-    data() {
-      return {
-        chartData: {
-          ...commonsChartOptions,
-          series: this.columnsData,
-        }
-      }
+const commonsChartOptions = {
+  colors: ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"],
+  xaxis: {categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
+  chart: {
+    stacked: true,
+    height: 350,
+    zoom: {
+      enabled: false
     }
+  },
+  dataLabels: {enabled: false},
+  stroke: {curve: "straight"},
+
+};
+
+export default {
+  props: {
+    title: {
+      type: String
+    },
+    columnsData: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    "apexchart": VueApexCharts
+  },
+  data() {
+    return {
+      chartData: {
+        ...commonsChartOptions,
+        series: this.columnsData,
+      }
+    };
   }
+};
 </script>
 
