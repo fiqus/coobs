@@ -31,7 +31,7 @@ export default {
     "custom-table": CustomTable
   },
   created() {
-    const cooperativeId = getUser().cooperative;
+    const cooperativeId = getUser().cooperativeId;
     httpGet(`/cooperatives/${cooperativeId}/partners`)
       .then((response) => {
         this.partners = response.data;

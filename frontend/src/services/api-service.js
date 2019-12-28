@@ -1,8 +1,9 @@
 import {httpGet} from "../api-client";
   
 export async function getAction(actionId) {
+  debugger
   const response = await httpGet(`/actions/${actionId}`);
-  return response.data;
+  return response.data ? response.data : {};
 }
 
 export async function getPrinciples(){

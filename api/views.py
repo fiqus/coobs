@@ -20,7 +20,7 @@ class ActionView(viewsets.ModelViewSet):
     serializer_class = ActionSerializer
 
     def get_queryset(self):
-        queryset = Action.objects.filter(cooperative=self.request.user.cooperative.id)
+        queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
     def create(self, request):
@@ -33,9 +33,9 @@ class ActionView(viewsets.ModelViewSet):
         setattr(action_data, 'name', request.data['name'])
         setattr(action_data, 'date', request.data['date'])
         setattr(action_data, 'description', request.data['description'])
-        setattr(action_data, 'invested_money', request.data['invested_money'])
-        setattr(action_data, 'partners_involved', request.data['partners_involved'])
-        setattr(action_data, 'actions_budget', request.data['actions_budget'])
+        setattr(action_data, 'invested_money', request.data['investedMoney'])
+        setattr(action_data, 'partners_involved', request.data['partnersInvolved'])
+        setattr(action_data, 'actions_budget', request.data['actionsBudget'])
         setattr(action_data, 'principle_id', request.data['principle'])
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
 
@@ -146,17 +146,21 @@ class CooperativeView(viewsets.ModelViewSet):
 class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
 
+    def get_queryset(self):
+        queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
+        return queryset
+
     def create(self, request):
         data = request.data
-        cooperative = request.user.cooperative
+        cooperative = request.user.cooperative_id
         def set_partner_data():
             partner_data = Partner()
-            setattr(partner_data, 'first_name', data['firstName'])
-            setattr(partner_data, 'last_name', data['lastName'])
+            setattr(partner_data, 'first_name', data['first_name'])
+            setattr(partner_data, 'last_name', data['last_name'])
             setattr(partner_data, 'email', data['email'])
             setattr(partner_data, 'username', data['email'])
             setattr(partner_data, 'is_active', True)
-            setattr(partner_data, 'cooperative', cooperative)
+            setattr(partner_data, 'cooperative_id', cooperative)
             partner_data.set_password(data['password'])
             return partner_data
 

@@ -102,7 +102,7 @@ import {required} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
 import {partnersParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
-
+import {getUser} from "./../../services/user-service";
 
 export default {
   components: {
@@ -113,13 +113,9 @@ export default {
     "multiselect": Multiselect
   },
   async created() {
-    const actionId = this.$route.params.actionId;
-    this.action = await api.getAction(actionId);
-
-
     const [principles, partners] = await Promise.all([
       api.getPrinciples(), 
-      api.getPartners(this.action.cooperative)
+      api.getPartners(getUser().cooperativeId)
     ]);
 
     this.date = this.action.date;
@@ -128,20 +124,27 @@ export default {
       acc[partner.id] = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
       return acc;
     }, {});
-          
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
-    this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
+    
+    const actionId = this.$route.params.actionId;
+    if (actionId && actionId !== "0") {
+      this.action = await api.getAction(actionId);
+      this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
+    }
+
   },
   data() {
+    const isNew = this.$route.params.actionId == "0";
     return {
       action: {
         principle: ""
       },
       date: this.action ? this.action.date : "",
       principles: [],
-      title: !this.$route.params.actionId ? this.$t("createAction") : this.$t("editAction"),
       partnersInvolved: [],
-      partnersList: []
+      partnersList: [],
+      isNew,
+      title: isNew ? this.$t("createAction") : this.$t("editAction")
     };
   },
   methods: {

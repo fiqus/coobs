@@ -53,13 +53,13 @@ class Period(models.Model):
 
 class Partner(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
-    cooperative_id = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return '%s - %s' % (self.email, self.cooperative_id)
+        return '%s - %s' % (self.email, self.cooperative)
 
 
 class Action(models.Model):
@@ -69,7 +69,7 @@ class Action(models.Model):
     description = models.TextField(null=True, blank=True)
     invested_money = models.DecimalField(max_digits=19, decimal_places=2, null=True)
     partners_involved = models.ManyToManyField(Partner)
-    cooperative_id = models.ForeignKey(Cooperative, on_delete=models.CASCADE, null=False)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         return '%s - %s ' % (self.date, self.principle)
