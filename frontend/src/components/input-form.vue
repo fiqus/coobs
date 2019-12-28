@@ -14,6 +14,7 @@
     <div v-if="error" class="invalid-feedback">
       {{errorMessage}}
     </div>
+    <small v-if="helpText" class="form-text text-muted font-italic">{{helpText}}</small>
   </div>
 </template>
 <script>
@@ -46,6 +47,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    helpText: {
+      type: String,
+      default: ""
     }
   },
   methods: {

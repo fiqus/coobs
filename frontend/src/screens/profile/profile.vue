@@ -40,31 +40,36 @@
           </input-form>
         </div>
       </div>
-      <a class="btn btn-light mb-3 d-flex flex-row-reverse" data-toggle="collapse" href="#changePasswordDiv" role="button" aria-expanded="false" aria-controls="changePasswordDiv">{{$t('changePassword')}}</a>
-      <div class="collapse" id="changePasswordDiv">
-        <div class="form-row">
-          <div class="col-12">
+      <div class="form-row">
+        <div class="col-12">
+          <button type="button" class="btn btn-light mb-3 text-gray-600" @click="changingPassword = !changingPassword">Change password</button>
+        </div>
+      </div>
+      <transition name="fade">
+        <div class="form-row" v-if="changingPassword">
+          <div class="col-6">
             <input-form
               :label="$t('newPassword')"
               name="new password"
               type="password"
-              v-model="partner.newPassword">
+              v-model="partner.newPassword"
+              :error="$v.partner.newPassword && $v.partner.newPassword.$error"
+              :error-message="passwordErrorMessage"
+              :help-text="$t('goodPasswordHelpText')">
             </input-form>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="col-12">
+          <div class="col-6">
             <input-form
               :label="$t('confirmPassword')"
               name="confirm password"
               type="password"
               v-model="partner.confirmPassword"
-              :error="$v.partner.confirmPassword.$error"
-              error-message="Does not match">
+              :error="$v.partner.confirmPassword && $v.partner.confirmPassword.$error"
+              :error-message="$t('passwordNotMatch')">
             </input-form>
           </div>
         </div>
-      </div>
+      </transition>
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
@@ -73,12 +78,42 @@
   </div>
 </template>
 
+<style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0
+  }
+</style>
+
+
 <script>
 import InputForm from "../../components/input-form.vue";
-import {required, sameAs} from "vuelidate/lib/validators";
+import {required, sameAs, minLength} from "vuelidate/lib/validators";
 import {httpGet, httpPut} from "../../api-client.js";
 import swal from "sweetalert";
 import {getUser} from "./../../services/user-service";
+
+const requiredFields = (changingPassword) => {
+  const validations = {
+    firstName: {required},
+    lastName: {required},
+    email: {required}
+  };
+  if (changingPassword) {
+    validations.newPassword = {
+      required,
+      goodPassword: (password) => {
+        return minLength(password, 8) &&
+          /[a-zA-Z]/.test(password) &&
+          /[1-9]/.test(password);
+      }
+    };
+    validations.confirmPassword = {sameAs: sameAs("newPassword")};
+  }
+  return {partner: validations};
+}
 
 export default {
   components: {
@@ -91,10 +126,27 @@ export default {
         this.partner = response.data;
       });
   },
+  computed: {
+    requiredFields() {
+      return requiredFields(this.changingPassword);
+    },
+    passwordErrorMessage() {
+      if (!this.$v.partner.newPassword || !this.$v.partner.newPassword.$error) {
+        return "";
+      }
+      if (!this.$v.partner.newPassword.required) {
+        return this.$t("required");
+      }
+      if (!this.$v.partner.newPassword.goodPassword) {
+        return this.$t("goodPasswordErrorMessage");
+      }
+      return "";
+    }
+  },
   data() {
     return {
-      partner: {},
-      title: '{{$t("editPartner")}}'
+      changingPassword: false,
+      partner: {}
     };
   },
   methods: {
@@ -114,15 +166,8 @@ export default {
       }
     }
   },
-  validations: {
-    partner: {
-      firstName: {required},
-      lastName: {required},
-      email: {required},
-      confirmPassword: {
-        sameAsNewPassword: sameAs("password")
-      },
-    }
+  validations() {
+    return this.requiredFields;
   }
 };
 </script>

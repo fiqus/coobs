@@ -44,5 +44,9 @@
   "actionEditedMsg": "La accion se ha modificado!",
   "deletedActionMsg": "La accion se ha borrado!",
   "emptyActionMsg": "Aun no hay acciones!",
-  "addNew": "Agregar"
+  "addNew": "Agregar",
+  "required": "Obligatorio",
+  "goodPasswordHelpText": "La contraseña debe tener mínimo 8 caracteres, contener al menos una letra y al menos un número.",
+  "goodPasswordErrorMessage": "Verificá el contenido de la contraseña.",
+  "passwordNotMatch": "Las contraseñas deben coincidir."
 }

@@ -43,6 +43,10 @@
   "actionCreatedMsg": "The action has been created!",
   "actionEditedMsg": "The action has been edited!",
   "deletedActionMsg": "The action has been deleted!",
-  "emptyActionMsg": "You don't have any actions yet!",
-  "addNew": "Add new"
+  "emptyActionMsg": "You ,don't have any actions yet!",
+  "addNew": "Add new",
+  "required": "Required",
+  "goodPasswordHelpText": "Password must be more than 8 characters long, contain letters and numbers.",
+  "goodPasswordErrorMessage": "Check password content.",
+  "passwordNotMatch": "Passwords must match."
 }
