@@ -60,7 +60,7 @@ class PeriodView(viewsets.ModelViewSet):
         setattr(period_data, 'date_from', request.data['date_from'])
         setattr(period_data, 'date_to', request.data['date_to'])
         setattr(period_data, 'actions_budget', request.data['actions_budget'])
-        setattr(period_data, 'cooperative_id', request.user.cooperative.id)
+        setattr(period_data, 'cooperative', request.user.cooperative.id)
 
         period_data.save()
         return Response("PERIOD_CREATED", status=status.HTTP_200_OK)
@@ -148,7 +148,7 @@ class PartnerView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        cooperative_id = request.user.cooperative_id
+        cooperative = request.user.cooperative
         def set_partner_data():
             partner_data = Partner()
             setattr(partner_data, 'first_name', data['firstName'])
@@ -156,7 +156,7 @@ class PartnerView(viewsets.ModelViewSet):
             setattr(partner_data, 'email', data['email'])
             setattr(partner_data, 'username', data['email'])
             setattr(partner_data, 'is_active', True)
-            setattr(partner_data, 'cooperative_id', cooperative_id)
+            setattr(partner_data, 'cooperative', cooperative)
             partner_data.set_password(data['password'])
             return partner_data
 
@@ -169,7 +169,3 @@ class PartnerView(viewsets.ModelViewSet):
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
-
-class PartnerCreateView(viewsets.ModelViewSet):
-    queryset = Partner.objects.all()
-    serializer_class = PartnerCreateSerializer

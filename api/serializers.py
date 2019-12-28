@@ -45,5 +45,5 @@ class CooperativeSerializer(serializers.ModelSerializer):
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'password', 'cooperative', 'email', 'password')
+        fields = ('id', 'username', 'first_name', 'last_name', 'password', 'cooperative_id', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
