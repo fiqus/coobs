@@ -136,10 +136,40 @@ class CooperativeView(viewsets.ModelViewSet):
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
     
+    @action(detail=True)
+    def partners(self, request, pk=None):
+        cooperative = get_object_or_404(Cooperative, pk=pk)
+        serializer = PartnerSerializer(cooperative.partner_set, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
 
 class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
 
-    def get_queryset(self):
-        queryset = Partner.objects.filter(cooperative=self.request.user.cooperative.id)
-        return queryset
+    def create(self, request):
+        data = request.data
+        cooperative_id = request.user.cooperative_id
+        def set_partner_data():
+            partner_data = Partner()
+            setattr(partner_data, 'first_name', data['firstName'])
+            setattr(partner_data, 'last_name', data['lastName'])
+            setattr(partner_data, 'email', data['email'])
+            setattr(partner_data, 'username', data['email'])
+            setattr(partner_data, 'is_active', True)
+            setattr(partner_data, 'cooperative_id', cooperative_id)
+            partner_data.set_password(data['password'])
+            return partner_data
+
+        partner = set_partner_data()
+
+        try:
+            with transaction.atomic():
+                partner.save()
+        except Exception as errors:
+            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response('Partner asked to be created', status=status.HTTP_200_OK)
+
+class PartnerCreateView(viewsets.ModelViewSet):
+    queryset = Partner.objects.all()
+    serializer_class = PartnerCreateSerializer

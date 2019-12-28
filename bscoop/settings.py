@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_rest_framework_camel_case',
     'api',
 ]
 
@@ -147,7 +148,17 @@ STATIC_URL = '/static/'
 
 ALLOWED_HOSTS = ['*']
 
+
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'django_rest_framework_camel_case.render.CamelCaseJSONRenderer',
+        # Any other renders
+    ),
+
+    'DEFAULT_PARSER_CLASSES': (
+        'django_rest_framework_camel_case.parser.CamelCaseJSONParser',
+        # Any other parsers
+    ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
@@ -155,8 +166,10 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',        
-    )
+    ),
+
 }
+
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
