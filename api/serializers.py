@@ -41,9 +41,18 @@ class CooperativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cooperative
         fields = "__all__"
-    
+
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'password', 'cooperative_id', 'email', 'password')
+        fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
+
+class ChangePasswordSerializer(serializers.Serializer):
+    new_password = serializers.RegexField("^(?=.*[a-zA-Z])(?=.*[0-9])", min_length=8, error_messages={'invalid': 'Password must be more than 8 characters long, contain letters and numbers'})
+    confirm_password = serializers.CharField()
+
+    def validate(self, data):
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords must match")
+        return data

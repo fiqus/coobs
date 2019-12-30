@@ -5,7 +5,7 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import requests
@@ -173,3 +173,31 @@ class PartnerView(viewsets.ModelViewSet):
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
+
+    def partial_update(self, request, pk=None):
+        data = request.data
+        def set_partner_data():
+            partner_data = get_object_or_404(Partner, pk=pk)
+            setattr(partner_data, 'first_name', data['first_name'])
+            setattr(partner_data, 'last_name', data['last_name'])
+            setattr(partner_data, 'email', data['email'])
+
+            if request.data.get("new_password"):
+                password_change_data = {'new_password': data['new_password'], 'confirm_password': data['confirm_password']}
+                change_pass_serializer = ChangePasswordSerializer(data=password_change_data)
+
+                change_pass_serializer.is_valid(raise_exception=True)
+
+                partner_data.set_password(data['new_password'])
+
+            return partner_data
+
+        partner = set_partner_data()
+
+        try:
+            with transaction.atomic():
+                partner.save()
+        except Exception as errors:
+            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response('Partner edited successfully', status=status.HTTP_200_OK)

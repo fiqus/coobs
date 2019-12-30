@@ -1,4 +1,7 @@
-export function saveUser(user) {
+export function saveUser(user, $vm) {
+  if ($vm) {
+    $vm.localStorage.user = user;
+  }
   localStorage.setItem("user", JSON.stringify(user));
 }
 

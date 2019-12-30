@@ -91,9 +91,9 @@
 <script>
 import InputForm from "../../components/input-form.vue";
 import {required, sameAs, minLength} from "vuelidate/lib/validators";
-import {httpGet, httpPut} from "../../api-client.js";
+import {httpGet, httpPatch} from "../../api-client.js";
 import swal from "sweetalert";
-import {getUser} from "./../../services/user-service";
+import {getUser, saveUser} from "./../../services/user-service";
 
 const requiredFields = (changingPassword) => {
   const validations = {
@@ -120,11 +120,7 @@ export default {
     "input-form": InputForm
   },
   created() {
-    const partnerId = getUser().id;
-    httpGet(`/partners/${partnerId}/`)
-      .then((response) => {
-        this.partner = response.data;
-      });
+    this.loadProfile();
   },
   computed: {
     requiredFields() {
@@ -150,18 +146,31 @@ export default {
     };
   },
   methods: {
+    loadProfile() {
+      const partnerId = getUser().id;
+      return httpGet(`/partners/${partnerId}/`)
+        .then((response) => {
+          this.partner = response.data;
+        });
+    },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const partnerId = getUser().id;
-        httpPut(`/partners/${partnerId}/`, this.partner)
+        httpPatch(`/partners/${partnerId}/`, this.partner)
           .then(() => {
-            swal('{{$t("partnerEdited")}}', {
+            swal(this.$t("partnerEdited"), {
               icon: "success",
               buttons: false,
               timer: 2000
             });
-            this.$router.push({name: "partner"});
+            this.loadProfile()
+              .then(() => {
+                const currentUser = getUser();
+                const {firstName, lastName, email} = this.partner;
+                const newUser = Object.assign({}, currentUser, {firstName, lastName, email});
+                saveUser(newUser, this);
+              })
           });
       }
     }
