@@ -20,9 +20,10 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-          <a class="nav-link" href="app">
+          <router-link class="nav-link collapsed" :to="{name: 'dashboard'}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>{{$t("dashboard")}}</span></a>
+            <span>{{$t("dashboard")}}</span>
+          </router-link>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -95,7 +96,7 @@
 
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="inputGroupSelect01" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <select class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-model="currentLanguage" @change="changeLanguage">
+                  <select class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-model="currentLanguage">
                     <option v-for="locale in Object.keys(locales)" :key="locale" :value="locale">
                       {{locales[locale]}}
                     </option>
@@ -108,7 +109,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{loggedInUser}}</span>
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{userFullName}}</span>
                   <i class="fas fa-user-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                 </a>
                 <!-- Dropdown - User Information -->
@@ -165,23 +166,20 @@
 </template>
 <script>
 import swal from "sweetalert";
-import {loadLanguageAsync, setCurrentBorwserLang} from "../i18n";
 import locales from "../locales/langs";
-import {getUser, removeUser} from "../services/user-service";
 
 export default {
   computed: {
-    loggedInUser() {
-      const user = getUser();
-      return `${user.firstName} ${user.lastName}`;
+    userFullName() {
+      return this.$store.getters.userFullName;
     },
-    currentLanguage() {
-      return localStorage.getItem("lang");
-    }
-  },
-  created() {
-    if (!localStorage.getItem("lang")) {
-      setCurrentBorwserLang();
+    currentLanguage: {
+      get() {
+        return this.$i18n.locale();
+      },
+      set(lang) {
+        this.$i18n.set(lang);
+      }
     }
   },
   data() {
@@ -191,9 +189,6 @@ export default {
     };
   },
   methods: {
-    changeLanguage() {
-      loadLanguageAsync(this.currentLanguage);
-    },
     logout() {
       swal({
         title: "Ready to leave?",
@@ -208,8 +203,7 @@ export default {
       })
         .then((willLogout) => {
           if (willLogout) {
-            removeUser();
-            localStorage.removeItem("lang");
+            this.$store.dispatch("logout");
             swal("Session ended.", {
               icon: "success",
               timer: 2000,

@@ -23,7 +23,6 @@ import CustomTable from "../../components/custom-table.vue";
 import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
-import {getUser} from "./../../services/user-service";
 import {capitalizeFirstChar} from "./../../utils";
 
 export default {
@@ -31,7 +30,7 @@ export default {
     "custom-table": CustomTable
   },
   created() {
-    const cooperativeId = getUser().cooperativeId;
+    const {cooperativeId} = this.$store.state.user;
     httpGet(`/cooperatives/${cooperativeId}/partners`)
       .then((response) => {
         this.partners = response.data;

@@ -16,7 +16,8 @@ import BalanceScreen from "./screens/balance.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
-import {getUser} from "./services/user-service";
+
+import store from './store';
 
 Vue.use(VueRouter);
 
@@ -108,7 +109,8 @@ const publicScreens = ["login", "signup"];
 
 router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);
-  const user = getUser();
+  // const user = getUser();
+  const user = store.state.user;
   const loggedIn = user && user.token;
 
   if (navToPrivateScreen && !loggedIn) {

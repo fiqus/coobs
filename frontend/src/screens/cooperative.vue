@@ -43,7 +43,6 @@ import DatePickerForm from "../components/datepicker-form.vue";
 import swal from "sweetalert";
 import {required} from "vuelidate/lib/validators";
 import {httpGet, httpPut} from "../api-client.js";
-import {getUser} from "../services/user-service";
 
 export default {
   components: {
@@ -67,18 +66,41 @@ export default {
     onDateSelected(dateField, value) {
       this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
     },
-    submit() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        httpPut(`/cooperatives/${this.user.cooperativeId}/`, this.cooperative)
-          .then(() => {
-            swal(this.$t("editedCoopMsg"), {
-              icon: "success",
-              buttons: false,
-              timer: 2000
-            });
-            this.$router.push({name: "cooperative"});
-          })
+    created() {
+      httpGet(`/cooperatives/${this.cooperativeId}`)
+        .then((response) => {
+          this.cooperative = response.data;
+        });
+    },
+    data() {
+      return {
+        cooperativeId: this.$store.state.user.cooperativeId,
+        cooperative: {},
+        title: this.$t("editCooperative")
+      }
+    },
+    methods: {
+      onDateSelected(dateField, value) {
+        this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
+      },
+      submit() {
+        this.$v.$touch();
+        if (!this.$v.$invalid) {
+          httpPut(`/cooperatives/${this.cooperativeId}/`, this.cooperative)
+            .then(() => {
+              swal(this.$t("editedCoopMsg"), {
+                icon: "success",
+                buttons: false,
+                timer: 2000
+              });
+              this.$router.push({name: "cooperative"});
+            })
+        }
+      }
+    },
+    validations: {
+      cooperative: {
+        businessName: {required}
       }
     }
   },

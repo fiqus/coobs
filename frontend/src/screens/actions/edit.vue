@@ -102,7 +102,6 @@ import {required} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
 import {partnersParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
-import {getUser} from "./../../services/user-service";
 
 export default {
   components: {
@@ -113,9 +112,11 @@ export default {
     "multiselect": Multiselect
   },
   async created() {
+    const {cooperativeId} = this.$store.state.user;
+
     const [principles, partners] = await Promise.all([
-      api.getPrinciples(), 
-      api.getPartners(getUser().cooperativeId)
+      api.getPrinciples(),
+      api.getPartners(cooperativeId)
     ]);
 
     this.date = this.action.date;

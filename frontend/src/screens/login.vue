@@ -51,7 +51,6 @@ import InputForm from '../components/input-form.vue'
 import { required, email } from 'vuelidate/lib/validators';
 import {httpPost} from '../api-client';
 import swal from 'sweetalert';
-import {saveUser} from '../services/user-service';
 
 export default {
   components: {
@@ -73,7 +72,7 @@ export default {
         httpPost("/api-token-auth/", body)
           .then((res) => {
             const {token, user} = res.data;
-            saveUser({...user, token});
+            this.$store.commit("setUser", {...user, token});
             this.$router.push({name: "dashboard"});
           })
           .catch((err) => {

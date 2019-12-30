@@ -93,7 +93,6 @@ import InputForm from "../../components/input-form.vue";
 import {required, sameAs, minLength} from "vuelidate/lib/validators";
 import {httpGet, httpPatch} from "../../api-client.js";
 import swal from "sweetalert";
-import {getUser, saveUser} from "./../../services/user-service";
 
 const requiredFields = (changingPassword) => {
   const validations = {
@@ -123,6 +122,9 @@ export default {
     this.loadProfile();
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     requiredFields() {
       return requiredFields(this.changingPassword);
     },
@@ -147,7 +149,7 @@ export default {
   },
   methods: {
     loadProfile() {
-      const partnerId = getUser().id;
+      const partnerId = this.user.id;
       return httpGet(`/partners/${partnerId}/`)
         .then((response) => {
           this.partner = response.data;
@@ -156,7 +158,7 @@ export default {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const partnerId = getUser().id;
+        const partnerId = this.user.id;
         httpPatch(`/partners/${partnerId}/`, this.partner)
           .then(() => {
             swal(this.$t("partnerEdited"), {
@@ -166,10 +168,11 @@ export default {
             });
             this.loadProfile()
               .then(() => {
-                const currentUser = getUser();
+                const currentUser = this.user;
                 const {firstName, lastName, email} = this.partner;
                 const newUser = Object.assign({}, currentUser, {firstName, lastName, email});
-                saveUser(newUser, this);
+                this.$store.commit("setUser", newUser);
+                this.$v.$reset();
               })
           });
       }
