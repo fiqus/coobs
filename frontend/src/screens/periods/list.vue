@@ -43,7 +43,7 @@ export default {
       headers: [
         {key: "name", value: "Name", parser: (p) => formatText(p.name)},
         {key: "dateFrom", value: "From", parser: (p) => formatText(p.date_from, 50)},
-        {key: "dateTo", value: "To", parser: (p) => formatText(p.date_to, 50)},
+        {key: "dateTo", value: "To", parser: (p) => formatText(p.dateTo, 50)},
         {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: []
@@ -56,7 +56,7 @@ export default {
     onDelete(period) {
       httpDelete(`/periods/${period.id}`)
         .then(() => {
-          swal("The period has been deleted!", {
+          swal(this.$t("deletedPeriodMsg"), {
             icon: "success",
             buttons: false,
             timer: 2000

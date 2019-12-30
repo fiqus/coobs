@@ -12,10 +12,12 @@
   "actionsDone": "Actions done",
   "investment": "Invesment",
   "investedMoney": "Invested amount",
+  "budget": "Budget",
   "promotionFund": "Promotion fund",
   "pendingActions": "Pending actions",
   "allPrinciples": "All principles",
   "yearly": "Yearly",
+  "from": "From",
   "edit": "Edit",
   "delete": "Delete",
   "partners": "Partners",
@@ -48,5 +50,8 @@
   "required": "Required",
   "goodPasswordHelpText": "Password must be more than 8 characters long, contain letters and numbers.",
   "goodPasswordErrorMessage": "Check password content.",
-  "passwordNotMatch": "Passwords must match."
+  "passwordNotMatch": "Passwords must match.",
+  "deletedPeriodMsg": "The period has been deleted!",
+  "createPeriod": "Create period",
+  "editPeriod": "Edit period"
 }

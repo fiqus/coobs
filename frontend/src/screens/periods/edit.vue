@@ -7,7 +7,7 @@
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
-        label="Name"
+        :label="$t('name')"
         name="name"
         type="text"
         v-model="period.name"
@@ -18,7 +18,7 @@
       <div class="form-row">
         <div class="col-6">
           <datepicker-form
-            label="From"
+            :label="$t('from')"
             name="from"
             format="dd/MM/yyyy"
             v-model="from"
@@ -29,7 +29,7 @@
         </div>
         <div class="col-6">
           <datepicker-form
-            label="To"
+            :label="$t('to')"
             name="to"
             format="dd/MM/yyyy"
             v-model="to"
@@ -43,7 +43,7 @@
       <div class="form-row">
         <div class="col-3">
           <input-form
-            label="Actions budget"
+            :label="$t('budget')"
             name="money"
             type="number"
             v-model="period.actions_budget">
@@ -101,7 +101,7 @@ export default {
       to: this.period ? this.period.dateTo : "",
       principles: [],
       isNew,
-      title: isNew ? "Create period" : "Edit period"
+      title: isNew ? this.$t("createPeriod") : this.$t("editPeriod")
     };
   },
   methods: {

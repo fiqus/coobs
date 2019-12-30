@@ -46,7 +46,7 @@ class PeriodView(viewsets.ModelViewSet):
     serializer_class = PeriodSerializer
 
     def get_queryset(self):
-        queryset = Period.objects.filter(cooperative=self.request.user.cooperative.id)
+        queryset = Period.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
     def create(self, request):
@@ -57,9 +57,9 @@ class PeriodView(viewsets.ModelViewSet):
 
         period_data = Period()
         setattr(period_data, 'name', request.data['name'])
-        setattr(period_data, 'date_from', request.data['date_from'])
-        setattr(period_data, 'date_to', request.data['date_to'])
-        setattr(period_data, 'actions_budget', request.data['actions_budget'])
+        setattr(period_data, 'date_from', request.data['dateFrom'])
+        setattr(period_data, 'date_to', request.data['dateTo'])
+        setattr(period_data, 'actions_budget', request.data['actionsBudget'])
         setattr(period_data, 'cooperative', request.user.cooperative.id)
 
         period_data.save()
