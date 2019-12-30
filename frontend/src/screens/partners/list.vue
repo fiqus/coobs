@@ -31,7 +31,7 @@ export default {
   },
   created() {
     const {cooperativeId} = this.$store.state.user;
-    httpGet(`/cooperatives/${cooperativeId}/partners`)
+    httpGet(`/partners`)
       .then((response) => {
         this.partners = response.data;
       });

@@ -117,7 +117,7 @@ class CooperativeView(viewsets.ModelViewSet):
             return Response(coop_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         if not partner_serializer.is_valid():
             return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+
         cooperative = set_coop_data()
         partner = set_partner_data()
 
@@ -135,13 +135,7 @@ class CooperativeView(viewsets.ModelViewSet):
 
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
-    
-    @action(detail=True)
-    def partners(self, request, pk=None):
-        cooperative = get_object_or_404(Cooperative, pk=pk)
-        serializer = PartnerSerializer(cooperative.partner_set, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
+
 
 class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
