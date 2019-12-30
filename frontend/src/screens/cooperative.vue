@@ -38,54 +38,54 @@
 </template>
 
 <script>
-  import InputForm from "../components/input-form.vue";
-  import DatePickerForm from '../components/datepicker-form.vue';
-  import {required} from "vuelidate/lib/validators";
-  import {httpGet, httpPut} from "../api-client.js";
-  import swal from 'sweetalert';
-  import {getUser} from '../services/user-service';
+import InputForm from "../components/input-form.vue";
+import DatePickerForm from "../components/datepicker-form.vue";
+import swal from "sweetalert";
+import {required} from "vuelidate/lib/validators";
+import {httpGet, httpPut} from "../api-client.js";
+import {getUser} from "../services/user-service";
 
-  export default {
-    components: {
-      "input-form": InputForm,
-      "datepicker-form": DatePickerForm
+export default {
+  components: {
+    "input-form": InputForm,
+    "datepicker-form": DatePickerForm
+  },
+  created() {
+    httpGet(`/cooperatives/${this.user.cooperativeId}`)
+      .then((response) => {
+        this.cooperative = response.data;
+      });
+  },
+  data() {
+    return {
+      user: getUser(),
+      cooperative: {},
+      title: this.$t("editCooperative")
+    };
+  },
+  methods: {
+    onDateSelected(dateField, value) {
+      this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
     },
-    created() {
-      httpGet(`/cooperatives/${this.user.cooperative}`)
-        .then((response) => {
-          this.cooperative = response.data;
-        });
-    },
-    data() {
-      return {
-        user: getUser(),
-        cooperative: {},
-        title: this.$t("editCooperative")
-      }
-    },
-    methods: {
-      onDateSelected(dateField, value) {
-        this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
-      },
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          httpPut(`/cooperatives/${this.user.cooperative}/`, this.cooperative)
-            .then(() => {
-              swal("The cooperative has been edited!", {
-                icon: "success",
-                buttons: false,
-                timer: 2000
-              });
-              this.$router.push({name: "cooperative"});
-            })
-        }
-      }
-    },
-    validations: {
-      cooperative: {
-        businessName: {required}
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        httpPut(`/cooperatives/${this.user.cooperativeId}/`, this.cooperative)
+          .then(() => {
+            swal(this.$t("editedCoopMsg"), {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            this.$router.push({name: "cooperative"});
+          })
       }
     }
+  },
+  validations: {
+    cooperative: {
+      businessName: {required}
+    }
   }
+}
 </script>

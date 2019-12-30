@@ -53,5 +53,6 @@
   "passwordNotMatch": "Passwords must match.",
   "deletedPeriodMsg": "The period has been deleted!",
   "createPeriod": "Create period",
-  "editPeriod": "Edit period"
+  "editPeriod": "Edit period",
+  "editedCoopMsg": "The cooperative has been edited!"
 }
