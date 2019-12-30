@@ -42,7 +42,7 @@ export default {
     return {
       headers: [
         {key: "name", value: this.$t("name"), parser: (p) => formatText(p.name)},
-        {key: "dateFrom", value: this.$t("from"), parser: (p) => formatText(p.date_from, 50)},
+        {key: "dateFrom", value: this.$t("from"), parser: (p) => formatText(p.dateFrom, 50)},
         {key: "dateTo", value: this.$t("to"), parser: (p) => formatText(p.dateTo, 50)},
         {key: "actionsBudget", value: this.$t("budget"), parser: (p) => parseBoolean(p.actionsBudget)},
       ],
