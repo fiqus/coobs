@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">Periods</h3>
+      <h3 class="col-10">{{$t("periods")}}</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'period-edit', params: {periodId: 0}}">
         {{$t("addNew")}}
         <i class="fa fa-plus"></i>
@@ -41,10 +41,10 @@ export default {
   data() {
     return {
       headers: [
-        {key: "name", value: "Name", parser: (p) => formatText(p.name)},
-        {key: "dateFrom", value: "From", parser: (p) => formatText(p.date_from, 50)},
-        {key: "dateTo", value: "To", parser: (p) => formatText(p.dateTo, 50)},
-        {key: "actionsBudget", value: "Budget", parser: (p) => parseBoolean(p.actionsBudget)},
+        {key: "name", value: this.$t("name"), parser: (p) => formatText(p.name)},
+        {key: "dateFrom", value: this.$t("from"), parser: (p) => formatText(p.date_from, 50)},
+        {key: "dateTo", value: this.$t("to"), parser: (p) => formatText(p.dateTo, 50)},
+        {key: "actionsBudget", value: this.$t("budget"), parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: []
     };

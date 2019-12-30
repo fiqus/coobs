@@ -46,7 +46,7 @@
             :label="$t('budget')"
             name="money"
             type="number"
-            v-model="period.actions_budget">
+            v-model="period.actionsBudget">
           </input-form>
         </div>
       </div>
@@ -71,8 +71,6 @@ import swal from "sweetalert";
 export default {
   components: {
     "input-form": InputForm,
-    "textarea-form": TextareaForm,
-    "select-form": SelectForm,
     "datepicker-form": DatePickerForm
   },
   created() {
@@ -80,8 +78,8 @@ export default {
       httpGet(`/periods/${this.$route.params.periodId}`)
         .then((response) => {
           this.period = response.data;
-          this.from = this.period.date_from;
-          this.to = this.period.date_to;
+          this.from = this.period.dateFrom;
+          this.to = this.period.dateTo;
         });
     }
     return httpGet("/principles/")
