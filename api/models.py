@@ -33,7 +33,7 @@ class Period(models.Model):
     date_from = models.DateField(default=datetime.date.today)
     date_to = models.DateField(default=datetime.date.today)
     actions_budget = models.DecimalField(max_digits=19, decimal_places=2)
-    cooperative_id = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
         return self.name
