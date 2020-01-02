@@ -11,8 +11,8 @@ export async function getPrinciples(){
   return principlesResponse.data;
 }
 
-export async function getPartners(cooperativeId){
-  const partnersResponse = await httpGet(`/cooperatives/${cooperativeId}/partners`);
+export async function getPartners(){
+  const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;
 }
 

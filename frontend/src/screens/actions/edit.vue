@@ -112,11 +112,10 @@ export default {
     "multiselect": Multiselect
   },
   async created() {
-    const {cooperativeId} = this.$store.state.user;
 
     const [principles, partners] = await Promise.all([
       api.getPrinciples(),
-      api.getPartners(cooperativeId)
+      api.getPartners()
     ]);
 
     this.date = this.action.date;
