@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
-from api.models import Principle, Action, Period, Cooperative, Partner
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -129,13 +129,26 @@ class CooperativeView(viewsets.ModelViewSet):
             with transaction.atomic():
                 cooperative.save()
                 partner.save()
-                send_email()
+                # send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        def assign_principles_to_coop():
+            main_principles = MainPrinciple.objects.all()
+            principles = list()
+            for main_principle in main_principles:
+                principle_data = Principle()
+                setattr(principle_data, 'description', "")
+                setattr(principle_data, 'visible', True)
+                setattr(principle_data, 'cooperative', cooperative)
+                setattr(principle_data, 'main_principle', main_principle)
+                principles.append(principle_data)
+            Principle.objects.bulk_create(principles)
 
         def assign_coop_to_partner():
             setattr(partner, 'cooperative', cooperative)
             partner.save()
+            assign_principles_to_coop()
 
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)

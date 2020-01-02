@@ -152,12 +152,15 @@ ALLOWED_HOSTS = ['*']
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'django_rest_framework_camel_case.render.CamelCaseJSONRenderer',
-        # Any other renders
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ),
 
     'DEFAULT_PARSER_CLASSES': (
         'django_rest_framework_camel_case.parser.CamelCaseJSONParser',
-        # Any other parsers
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

@@ -15,15 +15,23 @@ class Cooperative(models.Model):
             'Designates whether this user should be treated as active. '
             'Unselect this instead of deleting accounts.'
         ),
-    )    
+    )
 
     def __str__(self):
         return '%s' % (self.business_name)
 
-class Principle(models.Model):
+class MainPrinciple(models.Model):
     name = models.CharField(max_length=256)
+    name_key = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+class Principle(models.Model):
     description = models.TextField()
     visible = models.BooleanField(default=True)
+    main_principle = models.ForeignKey(MainPrinciple, on_delete=models.CASCADE, null=True)
+    cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
         return self.name
