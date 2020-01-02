@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      user: getUser(),
+      user: this.$store.state.user,
       cooperative: {},
       title: this.$t("editCooperative")
     };

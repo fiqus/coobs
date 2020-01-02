@@ -137,7 +137,6 @@ export default {
       return acc;
     }, {});
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
-    console.log(this.partnersList)
     const actionId = this.$route.params.actionId;
     if (actionId && actionId !== "0") {
       this.action = await api.getAction(actionId);

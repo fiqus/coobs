@@ -129,7 +129,7 @@ class CooperativeView(viewsets.ModelViewSet):
             with transaction.atomic():
                 cooperative.save()
                 partner.save()
-                # send_email()
+                send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

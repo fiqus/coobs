@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from api.models import Principle, Action, Period, Cooperative, Partner
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django_rest_framework_camel_case.util import camelize, underscore_to_camel
+from django_rest_framework_camel_case.util import camelize
 
 User = get_user_model()
 
