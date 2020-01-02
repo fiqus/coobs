@@ -34,7 +34,7 @@
   "startingDate": "Fecha de inicio",
   "password": "Contraseña",
   "newPassword": "Nueva contraseña",
-  "confirmPassword": "Confirmar contraseña", 
+  "confirmPassword": "Confirmar contraseña",
   "changePassword": "Cambiar contraseña",
   "createPartner": "Crear persona asociada",
   "pass": "Contraseña",
@@ -55,5 +55,13 @@
   "deletedPeriodMsg": "Se ha borrado el período!",
   "createPeriod": "Crear período",
   "editPeriod": "Modificar período",
-  "editedCoopMsg": "La cooperativa se ha modificado!"
+  "editedCoopMsg": "La cooperativa se ha modificado!",
+  "openAndVoluntary": "Libre adhesión y libre retiro",
+  "democraticControl": "Control democrático por los asociados",
+  "economicParticipation": "Participación económica de los asociados",
+  "autonomyIndependence": "Autonomía e independencia",
+  "educationTraining": "Educación, capacitación e información",
+  "cooperationBetweenCoops": "Cooperación entre cooperativas",
+  "commitmentToCommunity": "Interés por la comunidad",
+  "selectPrinciple": "Seleccione un principio"
 }

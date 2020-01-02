@@ -30,7 +30,7 @@
             v-model="action.principle"
             :options="principles"
             :label="$t('principle')"
-            default-value="Select a principle"
+            :default-value="$t('selectPrinciple')"
             :error="$v.action.principle.$error"
             error-message="Required">
           </select-form>
@@ -111,6 +111,15 @@ export default {
     "datepicker-form": DatePickerForm,
     "multiselect": Multiselect
   },
+  watch: {
+    // we need to force the translations for principles because the select is not updated automatically
+    locale(newLocale) {
+      this.principles = this.principles.map((p) => {
+        p.name = this.$t(p.nameKey, p.name);
+        return p;
+      });
+    }
+  },
   async created() {
 
     const [principles, partners] = await Promise.all([
@@ -119,7 +128,10 @@ export default {
     ]);
 
     this.date = this.action.date;
-    this.principles = principles;
+    this.principles = principles.map((p) => {
+      p.name = this.$t(p.nameKey, p.name);
+      return p;
+    });
     this.partners = partners.reduce(function(acc, partner){
       acc[partner.id] = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
       return acc;
@@ -132,6 +144,11 @@ export default {
       this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
     }
 
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale();
+    }
   },
   data() {
     const isNew = this.$route.params.actionId == "0";

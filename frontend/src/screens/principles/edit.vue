@@ -10,7 +10,7 @@
         label="Name"
         name="name"
         type="text"
-        v-model="principle.name"
+        :value="$t(principle.nameKey, principle.name)"
         :disabled="true"
         :error="$v.principle.name.$error"
         error-message="Required">

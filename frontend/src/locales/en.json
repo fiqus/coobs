@@ -54,5 +54,13 @@
   "deletedPeriodMsg": "The period has been deleted!",
   "createPeriod": "Create period",
   "editPeriod": "Edit period",
-  "editedCoopMsg": "The cooperative has been edited!"
+  "editedCoopMsg": "The cooperative has been edited!",
+  "openAndVoluntary": "Open and voluntary membership",
+  "democraticControl": "Democratic control of the members",
+  "economicParticipation": "Economic participation of members",
+  "autonomyIndependence": "Autonomy and independence",
+  "educationTraining": "Education, training and information",
+  "cooperationBetweenCoops": "Cooperation between cooperatives",
+  "commitmentToCommunity": "Commitment to the community",
+  "selectPrinciple": "Select a principle"
 }
