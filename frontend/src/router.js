@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);
   // const user = getUser();
   const user = store.state.user;
-  const loggedIn = user && user.token;
+  const loggedIn = user && user.access;
 
   if (navToPrivateScreen && !loggedIn) {
     return next({name: "login"});

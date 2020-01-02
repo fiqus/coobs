@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
-
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, MyTokenObtainPairView
+from rest_framework_simplejwt.views import (
+    TokenVerifyView,
+    TokenRefreshView,
+)
 router = routers.DefaultRouter()
 router.register(r'cooperatives', CooperativeView)
 router.register(r'principles', PrincipleView)
@@ -32,7 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/api-token-auth/', obtain_jwt_token),
-    path('api/api-token-refresh/', refresh_jwt_token),
-    path('api/api-token-verify/', verify_jwt_token)
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify')
 ]

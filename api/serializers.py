@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from api.models import Principle, Action, Period, Cooperative, Partner
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django_rest_framework_camel_case.util import camelize, underscore_to_camel
 
 User = get_user_model()
 
@@ -56,3 +58,13 @@ class ChangePasswordSerializer(serializers.Serializer):
         if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError("Passwords must match")
         return data
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        user_data = PartnerSerializer(user).data
+        token['user'] = camelize(user_data)
+
+        return token

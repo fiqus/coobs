@@ -24,6 +24,7 @@
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.0.7",
     "vuejs-datepicker": "^1.6.2",
+    "vuejs-jwt": "^1.1.0",
     "vuelidate": "^0.7.4",
     "vuex": "^3.1.2",
     "vuex-i18n": "^1.13.1",

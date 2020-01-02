@@ -69,10 +69,11 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const body = {...this.user};
-        httpPost("/api-token-auth/", body)
+        httpPost("/token/", body)
           .then((res) => {
-            const {token, user} = res.data;
-            this.$store.commit("setUser", {...user, token});
+            const {access, refresh} = res.data;
+            const tokenData = this.$jwt.decode(access);
+            this.$store.commit("setUser", {...tokenData.user, access, refresh});
             this.$router.push({name: "dashboard"});
           })
           .catch((err) => {

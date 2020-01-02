@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import vuexI18n from 'vuex-i18n';
 import browserLocale from 'browser-locale';
+import VueJWT from 'vuejs-jwt'
 
 import app from './app.vue';
 import router from './router'
@@ -19,6 +20,7 @@ Vue.component('empty-layout', EmptyLayout);
 Vue.component('login-layout', LoginLayout);
 
 Vue.use(Vuelidate);
+Vue.use(VueJWT);
 
 Vue.use(vuexI18n.plugin, store);
 Vue.i18n.add('en', loadLocalMessage("en"));
