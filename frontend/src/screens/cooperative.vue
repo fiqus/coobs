@@ -50,6 +50,7 @@ export default {
     "datepicker-form": DatePickerForm
   },
   created() {
+    //httpGet(`/cooperatives/${this.user.cooperativeId}`)
     httpGet(`/cooperatives/${this.user.cooperativeId}`)
       .then((response) => {
         this.cooperative = response.data;
@@ -58,13 +59,14 @@ export default {
   data() {
     return {
       user: this.$store.state.user,
+      cooperativeId: this.$store.state.user.cooperativeId,
       cooperative: {},
       title: this.$t("editCooperative")
     };
   },
   methods: {
     onDateSelected(dateField, value) {
-      this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
+      this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0, 10);
     },
     created() {
       httpGet(`/cooperatives/${this.cooperativeId}`)
@@ -77,25 +79,20 @@ export default {
         cooperativeId: this.$store.state.user.cooperativeId,
         cooperative: {},
         title: this.$t("editCooperative")
-      }
+      };
     },
-    methods: {
-      onDateSelected(dateField, value) {
-        this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0,10);
-      },
-      submit() {
-        this.$v.$touch();
-        if (!this.$v.$invalid) {
-          httpPut(`/cooperatives/${this.cooperativeId}/`, this.cooperative)
-            .then(() => {
-              swal(this.$t("editedCoopMsg"), {
-                icon: "success",
-                buttons: false,
-                timer: 2000
-              });
-              this.$router.push({name: "cooperative"});
-            })
-        }
+    submit() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        httpPut(`/cooperatives/${this.cooperativeId}/`, this.cooperative)
+          .then(() => {
+            swal(this.$t("editedCoopMsg"), {
+              icon: "success",
+              buttons: false,
+              timer: 2000
+            });
+            this.$router.push({name: "cooperative"});
+          });
       }
     },
     validations: {
@@ -109,5 +106,5 @@ export default {
       businessName: {required}
     }
   }
-}
+};
 </script>

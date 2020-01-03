@@ -19,6 +19,7 @@ module.exports = {
   },
   // cheap-module-eval-source-map is faster for development
   devtool: "#cheap-module-eval-source-map",
+  //devtool: "inline-source-map",
   // watch: true,
   devServer: {
     hot: true,
