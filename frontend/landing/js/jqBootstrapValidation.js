@@ -677,6 +677,15 @@
 
         }
       },
+      goodpass: {
+        name: "goodpass",
+        init: function ($this, name) {
+					return {};
+				},
+        validate: function ($this, value, validator) {
+					return !/[a-zA-Z]/.test(value) || !/[1-9]/.test(value);
+				}
+      },
 			regex: {
 				name: "regex",
 				init: function ($this, name) {

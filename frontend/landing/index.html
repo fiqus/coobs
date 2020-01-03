@@ -87,35 +87,41 @@
                       <div class="form-group control-group mb-45">
                         <input type="text" class="form-control form-control-user" id="name" name="businessName" placeholder="Cooperative Business name"
                           required="required" data-validation-required-message="Please enter the cooperative business name.">
-                        <p class="help-block text-danger"></p>
+                        <p class="help-block text-danger small"></p>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0 control-group">
                           <input type="text" class="form-control form-control-user" id="firstName" name="firstName" placeholder="First Name"
                             required="required" data-validation-required-message="Required">
-                          <p class="help-block text-danger"></p>
+                          <p class="help-block text-danger small"></p>
                         </div>
                         <div class="col-sm-6 control-group">
                           <input type="text" class="form-control form-control-user" id="lastName" name="lastName" placeholder="Last Name"
                             required="required" data-validation-required-message="Required">
-                          <p class="help-block text-danger"></p>
+                          <p class="help-block text-danger small"></p>
                         </div>
                       </div>
                       <div class="form-group control-group  mb-45">
                         <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address"
                           required="required" data-validation-required-message="Please enter your email address.">
-                          <p class="help-block text-danger"></p>
+                          <p class="help-block text-danger small"></p>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0 control-group">
                           <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password"
+                            minlength="8" data-validation-minlength-message="Minimum 8 characters"
+                            data-validation-goodpass-goodpass="N/A"
+                            data-validation-goodpass-message="Must contain letters and numbers"
                             required="required" data-validation-required-message="Required">
-                          <p class="help-block text-danger"></p>
+                          <p class="help-block text-danger small"></p>
                         </div>
                         <div class="col-sm-6 control-group">
                           <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="Repeat Password"
                             data-validation-match-match="password" data-validation-match-message="Does not match.">
-                          <p class="help-block text-danger"></p>
+                          <p class="help-block text-danger small"></p>
+                        </div>
+                        <div class="col-sm-12">
+                          <small class="form-text text-muted font-italic ml-3">Password must be more than 8 characters long, contain letters and numbers.</small>
                         </div>
                       </div>
                       <div id="success"></div>

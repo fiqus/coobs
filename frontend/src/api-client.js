@@ -32,6 +32,7 @@ axios.interceptors.response.use((response) => response,
           return axios(originalRequest);
         })
         .catch((errRefresh) => {
+          router.push("/login");
           return Promise.reject(errRefresh);
         });
     }
