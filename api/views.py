@@ -6,6 +6,7 @@ from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer
+from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import requests
@@ -109,7 +110,7 @@ class CooperativeView(viewsets.ModelViewSet):
         )
 
         if not recaptchaResult.json()['success']:
-            return Response(coop_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError({"recaptcha": "ERROR_RECAPTCHA"})
 
         coop = {'business_name': data['businessName']}
         coop_serializer = CooperativeSerializer(data=coop)
@@ -117,9 +118,9 @@ class CooperativeView(viewsets.ModelViewSet):
         partner = {'email': data['email'], 'username':data['email'], 'password':data['password'], 'first_name': data['firstName'], 'last_name': data['lastName']}
         partner_serializer = PartnerSerializer(data=partner)
 
-        if not coop_serializer.is_valid():
+        if not coop_serializer.is_valid(raise_exception=True):
             return Response(coop_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        if not partner_serializer.is_valid():
+        if not partner_serializer.is_valid(raise_exception=True):
             return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         cooperative = set_coop_data()

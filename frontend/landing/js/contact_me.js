@@ -30,7 +30,11 @@ $(function() {
       function onError(err) {
         let message = "";
         if (err.status === 400) {
-          message = "There has been an error. Check your data.";
+          if (err.responseJSON.ERROR_CODE) {
+            message = err.responseJSON.ERROR_CODE;
+          } else {
+            message = "There has been an error. Check your data.";
+          }
         } else {
           message = "There has been an error. Please try again later.";
         }
