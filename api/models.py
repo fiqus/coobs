@@ -34,7 +34,7 @@ class Principle(models.Model):
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True)
 
     def __str__(self):
-        return self.name
+        return self.main_principle.name
 
 class Period(models.Model):
     name = models.CharField(max_length=256, null=True, blank=True)

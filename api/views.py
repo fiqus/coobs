@@ -34,9 +34,12 @@ class ActionView(viewsets.ModelViewSet):
         if not action_serializer.is_valid():
             return Response(action_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        partners_involved = action_serializer.validated_data.pop('partners_involved')
         action_data = Action.objects.create(**action_serializer.validated_data)
        
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
+        for partner in partners_involved: 
+            action_data.partners_involved.add(partner)
 
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
@@ -68,17 +71,11 @@ class CooperativeView(viewsets.ModelViewSet):
     def create(self, request):
         data = request.data
         def set_coop_data():
-            cooperative_data = Cooperative()
-            setattr(cooperative_data, 'business_name', data['businessName'])
-            setattr(cooperative_data, 'is_active', False)
+            cooperative_data = Cooperative.objects.create(**coop_serializer.validated_data)
             return cooperative_data
 
         def set_partner_data():
-            partner_data = Partner()
-            setattr(partner_data, 'first_name', data['firstName'])
-            setattr(partner_data, 'last_name', data['lastName'])
-            setattr(partner_data, 'email', data['email'])
-            setattr(partner_data, 'username', data['email'])
+            partner_data = Partner.objects.create(**partner_serializer.validated_data)
             partner_data.set_password(data['password'])
             setattr(partner_data, 'is_active', False)
             return partner_data

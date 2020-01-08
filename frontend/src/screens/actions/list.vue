@@ -38,6 +38,7 @@ export default {
     return {
       headers: [
         {key: "date", value: this.$t("date")},
+        {key: "name", value: this.$t("name"), parser: (p) => formatText(p.name, 50)},
         {key: "description", value: this.$t("description"), parser: (p) => formatText(p.description, 50)},
         {key: "principle", value: this.$t("principle"), parser: (p) => formatText(p.principleName, 50)},
       ],
