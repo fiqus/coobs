@@ -33,6 +33,11 @@ export default {
     const {cooperativeId} = this.$store.state.user;
     httpGet(`/partners`)
       .then((response) => {
+        const loggedUserEmail = this.$store.state.user.email;
+        response.data.map(partner => {
+          partner.noActions = partner.email === loggedUserEmail;
+          return partner;
+        });
         this.partners = response.data;
       });
   },

@@ -153,12 +153,12 @@ class PartnerView(viewsets.ModelViewSet):
         data = request.data
         cooperative = request.user.cooperative_id
         def set_partner_data():
-            partner_data = Partner()
-            setattr(partner_data, 'first_name', data['first_name'])
-            setattr(partner_data, 'last_name', data['last_name'])
-            setattr(partner_data, 'email', data['email'])
-            setattr(partner_data, 'username', data['email'])
-            setattr(partner_data, 'is_active', True)
+            data['username'] = data['email']
+            partner_serializer = PartnerSerializer(data=data)
+            if not partner_serializer.is_valid():
+                return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            partner_data = Partner.objects.create(**partner_serializer.validated_data)
             setattr(partner_data, 'cooperative_id', cooperative)
             partner_data.set_password(data['password'])
             return partner_data

@@ -6,6 +6,7 @@
       v-model="value"
       :format="format"
       :typeable="typeable"
+      :disabled-dates="disabledDates"
       :use-utc="true"
       @selected="onDateSelected">
     </datepicker>
@@ -47,6 +48,9 @@ export default {
       type: Boolean,
       default: false
     },
+    disabledDates: {
+      type: Object
+    }
   },
   components: {
     "datepicker": Datepicker
