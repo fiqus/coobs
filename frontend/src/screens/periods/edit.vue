@@ -61,8 +61,6 @@
 
 <script>
 import InputForm from "../../components/input-form.vue";
-import TextareaForm from "../../components/textarea-form.vue";
-import SelectForm from "../../components/select-form.vue";
 import DatePickerForm from "../../components/datepicker-form.vue";
 import {required} from "vuelidate/lib/validators";
 import {httpGet, httpPut, httpPost} from "../../api-client.js";

@@ -132,17 +132,19 @@ export default {
       p.name = this.$t(p.nameKey, p.name);
       return p;
     });
+
     this.partners = partners.reduce(function(acc, partner){
       acc[partner.id] = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
       return acc;
     }, {});
+    
     this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
+    
     const actionId = this.$route.params.actionId;
-    if (actionId && actionId !== "0") {
+    if (!this.isNew) {
       this.action = await api.getAction(actionId);
       this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
     }
-
   },
   computed: {
     locale() {
@@ -175,14 +177,14 @@ export default {
           return partner.id;
         });
         let promise = null;
-        if (!actionId) {
+        if (this.isNew) {
           promise = httpPost("actions/", this.action);
         } else {
           promise = httpPut(`/actions/${actionId}/`, this.action);
         }
         return promise
           .then(() => {
-            const actionPerformedMessage = !actionId ? this.$t("actionCreatedMsg") : this.$t("actionEditedMsg");
+            const actionPerformedMessage = this.isNew ? this.$t("actionCreatedMsg") : this.$t("actionEditedMsg");
             swal(actionPerformedMessage, {
               icon: "success",
               buttons: false,

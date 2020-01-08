@@ -34,14 +34,8 @@ class ActionView(viewsets.ModelViewSet):
         if not action_serializer.is_valid():
             return Response(action_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        action_data = Action()
-        setattr(action_data, 'name', request.data['name'])
-        setattr(action_data, 'date', request.data['date'])
-        setattr(action_data, 'description', request.data['description'])
-        setattr(action_data, 'invested_money', request.data['investedMoney'])
-        setattr(action_data, 'partners_involved', request.data['partnersInvolved'])
-        setattr(action_data, 'actions_budget', request.data['actionsBudget'])
-        setattr(action_data, 'principle_id', request.data['principle'])
+        action_data = Action.objects.create(**action_serializer.validated_data)
+       
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
 
         action_data.save()
@@ -62,10 +56,10 @@ class PeriodView(viewsets.ModelViewSet):
 
         period_data = Period()
         setattr(period_data, 'name', request.data['name'])
-        setattr(period_data, 'date_from', request.data['dateFrom'])
-        setattr(period_data, 'date_to', request.data['dateTo'])
-        setattr(period_data, 'actions_budget', request.data['actionsBudget'])
-        setattr(period_data, 'cooperative', request.user.cooperative.id)
+        setattr(period_data, 'date_from', request.data['date_from'])
+        setattr(period_data, 'date_to', request.data['date_to'])
+        setattr(period_data, 'actions_budget', request.data['actions_budget'])
+        setattr(period_data, 'cooperative_id', request.user.cooperative.id)
 
         period_data.save()
         return Response("PERIOD_CREATED", status=status.HTTP_200_OK)
