@@ -54,11 +54,7 @@ class PeriodView(viewsets.ModelViewSet):
         if not period_serializer.is_valid():
             return Response(period_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        period_data = Period()
-        setattr(period_data, 'name', request.data['name'])
-        setattr(period_data, 'date_from', request.data['date_from'])
-        setattr(period_data, 'date_to', request.data['date_to'])
-        setattr(period_data, 'actions_budget', request.data['actions_budget'])
+        period_data = Period.objects.create(**period_serializer.validated_data)
         setattr(period_data, 'cooperative_id', request.user.cooperative.id)
 
         period_data.save()
