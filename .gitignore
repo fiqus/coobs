@@ -16,10 +16,8 @@ js/reveal.min.js
 __pycache__/
 .vscode
 /venv
-package-lock.json
-
 frontend/dist/
 frontend/images/
 frontend/node_modules/
 frontend/package-lock.json
-api/migrations/__pycache__/__init__.cpython-36.pyc
+/coobs/settings.py
