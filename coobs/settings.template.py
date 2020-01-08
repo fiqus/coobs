@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '187o_mu)*)pyyrm_q32fal$$ahtr%ew#2l=-!^r=o6)qo(fs#^'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -82,24 +82,22 @@ WSGI_APPLICATION = 'bscoop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'coobs',
-        'USER': 'fiqus',
-        'PASSWORD': 'fiquspass',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     },
 }
 
 EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = 'tinchogod@gmail.com'
-EMAIL_HOST_PASSWORD = 'pxpmruoiiexkfnwf' #app password, we need to generate one like this for info@fiqus.com
-# EMAIL_HOST_USER = 'info@fiqus.coop'
-# EMAIL_HOST_PASSWORD = 'f1qu5c00p'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = ""
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-EMAIL_ADMIN_ACCOUNT = 'martin.vallone+coobs@fiqus.coop'
+EMAIL_ADMIN_ACCOUNT = ''
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -141,10 +139,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
-#     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',)
-# }
 
 ALLOWED_HOSTS = ['*']
 
@@ -180,4 +174,4 @@ SIMPLE_JWT = {
 }
 
 RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
-RECAPTCHA_SECRET_KEY = '6LepzsgUAAAAADJeSo9WKnoMwiCTIJ2XTaFNr_QL'
+RECAPTCHA_SECRET_KEY = ''
