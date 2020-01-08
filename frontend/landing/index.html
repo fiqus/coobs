@@ -29,9 +29,12 @@
       <img class="navbar-brand js-scroll-trigger" src="/images/bscoop.png" style="max-height: 55px;">
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <a class="btn btn-primary ml-auto" href="app#/login">
-          Sign in
-        </a>
+        <a id="signIn" class="btn btn-primary ml-auto" href="app#/login"></a>
+
+        <select class="btn btn-primary ml-3" id="language">
+          <option value="es" selected="selected">Español</option>
+          <option value="en">English</option>
+        </select>
       </div>
     </div>
   </nav>
@@ -41,10 +44,10 @@
     <div class="container d-flex align-items-center flex-column">
 
       <!-- Masthead Avatar Image 
-      <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
+        <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
       -->
       <!-- Masthead Heading -->
-      <h1 class="masthead-heading text-uppercase mb-0">Welcome to COOBS!</h1>
+      <h1 id="welcomeToCoobs" class="masthead-heading text-uppercase mb-0"></h1>
 
       <!-- Icon Divider -->
       <div class="divider-custom divider-light">
@@ -56,8 +59,7 @@
       </div>
 
       <!-- Masthead Subheading -->
-      <p class="masthead-subheading font-weight-light mb-0">
-        This is the best site around the world to manage your actions and build the cooperative balance.
+      <p id="subtitle" class="masthead-subheading font-weight-light mb-0">
       </p>
 
     </div>
@@ -74,7 +76,7 @@
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10">
                   <div class="p-5">
-                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Join us!</h2>
+                    <h2 id="joinUs" class="page-section-heading text-center text-uppercase text-secondary mb-0"></h2>
                     <!-- Icon Divider -->
                     <div class="divider-custom">
                       <div class="divider-custom-line"></div>
@@ -85,53 +87,53 @@
                     </div>
                     <form id="registerForm" novalidate="novalidate" class="user">
                       <div class="form-group control-group mb-45">
-                        <input type="text" class="form-control form-control-user" id="name" name="businessName" placeholder="Cooperative Business name"
-                          required="required" data-validation-required-message="Please enter the cooperative business name.">
+                        <input type="text" class="form-control form-control-user" id="coopBusinessName" name="businessName" placeholder="Cooperative Business name"
+                          required="required" data-validation-required-message="enterCoopName">
                         <p class="help-block text-danger small"></p>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0 control-group">
                           <input type="text" class="form-control form-control-user" id="firstName" name="firstName" placeholder="First Name"
-                            required="required" data-validation-required-message="Required">
+                            required="required" data-validation-required-message="required">
                           <p class="help-block text-danger small"></p>
                         </div>
                         <div class="col-sm-6 control-group">
                           <input type="text" class="form-control form-control-user" id="lastName" name="lastName" placeholder="Last Name"
-                            required="required" data-validation-required-message="Required">
+                            required="required" data-validation-required-message="required">
                           <p class="help-block text-danger small"></p>
                         </div>
                       </div>
                       <div class="form-group control-group  mb-45">
                         <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Email Address"
-                          required="required" data-validation-required-message="Please enter your email address.">
+                          required="required" data-validation-required-message="enterEmail">
                           <p class="help-block text-danger small"></p>
                       </div>
                       <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0 control-group">
                           <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password"
-                            minlength="8" data-validation-minlength-message="Minimum 8 characters"
+                            minlength="8" data-validation-minlength-message="minLengthPass"
                             data-validation-goodpass-goodpass="N/A"
-                            data-validation-goodpass-message="Must contain letters and numbers"
-                            required="required" data-validation-required-message="Required">
+                            data-validation-goodpass-message="lettersAndNumbers"
+                            required="required" data-validation-required-message="required">
                           <p class="help-block text-danger small"></p>
                         </div>
                         <div class="col-sm-6 control-group">
                           <input type="password" class="form-control form-control-user" id="repeatPassword" placeholder="Repeat Password"
-                            data-validation-match-match="password" data-validation-match-message="Does not match.">
+                            data-validation-match-match="password" data-validation-match-message="passwordNotMatch">
                           <p class="help-block text-danger small"></p>
                         </div>
                         <div class="col-sm-12">
-                          <small class="form-text text-muted font-italic ml-3">Password must be more than 8 characters long, contain letters and numbers.</small>
+                          <small id="goodPasswordHelpText" class="form-text text-muted font-italic ml-3"></small>
                         </div>
                       </div>
                       <div id="success"></div>
                       <div class="form-group">
-                        <button id="registerButton" type="submit" class="btn btn-primary btn-user btn-block">Register account</button>
+                        <button id="registerAccount" type="submit" class="btn btn-primary btn-user btn-block"></button>
                       </div>
                     </form>
                     <hr>
                     <div class="text-center">
-                      <a class="small" href="app#/login">Already have an account? Login!</a>
+                      <a id="alreadyHaveAccount" class="small" href="app#/login"></a>
                     </div>
                   </div>
                 </div>
@@ -177,7 +179,7 @@
     <div class="container">
 
       <!-- About Section Heading -->
-      <h2 class="page-section-heading text-center text-uppercase text-secondary">Why to join COOBS?</h2>
+      <h2 id="whyToJoin" class="page-section-heading text-center text-uppercase text-secondary"></h2>
 
       <!-- Icon Divider -->
       <div class="divider-custom">
@@ -191,18 +193,15 @@
       <!-- About Section Content -->
       <div class="row">
         <div class="col-lg-12 ml-auto">
-          <p class="lead">The Co-operative Social Balance (COOP + BS = COOBS) is a methodology developed by the International Co-operative Alliance, whose objective is to become a tool for socio-economic management that makes it easier for co-operatives to measure themselves and be accountable to their members, in their capacity as owners, managers, users and all other stakeholders who are impacted by their actions in relation to the fulfilment of their own essence or identity, i.e. from the perspective of co-operative values and principles.</p>
+          <p id="aboutCoobs" class="lead"></p>
         </div>
-        <!--<div class="col-lg-4 mr-auto">
-          <p class="lead">You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!</p>
-        </div>-->
       </div>
 
       <!-- About Section Button -->
       <div class="text-center mt-4">
         <a class="btn btn-xl btn-outline-primary js-scroll-trigger" href="#signup">
           <i class="fas fa-sign-in-alt mr-2"></i>
-          Register now!
+          <span id="registerNow"></span>
         </a>
       </div>
 
@@ -221,8 +220,7 @@
         <!-- Footer Social Icons -->
         <div class="col-lg-8 mb-5 mb-lg-0">
           <img class="mb-4" src="landing/img/fiquslab.png" style="max-height: 50px;">
-          <h4 class="mb-4">
-            Developed at FiqusLabs, a space where we create open source technology oriented to the community.
+          <h4 id="aboutFiqusLabs" class="mb-4">
           </h4>
         </div>
 
@@ -255,6 +253,9 @@
 
   <!-- Plugin JavaScript -->
   <script src="landing/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <script src="landing/vendor/translate/jquery.tr.js"></script>
+  <script src="landing/vendor/translate/translations.js"></script>
 
   <!-- Contact Form JavaScript -->
   <script src="landing/js/jqBootstrapValidation.js"></script>

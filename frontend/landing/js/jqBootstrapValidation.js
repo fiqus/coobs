@@ -165,6 +165,8 @@
             if ($this.attr("required") !== undefined || $this.attr("aria-required") !== undefined) {
               message = settings.builtInValidators.required.message;
               if ($this.data("validationRequiredMessage")) {
+                // var tr = $.tr.translator();
+                // message = tr($this.data("validationRequiredMessage"));
                 message = $this.data("validationRequiredMessage");
               }
               $this.data("validationRequiredMessage", message);
@@ -482,7 +484,13 @@
                     ( settings.options.prependExistingHelpBlock ? $helpBlock.data("original-contents") : "" ));
                 } else {
                   // Multiple? Being sloppy? Glue them together into an UL.
-                  $helpBlock.html("<ul role=\"alert\"><li>" + errorsFound.join("</li><li>") + "</li></ul>" +
+                  var tr = $.tr.translator();
+                  let ulErrors = "<ul role=\"alert\">";
+                  errorsFound.forEach((error) => {
+                    ulErrors += "<li id='" + error + "'>" + tr(error) + "</li>";
+                  });
+                  ulErrors += "</ul>";
+                  $helpBlock.html(ulErrors +
                     ( settings.options.prependExistingHelpBlock ? $helpBlock.data("original-contents") : "" ));
                 }
 

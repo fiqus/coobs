@@ -11,7 +11,7 @@ $(function() {
         obj[elem.name] = elem.value;
         return obj;
       }, {});
-      $this = $("#registerButton");
+      $this = $("#registerAccount");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
 
       function onSucess() {
@@ -29,9 +29,11 @@ $(function() {
 
       function onError(err) {
         let message = "";
+        let hasErrorCode = false;
         if (err.status === 400) {
           if (err.responseJSON.ERROR_CODE) {
             message = err.responseJSON.ERROR_CODE;
+            hasErrorCode = true;
           } else {
             message = "There has been an error. Check your data.";
           }
@@ -42,9 +44,15 @@ $(function() {
         $('#success').html("<div class='alert alert-danger'>");
         $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
           .append("</button>");
-        $('#success > .alert-danger').append($("<strong>")
+        $('#success > .alert-danger').append($(`<strong id="${message}">`)
           .text(message));
         $('#success > .alert-danger').append('</div>');
+
+        if (hasErrorCode) {
+          // translate current error
+          var tr = $.tr.translator();
+          $(`#${message}`).text(tr(message));
+        }
         //clear all fields
         // $('#registerForm').trigger("reset");
       }
