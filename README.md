@@ -40,18 +40,18 @@
 
 ## Running Frontend
 
-1. Go to '/bscoop/frontend/' and run:
+1. Go to '/coobs/frontend/' and run:
 
         npm install
 
-2. Go to '/bscoop/frontend/landing' and run:
+2. Go to '/coobs/frontend/landing' and run:
 
         npm install
 
 3. Install eslint extension for vscode and configure settings file 
 
 
-4. Go to '/bscoop/frontend/' and run:
+4. Go to '/coobs/frontend/' and run:
         
         npm run dev
 
@@ -64,7 +64,7 @@
 
 ### Adding new language
 
-1. Go to '/bscoop/frontend/locales' and add the new language in 'langs.json' file
+1. Go to '/coobs/frontend/locales' and add the new language in 'langs.json' file
 
         key -> language short ISO code
         value -> language name

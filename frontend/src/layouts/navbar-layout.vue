@@ -11,7 +11,7 @@
             <img src="/images/bs.png" style="max-height: 45px;">
           </div>
           <div class="sidebar-brand-text mx-3">
-            <img src="/images/bscoop.png" style="max-height: 45px;">
+            <img src="/images/coobs.png" style="max-height: 45px;">
           </div>
         </a>
 
