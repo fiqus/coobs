@@ -33,6 +33,7 @@
             name="to"
             format="dd/MM/yyyy"
             v-model="to"
+            :disabled-dates="disabledDates"
             :error="$v.to.$error"
             error-message="Required"
             @input="onDateSelected('to', $event)">
@@ -84,6 +85,11 @@ export default {
       .then((response) => {
         this.principles = response.data;
       });
+  },
+  computed: {
+      disabledDates() {
+        return { to: new Date(this.from) };
+      }
   },
   data() {
     const isNew = this.$route.params.periodId == "0";
