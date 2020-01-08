@@ -39,9 +39,9 @@
     data() {
       return {
         headers: [
-          {key: "name", value: "Name", parser: (p) => formatText(this.$t(p.nameKey, p.name))},
-          {key: "description", value: "Description", parser: (p) => formatText(p.description, 50)},
-          {key: "visible", value: "Visible", parser: (p) => parseBoolean(p.visible)},
+          {key: "name", value:  this.$t("name"), parser: (p) => formatText(this.$t(p.nameKey, p.name))},
+          {key: "description", value:  this.$t("description"), parser: (p) => formatText(p.description, 50)},
+          {key: "visible", value:  this.$t("visible"), parser: (p) => parseBoolean(p.visible)},
         ],
         principles: []
       }
