@@ -42,6 +42,9 @@ axios.interceptors.response.use((response) => response,
 
 function _buildHeaders(defaultHeaders = {}) {
   const user = store && store.state ? store.state.user : null;
+  const locale = store && store.state && store.state.i18n ? store.state.i18n.locale : 'en';
+
+  Object.assign(defaultHeaders, {"Accept-Language": locale || 'en'})
 
   if (user && user.access) {
     return Object.assign({}, defaultHeaders, {

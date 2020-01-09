@@ -72,6 +72,8 @@ var myDictionary = {
 }
 $.tr.dictionary(myDictionary);
 $(document).ready(function() {
+  var browserLanguage = navigator.language || navigator.userLanguage;
+  var language = browserLanguage ? browserLanguage.split("-")[0] : "en";
 
   // change the language
   $('#language').change(function() {
@@ -88,7 +90,7 @@ $(document).ready(function() {
     $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
   });
 
-  var language = $.tr.language('es', true);
+  var language = $.tr.language(language, true);
 
   $('#language').val(language);
   $('#language').change();
