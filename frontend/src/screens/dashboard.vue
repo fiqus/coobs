@@ -130,6 +130,9 @@ export default {
       return acc += parseInt(action.investedMoney);
     }, 0));
     this.allPrinciplesData = allPrinciplesDataParser(actions);
+
+    const dashboardData = await api.getDashboard();
+    console.log(dashboardData);
   },
   data() {
     return {
