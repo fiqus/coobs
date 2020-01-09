@@ -30,14 +30,14 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     def validate_date_from(self, value):
         id = self.instance.id if self.instance is not None else None
-        periods = Period.get_date_period(id, value)
+        periods = Period.get_date_period(id, value, self.initial_data['cooperative_id'])
         if periods.count() > 0:
             raise serializers.ValidationError("The date from you entered is contained in another period.")
         return value
 
     def validate_date_to(self, value):
         id = self.instance.id if self.instance is not None else None
-        periods = Period.get_date_period(id, value)
+        periods = Period.get_date_period(id, value, self.initial_data['cooperative_id'])
         if periods.count() > 0:
             raise serializers.ValidationError("The date to you entered is contained in another period.")
         return value

@@ -17,8 +17,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 seed(1)
 class PrincipleView(viewsets.ModelViewSet):
-    queryset = Principle.objects.all()
     serializer_class = PrincipleSerializer
+
+    def get_queryset(self):
+        return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
 
 class ActionView(viewsets.ModelViewSet):
@@ -26,7 +28,7 @@ class ActionView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id)
-        return queryset
+        return queryset 
 
     def create(self, request):
         action_serializer = ActionSerializer(data=request.data)
@@ -52,6 +54,7 @@ class PeriodView(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request):
+        request.data['cooperative_id'] = self.request.user.cooperative_id
         period_serializer = PeriodSerializer(data=request.data)
 
         if not period_serializer.is_valid():

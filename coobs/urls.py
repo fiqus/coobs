@@ -24,7 +24,7 @@ from rest_framework_simplejwt.views import (
 )
 router = routers.DefaultRouter()
 router.register(r'cooperatives', CooperativeView)
-router.register(r'principles', PrincipleView)
+router.register(r'principles', PrincipleView, basename="Principle")
 router.register(r'actions', ActionView, basename="Action")
 router.register(r'periods', PeriodView, basename="Period")
 router.register(r'partners', PartnerView, basename="Partner")

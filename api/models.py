@@ -47,8 +47,8 @@ class Period(models.Model):
         return self.name
 
     @staticmethod
-    def get_date_period(pk, date):
-        qs = Period.objects.filter(date_from__lte=date, date_to__gte=date)
+    def get_date_period(pk, date, cooperative_id):
+        qs = Period.objects.filter(cooperative__id=cooperative_id, date_from__lte=date, date_to__gte=date)
         if pk is not None:
             qs = qs.exclude(pk=pk)
         return qs
