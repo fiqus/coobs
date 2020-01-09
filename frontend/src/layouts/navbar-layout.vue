@@ -85,7 +85,7 @@
 
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-            <h1 class="display-4 font-weight-bold">{{$store.state.cooperative.businessName}}</h1>
+            <h1 class="display-4 font-weight-bold">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
               <i class="fa fa-bars"></i>
