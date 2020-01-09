@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from api.models import Principle, Action, Period, Cooperative, Partner
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
@@ -66,8 +67,11 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+        data = get_object_or_404(Cooperative, pk=user.cooperative_id)
+        coop_data = CooperativeSerializer(data).data
 
         user_data = PartnerSerializer(user).data
         token['user'] = camelize(user_data)
+        token['cooperative'] = camelize(coop_data)
 
         return token
