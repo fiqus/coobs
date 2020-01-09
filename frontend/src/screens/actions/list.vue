@@ -37,10 +37,10 @@ export default {
   data() {
     return {
       headers: [
-        {key: "date", value: this.$t("date")},
-        {key: "name", value: this.$t("name"), parser: (p) => formatText(p.name, 50)},
-        {key: "description", value: this.$t("description"), parser: (p) => formatText(p.description, 50)},
-        {key: "principle", value: this.$t("principle"), parser: (p) => formatText(p.principleName, 50)},
+        {key: "date", value: "date"},
+        {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
+        {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
+        {key: "principle", value: "principle", parser: (p) => formatText(p.principleName, 50)},
       ],
       actions: []
     };

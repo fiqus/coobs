@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{title}}</h1>
+        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
@@ -78,7 +78,7 @@ export default {
         password: ""
       },
       isNew,
-      title: isNew ? this.$t("createPartner") : this.$t("editPartner")
+      title: isNew ? "createPartner" : "editPartner"
     };
   },
   methods: {

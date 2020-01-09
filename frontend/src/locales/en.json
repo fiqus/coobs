@@ -36,6 +36,8 @@
   "changePassword": "Change password",
   "editPartner": "Edit partner",
   "createPartner": "Create partner",
+  "editPrinciple": "Edit principle",
+  "createPrinciple": "Create principle",
   "pass": "Password",
   "noPeriodsMessage": "You don't have any periods yet!",
   "description": "Description",

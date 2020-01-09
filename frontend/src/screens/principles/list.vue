@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">Principles</h3>
+      <h3 class="col-10">{{$t("principles")}}</h3>
     </div>
     <custom-table
       :headers="headers"
@@ -39,9 +39,9 @@
     data() {
       return {
         headers: [
-          {key: "name", value:  this.$t("name"), parser: (p) => formatText(this.$t(p.nameKey, p.name))},
-          {key: "description", value:  this.$t("description"), parser: (p) => formatText(p.description, 50)},
-          {key: "visible", value:  this.$t("visible"), parser: (p) => parseBoolean(p.visible)},
+          {key: "name", value:  "name", parser: (p) => formatText(this.$t(p.nameKey, p.name))},
+          {key: "description", value:  "description", parser: (p) => formatText(p.description, 50)},
+          {key: "visible", value:  "visible", parser: (p) => parseBoolean(p.visible)},
         ],
         principles: []
       }

@@ -2,12 +2,12 @@
   <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{title}}</h1>
+        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
       <input-form
-        label="Name"
+        :label="$t('name')"
         name="name"
         type="text"
         :value="$t(principle.nameKey, principle.name)"
@@ -17,7 +17,7 @@
       </input-form>
 
       <textarea-form
-        label="Description"
+        :label="$t('description')"
         name="description"
         type="text"
         v-model="principle.description"
@@ -67,7 +67,7 @@ export default {
     return {
       principle: {},
       isNew: !Boolean(this.$route.params.principleId),
-      title: this.isNew ? "Create a principle" : "Edit principle"
+      title: this.isNew ? "createPrinciple" : "editPrinciple"
     };
   },
   methods: {

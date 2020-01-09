@@ -37,6 +37,8 @@
   "confirmPassword": "Confirmar contraseña",
   "changePassword": "Cambiar contraseña",
   "createPartner": "Crear persona asociada",
+  "editPrinciple": "Editar principio",
+  "createPrinciple": "Crear principio",
   "pass": "Contraseña",
   "noPeriodsMessage": "No hay períodos cargados aun!",
   "description": "Descripcion",

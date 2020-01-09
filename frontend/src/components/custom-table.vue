@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th v-for="header in headers" :key="header.key">
-          {{ header.value }}
+          {{ $t(header.value, header.value) }}
         </th>
         <th></th>
       </tr>
