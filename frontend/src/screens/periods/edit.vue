@@ -87,9 +87,9 @@ export default {
       });
   },
   computed: {
-      disabledDates() {
-        return { to: new Date(this.from) };
-      }
+    disabledDates() {
+      return { to: new Date(this.from) };
+    }
   },
   data() {
     const isNew = this.$route.params.periodId == "0";
@@ -103,7 +103,7 @@ export default {
       to: this.period ? this.period.dateTo : "",
       principles: [],
       isNew,
-      title: isNew ? "createPeriod" : "editPeriod"
+      title: isNew ? this.$t("createPeriod") : this.$t("editPeriod")
     };
   },
   methods: {

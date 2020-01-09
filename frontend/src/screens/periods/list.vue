@@ -41,10 +41,10 @@ export default {
   data() {
     return {
       headers: [
-        {key: "name", value: "name", parser: (p) => formatText(p.name)},
-        {key: "dateFrom", value: "from", parser: (p) => formatText(p.dateFrom, 50)},
-        {key: "dateTo", value: "to", parser: (p) => formatText(p.dateTo, 50)},
-        {key: "actionsBudget", value: "budget", parser: (p) => parseBoolean(p.actionsBudget)},
+        {key: "name", value: this.$t("name"), parser: (p) => formatText(p.name)},
+        {key: "dateFrom", value: this.$t("from"), parser: (p) => formatText(p.date_from, 50)},
+        {key: "dateTo", value: this.$t("to"), parser: (p) => formatText(p.date_to, 50)},
+        {key: "actionsBudget", value: this.$t("budget"), parser: (p) => parseBoolean(p.actions_budget)},
       ],
       periods: []
     };
