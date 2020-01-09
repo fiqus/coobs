@@ -78,3 +78,41 @@
 1. Try to find if translation does not already exist.
 
 2. Add new pair key/value in each translations file.
+
+## Backend translations
+
+### Adding new language
+
+1. Add new locale file
+
+        python manage.py makemessages -l <ISO_language_code>
+
+        (i.e.) python manage.py makemessages -l es
+
+### Adding new models
+
+1. Define model name associated to translations
+
+        class Meta:
+          verbose_name = _('class_name')
+
+### Adding new fields
+
+1. Define field name associated to translations
+
+        option -> verbose_name=_('field_name')
+
+Common fields (Boolean, Char, Text, etc) can have this verbose name as the first parameter without include the verbose_name attribute name. 
+The attribute name is a must for relations (ManyToMany, ForeignKeys, etc).
+
+### Adding new model and field keys to .po files
+
+1. Add keys to all .po files
+
+        python manage.py makemessages
+
+2. Translate each key for all existing languages
+
+3. Compile new translations
+
+        python manage.py compilemessages

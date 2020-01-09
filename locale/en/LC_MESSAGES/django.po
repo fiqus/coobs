@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-01-09 16:58+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: api/models.py:8 api/models.py:27 api/models.py:46 api/models.py:88
+msgid "name"
+msgstr "Name"
+
+#: api/models.py:9
+msgid "business name"
+msgstr "Business name"
+
+#: api/models.py:10
+msgid "starting date"
+msgstr "Starting date"
+
+#: api/models.py:12
+msgid "active"
+msgstr "Active"
+
+#: api/models.py:15
+msgid ""
+"Designates whether this user should be treated as active. Unselect this "
+"instead of deleting accounts."
+msgstr ""
+
+#: api/models.py:21 api/models.py:50 api/models.py:73 api/models.py:92
+msgid "cooperative"
+msgstr "Cooperative"
+
+#: api/models.py:34 api/models.py:89
+msgid "description"
+msgstr "Description"
+
+#: api/models.py:36
+msgid "main principle"
+msgstr "Main principle"
+
+#: api/models.py:37 api/models.py:40 api/models.py:86
+msgid "principle"
+msgstr "Principle"
+
+#: api/models.py:47
+msgid "date from"
+msgstr "Date from"
+
+#: api/models.py:48
+msgid "date to"
+msgstr "Date to"
+
+#: api/models.py:49
+msgid "actions budget"
+msgstr "Actions budget"
+
+#: api/models.py:53
+msgid "period"
+msgstr "Period"
+
+#: api/models.py:72
+msgid "email address"
+msgstr "Email address"
+
+#: api/models.py:79
+msgid "partner"
+msgstr "Partner"
+
+#: api/models.py:87
+msgid "date"
+msgstr "Date"
+
+#: api/models.py:90
+msgid "invested money"
+msgstr "Invested money"
+
+#: api/models.py:91
+msgid "partners involved"
+msgstr "Partners involved"
+
+#: api/models.py:95
+msgid "action"
+msgstr "Actions"
