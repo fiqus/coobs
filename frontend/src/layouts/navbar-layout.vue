@@ -19,8 +19,8 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <router-link class="nav-link collapsed" :to="{name: 'dashboard'}">
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" class-active="active" :to="{name: 'dashboard'}" >
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>{{$t("dashboard")}}</span>
           </router-link>

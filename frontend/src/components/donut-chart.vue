@@ -50,14 +50,14 @@ export default {
   components: {
     "apexchart": VueApexCharts
   },
-  data() {
-    return {
-      donutData: {
+  computed: {
+    donutData() {
+      return {
         ...commonsChartOptions,
         series: Object.values(this.chartData),
-        labels: Object.keys(this.chartData),
-      }
-    };
+        labels: Object.keys(this.chartData)
+      };
+    }
   }
 };
 </script>

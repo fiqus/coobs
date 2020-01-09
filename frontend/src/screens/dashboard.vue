@@ -13,7 +13,7 @@
         icon="calendar"
         color-type="primary">
         <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">130</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">{{actionsDone}}</div>
         </template>
       </smallcard-chart>
 
@@ -22,7 +22,7 @@
         icon="currency"
         color-type="success">
         <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{totalInvested}}</div>
         </template>
       </smallcard-chart>
 
@@ -95,104 +95,107 @@
 </template>
 
 <script>
-  import VueApexCharts from 'vue-apexcharts';
-  import RadialBarChart from "../components/radialbar-chart.vue";
-  import SmallCardChart from "../components/smallcard-chart.vue";
-  import StackedColumndsChart from "../components/stacked-columns-chart.vue";
-  import DonutChart from "../components/donut-chart.vue";
+import RadialBarChart from "../components/radialbar-chart.vue";
+import SmallCardChart from "../components/smallcard-chart.vue";
+import StackedColumndsChart from "../components/stacked-columns-chart.vue";
+import DonutChart from "../components/donut-chart.vue";
+import * as api from "./../services/api-service";
+import {allPrinciplesDataParser, parseMoney} from "./../utils";
 
-  const coopcolors = ['#ED0017', '#F06704', '#FEFF00', '#53CE00', '#61C9FF', '#1400CD', '#60009A']
+const coopcolors = ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"];
 
-  export default {
-    components: {
-      "apexchart": VueApexCharts,
-      "radialbar-chart": RadialBarChart,
-      "smallcard-chart": SmallCardChart,
-      "stacked-columns-chart": StackedColumndsChart,
-      "donut-chart": DonutChart
+export default {
+  components: {
+    "radialbar-chart": RadialBarChart,
+    "smallcard-chart": SmallCardChart,
+    "stacked-columns-chart": StackedColumndsChart,
+    "donut-chart": DonutChart
+  },
+  computed: {
+    allPrinciplesYearLabel() {
+      return `${this.$t("allPrinciples")} (${this.$t("yearly")})`;
     },
-    computed: {
-      allPrinciplesYearLabel() {
-        return `${this.$t("allPrinciples")} (${this.$t("yearly")})`
-      },
-      firstRowPrinciples() {
-        return this.principles.slice(0, 3);
-      },
-      secondRowPrinciples() {
-        return this.principles.slice(3);
-      }
+    firstRowPrinciples() {
+      return this.principles.slice(0, 3);
     },
-    data() {
-      return {
-        allPrinciplesData: {
-          "Principio 1": 44,
-          "Principio 2": 55,
-          "Principio 3": 41,
-          "Principio 4": 17,
-          "Principio 5": 15,
-          "Principio 6": 10,
-          "Principio 7": 20
-        },
-        allPrinciplesYearData: [{
-            name: "Principio 1",
-            data: [1, 0, 5, 7, 8, 9, 4, 3, 1, 2, 6, 9]
-          },
-          {
-            name: "Principio 2",
-            data: [3, 2, 7, 8, 9, 4, 3, 1, 4, 3, 1, 2]
-          },
-          {
-            name: "Principio 3",
-            data: [7, 1, 0, 4, 3, 1, 4, 3, 5, 3, 1, 4]
-          },
-          {
-            name: "Principio 4",
-            data: [4, 7, 3, 0, 6, 8, 3, 5, 3, 7, 1, 4]
-          },
-          {
-            name: "Principio 5",
-            data: [3, 5, 3, 7, 1, 4, 6, 7, 3, 0, 6, 8]
-          },
-          {
-            name: "Principio 6",
-            data: [8, 3, 5, 3, 7, 3, 0, 6, 8, 6, 1, 4]
-          },
-          {
-            name: "Principio 7",
-            data: [3, 7, 1, 4, 6, 7, 3, 0, 6, 8, 3, 5]
-          }
-        ],
-        principles: [
-          {
-            label: "Principle 1",
-            percentage: 76
-          },
-          {
-            label: "Principle 2",
-            percentage: 24
-          },
-          {
-            label: "Principle 3",
-            percentage: 30
-          },
-          {
-            label: "Principle 4",
-            percentage: 48
-          },
-          {
-            label: "Principle 5",
-            percentage: 18
-          },
-          {
-            label: "Principle 6",
-            percentage: 52
-          },
-          {
-            label: "Principle 7",
-            percentage: 60
-          }
-        ]
-      }
+    secondRowPrinciples() {
+      return this.principles.slice(3);
     }
+  },
+  async created() {
+    //this.period = getCurrentPeriod();
+    const actions = await api.getActions();
+    this.actionsDone = actions.length;
+    this.totalInvested = parseMoney(actions.reduce(function(acc, action){
+      return acc += parseInt(action.investedMoney);
+    }, 0));
+    this.allPrinciplesData = allPrinciplesDataParser(actions);
+  },
+  data() {
+    return {
+      actionsDone: 0,
+      totalInvested: 0,
+      allPrinciplesData: {},
+      allPrinciplesYearData: [{
+        name: "Principio 1",
+        data: [1, 0, 5, 7, 8, 9, 4, 3, 1, 2, 6, 9]
+      },
+      {
+        name: "Principio 2",
+        data: [3, 2, 7, 8, 9, 4, 3, 1, 4, 3, 1, 2]
+      },
+      {
+        name: "Principio 3",
+        data: [7, 1, 0, 4, 3, 1, 4, 3, 5, 3, 1, 4]
+      },
+      {
+        name: "Principio 4",
+        data: [4, 7, 3, 0, 6, 8, 3, 5, 3, 7, 1, 4]
+      },
+      {
+        name: "Principio 5",
+        data: [3, 5, 3, 7, 1, 4, 6, 7, 3, 0, 6, 8]
+      },
+      {
+        name: "Principio 6",
+        data: [8, 3, 5, 3, 7, 3, 0, 6, 8, 6, 1, 4]
+      },
+      {
+        name: "Principio 7",
+        data: [3, 7, 1, 4, 6, 7, 3, 0, 6, 8, 3, 5]
+      }
+      ],
+      principles: [
+        {
+          label: "Principle 1",
+          percentage: 76
+        },
+        {
+          label: "Principle 2",
+          percentage: 24
+        },
+        {
+          label: "Principle 3",
+          percentage: 30
+        },
+        {
+          label: "Principle 4",
+          percentage: 48
+        },
+        {
+          label: "Principle 5",
+          percentage: 18
+        },
+        {
+          label: "Principle 6",
+          percentage: 52
+        },
+        {
+          label: "Principle 7",
+          percentage: 60
+        }
+      ]
+    };
   }
+};
 </script>

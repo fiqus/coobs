@@ -1,9 +1,13 @@
 import {httpGet} from "../api-client";
-  
+
+export async function getActions() {
+  const response = await httpGet("/actions");
+  return response.data ? response.data : [];
+}
+
 export async function getAction(actionId) {
-  debugger
   const response = await httpGet(`/actions/${actionId}`);
-  return response.data ? response.data : {};
+  return response.data;
 }
 
 export async function getPrinciples(){
