@@ -91,6 +91,7 @@ export default {
               buttons: false,
               timer: 2000
             });
+            this.$store.commit("setCooperative",  this.cooperative);
             this.$router.push({name: "cooperative"});
           });
       }
