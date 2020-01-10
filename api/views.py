@@ -5,7 +5,7 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer, DashboardSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
