@@ -28,10 +28,34 @@ export function allPrinciplesDataParser(actions, principles, translateFunction) 
   return {"labels": translateLabels(principlesData, translateFunction), "series": Object.values(principlesData)};
 }
 
+function getMonthFromDate(date) {
+  return date.slice(5, 7);
+}
+
+export function allPrinciplesMonthlyDataParser(doneActions, period) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateFromMonth = parseInt(getMonthFromDate(period.dateFrom));
+  const currentMonth = (new Date()).getMonth() + 1;
+
+  const categories = months.slice(dateFromMonth - 1, currentMonth);
+
+  categories.map((categorie, index) => {
+    doneActions.filter((action) => {
+      return getMonthFromDate(action.date) == index
+    });
+  });
+}
+
 export function getActionsDone(actions) {
   const today = new Date();
   return actions.filter((action) => {
     return new Date(action.date) < today;
+  });
+}
+
+export function principlesParser(allPrinciplesData, totalActions) {
+  return allPrinciplesData.labels.map((principle, index) => {
+    return {"label": principle, "percentage": parseInt(allPrinciplesData.series[index])/totalActions*100};
   });
 }
 
