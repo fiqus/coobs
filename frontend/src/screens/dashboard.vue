@@ -88,7 +88,8 @@
 
     <stacked-columns-chart
       :title="allPrinciplesYearLabel"
-      :columns-data="allPrinciplesYearData">
+      :columns-data="allPrinciplesYearData"
+      :xaxis="xaxis">
     </stacked-columns-chart>
 
   </div>
@@ -100,7 +101,7 @@ import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
 import * as api from "./../services/api-service";
-import {allPrinciplesDataParser, getActionsDone, principlesParser} from "./../utils";
+import {allPrinciplesDataParser, getActionsDone, principlesParser, allPrinciplesMonthlyDataParser} from "./../utils";
 
 const coopcolors = ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"];
 
@@ -154,11 +155,12 @@ export default {
     }, {});
 
     this.allPrinciplesData = allPrinciplesDataParser(this.actionsDone, principlesInicialState, this.$t);
+    const allPrinciplesMonthlyData = allPrinciplesMonthlyDataParser(this.actionsDone, dashboardData.period, dashboardData.principles);
+    this.allPrinciplesYearData = allPrinciplesMonthlyData.monthlyData;
+    this.xaxis = {categories: allPrinciplesMonthlyData.categories} ;
     
     this.principles = principlesParser(this.allPrinciplesData, this.actionsDone.length);
-    console.log(this.allPrinciplesData);
 
-    //this.periodName = dashboardData.period.name;
   },
   data() {
     return {
@@ -169,35 +171,8 @@ export default {
       promotionFund: 0,
       promotionFundStyle: "",
       allPrinciplesData: {},
-      allPrinciplesYearData: [{
-        name: "Principio 1",
-        data: [1, 0, 5, 7, 8, 9, 4, 3, 1, 2, 6, 9]
-      },
-      {
-        name: "Principio 2",
-        data: [3, 2, 7, 8, 9, 4, 3, 1, 4, 3, 1, 2]
-      },
-      {
-        name: "Principio 3",
-        data: [7, 1, 0, 4, 3, 1, 4, 3, 5, 3, 1, 4]
-      },
-      {
-        name: "Principio 4",
-        data: [4, 7, 3, 0, 6, 8, 3, 5, 3, 7, 1, 4]
-      },
-      {
-        name: "Principio 5",
-        data: [3, 5, 3, 7, 1, 4, 6, 7, 3, 0, 6, 8]
-      },
-      {
-        name: "Principio 6",
-        data: [8, 3, 5, 3, 7, 3, 0, 6, 8, 6, 1, 4]
-      },
-      {
-        name: "Principio 7",
-        data: [3, 7, 1, 4, 6, 7, 3, 0, 6, 8, 3, 5]
-      }
-      ],
+      allPrinciplesYearData: [],
+      xaxis: {categories: []},
       principles: []
     };
   }

@@ -32,19 +32,35 @@ function getMonthFromDate(date) {
   return date.slice(5, 7);
 }
 
-export function allPrinciplesMonthlyDataParser(doneActions, period) {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function getMonthlyDataInitialState(principles, months) {
+  let result = {};
+  principles.map((principle) => {
+    return result[principle.nameKey] = new Array(months).fill(0);
+  });
+  return result;
+}
+
+export function allPrinciplesMonthlyDataParser(doneActions, period, principles) {
+  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const dateFromMonth = parseInt(getMonthFromDate(period.dateFrom));
   const currentMonth = (new Date()).getMonth() + 1;
 
   const categories = months.slice(dateFromMonth - 1, currentMonth);
+  const categoriesName = monthsName.slice(dateFromMonth - 1, currentMonth);
+  const monthlyData = getMonthlyDataInitialState(principles, categories.length);
 
-  categories.map((categorie, index) => {
-    doneActions.filter((action) => {
-      return getMonthFromDate(action.date) == index
-    });
+  doneActions.map((action) => {
+    return  monthlyData[action.principleNameKey][parseInt(getMonthFromDate(action.date))-1] += 1;
   });
+
+  const chartData = Object.keys(monthlyData).map((principle) => {
+    console.log(monthlyData[principle])
+    return {"name": principle, "data": monthlyData[principle]};
+  });
+  return {"monthlyData": chartData, "categories": categoriesName};
 }
+
 
 export function getActionsDone(actions) {
   const today = new Date();
@@ -54,8 +70,10 @@ export function getActionsDone(actions) {
 }
 
 export function principlesParser(allPrinciplesData, totalActions) {
+  const fullPercentage = totalActions / allPrinciplesData.labels.length / totalActions;
+
   return allPrinciplesData.labels.map((principle, index) => {
-    return {"label": principle, "percentage": parseInt(allPrinciplesData.series[index])/totalActions*100};
+    return {"label": principle, "percentage": (parseInt(allPrinciplesData.series[index]) / totalActions * 100 / fullPercentage).toFixed(0)};
   });
 }
 

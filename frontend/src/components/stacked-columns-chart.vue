@@ -20,7 +20,7 @@ import VueApexCharts from "vue-apexcharts";
 
 const commonsChartOptions = {
   colors: ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"],
-  xaxis: {categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]},
+  
   chart: {
     stacked: true,
     height: 350,
@@ -41,19 +41,24 @@ export default {
     columnsData: {
       type: Array,
       required: true
+    },
+    xaxis: {
+      type: Object,
+      required: true
     }
   },
   components: {
     "apexchart": VueApexCharts
   },
-  data() {
-    return {
-      chartData: {
+  computed: {
+    chartData() {
+      return {
         ...commonsChartOptions,
+        xaxis: this.xaxis,
         series: this.columnsData,
-      }
-    };
-  }
+      };
+    }
+  } 
 };
 </script>
 
