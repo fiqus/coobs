@@ -74,5 +74,6 @@
   "createAccount": "Create an Account!",
   "areYouSure": "Are you sure?",
   "oncePartnerDeleted": "Once deleted, this partner can not be assigned to actions and will lose its user credentials.",
-  "partnerDeleted": "The partner has been deleted!"
+  "partnerDeleted": "The partner has been deleted!",
+  "balanceSubtitle": "Balance for period {period} with dates between {from} and {to} and a budget of ${budget}."
 }
