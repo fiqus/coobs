@@ -13,7 +13,7 @@
         icon="calendar"
         color-type="primary">
         <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">{{actionsDone}}</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">{{actionsDone.length}}</div>
         </template>
       </smallcard-chart>
 
@@ -37,7 +37,7 @@
             </div>
             <div class="col">
               <div class="progress progress-sm mr-2">
-                <div class="progress-bar bg-info" role="progressbar" style="width:70%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-info" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
           </div>
@@ -100,7 +100,7 @@ import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
 import * as api from "./../services/api-service";
-import {allPrinciplesDataParser, getActionsDone} from "./../utils";
+import {allPrinciplesDataParser, getActionsDone, principlesParser} from "./../utils";
 
 const coopcolors = ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"];
 
@@ -130,27 +130,32 @@ export default {
     const doneActions = getActionsDone(actions);
 
     function notContainedIn(arr) {
-        return function arrNotContains(element) {
-            return arr.indexOf(element) === -1;
-        };
+      return function arrNotContains(element) {
+        return arr.indexOf(element) === -1;
+      };
     }
 
     const pendingActions = actions.filter(notContainedIn(doneActions));
-    this.actionsDone = doneActions.length;
 
-    this.totalInvested = actions.reduce(function(acc, action){
+    this.actionsDone = getActionsDone(actions);
+
+    this.totalInvested = this.actionsDone.reduce(function(acc, action){
       return acc += parseFloat(action.investedMoney);
     }, 0);
 
     this.promotionFund = (this.totalInvested / parseInt(dashboardData.period.actionsBudget) * 100).toFixed(2);
+    this.promotionFundStyle = `width: ${this.promotionFund}%`;
     
     this.pendingActions = pendingActions.length;
 
-    const principles = dashboardData.principles.reduce((acc, principle) => {
+    const principlesInicialState = dashboardData.principles.reduce((acc, principle) => {
       acc[principle.nameKey] = 0;
       return acc;
     }, {});
-    this.allPrinciplesData = allPrinciplesDataParser(actions, principles, this.$t);
+
+    this.allPrinciplesData = allPrinciplesDataParser(this.actionsDone, principlesInicialState, this.$t);
+    
+    this.principles = principlesParser(this.allPrinciplesData, this.actionsDone.length);
     console.log(this.allPrinciplesData);
 
     //this.periodName = dashboardData.period.name;
@@ -159,10 +164,10 @@ export default {
     return {
       periodName: "",
       actionsDone: 0,
-      pendingActions:0 ,
+      pendingActions: 0,
       totalInvested: 0,
       promotionFund: 0,
-      pendingActions: 0,
+      promotionFundStyle: "",
       allPrinciplesData: {},
       allPrinciplesYearData: [{
         name: "Principio 1",
@@ -193,36 +198,7 @@ export default {
         data: [3, 7, 1, 4, 6, 7, 3, 0, 6, 8, 3, 5]
       }
       ],
-      principles: [
-        {
-          label: "Principle 1",
-          percentage: 76
-        },
-        {
-          label: "Principle 2",
-          percentage: 24
-        },
-        {
-          label: "Principle 3",
-          percentage: 30
-        },
-        {
-          label: "Principle 4",
-          percentage: 48
-        },
-        {
-          label: "Principle 5",
-          percentage: 18
-        },
-        {
-          label: "Principle 6",
-          percentage: 52
-        },
-        {
-          label: "Principle 7",
-          percentage: 60
-        }
-      ]
+      principles: []
     };
   }
 };
