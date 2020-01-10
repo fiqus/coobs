@@ -76,7 +76,7 @@
         <bootstrap-toggle class="form-control"
           v-model="action.public"
           data-toggle="toggle"
-          :options="{on: 'Public', off: 'Private', onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+          :options="{on: $t('public'), off: $t('private'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
           :disabled="false" />
       </div>
       <div>
