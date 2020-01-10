@@ -152,7 +152,7 @@ class PartnerView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        cooperative = request.user.cooperative_id
+        cooperative = request.user.cooperative
         def set_partner_data():
             data['username'] = data['email']
             partner_serializer = PartnerSerializer(data=data)
@@ -160,18 +160,27 @@ class PartnerView(viewsets.ModelViewSet):
                 return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             partner_data = Partner.objects.create(**partner_serializer.validated_data)
-            setattr(partner_data, 'cooperative_id', cooperative)
+            setattr(partner_data, 'cooperative_id', cooperative.id)
             partner_data.set_password(data['password'])
             return partner_data
 
         partner = set_partner_data()
 
-        try:
+        def send_email():
+            text_content = f'One of your partners added you to COOBS being part of: {cooperative.name or cooperative.business_name}. Please change your password.'
+            html_content = f'<div><h1>One of your partners added you to COOBS being part of {cooperative.name or cooperative.business_name}</h1><p>Please change your password.</p></div>'
+            email = EmailMultiAlternatives('You have been added to COOBS!', text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])
+            email.content_subtype = "html"
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+        try: 
             with transaction.atomic():
                 partner.save()
+                send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk=None):
