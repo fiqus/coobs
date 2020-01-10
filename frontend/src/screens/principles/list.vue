@@ -8,8 +8,7 @@
       :data="principles"
       :actions="{edit: true}"
       empty-state-msg="You don't have any principles yet!"
-      @onEdit="onEdit"
-      @onDelete="onDelete">
+      @onEdit="onEdit">
     </custom-table>
   </div>
 </template>
@@ -49,23 +48,6 @@
     methods: {
       onEdit(principle) {
         this.$router.push({name: "principle-edit", params: {principleId: principle.id}});
-      },
-      onDelete(principle) {
-        swal({
-          title: "Are you sure?",
-          text: "Once deleted, you will not be able to ...",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete) {
-            this.principles = deletePrinciple(principle.id);
-            swal("The principle has been deleted!", {
-              icon: "success",
-            });
-          }
-        });
       }
     }
   }

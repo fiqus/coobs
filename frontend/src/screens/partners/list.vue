@@ -9,9 +9,8 @@
     </div>
     <custom-table
       :headers="headers"
-      :data="partners"
+      :data="listPartners"
       :actions="{edit: true, delete: true}"
-      empty-state-msg="You don't have any partners yet!"
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
@@ -33,13 +32,17 @@ export default {
     const {cooperativeId} = this.$store.state.user;
     httpGet(`/partners`)
       .then((response) => {
-        const loggedUserEmail = this.$store.state.user.email;
-        response.data.map(partner => {
-          partner.noActions = partner.email === loggedUserEmail;
-          return partner;
-        });
         this.partners = response.data;
       });
+  },
+  computed: {
+    listPartners() {
+      const loggedUserEmail = this.$store.state.user.email;
+      return this.partners.map(partner => {
+        partner.noActions = partner.email === loggedUserEmail;
+        return partner;
+      });
+    }
   },
   data() {
     return {
@@ -55,18 +58,34 @@ export default {
       this.$router.push({name: "partner-edit", params: {partnerId: partner.id}});
     },
     onDelete(partner) {
-      httpDelete(`/partners/${partner.id}`)
-        .then(() => {
-          swal("The partner has been deleted!", {
-            icon: "success",
-            buttons: false,
-            timer: 2000
-          });
-          return httpGet("/partners")
-            .then((response) => {
-              this.partners = response.data;
+      swal({
+        title: this.$t('areYouSure'),
+        text: this.$t('oncePartnerDeleted'),
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          return httpDelete(`/partners/${partner.id}`)
+            .then(() => {
+              swal(this.$t('partnerDeleted'), {
+                icon: "success",
+                buttons: false,
+                timer: 2000
+              });
+              return httpGet("/partners")
+                .then((response) => {
+                  this.partners = response.data;
+                });
+            })
+            .catch((err) => {
+              swal(err.response.data.detail, {
+                icon: "error"
+              });
             });
-        });
+        }
+      });
     }
   }
 };

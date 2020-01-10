@@ -5,12 +5,13 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import requests
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.utils.translation import gettext as _
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -183,33 +184,14 @@ class PartnerView(viewsets.ModelViewSet):
         
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
-    def partial_update(self, request, pk=None):
-        data = request.data
-        def set_partner_data():
-            partner_data = get_object_or_404(Partner, pk=pk)
-            setattr(partner_data, 'first_name', data['first_name'])
-            setattr(partner_data, 'last_name', data['last_name'])
-            setattr(partner_data, 'email', data['email'])
+    def destroy(self, request, *args, **kwargs):
+        partner = self.get_object()
 
-            if request.data.get("new_password"):
-                password_change_data = {'new_password': data['new_password'], 'confirm_password': data['confirm_password']}
-                change_pass_serializer = ChangePasswordSerializer(data=password_change_data)
+        if partner.id == request.user.id:
+            return Response(data={'detail': _("Current logged in user can not delete it self.")}, status=status.HTTP_400_BAD_REQUEST)
 
-                change_pass_serializer.is_valid(raise_exception=True)
-
-                partner_data.set_password(data['new_password'])
-
-            return partner_data
-
-        partner = set_partner_data()
-
-        try:
-            with transaction.atomic():
-                partner.save()
-        except Exception as errors:
-            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        return Response('Partner edited successfully', status=status.HTTP_200_OK)
+        self.perform_destroy(partner)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class DashboardView(viewsets.ViewSet):
     def list(self, request):
