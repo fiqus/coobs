@@ -17,7 +17,7 @@ class PrincipleSerializer(serializers.ModelSerializer):
 
 
 class ActionSerializer(serializers.ModelSerializer):
-    principle_name = serializers.CharField(source='principle', read_only=True)
+    principle_name_key = serializers.CharField(source='principle', read_only=True)
 
     class Meta:
         model = Action
@@ -77,8 +77,3 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['cooperative'] = camelize(coop_data)
 
         return token
-
-class DashboardSerializer(serializers.Serializer):
-    principle_key = serializers.CharField(source='main_principle.name_key', read_only=True)
-    # month = serializers.CharField()
-    actions = serializers.RelatedField(read_only=True)

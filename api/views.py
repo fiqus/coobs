@@ -5,7 +5,7 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer, DashboardSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -143,7 +143,6 @@ class CooperativeView(viewsets.ModelViewSet):
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
 
-
 class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
 
@@ -203,7 +202,6 @@ class PartnerView(viewsets.ModelViewSet):
 
         return Response('Partner edited successfully', status=status.HTTP_200_OK)
 
-
 class DashboardView(viewsets.ViewSet):
     def list(self, request):
         cooperative_id = request.user.cooperative_id
@@ -215,5 +213,7 @@ class DashboardView(viewsets.ViewSet):
         action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to)
         action_serializer = ActionSerializer(action_data, many=True)
 
-        #principle_data = Principles.objects.filter()
-        return Response({'period': period_serializer.data, 'actions': action_serializer.data})
+        principle_data = Principle.objects.filter(visible=True)
+        principle_serializer = PrincipleSerializer(principle_data, many=True)
+
+        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data})

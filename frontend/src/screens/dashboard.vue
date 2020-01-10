@@ -33,11 +33,11 @@
         <template v-slot:chart-content>
           <div class="row no-gutters align-items-center">
             <div class="col-auto">
-              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{promotionFund}}%</div>
             </div>
             <div class="col">
               <div class="progress progress-sm mr-2">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-info" role="progressbar" style="width:70%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@
         icon="clipboard"
         color-type="warning">
         <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingActions}}</div>
         </template>
       </smallcard-chart>
 
@@ -100,7 +100,7 @@ import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
 import * as api from "./../services/api-service";
-import {allPrinciplesDataParser, parseMoney} from "./../utils";
+import {allPrinciplesDataParser, getActionsDone} from "./../utils";
 
 const coopcolors = ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"];
 
@@ -123,21 +123,37 @@ export default {
     }
   },
   async created() {
-    //this.period = getCurrentPeriod();
-    const actions = await api.getActions();
-    this.actionsDone = actions.length;
-    this.totalInvested = parseMoney(actions.reduce(function(acc, action){
-      return acc += parseInt(action.investedMoney);
-    }, 0));
-    this.allPrinciplesData = allPrinciplesDataParser(actions);
-
     const dashboardData = await api.getDashboard();
     console.log(dashboardData);
+
+    const actions = dashboardData.actions;
+
+    this.actionsDone = getActionsDone(actions).length;
+
+    this.totalInvested = actions.reduce(function(acc, action){
+      return acc += parseFloat(action.investedMoney);
+    }, 0);
+
+    this.promotionFund = (this.totalInvested / parseInt(dashboardData.period.actionsBudget) * 100).toFixed(2);
+    
+    this.pendingActions = actions.length - this.actionsDone;
+
+    const principles = dashboardData.principles.reduce((acc, principle) => {
+      acc[principle.nameKey] = 0;
+      return acc;
+    }, {});
+    this.allPrinciplesData = allPrinciplesDataParser(actions, principles, this.$t);
+    console.log(this.allPrinciplesData);
+
+    //this.periodName = dashboardData.period.name;
   },
   data() {
     return {
+      periodName: "",
       actionsDone: 0,
       totalInvested: 0,
+      promotionFund: 0,
+      pendingActions: 0,
       allPrinciplesData: {},
       allPrinciplesYearData: [{
         name: "Principio 1",
