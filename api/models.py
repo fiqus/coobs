@@ -29,7 +29,7 @@ class MainPrinciple(models.Model):
     name_key = models.CharField(max_length=256)
 
     def __str__(self):
-        return self.name
+        return self.name_key
 
 class Principle(models.Model):
     description = models.TextField(_('description'))
@@ -41,7 +41,7 @@ class Principle(models.Model):
         verbose_name = _('principle')
 
     def __str__(self):
-        return self.main_principle.name
+        return self.main_principle.name_key
 
 class Period(models.Model):
     name = models.CharField(_('name'), max_length=256, null=True, blank=True)
@@ -95,6 +95,7 @@ class Action(models.Model):
     invested_money = models.DecimalField(_('invested money'), max_digits=19, decimal_places=2, null=True)
     partners_involved = models.ManyToManyField(Partner, verbose_name=_('partners involved'))
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
+    public = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = _('action')

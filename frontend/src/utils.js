@@ -13,20 +13,50 @@ export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function allPrinciplesDataParser(actions) {
-  let accumulator = {
-    "Open and voluntary membership": 0,
-    "Democratic control of the members": 0,
-    "Economic participation of members": 0,
-    "Autonomy and independence": 0,
-    "Education, training and information": 0,
-    "Cooperation between cooperatives": 0,
-    "Commitment to the community": 0
-  };
-  return actions.reduce(function(acc, action){
-    acc[action.principleName] += 1;
+export function translateLabels(obj, translateFunction) {
+  const labels = Object.keys(obj);
+  return labels.map((label) => {
+    return translateFunction(label);
+  });
+}
+
+export function allPrinciplesDataParser(actions, principles, translateFunction) {
+  let principlesData = actions.reduce(function(acc, action){
+    acc[action.principleNameKey] += 1;
     return acc;
-  }, accumulator);
+  }, principles);
+  return {"labels": translateLabels(principlesData, translateFunction), "series": Object.values(principlesData)};
+}
+
+function getMonthFromDate(date) {
+  return date.slice(5, 7);
+}
+
+export function allPrinciplesMonthlyDataParser(doneActions, period) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateFromMonth = parseInt(getMonthFromDate(period.dateFrom));
+  const currentMonth = (new Date()).getMonth() + 1;
+
+  const categories = months.slice(dateFromMonth - 1, currentMonth);
+
+  categories.map((categorie, index) => {
+    doneActions.filter((action) => {
+      return getMonthFromDate(action.date) == index
+    });
+  });
+}
+
+export function getActionsDone(actions) {
+  const today = new Date();
+  return actions.filter((action) => {
+    return new Date(action.date) < today;
+  });
+}
+
+export function principlesParser(allPrinciplesData, totalActions) {
+  return allPrinciplesData.labels.map((principle, index) => {
+    return {"label": principle, "percentage": parseInt(allPrinciplesData.series[index])/totalActions*100};
+  });
 }
 
 export function parseMoney(number) {

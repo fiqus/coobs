@@ -39,6 +39,8 @@
   "editPrinciple": "Edit principle",
   "createPrinciple": "Create principle",
   "pass": "Password",
+  "public": "Public",
+  "private": "Private",
   "noPeriodsMessage": "You don't have any periods yet!",
   "description": "Description",
   "date": "Date",
@@ -69,5 +71,8 @@
   "loginTitle": "Welcome Back! Please, login.",
   "login": "Login",
   "forgotPassword": "Forgot Password?",
-  "createAccount": "Create an Account!"
+  "createAccount": "Create an Account!",
+  "areYouSure": "Are you sure?",
+  "oncePartnerDeleted": "Once deleted, this partner can not be assigned to actions and will lose its user credentials.",
+  "partnerDeleted": "The partner has been deleted!"
 }

@@ -5,12 +5,13 @@ from random import seed, randint
 from django.db import DatabaseError, transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, ChangePasswordSerializer, MyTokenObtainPairSerializer, DashboardSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 import requests
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.utils.translation import gettext as _
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -143,7 +144,6 @@ class CooperativeView(viewsets.ModelViewSet):
         transaction.on_commit(assign_coop_to_partner)
         return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
 
-
 class PartnerView(viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
 
@@ -153,7 +153,7 @@ class PartnerView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
-        cooperative = request.user.cooperative_id
+        cooperative = request.user.cooperative
         def set_partner_data():
             data['username'] = data['email']
             partner_serializer = PartnerSerializer(data=data)
@@ -161,48 +161,37 @@ class PartnerView(viewsets.ModelViewSet):
                 return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
             partner_data = Partner.objects.create(**partner_serializer.validated_data)
-            setattr(partner_data, 'cooperative_id', cooperative)
+            setattr(partner_data, 'cooperative_id', cooperative.id)
             partner_data.set_password(data['password'])
             return partner_data
 
         partner = set_partner_data()
 
-        try:
+        def send_email():
+            text_content = f'One of your partners added you to COOBS being part of: {cooperative.name or cooperative.business_name}. Please change your password.'
+            html_content = f'<div><h1>One of your partners added you to COOBS being part of {cooperative.name or cooperative.business_name}</h1><p>Please change your password.</p></div>'
+            email = EmailMultiAlternatives('You have been added to COOBS!', text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])
+            email.content_subtype = "html"
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+        try: 
             with transaction.atomic():
                 partner.save()
+                send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
-    def partial_update(self, request, pk=None):
-        data = request.data
-        def set_partner_data():
-            partner_data = get_object_or_404(Partner, pk=pk)
-            setattr(partner_data, 'first_name', data['first_name'])
-            setattr(partner_data, 'last_name', data['last_name'])
-            setattr(partner_data, 'email', data['email'])
+    def destroy(self, request, *args, **kwargs):
+        partner = self.get_object()
 
-            if request.data.get("new_password"):
-                password_change_data = {'new_password': data['new_password'], 'confirm_password': data['confirm_password']}
-                change_pass_serializer = ChangePasswordSerializer(data=password_change_data)
+        if partner.id == request.user.id:
+            return Response(data={'detail': _("Current logged in user can not delete it self.")}, status=status.HTTP_400_BAD_REQUEST)
 
-                change_pass_serializer.is_valid(raise_exception=True)
-
-                partner_data.set_password(data['new_password'])
-
-            return partner_data
-
-        partner = set_partner_data()
-
-        try:
-            with transaction.atomic():
-                partner.save()
-        except Exception as errors:
-            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        return Response('Partner edited successfully', status=status.HTTP_200_OK)
-
+        self.perform_destroy(partner)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class DashboardView(viewsets.ViewSet):
     def list(self, request):
@@ -215,5 +204,7 @@ class DashboardView(viewsets.ViewSet):
         action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to)
         action_serializer = ActionSerializer(action_data, many=True)
 
-        #principle_data = Principles.objects.filter()
-        return Response({'period': period_serializer.data, 'actions': action_serializer.data})
+        principle_data = Principle.objects.filter(visible=True)
+        principle_serializer = PrincipleSerializer(principle_data, many=True)
+
+        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data})

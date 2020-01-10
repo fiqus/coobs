@@ -40,6 +40,8 @@
   "editPrinciple": "Editar principio",
   "createPrinciple": "Crear principio",
   "pass": "Contraseña",
+  "public": "Pública",
+  "private": "Privada",
   "noPeriodsMessage": "No hay períodos cargados aun!",
   "description": "Descripcion",
   "date": "Fecha",
@@ -70,5 +72,8 @@
   "loginTitle": "Bienvenido! Inicia sesión.",
   "login": "Iniciar sesión",
   "forgotPassword": "Olvidaste tu contraseña?",
-  "createAccount": "Crea una cuenta!"
+  "createAccount": "Crea una cuenta!",
+  "areYouSure": "Estás seguro?",
+  "oncePartnerDeleted": "Una vez eliminado, el socio no podrá ser asignado a acciones y perderá sus credenciales de usuario.",
+  "partnerDeleted": "El socio ha sido eliminado!"
 }

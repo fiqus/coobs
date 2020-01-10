@@ -98,3 +98,6 @@ msgstr "acción"
 
 msgid "No active account found with the given credentials"
 msgstr "No existe ninguna cuenta activa para los datos ingresados."
+
+msgid "Current logged in user can not delete it self."
+msgstr "El usuario actualmente logeado no puede borrarse a si mismo."
