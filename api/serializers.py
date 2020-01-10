@@ -56,6 +56,20 @@ class PartnerSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
+    def update(self, instance, validated_data):
+        instance.email = validated_data.get('email', instance.email)
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+
+        if self.initial_data.get('new_password'):
+            password_change_data = {'new_password': self.initial_data.get('new_password'), 'confirm_password': self.initial_data.get('confirm_password')}
+            change_pass_serializer = ChangePasswordSerializer(data=password_change_data)
+            change_pass_serializer.is_valid(raise_exception=True)
+            instance.set_password(self.initial_data.get('new_password'))
+
+        instance.save()
+        return instance
+
 class ChangePasswordSerializer(serializers.Serializer):
     new_password = serializers.RegexField("^(?=.*[a-zA-Z])(?=.*[0-9])", min_length=8, error_messages={'invalid': 'Password must be more than 8 characters long, contain letters and numbers'})
     confirm_password = serializers.CharField()
