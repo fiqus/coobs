@@ -57,7 +57,7 @@
             :label="$t('date')"
             name="date"
             format="dd/MM/yyyy"
-            v-model="date"
+            v-model="action.date"
             :error="$v.date.$error"
             error-message="Required"
             @input="onDateSelected">
@@ -72,7 +72,13 @@
           </input-form>
         </div>
       </div>
-
+      <div class="form-group">
+        <bootstrap-toggle class="form-control"
+          v-model="action.public"
+          data-toggle="toggle"
+          :options="{on: 'Public', off: 'Private', onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+          :disabled="false" />
+      </div>
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)">
           <i class="fa fa-arrow-left"></i> 
@@ -94,6 +100,7 @@
 <script>
 import InputForm from "../../components/input-form.vue";
 import TextareaForm from "../../components/textarea-form.vue";
+import BootstrapToggle from 'vue-bootstrap-toggle';
 import SelectForm from "../../components/select-form.vue";
 import DatePickerForm from "../../components/datepicker-form.vue";
 import swal from "sweetalert";
@@ -109,7 +116,8 @@ export default {
     "textarea-form": TextareaForm,
     "select-form": SelectForm,
     "datepicker-form": DatePickerForm,
-    "multiselect": Multiselect
+    "multiselect": Multiselect,
+    "bootstrap-toggle": BootstrapToggle
   },
   watch: {
     // we need to force the translations for principles because the select is not updated automatically

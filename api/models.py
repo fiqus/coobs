@@ -95,6 +95,7 @@ class Action(models.Model):
     invested_money = models.DecimalField(_('invested money'), max_digits=19, decimal_places=2, null=True)
     partners_involved = models.ManyToManyField(Partner, verbose_name=_('partners involved'))
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
+    public = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = _('action')
