@@ -127,8 +127,16 @@ export default {
     console.log(dashboardData);
 
     const actions = dashboardData.actions;
+    const doneActions = getActionsDone(actions);
 
-    this.actionsDone = getActionsDone(actions).length;
+    function notContainedIn(arr) {
+        return function arrNotContains(element) {
+            return arr.indexOf(element) === -1;
+        };
+    }
+
+    const pendingActions = actions.filter(notContainedIn(doneActions));
+    this.actionsDone = doneActions.length;
 
     this.totalInvested = actions.reduce(function(acc, action){
       return acc += parseFloat(action.investedMoney);
@@ -136,7 +144,7 @@ export default {
 
     this.promotionFund = (this.totalInvested / parseInt(dashboardData.period.actionsBudget) * 100).toFixed(2);
     
-    this.pendingActions = actions.length - this.actionsDone;
+    this.pendingActions = pendingActions.length;
 
     const principles = dashboardData.principles.reduce((acc, principle) => {
       acc[principle.nameKey] = 0;
@@ -151,6 +159,7 @@ export default {
     return {
       periodName: "",
       actionsDone: 0,
+      pendingActions:0 ,
       totalInvested: 0,
       promotionFund: 0,
       pendingActions: 0,
