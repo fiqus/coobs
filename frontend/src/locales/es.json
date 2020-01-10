@@ -76,5 +76,8 @@
   "areYouSure": "Estás seguro?",
   "oncePartnerDeleted": "Una vez eliminado, el socio no podrá ser asignado a acciones y perderá sus credenciales de usuario.",
   "partnerDeleted": "El socio ha sido eliminado!",
-  "balanceSubtitle": "Balance del período {period} con fechas {from} hasta {to} y un presupuesto de ${budget}."
+  "balanceSubtitle": "Balance del período {period} con fechas {from} hasta {to} y un presupuesto de ${budget}.",
+  "readyToLeave": "Listo para irte?",
+  "selectLogoutToEnd": "Presiona 'Cerrar sesión' si estás listo para finalizar tu sesión.",
+  "sessionEnded": "Sesión finalizada."
 }

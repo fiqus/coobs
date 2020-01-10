@@ -191,20 +191,19 @@ export default {
   methods: {
     logout() {
       swal({
-        title: "Ready to leave?",
-        text: "Select 'Logout' if you're ready to end your current session.",
+        title: this.$t("readyToLeave"),
+        text: this.$t("selectLogoutToEnd"),
         icon: "warning",
-        // buttons: true,
         buttons: {
           cancel: true,
-          confirm: "Logout"
+          confirm: this.$t("logout")
         },
         dangerMode: true,
       })
         .then((willLogout) => {
           if (willLogout) {
             this.$store.dispatch("logout");
-            swal("Session ended.", {
+            swal(this.$t("sessionEnded"), {
               icon: "success",
               timer: 2000,
               buttons: false
