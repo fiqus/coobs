@@ -1,6 +1,7 @@
 import router from "./router";
 import store from './store';
 import Vue from 'vue';
+import browserLocale from 'browser-locale';
 
 const { scheme, hostname } =
   process.env.NODE_ENV === "production"
@@ -42,7 +43,9 @@ axios.interceptors.response.use((response) => response,
 
 function _buildHeaders(defaultHeaders = {}) {
   const user = store && store.state ? store.state.user : null;
-  const locale = store && store.state && store.state.i18n ? store.state.i18n.locale : 'en';
+  const storeLocale = store && store.state && store.state.i18n ? store.state.i18n.locale : '';
+  const currentLocale = browserLocale().split("-")[0];
+  const locale = storeLocale || currentLocale;
 
   Object.assign(defaultHeaders, {"Accept-Language": locale || 'en'})
 

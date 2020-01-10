@@ -8,14 +8,14 @@
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  <h1 class="h4 text-gray-900 mb-4">{{$t('loginTitle')}}</h1>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
                     name="email"
                     type="email"
                     v-model="user.email"
-                    placeholder="Email..."
+                    placeholder="Email"
                     :error="$v.user.email.$error"
                     error-message="Ingrese un email válido">
                   </input-form>
@@ -23,18 +23,18 @@
                     name="password"
                     type="password"
                     v-model="user.password"
-                    placeholder="Password..."
+                    :placeholder="$t('password')"
                     :error="$v.user.password.$error"
                     error-message="Ingrese un password válido">
                   </input-form>
-                  <button type="summary" class="btn btn-primary btn-user btn-block">Login</button>
+                  <button type="summary" class="btn btn-primary btn-user btn-block">{{$t("login")}}</button>
                 </form>
                 <hr>
                 <div class="text-center">
-                  <a class="small" href="#">Forgot Password?</a>
+                  <a class="small" href="#">{{$t("forgotPassword")}}</a>
                 </div>
                 <div class="text-center">
-                  <a class="small" href="landing#signup">Create an Account!</a>
+                  <a class="small" href="landing#signup">{{$t("createAccount")}}</a>
                 </div>
               </div>
             </div>
@@ -78,7 +78,7 @@ export default {
             this.$router.push({name: "dashboard"});
           })
           .catch((err) => {
-            swal("Login has failed", {
+            swal(err.response.data.detail, {
               icon: "error"
             });
           });

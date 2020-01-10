@@ -65,5 +65,9 @@
   "cooperationBetweenCoops": "Cooperation between cooperatives",
   "commitmentToCommunity": "Commitment to the community",
   "selectPrinciple": "Select a principle",
-  "visible": "Visible"
+  "visible": "Visible",
+  "loginTitle": "Welcome Back! Please, login.",
+  "login": "Login",
+  "forgotPassword": "Forgot Password?",
+  "createAccount": "Create an Account!"
 }

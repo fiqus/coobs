@@ -95,3 +95,6 @@ msgstr "socios involucrados"
 #: api/models.py:95
 msgid "action"
 msgstr "acción"
+
+msgid "No active account found with the given credentials"
+msgstr "No existe ninguna cuenta activa para los datos ingresados."
