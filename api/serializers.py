@@ -31,14 +31,16 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     def validate_date_from(self, value):
         id = self.instance.id if self.instance is not None else None
-        periods = Period.get_date_period(id, value, self.initial_data['cooperative_id'])
+        cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
+        periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
             raise serializers.ValidationError("The date from you entered is contained in another period.")
         return value
 
     def validate_date_to(self, value):
         id = self.instance.id if self.instance is not None else None
-        periods = Period.get_date_period(id, value, self.initial_data['cooperative_id'])
+        cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
+        periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
             raise serializers.ValidationError("The date to you entered is contained in another period.")
         return value
@@ -75,3 +77,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['cooperative'] = camelize(coop_data)
 
         return token
+
+class DashboardSerializer(serializers.Serializer):
+    principle_key = serializers.CharField(source='main_principle.name_key', read_only=True)
+    # month = serializers.CharField()
+    actions = serializers.RelatedField(read_only=True)

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
+from rest_framework import status
 import datetime
 
 
@@ -55,17 +56,21 @@ class Period(models.Model):
     def __str__(self):
         return self.name
 
-    @staticmethod
-    def get_date_period(pk, date, cooperative_id):
-        qs = Period.objects.filter(cooperative__id=cooperative_id, date_from__lte=date, date_to__gte=date)
+    @classmethod
+    def get_date_period(cls, pk, date, cooperative_id):
+        qs = cls.objects.filter(cooperative__id=cooperative_id, date_from__lte=date, date_to__gte=date)
         if pk is not None:
             qs = qs.exclude(pk=pk)
         return qs
 
-    def get_current(self):
+    @classmethod
+    def get_current(cls, cooperative_id):
         today = datetime.date.today()
         # Note that if there are two periods that overlap, it returns the last one.
-        return self.get_date_period(today).last()
+        current_period = cls.get_date_period(None, today, cooperative_id).last()
+        if (current_period):
+            return current_period
+        return None
 
 
 class Partner(AbstractUser):
@@ -96,3 +101,8 @@ class Action(models.Model):
 
     def __str__(self):
         return '%s - %s ' % (self.date, self.principle)
+    
+    @classmethod
+    def get_current_actions(cls, cooperative, date_from, date_to):
+        qs = cls.objects.filter(cooperative=cooperative, principle__visible=True, date__gte=date_from, date__lte=date_to)
+        return qs
