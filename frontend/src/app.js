@@ -27,7 +27,7 @@ Vue.i18n.add('en', loadLocalMessage("en"));
 Vue.i18n.add('es', loadLocalMessage("es"));
 const vuexStorage = localStorage.getItem("vuex");
 const storage = vuexStorage ? JSON.parse(vuexStorage) : null;
-const locale = storage ? storage.lang : browserLocale().split("-")[0];
+const locale = storage && storage.i18n && storage.i18n.locale ? storage.i18n.locale : browserLocale().split("-")[0];
 Vue.i18n.set(locale || 'en');
 
 new Vue({
