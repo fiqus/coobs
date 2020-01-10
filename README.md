@@ -14,7 +14,9 @@
         pip install -R requirements.txt
 
 4. Create your postgres db
-        sudo su - postgres psql
+
+        sudo su postgres 
+        psql
         CREATE DATABASE coobs;
         CREATE USER fiqus WITH PASSWORD 'fiquspass';
         ALTER ROLE fiqus SET client_encoding TO 'utf8';
@@ -22,40 +24,46 @@
         ALTER ROLE fiqus SET timezone TO 'UTC';
         GRANT ALL PRIVILEGES ON DATABASE coobs TO fiqus;
 
-5. Run database migrations
+5. Copy the settings template and complete the variables
 
-        python manage.py migrate 
+        cp coobs/settings.template.py coobs/settings.py
 
-6. Create a superuser
+6. Generate Django secret key and assign it to the setting's variable SECRET_KEY
+
+        python manage.py generate_secret_key
+
+7. Go back to the project root and run database migrations
+
+        python manage.py migrate
+
+8. Create a superuser
 
         python manage.py createsuperuser
 
-7. Run the server
+9. Run the server
 
         python manage.py runserver
 
-8. API now should be accessible in:
+10. API now should be accessible in:
 
         http://localhost:8000/api/
 
 ## Running Frontend
 
-1. Go to '/coobs/frontend/' and run:
+1. Go to `/coobs/frontend/` and run:
 
         npm install
 
-2. Go to '/coobs/frontend/landing' and run:
+2. Go to `/coobs/frontend/landing` and run:
 
         npm install
 
-3. Install eslint extension for vscode and configure settings file 
-
-
-4. Go to '/coobs/frontend/' and run:
+3. Go to `/coobs/frontend/` and run:
         
+        npm run build
         npm run dev
 
-5. App core and landing page should be accesible on:
+4. App core and landing page should be accesible on:
 
         http://localhost:8080/app
         http://localhost:8080/landing
@@ -64,12 +72,12 @@
 
 ### Adding new language
 
-1. Go to '/coobs/frontend/locales' and add the new language in 'langs.json' file
+1. Go to `/coobs/frontend/locales` and add the new language in `langs.json` file
 
         key -> language short ISO code
         value -> language name
 
-2. In the same folder add a new file with ISO code as name and '.json' extension
+2. In the same folder add a new file with ISO code as name and `.json` extension
 
 3. Add all existing translations for the new language.
 
