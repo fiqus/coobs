@@ -88,8 +88,8 @@
 
     <stacked-columns-chart
       :title="allPrinciplesYearLabel"
-      :columns-data="allPrinciplesYearData"
-      :xaxis="xaxis">
+      :columns-data="monthlyActionsByPrincipleData"
+      :xaxis="monthlyActionsByPrincipleLabels">
     </stacked-columns-chart>
 
   </div>
@@ -155,8 +155,9 @@ export default {
     }, {});
 
     this.allPrinciplesData = allPrinciplesDataParser(this.actionsDone, principlesInicialState, this.$t);
-    this.allPrinciplesYearData = dashboardData.charts.monthlyActionsByPrinciple.result;
-    this.xaxis = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
+    
+    this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
+    this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
     
     this.principles = principlesParser(this.allPrinciplesData, this.actionsDone.length);
 
@@ -170,7 +171,7 @@ export default {
       promotionFund: 0,
       promotionFundStyle: "",
       allPrinciplesData: {},
-      allPrinciplesYearData: [],
+      monthlyActionsByPrincipleData: [],
       xaxis: {categories: []},
       principles: []
     };

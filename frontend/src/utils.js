@@ -28,49 +28,6 @@ export function allPrinciplesDataParser(actions, principles, translateFunction) 
   return {"labels": translateLabels(principlesData, translateFunction), "series": Object.values(principlesData)};
 }
 
-function getMonthFromDate(date) {
-  return date.slice(5, 7);
-}
-
-function getMonthlyDataInitialState(principles, months) {
-  let result = {};
-  principles.map((principle) => {
-    return result[principle.nameKey] = new Array(months).fill(0);
-  });
-  return result;
-}
-
-function getCategories(period) {
-  //const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-  //const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", , "Oct", "Nov", "Dec"];
-  const months = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6:"Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
-
-  const dateFromMonth = parseInt(getMonthFromDate(period.dateFrom));
-  const dateToMonth = parseInt(getMonthFromDate(period.dateTo));
-  const currentMonth = (new Date()).getMonth() + 1;
-
-  return {
-    categories: currentMonth < dateFromMonth ?  Object.keys(months).slice(dateFromMonth - 1, 12).concat(Object.keys(months).slice(0, dateToMonth))  : Object.keys(months).slice(dateFromMonth - 1, currentMonth),
-    categoriesName: currentMonth < dateFromMonth ?  Object.values(months).slice(dateFromMonth - 1, 12).concat(Object.keys(months).slice(0, dateToMonth))  : Object.values(months).slice(dateFromMonth - 1, currentMonth)
-  };
-}
-
-export function allPrinciplesMonthlyDataParser(doneActions, period, principles) {
-  const {categories, categoriesName} = getCategories(period);
-
-  const monthlyData = getMonthlyDataInitialState(principles, categories.length);
-
-  doneActions.map((action) => {
-    return  monthlyData[action.principleNameKey][parseInt(getMonthFromDate(action.date))-1] += 1;
-  });
-
-  const chartData = Object.keys(monthlyData).map((principle) => {
-    return {"name": principle, "data": monthlyData[principle]};
-  });
-  return {"monthlyData": chartData, "categories": categoriesName};
-}
-
-
 export function getActionsDone(actions) {
   const today = new Date();
   return actions.filter((action) => {
