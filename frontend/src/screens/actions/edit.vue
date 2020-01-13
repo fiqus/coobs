@@ -12,7 +12,7 @@
         type="text"
         v-model="action.name"
         :error="$v.action.name.$error"
-        error-message="Required">
+        :error-message="$t('required')">
       </input-form>
 
       <textarea-form
@@ -21,7 +21,7 @@
         type="text"
         v-model="action.description"
         :error="$v.action.description.$error"
-        error-message="Required">
+        :error-message="$t('required')">
       </textarea-form>
 
       <div class="form-row">
@@ -32,7 +32,7 @@
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
             :error="$v.action.principle.$error"
-            error-message="Required">
+            :error-message="$t('required')">
           </select-form>
         </div>
         <div class="col-6">
@@ -55,16 +55,18 @@
             format="dd/MM/yyyy"
             v-model="action.date"
             :error="$v.action.date.$error"
-            error-message="Required"
+            :error-message="$t('required')"
             @input="onDateSelected">
           </datepicker-form>
         </div>
-        <div class="col-3">
+        <div class="col-6">
           <input-form
             :label="$t('investedMoney')"
             name="money"
             type="number"
-            v-model="action.investedMoney">
+            v-model="action.investedMoney"
+            :error="$v.action.investedMoney.$error"
+            :error-message="$t('positiveNumber')">
           </input-form>
         </div>
       </div>
@@ -101,7 +103,7 @@ import SelectForm from "../../components/select-form.vue";
 import DatePickerForm from "../../components/datepicker-form.vue";
 import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
-import {required, minLength} from "vuelidate/lib/validators";
+import {required, minLength, minValue} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
 import {partnersParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
@@ -202,7 +204,8 @@ export default {
       date: {required},
       name: {required},
       description: {required},
-      principle: {required}
+      principle: {required},
+      investedMoney: {minValue: minValue(0)}
     },
     partnersInvolved: {
       required,
