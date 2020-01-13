@@ -37,6 +37,10 @@ axios.interceptors.response.use((response) => response,
           return Promise.reject(errRefresh);
         });
     }
+    if (err.response.status >= 405) {
+      const newErr = { response: { data: { detail: "backendServicesError" } } };
+      return Promise.reject(newErr);
+    }
     return Promise.reject(err);
   }
 );
