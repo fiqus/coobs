@@ -24,12 +24,14 @@ class Cooperative(models.Model):
     def __str__(self):
         return '%s' % (self.business_name)
 
+
 class MainPrinciple(models.Model):
     name = models.CharField(_('name'), max_length=256)
     name_key = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name_key
+
 
 class Principle(models.Model):
     description = models.TextField(_('description'))
@@ -42,6 +44,7 @@ class Principle(models.Model):
 
     def __str__(self):
         return self.main_principle.name_key
+
 
 class Period(models.Model):
     name = models.CharField(_('name'), max_length=256, null=True, blank=True)
