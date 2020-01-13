@@ -78,5 +78,7 @@
   "balanceSubtitle": "Balance for period {period} with dates between {from} and {to} and a budget of ${budget}.",
   "readyToLeave": "Ready to leave?",
   "selectLogoutToEnd": "Select 'Logout' if you're ready to end your current session.",
-  "sessionEnded": "Session ended."
+  "sessionEnded": "Session ended.",
+  "totalInvested": "Total invested",
+  "notEnoughInfoForBalance": "You don't have enough info loaded for balance yet. Please check actions and period are created."
 }

@@ -1,25 +1,27 @@
 <template>
+<div class="container-flud">
   <table class="table table-hover">
     <thead>
-      <tr class="thead-light">
-        <th scope="col" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
+      <tr class="row thead-light">
+        <th class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
       </tr>
-      <tr>
-        <th scope="col">Accion</th>
-        <th scope="col">Descripcion</th>
-        <th scope="col">Fecha</th>
-        <th scope="col">Invertido</th>
+      <tr class="row">
+        <th class="col-sm-3" scope="col">Accion</th>
+        <th class="col-sm-5" scope="col">Descripcion</th>
+        <th class="col-sm-2" scope="col">Fecha</th>
+        <th class="col-sm-2" scope="col">Invertido</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="action in periodSummary.actions" :key="action.name">
-        <td>{{action.name}}</td>
-        <td>{{action.description}}</td>
-        <td>{{action.date}}</td>
-        <td>{{action.investedMoney}}</td>
+      <tr v-for="action in periodSummary.actions" :key="action.name" class="row">
+        <td class="col-sm-3">{{action.name}}</td>
+        <td class="col-sm-5">{{action.description}}</td>
+        <td class="col-sm-2">{{action.date}}</td>
+        <td class="col-sm-2">${{Number(action.investedMoney)}}</td>
       </tr>
     </tbody>
   </table>
+  </div>
 </template>
 
 <script>
