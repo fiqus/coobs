@@ -40,14 +40,24 @@ function getMonthlyDataInitialState(principles, months) {
   return result;
 }
 
-export function allPrinciplesMonthlyDataParser(doneActions, period, principles) {
-  const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-  const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+function getCategories(period) {
+  //const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  //const monthsName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", , "Oct", "Nov", "Dec"];
+  const months = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6:"Jun", 7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec"};
+
   const dateFromMonth = parseInt(getMonthFromDate(period.dateFrom));
+  const dateToMonth = parseInt(getMonthFromDate(period.dateTo));
   const currentMonth = (new Date()).getMonth() + 1;
 
-  const categories = months.slice(dateFromMonth - 1, currentMonth);
-  const categoriesName = monthsName.slice(dateFromMonth - 1, currentMonth);
+  return {
+    categories: currentMonth < dateFromMonth ?  Object.keys(months).slice(dateFromMonth - 1, 12).concat(Object.keys(months).slice(0, dateToMonth))  : Object.keys(months).slice(dateFromMonth - 1, currentMonth),
+    categoriesName: currentMonth < dateFromMonth ?  Object.values(months).slice(dateFromMonth - 1, 12).concat(Object.keys(months).slice(0, dateToMonth))  : Object.values(months).slice(dateFromMonth - 1, currentMonth)
+  };
+}
+
+export function allPrinciplesMonthlyDataParser(doneActions, period, principles) {
+  const {categories, categoriesName} = getCategories(period);
+
   const monthlyData = getMonthlyDataInitialState(principles, categories.length);
 
   doneActions.map((action) => {
@@ -55,7 +65,6 @@ export function allPrinciplesMonthlyDataParser(doneActions, period, principles) 
   });
 
   const chartData = Object.keys(monthlyData).map((principle) => {
-    console.log(monthlyData[principle])
     return {"name": principle, "data": monthlyData[principle]};
   });
   return {"monthlyData": chartData, "categories": categoriesName};

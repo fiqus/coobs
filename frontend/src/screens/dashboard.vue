@@ -155,9 +155,8 @@ export default {
     }, {});
 
     this.allPrinciplesData = allPrinciplesDataParser(this.actionsDone, principlesInicialState, this.$t);
-    const allPrinciplesMonthlyData = allPrinciplesMonthlyDataParser(this.actionsDone, dashboardData.period, dashboardData.principles);
-    this.allPrinciplesYearData = allPrinciplesMonthlyData.monthlyData;
-    this.xaxis = {categories: allPrinciplesMonthlyData.categories} ;
+    this.allPrinciplesYearData = dashboardData.charts.monthlyActionsByPrinciple.result;
+    this.xaxis = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
     
     this.principles = principlesParser(this.allPrinciplesData, this.actionsDone.length);
 

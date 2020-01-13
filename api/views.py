@@ -7,8 +7,11 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 import requests
+from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.translation import gettext as _
+from api.dashboard_charts.charts_data_helpers import get_monthly_actions_by_principle
+
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -209,10 +212,12 @@ class DashboardView(viewsets.ViewSet):
             return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)        
         period_serializer = PeriodSerializer(period_data)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to)
+        action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data})
+        charts = {'monthly_actions_by_principle': get_monthly_actions_by_principle(action_data, period_data.date_from, principle_serializer.data)}
+
+        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts})
