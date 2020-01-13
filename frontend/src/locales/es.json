@@ -82,5 +82,8 @@
   "sessionEnded": "Sesión finalizada.",
   "totalInvested": "Total invertido",
   "notEnoughInfoForBalance": "Aún no existe información suficiente para el balance. Revisá que haya un período y acciones creadas.",
-  "backendServicesError": "Ocurrió un error en nuestros servicios internos. Por favor intente más tarde."
+  "backendServicesError": "Ocurrió un error en nuestros servicios internos. Por favor intente más tarde.",
+  "selectPartners": "Seleccione los socios",
+  "onceActionDeleted": "Una vez eliminada, ésta acción no estará más disponible.",
+  "oncePeriodDeleted": "Una vez eliminado, éste período no estará más disponible."
 }

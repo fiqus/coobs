@@ -54,18 +54,29 @@ export default {
       this.$router.push({name: "period-edit", params: {periodId: period.id}});
     },
     onDelete(period) {
-      httpDelete(`/periods/${period.id}`)
-        .then(() => {
-          swal(this.$t("deletedPeriodMsg"), {
-            icon: "success",
-            buttons: false,
-            timer: 2000
-          });
-          return httpGet("/periods")
-            .then((response) => {
-              this.periods = response.data;
+      swal({
+        title: this.$t('areYouSure'),
+        text: this.$t('oncePeriodDeleted'),
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          httpDelete(`/periods/${period.id}`)
+            .then(() => {
+              swal(this.$t("deletedPeriodMsg"), {
+                icon: "success",
+                buttons: false,
+                timer: 2000
+              });
+              return httpGet("/periods")
+                .then((response) => {
+                  this.periods = response.data;
+                });
             });
-        });
+        }
+      });
     }
   }
 };

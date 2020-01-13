@@ -36,18 +36,14 @@
           </select-form>
         </div>
         <div class="col-6">
-          <label>{{$t("partners")}}</label>
-          <multiselect
-            v-model="partnersInvolved" 
-            tag-placeholder="Select partners" 
-            placeholder="Select partners" 
-            label="name"
-            track-by="id" 
-            :options="partnersList" 
-            :multiple="true" 
-            :taggable="true" 
-          >
-          </multiselect>
+          <multi-select-form
+            :label="$t('partners')"
+            :placeholder="$t('selectPartners')"
+            v-model="partnersInvolved"
+            :options="partnersList"
+            :error="$v.partnersInvolved.$error"
+            :error-message="$t('required')"
+          />
         </div>
       </div>
 
@@ -58,7 +54,7 @@
             name="date"
             format="dd/MM/yyyy"
             v-model="action.date"
-            :error="$v.date.$error"
+            :error="$v.action.date.$error"
             error-message="Required"
             @input="onDateSelected">
           </datepicker-form>
@@ -103,9 +99,9 @@ import TextareaForm from "../../components/textarea-form.vue";
 import BootstrapToggle from 'vue-bootstrap-toggle';
 import SelectForm from "../../components/select-form.vue";
 import DatePickerForm from "../../components/datepicker-form.vue";
+import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
-import Multiselect from "vue-multiselect";
-import {required} from "vuelidate/lib/validators";
+import {required, minLength} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
 import {partnersParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
@@ -116,8 +112,8 @@ export default {
     "textarea-form": TextareaForm,
     "select-form": SelectForm,
     "datepicker-form": DatePickerForm,
-    "multiselect": Multiselect,
-    "bootstrap-toggle": BootstrapToggle
+    "bootstrap-toggle": BootstrapToggle,
+    "multi-select-form": MultiSelectForm
   },
   watch: {
     // we need to force the translations for principles because the select is not updated automatically
@@ -135,7 +131,6 @@ export default {
       api.getPartners()
     ]);
 
-    this.date = this.action.date;
     this.principles = principles.map((p) => {
       p.name = this.$t(p.nameKey, p.name);
       return p;
@@ -165,7 +160,6 @@ export default {
       action: {
         principle: ""
       },
-      date: this.action ? this.action.date : "",
       principles: [],
       partnersInvolved: [],
       partnersList: [],
@@ -204,11 +198,15 @@ export default {
     }
   },
   validations: {
-    date: {required},
     action: {
+      date: {required},
       name: {required},
       description: {required},
       principle: {required}
+    },
+    partnersInvolved: {
+      required,
+      minLength: minLength(1)
     }
   }
 };

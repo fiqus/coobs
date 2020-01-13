@@ -56,18 +56,29 @@ export default {
       this.$router.push({name: "action-edit", params: {actionId: action.id}});
     },
     onDelete(action) {
-      httpDelete(`/actions/${action.id}`)
-        .then(() => {
-          swal( this.$t("deletedActionMsg"), {
-            icon: "success",
-            buttons: false,
-            timer: 2000
-          });
-          return httpGet("/actions")
-            .then((response) => {
-              this.actions = response.data;
+      swal({
+        title: this.$t('areYouSure'),
+        text: this.$t('onceActionDeleted'),
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          httpDelete(`/actions/${action.id}`)
+            .then(() => {
+              swal( this.$t("deletedActionMsg"), {
+                icon: "success",
+                buttons: false,
+                timer: 2000
+              });
+              return httpGet("/actions")
+                .then((response) => {
+                  this.actions = response.data;
+                });
             });
-        });
+        }
+      });
     }
   }
 };
