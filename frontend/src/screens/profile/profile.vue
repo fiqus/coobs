@@ -70,6 +70,9 @@
           </div>
         </div>
       </transition>
+
+      <error-form :error="error" />
+
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
 				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
@@ -93,6 +96,8 @@ import InputForm from "../../components/input-form.vue";
 import {required, sameAs, minLength} from "vuelidate/lib/validators";
 import {httpGet, httpPatch} from "../../api-client.js";
 import swal from "sweetalert";
+import ErrorForm from "../../components/error-form.vue";
+import errorHandlerMixin from "./../../mixins/error-handler";
 
 const requiredFields = (changingPassword) => {
   const validations = {
@@ -116,8 +121,10 @@ const requiredFields = (changingPassword) => {
 
 export default {
   components: {
-    "input-form": InputForm
+    "input-form": InputForm,
+    "error-form": ErrorForm
   },
+  mixins: [errorHandlerMixin],
   created() {
     this.loadProfile();
   },
@@ -174,6 +181,9 @@ export default {
                 this.$store.commit("setUser", newUser);
                 this.$v.$reset();
               })
+          })
+          .catch((err) => {
+            this.handleError(err);
           });
       }
     }

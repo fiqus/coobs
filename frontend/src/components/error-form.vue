@@ -2,7 +2,7 @@
   <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-2 mb-3 rounded">
     <h3 class="h6 mb-0 text-gray-100">
       <i class="fas fa-exclamation-circle"></i>
-      {{$t(error.message, error.message)}}
+      <span v-html="$t(error.message, error.message)"></span>
     </h3>
   </div>
 </template>
