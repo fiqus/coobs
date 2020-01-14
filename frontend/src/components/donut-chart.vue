@@ -5,8 +5,8 @@
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6>
       </div>
       <div class="card-body">
-        <div class="chart-area" style="height:210px;padding-top: 15px;">
-          <apexchart width=250 type="donut" :options="donutData" :series="donutData.series"></apexchart>
+        <div class="chart-area">
+          <apexchart  type=  "donut" :options="donutData" :series="donutData.series"></apexchart>
         </div>
       </div>
     </div>
@@ -16,16 +16,20 @@
 import VueApexCharts from "vue-apexcharts";
 
 const commonsChartOptions = {
+  plotOptions: {
+    pie: {
+    },
+  },  
   responsive: [{
     breakpoint: 480,
     options: {
       chart: {
-        width: "300"
+        width: "500"
       }
     }
   }],
   dataLabels: {
-    enabled: false,
+    enabled: true,
   },
   legend: {
     show: false

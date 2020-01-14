@@ -28,13 +28,6 @@ export function allPrinciplesDataParser(actions, principles, translateFunction) 
   return {"labels": translateLabels(principlesData, translateFunction), "series": Object.values(principlesData)};
 }
 
-export function getActionsDone(actions) {
-  const today = new Date();
-  return actions.filter((action) => {
-    return new Date(action.date) < today;
-  });
-}
-
 export function principlesParser(allPrinciplesData, totalActions) {
   const fullPercentage = totalActions / allPrinciplesData.labels.length / totalActions;
 
