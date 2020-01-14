@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% trans "One of your partners added you to COOBS being part of" %} {% firstof cooperative.name cooperative.business_name%}.
+{% trans "Your password has been set to" %}: {{password}}. {% trans "Please change it as soon as possible."%}
+{% blocktrans %} Enter to {{public_url}} and start using COOBS!{% endblocktrans %}

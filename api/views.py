@@ -11,8 +11,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.translation import gettext as _
 from api.dashboard_charts.charts_data_helpers import get_monthly_actions_by_principle
-
-
+from django.template.loader import get_template
+from django.template import Context
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -162,6 +162,7 @@ class PartnerView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
+        password = data['password']
         cooperative = request.user.cooperative
 
         def set_partner_data():
@@ -178,9 +179,14 @@ class PartnerView(viewsets.ModelViewSet):
         partner = set_partner_data()
 
         def send_email():
-            text_content = f'One of your partners added you to COOBS being part of: {cooperative.name or cooperative.business_name}. Please change your password.'
-            html_content = f'<div><h1>One of your partners added you to COOBS being part of {cooperative.name or cooperative.business_name}</h1><p>Please change your password.</p></div>'
-            email = EmailMultiAlternatives('You have been added to COOBS!', text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])
+            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password, 'public_url': public_url}
+            text_template = get_template('text_email_template.txt')
+            text_content = text_template.render(context)
+            html_template = get_template('html_email_template.html')
+            html_content = html_template.render(context)            
+            subject = _('Hello {0}, you have been added to COOBS!'.format(partner.first_name))
+            email = EmailMultiAlternatives(subject, text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()

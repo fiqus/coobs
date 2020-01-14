@@ -1,0 +1,9 @@
+{% load static %}
+{% load i18n %}
+
+<div>
+  <img src="{{public_url}}{% static 'img/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo">
+  <h3>{% trans "One of your partners added you to COOBS being part of" %} {% firstof cooperative.name cooperative.business_name%}</h3>
+  <p>{% trans "Your password has been set to" %}: {{password}}. <br/>{% trans "Please change it as soon as possible."%}</p>
+  <br/><p>{% blocktrans %} Enter to {{public_url}} and start using COOBS!{% endblocktrans %}</p>
+</div>

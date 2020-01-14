@@ -13,6 +13,7 @@ css/reveal.min.css
 js/reveal.min.js
 *.sqlite3
 *.pyc
+*.mo
 __pycache__/
 .vscode
 /venv
