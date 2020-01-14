@@ -4,6 +4,7 @@ from api.models import Principle, Action, Period, Cooperative, Partner
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.validators import UnicodeUsernameValidator
 
 User = get_user_model()
 
@@ -54,7 +55,10 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'username': {'validators': [UnicodeUsernameValidator()]}
+        }
 
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email)

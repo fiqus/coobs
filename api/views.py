@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.db import transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -168,12 +168,17 @@ class PartnerView(viewsets.ModelViewSet):
         def set_partner_data():
             data['username'] = data['email']
             partner_serializer = PartnerSerializer(data=data)
-            if not partner_serializer.is_valid():
-                return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            partner_serializer.is_valid(raise_exception=True)
+
+            password_data = {'new_password': data['password'], 'confirm_password': data['confirm_password']}
+            change_pass_serializer = ChangePasswordSerializer(data=password_data)
+            change_pass_serializer.is_valid(raise_exception=True)
 
             partner_data = Partner.objects.create(**partner_serializer.validated_data)
             setattr(partner_data, 'cooperative_id', cooperative.id)
+
             partner_data.set_password(data['password'])
+
             return partner_data
 
         partner = set_partner_data()

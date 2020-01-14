@@ -6,23 +6,29 @@
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
-      <input-form
-        :label="$t('firstName')"
-        name="firstName"
-        type="text"
-        v-model="partner.firstName"
-        :error="$v.partner.firstName.$error"
-        error-message="Required">
-      </input-form>
+      <div class="form-row">
+        <div class="col-6">
+          <input-form
+            :label="$t('firstName')"
+            name="firstName"
+            type="text"
+            v-model="partner.firstName"
+            :error="$v.partner.firstName.$error"
+            error-message="Required">
+          </input-form>
+        </div>
 
-      <input-form
-        :label="$t('lastName')"
-        name="lastName"
-        type="text"
-        v-model="partner.lastName"
-        :error="$v.partner.lastName.$error"
-        error-message="Required">
-      </input-form>
+        <div class="col-6">
+          <input-form
+            :label="$t('lastName')"
+            name="lastName"
+            type="text"
+            v-model="partner.lastName"
+            :error="$v.partner.lastName.$error"
+            error-message="Required">
+          </input-form>
+        </div>
+      </div>
 
       <input-form
         label="Email"
@@ -33,15 +39,31 @@
         error-message="Required">
       </input-form>
 
-      <input-form
-        :label="$t('pass')"
-        name="password"
-        type="password"
-        v-if="isNew"
-        v-model="partner.password"
-        :error="$v.partner.password.$error"
-        error-message="Required">
-      </input-form>
+      <div class="form-row">
+        <div class="col-6">
+          <input-form
+            :label="$t('password')"
+            name="password"
+            type="password"
+            v-model="partner.password"
+            :error="$v.partner.password && $v.partner.password.$error"
+            :error-message="passwordErrorMessage"
+            :help-text="$t('goodPasswordHelpText')">
+          </input-form>
+        </div>
+        <div class="col-6">
+          <input-form
+            :label="$t('confirmPassword')"
+            name="confirm password"
+            type="password"
+            v-model="partner.confirmPassword"
+            :error="$v.partner.confirmPassword && $v.partner.confirmPassword.$error"
+            :error-message="$t('passwordNotMatch')">
+          </input-form>
+        </div>
+      </div>
+
+      <error-form :error="error" />
 
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
@@ -53,19 +75,37 @@
 
 <script>
 import InputForm from "../../components/input-form.vue";
-import {required} from "vuelidate/lib/validators";
+import ErrorForm from "../../components/error-form.vue";
+import {required, minLength, sameAs} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
+import errorHandlerMixin from "./../../mixins/error-handler";
 
 export default {
   components: {
     "input-form": InputForm,
+    "error-form": ErrorForm
   },
   async created() {
     const partnerId = this.$route.params.partnerId;
     if (partnerId && partnerId !== "0") {
       this.partner = await api.getPartner(partnerId);
+    }
+  },
+  mixins: [errorHandlerMixin],
+  computed: {
+    passwordErrorMessage() {
+      if (!this.$v.partner.password.$error) {
+        return "";
+      }
+      if (!this.$v.partner.password.required) {
+        return this.$t("required");
+      }
+      if (!this.$v.partner.password.goodPassword) {
+        return this.$t("goodPasswordErrorMessage");
+      }
+      return "";
     }
   },
   data() {
@@ -75,7 +115,8 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
       },
       isNew,
       title: isNew ? "createPartner" : "editPartner"
@@ -102,7 +143,10 @@ export default {
               timer: 2000
             });
             this.$router.push({name: "partners-list"});
-          });
+          })
+          .catch((err) => {
+            this.handleError(err);
+          })
       }
     }
   },
@@ -111,7 +155,15 @@ export default {
       firstName: {required},
       lastName: {required},
       email: {required},
-      password: {required}
+      password: {
+        required,
+        goodPassword: (password) => {
+          return minLength(password, 8) &&
+            /[a-zA-Z]/.test(password) &&
+            /[1-9]/.test(password);
+        }
+      },
+      confirmPassword: {sameAs: sameAs("password")}
     }
   }
 };
