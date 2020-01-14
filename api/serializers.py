@@ -4,6 +4,8 @@ from api.models import Principle, Action, Period, Cooperative, Partner
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.utils.translation import ugettext_lazy as _
 
 User = get_user_model()
 
@@ -34,7 +36,7 @@ class PeriodSerializer(serializers.ModelSerializer):
         cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
         periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
-            raise serializers.ValidationError("The date from you entered is contained in another period.")
+            raise serializers.ValidationError(_("The date from you entered is contained in another period."))
         return value
 
     def validate_date_to(self, value):
@@ -42,7 +44,7 @@ class PeriodSerializer(serializers.ModelSerializer):
         cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
         periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
-            raise serializers.ValidationError("The date to you entered is contained in another period.")
+            raise serializers.ValidationError(_("The date to you entered is contained in another period."))
         return value
 
 class CooperativeSerializer(serializers.ModelSerializer):
@@ -54,7 +56,10 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'username': {'validators': [UnicodeUsernameValidator()]}
+        }
 
     def update(self, instance, validated_data):
         instance.email = validated_data.get('email', instance.email)

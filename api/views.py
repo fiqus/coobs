@@ -3,16 +3,19 @@ from rest_framework.response import Response
 from django.db import transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
-import requests
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.translation import gettext as _
-from api.dashboard_charts.charts_data_helpers import get_monthly_actions_by_principle
+from api.dashboard_charts.charts_data_helpers import get_cards_data, get_all_principles_data, get_monthly_actions_by_principle
+import requests
+import datetime
 from django.template.loader import get_template
 from django.template import Context
+
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -168,12 +171,17 @@ class PartnerView(viewsets.ModelViewSet):
         def set_partner_data():
             data['username'] = data['email']
             partner_serializer = PartnerSerializer(data=data)
-            if not partner_serializer.is_valid():
-                return Response(partner_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            partner_serializer.is_valid(raise_exception=True)
+
+            password_data = {'new_password': data['password'], 'confirm_password': data['confirm_password']}
+            change_pass_serializer = ChangePasswordSerializer(data=password_data)
+            change_pass_serializer.is_valid(raise_exception=True)
 
             partner_data = Partner.objects.create(**partner_serializer.validated_data)
             setattr(partner_data, 'cooperative_id', cooperative.id)
+
             partner_data.set_password(data['password'])
+
             return partner_data
 
         partner = set_partner_data()
@@ -220,10 +228,19 @@ class DashboardView(viewsets.ViewSet):
 
         action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
+        
+        date = datetime.date.today()
+        done_actions_data = Action.get_current_actions(cooperative_id, period_data.date_from, date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        charts = {'monthly_actions_by_principle': get_monthly_actions_by_principle(action_data, period_data.date_from, principle_serializer.data)}
+        principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
+        
+        charts = {
+            'cards_data': get_cards_data(action_data, done_actions_data, period_data),
+            'all_principles_data': get_all_principles_data(done_actions_data, principles),
+            'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data, period_data.date_from, principles),
+            }
 
         return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts})

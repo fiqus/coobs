@@ -12,7 +12,7 @@
         type="text"
         v-model="period.name"
         :error="$v.period.name.$error"
-        error-message="Required">
+        :error-message="$t('required')">
       </input-form>
 
       <div class="form-row">
@@ -23,7 +23,7 @@
             format="dd/MM/yyyy"
             v-model="from"
             :error="$v.from.$error"
-            error-message="Required"
+            :error-message="$t('required')"
             @input="onDateSelected('from', $event)">
           </datepicker-form>
         </div>
@@ -35,22 +35,26 @@
             v-model="to"
             :disabled-dates="disabledDates"
             :error="$v.to.$error"
-            error-message="Required"
+            :error-message="$t('required')"
             @input="onDateSelected('to', $event)">
           </datepicker-form>
         </div>
       </div>
 
       <div class="form-row">
-        <div class="col-3">
+        <div class="col-6">
           <input-form
             :label="$t('budget')"
             name="money"
             type="number"
-            v-model="period.actionsBudget">
+            v-model="period.actionsBudget"
+            :error="$v.period.actionsBudget.$error"
+            :error-message="budgetErrorMsg">
           </input-form>
         </div>
       </div>
+
+      <error-form :error="error" />
 
       <div>
 				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
@@ -63,15 +67,19 @@
 <script>
 import InputForm from "../../components/input-form.vue";
 import DatePickerForm from "../../components/datepicker-form.vue";
-import {required} from "vuelidate/lib/validators";
+import {required, minValue} from "vuelidate/lib/validators";
 import {httpGet, httpPut, httpPost} from "../../api-client.js";
 import swal from "sweetalert";
+import ErrorForm from "../../components/error-form.vue";
+import errorHandlerMixin from "./../../mixins/error-handler";
 
 export default {
   components: {
     "input-form": InputForm,
-    "datepicker-form": DatePickerForm
+    "datepicker-form": DatePickerForm,
+    "error-form": ErrorForm
   },
+  mixins: [errorHandlerMixin],
   created() {
     if (this.$route.params.periodId && this.$route.params.periodId !== "0") {
       httpGet(`/periods/${this.$route.params.periodId}`)
@@ -89,6 +97,18 @@ export default {
   computed: {
     disabledDates() {
       return { to: new Date(this.from) };
+    },
+    budgetErrorMsg() {
+      if (!this.$v.period.actionsBudget.$error) {
+        return "";
+      }
+      if (!this.$v.period.actionsBudget.required) {
+        return this.$t("required");
+      }
+      if (!this.$v.period.actionsBudget.minValue) {
+        return this.$t("positiveNumber");
+      }
+      return "";
     }
   },
   data() {
@@ -97,7 +117,8 @@ export default {
       period: {
         name: "",
         dateFrom: "",
-        dateTo: ""
+        dateTo: "",
+        actionsBudget: null
       },
       from: this.period ? this.period.dateFrom : "",
       to: this.period ? this.period.dateTo : "",
@@ -129,6 +150,9 @@ export default {
               timer: 2000
             });
             this.$router.push({name: "periods-list"});
+          })
+          .catch((err) => {
+            this.handleError(err);
           });
       }
     }
@@ -137,7 +161,8 @@ export default {
     from: {required},
     to: {required},
     period: {
-      name: {required}
+      name: {required},
+      actionsBudget: {required, minValue: minValue(0)}
     }
   }
 };
