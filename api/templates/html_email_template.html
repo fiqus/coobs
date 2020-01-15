@@ -1,9 +1,38 @@
 {% load static %}
 {% load i18n %}
+<html>
+  <head>
+    <link rel="stylesheet" href="{{public_url}}{% static 'styles/style.css' %}">
+    <!-- <style>
+      .horizontal-central-align{  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-<div>
-  <img src="{{public_url}}{% static 'img/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo">
-  <h3>{% trans "One of your partners added you to COOBS being part of" %} {% firstof cooperative.name cooperative.business_name%}</h3>
-  <p>{% trans "Your password has been set to" %}: {{password}}. <br/>{% trans "Please change it as soon as possible."%}</p>
-  <br/><p>{% blocktrans %} Enter to {{public_url}} and start using COOBS!{% endblocktrans %}</p>
-</div>
+      .background-color{
+        background-color:#2FA4B5;
+      }
+    </style> -->
+  </head>
+  <body>
+    <div class="background-color">
+      <header>
+        <div style="height: 100px;" class="horizontal-central-align">
+          <img src="{{public_url}}{% static 'img/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo">
+          <!-- <img src="https://www.smartbonny.com/wp-content/uploads/2019/05/551103-1TOqFD1502285018.jpg" style='height:inherit;' border="0" alt="coobs-logo"> -->
+        </div>
+      </header>
+      <section class="horizontal-central-align">
+        <div>
+          <h3>{% trans "One of your partners added you to COOBS being part of" %} {% firstof cooperative.name cooperative.business_name%}</h3>
+          <p class="horizontal-central-align">{% trans "Your password has been set to" %}: {{password}}. <br/>{% trans "Please change it as soon as possible."%}</p>
+          <br/><p class="horizontal-central-align">{% blocktrans %} Enter to {{public_url}} and start using COOBS!{% endblocktrans %}</p>
+        </div>
+      </section>
+      <footer class="horizontal-central-align">
+        <small>Created with ♥ by Fiqus | &copy; COOBS 2019</small>
+      </footer>
+    </div>
+  </body>
+</html>
