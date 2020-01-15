@@ -45,7 +45,7 @@ export default {
         {key: "date", value: "date"},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
         {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
-        {key: "principle", value: "principle", parser: (p) => formatText(p.principleName, 50)},
+        {key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
         {key: "public", value:  "public", parser: (p) => parseBoolean(p.public)},
       ],
       actions: []
