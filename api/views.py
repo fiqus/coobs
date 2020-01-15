@@ -92,8 +92,8 @@ class CooperativeView(viewsets.ModelViewSet):
             return partner_data
 
         def send_email():
-            text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}'
-            html_content = f'<div><h1>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h1></div>'
+            text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}. Remember to activate the cooperative and created user. After that send them an email to notify that te cooperative can be used.'
+            html_content = f'<div><h3>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h3><br/><p>Remember to activate the cooperative and created user. <br/>After that send them an email to notify that te cooperative can be used.</p></div>'
             email = EmailMultiAlternatives('A new cooperative wants to join COOBS!',
                                            text_content, getattr(settings, "DEFAULT_FROM_EMAIL", "test@console.com"),
                                            [getattr(settings, "EMAIL_ADMIN_ACCOUNT", "test@console.com")])
@@ -149,7 +149,10 @@ class CooperativeView(viewsets.ModelViewSet):
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         transaction.on_commit(assign_coop_to_partner)
-        return Response(f'{data["businessName"]} Cooperative asked to be created', status=status.HTTP_200_OK)
+        created_coop_success_msg = _("The cooperative {0} has been created for user {1} {2} with email {3}.".format(data['businessName'], data['firstName'], data['lastName'], data['email']))
+        account_needs_to_be_activated_msg = _("It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used.")
+
+        return Response({'created_coop_success_msg': created_coop_success_msg,'account_needs_to_be_activated_msg': account_needs_to_be_activated_msg}, status=status.HTTP_200_OK)
 
 
 class PartnerView(viewsets.ModelViewSet):
@@ -185,9 +188,9 @@ class PartnerView(viewsets.ModelViewSet):
         def send_email():
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password, 'public_url': public_url}
-            text_template = get_template('text_email_template.txt')
+            text_template = get_template('partner_created_email_template.txt')
             text_content = text_template.render(context)
-            html_template = get_template('html_email_template.html')
+            html_template = get_template('partner_created_email_template.html')
             html_content = html_template.render(context)            
             subject = _('Hello {0}, you have been added to COOBS!'.format(partner.first_name))
             email = EmailMultiAlternatives(subject, text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])

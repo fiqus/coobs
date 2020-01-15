@@ -14,13 +14,13 @@ $(function() {
       $this = $("#registerAccount");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
 
-      function onSucess() {
+      function onSucess(msgs) {
         // Success message
         $('#success').html("<div class='alert alert-success'>");
         $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
           .append("</button>");
         $('#success > .alert-success')
-          .append(`<strong>The cooperative ${data.businessName} has been created for user ${data.firstName} ${data.lastName} with email ${data.email}.</strong>`);
+          .append(`<strong>${msgs["createdCoopSuccessMsg"]}</strong><br/>${msgs["accountNeedsToBeActivatedMsg"]}`);
         $('#success > .alert-success')
           .append('</div>');
         //clear all fields
@@ -66,7 +66,7 @@ $(function() {
               headers: {"Accept-Language": $('#language').val() || 'en'},
               data,
               cache: false,
-              success: onSucess,
+              success: (msgs) => {onSucess(msgs)},
               error: (err) => {onError(err)},
               complete: onComplete
             });
