@@ -9,7 +9,8 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.translation import gettext as _
-from api.dashboard_charts.charts_data_helpers import get_cards_data, get_all_principles_data, get_monthly_actions_by_principle
+from django.db.models import Count
+from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, get_actions_by_partner, get_monthly_investment_by_principle, get_monthly_actions_by_principle
 import requests
 import datetime
 from django.template.loader import get_template
@@ -234,11 +235,16 @@ class DashboardView(viewsets.ViewSet):
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
+        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data.date_from, action__date__lte=date).annotate(total=Count('username')).order_by()
+
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
         
         charts = {
             'cards_data': get_cards_data(action_data, done_actions_data, period_data),
             'all_principles_data': get_all_principles_data(done_actions_data, principles),
+            'progress_data': get_progress_data(action_data, done_actions_data, period_data),
+            'actions_by_partner': get_actions_by_partner(partner_data),
+            'monthly_investment_by_principle': get_monthly_investment_by_principle(done_actions_data, period_data.date_from, principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data, period_data.date_from, principles),
             }
 

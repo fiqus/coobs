@@ -84,5 +84,7 @@
   "selectPartners": "Select partners",
   "onceActionDeleted": "Once deleted, this action won't able anymore.",
   "oncePeriodDeleted": "Once deleted, this period won't able anymore.",
-  "positiveNumber": "Must be a positive number."
+  "positiveNumber": "Must be a positive number.",
+  "allActionsByPartnersLabel": "Actions by partner",
+  "progress": "Progress"
 }

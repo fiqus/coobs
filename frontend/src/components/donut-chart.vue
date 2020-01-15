@@ -1,11 +1,11 @@
 <template>
-  <div class="col-xl-3 col-lg-4">
+  <div class="col-xl-6 col-lg-4">
     <div class="card shadow mb-4">
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6>
       </div>
       <div class="card-body">
-        <div class="chart-area">
+        <div class="">
           <apexchart  type=  "donut" :options="donutData" :series="donutData.series"></apexchart>
         </div>
       </div>
@@ -16,6 +16,7 @@
 import VueApexCharts from "vue-apexcharts";
 
 const commonsChartOptions = {
+  
   plotOptions: {
     pie: {
     },
@@ -24,7 +25,7 @@ const commonsChartOptions = {
     breakpoint: 480,
     options: {
       chart: {
-        width: "500"
+        width: "auto"
       }
     }
   }],
@@ -45,10 +46,6 @@ export default {
     chartData: {
       type: Array,
       required: true,
-      default: {
-        label: "Default",
-        percentage: 100
-      }
     }
   },
   components: {

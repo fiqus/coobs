@@ -10,23 +10,50 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
 import VueApexCharts from "vue-apexcharts";
 
 const commonsChartOptions = {
+  plotOptions: {
+    bar: {
+      horizontal: false,
+      endingShape: "flat",
+      columnWidth: "20%",
+      barHeight: "20%",
+      distributed: true,
+      colors: {
+        ranges: [{
+          from: 0,
+          to: 0,
+          color: undefined
+        }],
+        backgroundBarColors: [],
+        backgroundBarOpacity: 1,
+      },
+      dataLabels: {
+        position: "top",
+        maxItems: 100,
+        hideOverflowingLabels: false,
+        orientation: "horizontal"
+      }
+    }
+  },
   colors: ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"],
-  
+
+  legend: {
+    show: false
+  },
   chart: {
-    stacked: true,
+    orientation: "horizontal",
+    stacked: false,
     height: 350,
     zoom: {
       enabled: false
     }
   },
-  dataLabels: {enabled: false},
   stroke: {curve: "straight"},
 
 };

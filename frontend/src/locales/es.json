@@ -85,5 +85,7 @@
   "selectPartners": "Seleccione los socios",
   "onceActionDeleted": "Una vez eliminada, ésta acción no estará más disponible.",
   "oncePeriodDeleted": "Una vez eliminado, éste período no estará más disponible.",
-  "positiveNumber": "Debe ser un número positivo."
+  "positiveNumber": "Debe ser un número positivo.",
+  "allActionsByPartnersLabel": "Acciones por socios",
+  "progress": "Progreso"
 }

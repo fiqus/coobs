@@ -57,70 +57,114 @@
 
     <!-- Content Row -->
     <div class="row">
-
       <!-- Principle Chart -->
       <donut-chart
         :label="$t('allPrinciples')"
         :chart-data="allPrinciplesData">
-
       </donut-chart>
 
-      <radialbar-chart
-        v-for="principle in firstRowPrinciples"
-        :key="principle.label"
-        :label="principle.label"
-        :percentage="principle.percentage">
-      </radialbar-chart>
+      <div class="col-xl-6 col-lg-4">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
+          </div>
+          <div class="card-body">
+            <div class="">
+              <!-- Period -->
+              <div class="row no-gutters align-items-center">
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateFrom}}</div>
+                </div>
+                <div class="col center-col">
+                  <div class="progress progress-sm mr-2 progress-data center">
+                    <div class="progress-bar bg-info" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
+                </div>
+              </div>
 
+              <!-- Actions -->
+              <div class="row no-gutters align-items-center">
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+                </div>
+                <div class="col center-col">
+                  <div class="progress progress-sm mr-2 progress-data">
+                    <div class="progress-bar bg-info" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone}}</div>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="row no-gutters align-items-center">
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">$0,00</div>
+                </div>
+                <div class="col center-col">
+                  <div class="progress progress-sm mr-2 progress-data">
+                    <div class="progress-bar bg-info" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <columns-chart
+      :title="allActionsByPartnersLabel"
+      :columns-data="actionsByPartnerData"
+      :xaxis="actionsByPartnerLabels">
+    </columns-chart>
+
+    <area-chart
+      :title="allPrinciplesYearLabel"
+      :columns-data="monthlyInvestmentByPrincipleData"
+      :xaxis="monthlyInvestmentByPrincipleLabels">
+    </area-chart>
     <!-- Content Row -->
-    <div class="row">
-
-      <radialbar-chart
-        v-for="principle in secondRowPrinciples"
-        :key="principle.label"
-        :label="principle.label"
-        :percentage="principle.percentage">
-      </radialbar-chart>
-
-    </div>
-
     <stacked-columns-chart
       :title="allPrinciplesYearLabel"
       :columns-data="monthlyActionsByPrincipleData"
       :xaxis="monthlyActionsByPrincipleLabels">
     </stacked-columns-chart>
-
   </div>
 </template>
 
 <script>
-import RadialBarChart from "../components/radialbar-chart.vue";
 import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
+import ColumnsChart from "../components/columns-chart.vue";
+import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 
-const coopcolors = ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"];
 
 export default {
   components: {
-    "radialbar-chart": RadialBarChart,
     "smallcard-chart": SmallCardChart,
     "stacked-columns-chart": StackedColumndsChart,
-    "donut-chart": DonutChart
+    "donut-chart": DonutChart,
+    "columns-chart": ColumnsChart,
+    "area-chart": AreaChart
   },
   computed: {
     allPrinciplesYearLabel() {
       return `${this.$t("allPrinciples")}`;
     },
-    firstRowPrinciples() {
-      return this.principles.slice(0, 3);
+    allActionsByPartnersLabel() {
+      return `${this.$t("allActionsByPartnersLabel")}`;
     },
-    secondRowPrinciples() {
-      return this.principles.slice(3);
-    }
+    
   },
   async created() {
     const dashboardData = await api.getDashboard();
@@ -138,9 +182,19 @@ export default {
 
     this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
     
+    this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
+    this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
+
+    this.monthlyInvestmentByPrincipleData = dashboardData.charts.monthlyInvestmentByPrinciple.result;
+    this.monthlyInvestmentByPrincipleLabels = {categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
+    
     this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
     this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
     
+    this.progressData = dashboardData.charts.progressData;
+    this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
+    this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
+    this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;
 
   },
   data() {
@@ -151,8 +205,14 @@ export default {
       totalInvested: 0,
       promotionFundPercentage: 0,
       promotionFundStyle: "",
+      periodProgressStyle: "",
+      actionsProgressStyle: "",
+      investmentProgressStyle: "",
+      progressData: {},
       allPrinciplesData: {},
+      actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
+      monthlyInvestmentByPrincipleData: [],
       xaxis: {categories: []},
       principles: []
     };

@@ -19,3 +19,13 @@
   width: 100%;
   height: 100%;
 }
+
+.progress-data {
+  width: 100%;
+}
+
+.center-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
