@@ -42,7 +42,7 @@
       </div>
 
       <div class="form-row">
-        <div class="col-6">
+        <div class="col-4">
           <input-form
             :label="$t('budget')"
             name="money"
@@ -51,6 +51,9 @@
             :error="$v.period.actionsBudget.$error"
             :error-message="budgetErrorMsg">
           </input-form>
+        </div>
+        <div class="col-8">
+          <small class="form-text text-muted font-italic ml-3">{{$t('budgetHelp')}}</small>
         </div>
       </div>
 
@@ -124,7 +127,7 @@ export default {
       to: this.period ? this.period.dateTo : "",
       principles: [],
       isNew,
-      title: isNew ? this.$t("createPeriod") : this.$t("editPeriod")
+      title: isNew ? "createPeriod" : "editPeriod"
     };
   },
   methods: {

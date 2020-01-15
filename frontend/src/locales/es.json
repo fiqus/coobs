@@ -75,7 +75,7 @@
   "areYouSure": "Estás seguro?",
   "oncePartnerDeleted": "Una vez eliminado, el socio no podrá ser asignado a acciones y perderá sus credenciales de usuario.",
   "partnerDeleted": "El socio ha sido eliminado!",
-  "balanceSubtitle": "Balance del período {period} con fechas {from} hasta {to} y un presupuesto de ${budget}.",
+  "balanceSubtitle": "Balance del período {period} desde {from} hasta {to} y un presupuesto de ${budget}.",
   "readyToLeave": "Listo para irte?",
   "selectLogoutToEnd": "Presiona 'Cerrar sesión' si estás listo para finalizar tu sesión.",
   "sessionEnded": "Sesión finalizada.",
@@ -87,5 +87,9 @@
   "oncePeriodDeleted": "Una vez eliminado, éste período no estará más disponible.",
   "positiveNumber": "Debe ser un número positivo.",
   "allActionsByPartnersLabel": "Acciones por socios",
-  "progress": "Progreso"
+  "progress": "Progreso",
+  "actionVisibilityHelp": "Elija si quiere que la acción sea visible para otras cooperativas, así como en otras secciones de COOBS.",
+  "principleVisibilityHelp": "Elija si quiere que el principio sea visible en el panel, así como considerado para las estadísticas y balance.",
+  "hide": "Oculto",
+  "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas."
 }

@@ -70,12 +70,17 @@
           </input-form>
         </div>
       </div>
-      <div class="form-group">
-        <bootstrap-toggle class="form-control"
-          v-model="action.public"
-          data-toggle="toggle"
-          :options="{on: $t('public'), off: $t('private'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
-          :disabled="false" />
+      <div class="form-row">
+        <div class="col-4">
+          <bootstrap-toggle class="form-control"
+            v-model="action.public"
+            data-toggle="toggle"
+            :options="{on: $t('public'), off: $t('private'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+            :disabled="false" />
+        </div>
+        <div class="col-8">
+          <small class="form-text text-muted font-italic ml-3">{{$t('actionVisibilityHelp')}}</small>
+        </div>
       </div>
       
       <error-form :error="error" />

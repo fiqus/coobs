@@ -25,12 +25,17 @@
         error-message="Required">
       </textarea-form>
 
-      <div class="form-group">
-        <bootstrap-toggle class="form-control"
-          v-model="principle.visible"
-          data-toggle="toggle"
-          :options="{on: 'Visible', off: 'Hide', onstyle: 'success', offstyle: 'danger', size: 'normal'}"
-          :disabled="false" />
+      <div class="form-row">
+        <div class="col-4">
+          <bootstrap-toggle class="form-control"
+            v-model="principle.visible"
+            data-toggle="toggle"
+            :options="{on: $t('visible'), off: $t('hide'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+            :disabled="false" />
+        </div>          
+        <div class="col-8">
+          <small class="form-text text-muted font-italic ml-3">{{$t('principleVisibilityHelp')}}</small>
+        </div>          
       </div>
 
       <error-form :error="error" />

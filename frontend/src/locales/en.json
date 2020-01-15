@@ -18,6 +18,7 @@
   "allPrinciples": "All principles",
   "yearly": "Yearly",
   "from": "From",
+  "to": "To",
   "edit": "Edit",
   "delete": "Delete",
   "partners": "Partners",
@@ -74,7 +75,7 @@
   "areYouSure": "Are you sure?",
   "oncePartnerDeleted": "Once deleted, this partner can not be assigned to actions and will lose its user credentials.",
   "partnerDeleted": "The partner has been deleted!",
-  "balanceSubtitle": "Balance for period {period} with dates between {from} and {to} and a budget of ${budget}.",
+  "balanceSubtitle": "Balance for period {period} from {from} to {to} and a budget of ${budget}.",
   "readyToLeave": "Ready to leave?",
   "selectLogoutToEnd": "Select 'Logout' if you're ready to end your current session.",
   "sessionEnded": "Session ended.",
@@ -86,5 +87,9 @@
   "oncePeriodDeleted": "Once deleted, this period won't able anymore.",
   "positiveNumber": "Must be a positive number.",
   "allActionsByPartnersLabel": "Actions by partner",
-  "progress": "Progress"
+  "progress": "Progress",
+  "actionVisibilityHelp": "Choose whether you want the action to be visible to other cooperatives, as well as in other sections of COOBS.",
+  "principleVisibilityHelp": "Choose if you want the principle to be visible in the panel, as well as considered for statistics and balance.",
+  "hide": "Hide",
+  "budgetHelp": "The budget to be used in this period is 5% of the profits obtained."
 }
