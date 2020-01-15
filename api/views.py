@@ -105,11 +105,7 @@ class CooperativeView(viewsets.ModelViewSet):
             main_principles = MainPrinciple.objects.all()
             principles = list()
             for main_principle in main_principles:
-                principle_data = Principle()
-                setattr(principle_data, 'description', "")
-                setattr(principle_data, 'visible', True)
-                setattr(principle_data, 'cooperative', cooperative)
-                setattr(principle_data, 'main_principle', main_principle)
+                principle_data = Principle(cooperative=cooperative, main_principle=main_principle)
                 principles.append(principle_data)
             Principle.objects.bulk_create(principles)
 
