@@ -19,7 +19,7 @@ from api.models import Principle, Action, Period, Cooperative, Partner, MainPrin
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
     ActionsByCoopSerializer
-
+from django_filters import rest_framework as filters
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -32,8 +32,24 @@ class PrincipleView(viewsets.ModelViewSet):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
 
+class ActionFilter(filters.FilterSet):
+    principle = filters.NumberFilter(field_name="principle__id")
+    date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
+    date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
+    partner = filters.ModelMultipleChoiceFilter(
+        field_name="partners_involved",
+        queryset=Partner.objects.all()
+    )
+
+    class Meta:
+        model = Action
+        fields = ['principle', 'date_from', 'date_to', 'partner']
+
+
 class ActionView(viewsets.ModelViewSet):
     serializer_class = ActionSerializer
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = ActionFilter
 
     def get_queryset(self):
         queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id)

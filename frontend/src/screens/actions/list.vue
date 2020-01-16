@@ -28,13 +28,22 @@ import CustomTable from "../../components/custom-table.vue";
 import Loader from "../../components/loader-overlay.vue";
 import Spinner from "../../components/spinner.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
-import {formatText} from "../../utils";
+import {formatText, capitalizeFirstChar} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 
 function parseBoolean(value) {
   const icon = value ? "check" : "times";
   return `<i class="fas fa-${icon}-circle fa-2x"></i>`;
+}
+
+function parsePartners(partners) {
+  let result = "";
+  partners.forEach((partner) => {
+    const partnerFullName = `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`;
+    result = result.concat(`<span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${partnerFullName}</span>`)
+  });
+  return result;
 }
 
 export default {
@@ -58,6 +67,7 @@ export default {
         {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
         //{key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
         {key: "public", value: "public", parser: (p) => parseBoolean(p.public)},
+        {key: "partnersInvolved", value: "partners", parser: (p) => parsePartners(p.partnersInvolved)},
       ],
       actions: [],
       isLoading: true

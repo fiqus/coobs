@@ -117,6 +117,13 @@ import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
 
+function parserPartners(partners) {
+  return partners.map(({id, firstName, lastName}) => {
+    const name = `${capitalizeFirstChar(firstName)} ${capitalizeFirstChar(lastName)}`;
+    return {id, name, firstName, lastName};
+  });
+}
+
 export default {
   components: {
     "input-form": InputForm,
