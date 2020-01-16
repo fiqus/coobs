@@ -11,6 +11,7 @@
         <h3 class="h5 mb-0 text-gray-800">
           {{$t("balanceSubtitle", {period: period.name, from: period.dateFrom, to: period.dateTo, budget: Number(period.actionsBudget)})}}
         </h3>
+        <button type="button" class="btn btn-primary">{{$t("downloadBalance")}} <i class="fas fa-file-download"/></button>
       </div>
 
       <balance-by-period-table v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"

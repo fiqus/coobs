@@ -91,5 +91,6 @@
   "actionVisibilityHelp": "Elija si quiere que la acción sea visible para otras cooperativas, así como en otras secciones de COOBS.",
   "principleVisibilityHelp": "Elija si quiere que el principio sea visible en el panel, así como considerado para las estadísticas y balance.",
   "hide": "Oculto",
-  "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas."
+  "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas.",
+  "downloadBalance": "Descargar"
 }
