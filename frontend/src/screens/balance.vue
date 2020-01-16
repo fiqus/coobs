@@ -52,7 +52,10 @@
           }
           let invested = 0;
           this.actionsByPeriod = actions.reduce((obj, action) => {
-            if (!Object.keys(obj).includes(action.principle)) {
+            if (!action.public) {
+              return obj;
+            }
+            if (!Object.keys(obj).includes(action.principle.toString())) {
               obj[action.principle] = {
                 principleNameKey: action.principleNameKey,
                 actions: []
