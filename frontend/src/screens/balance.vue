@@ -37,7 +37,7 @@
   import BalanceByPeriodTable from '../components/balance-by-period-table.vue';
   import html2pdf from 'html2pdf.js';
 
-  function print(period){
+  function print(period, translator){
     const html = $('#nodeToRenderAsPDF')[0];
     const opt = {
       margin:       [5, 5, 5, 5],
@@ -55,7 +55,7 @@
         pdf.setPage(i);
         pdf.setFontSize(10);
         pdf.setTextColor(150);
-        pdf.text('Page '+i+' of '+totalPages, pdf.internal.pageSize.width/2-10, pdf.internal.pageSize.height - 5);
+        pdf.text(translator('page')+' '+i+' '+translator('of')+' '+totalPages, pdf.internal.pageSize.width/2-10, pdf.internal.pageSize.height - 5);
       } 
     }).save();
   }
@@ -66,7 +66,7 @@
     },
     methods:{
       download() {
-        print(this.period);
+        print(this.period, this.$t);
       }
     },    
     created() {

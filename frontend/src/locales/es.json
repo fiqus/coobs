@@ -92,5 +92,7 @@
   "principleVisibilityHelp": "Elija si quiere que el principio sea visible en el panel, así como considerado para las estadísticas y balance.",
   "hide": "Oculto",
   "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas.",
-  "downloadBalance": "Descargar"
+  "downloadBalance": "Descargar",
+  "page": "Página",
+  "of": "de"
 }
