@@ -16,7 +16,7 @@
         <div class="col-4">
           <select-form
             v-model="filters.principle"
-            :options="principles"
+            :options="principlesFilter"
             :label="$t('principle')">
           </select-form>
         </div>
@@ -54,7 +54,7 @@
         :headers="headers"
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
-        :empty-state-msg="$t('emptyActionMsg')"
+        :empty-state-msg="emptyMsg"
         @onEdit="onEdit"
         @onDelete="onDelete"
         @onQuickView="onQuickView">
@@ -165,16 +165,17 @@ export default {
       periods: [],
       partners: [],
       filters: {
-        principle: {},
-        period: {},
-        partner: {}
+        principle: null,
+        period: null,
+        partner: null
       },
       errorFilter: {
         exists: false,
         message: "",
         backgroundClass: "bg-danger"
       },
-      isLoading: true
+      isLoading: true,
+      emptyMsg: this.$t('emptyActionMsg')
     };
   },
   methods: {
@@ -182,16 +183,40 @@ export default {
       this.$v.filters.$reset();
     },
     cleanFilters() {
-      this.filters.principle = {};
-      this.filters.period = {};
-      this.filters.partner = {};
+      this.filters.principle = null;
+      this.filters.period = null;
+      this.filters.partner = null;
       this.$v.filters.$reset();
     },
     submitFilters() {
-      console.log("ÁSDADASDASD");
       this.$v.filters.$touch();
       if (!this.filtersAreInvalid) {
-        return console.log("Success!");
+        const params = {}
+        if (this.filters.principle) {
+          params.principle = this.filters.principle;
+        }
+        if (this.filters.partner) {
+          params.partner = this.filters.partner;
+        }
+        if (this.filters.period) {
+          const period = this.periods.find((period) => {
+            return period.id === this.filters.period;
+          });
+          if (period) {
+            params.date_from = period.dateFrom;
+            params.date_to = period.dateTo;
+          }
+        }
+        return httpGet(`/actions`, params)
+          .then((res) => {
+            this.actions = res.data;
+            if (!this.actions.length) {
+              this.emptyMsg = this.$t('noActionsResults');
+            }
+          })
+          .catch((err) => {
+            this.handleError(err);
+          })
       }
     },
     onEdit(action) {

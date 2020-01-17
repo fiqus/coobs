@@ -110,5 +110,6 @@
   "period": "Período",
   "clean": "Limpiar",
   "apply": "Aplicar",
-  "selectAtLeastOneFilter": "Seleccione al menos un filtro."
+  "selectAtLeastOneFilter": "Seleccione al menos un filtro.",
+  "noActionsResults": "No hay acciones para los filtros seleccionados."
 }
