@@ -90,7 +90,6 @@
   "allActionsByPartnersLabel": "Acciones por socios",
   "monthlyInvestmentByDateLabel": "Inversión por mes",
   "progress": "Progreso",
-  "actionVisibilityHelp": "Elija si quiere que la acción sea visible para otras cooperativas, así como en otras secciones de COOBS.",
   "principleVisibilityHelp": "Elija si quiere que el principio sea visible en el panel, así como considerado para las estadísticas y balance.",
   "hide": "Oculto",
   "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas.",
@@ -107,5 +106,9 @@
   "cooperative": "Cooperativa",
   "downloading": "Downloading",
   "loading": "Cargando",
-  "quickView": "Ver detalle"
+  "quickView": "Ver detalle",
+  "period": "Período",
+  "clean": "Limpiar",
+  "apply": "Aplicar",
+  "selectAtLeastOneFilter": "Seleccione al menos un filtro."
 }

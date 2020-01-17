@@ -4,7 +4,7 @@
       {{label}}
     </label>
     <select class="custom-select" :class="{'is-invalid': error}" v-model="value" @input="onInput">
-      <option selected value="">{{defaultValue}}</option>
+      <option v-if ="defaultValue" selected value="">{{defaultValue}}</option>
       <option v-for="option in options" :key="option.id" :value="option.id">
         {{option.name}}
       </option>

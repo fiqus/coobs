@@ -7,9 +7,50 @@
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
+
     <spinner :loading='isLoading'/>
     <loader :loading='isLoading'/>
-      <custom-table
+
+    <form v-on:submit.prevent="submitFilters">
+      <div class="row">
+        <div class="col-4">
+          <select-form
+            v-model="filters.principle"
+            :options="principles"
+            :label="$t('principle')">
+          </select-form>
+        </div>
+        <div class="col-4">
+          <select-form
+            v-model="filters.period"
+            :options="periodsFilter"
+            :label="$t('period')">
+          </select-form>
+        </div>
+        <div class="col-4">
+          <select-form
+            v-model="filters.partner"
+            :options="partnersFilter"
+            :label="$t('partner')">
+          </select-form>
+        </div>
+      </div>
+
+      <error-form :error="errorFilter" @clean="cleanError()"/>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-warning">
+          <i class="fa fa-filter"></i>
+          {{$t("apply")}}
+        </button>
+        <button type="button" class="btn btn-secondary" @click.stop="cleanFilters()">
+          <i class="fa fa-eraser"></i> 
+          {{$t("clean")}}
+        </button>
+      </div>
+    </form>
+
+    <custom-table
         :headers="headers"
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
@@ -18,7 +59,6 @@
         @onDelete="onDelete"
         @onQuickView="onQuickView">
       </custom-table>
-    
   </div>
 </template>
 
@@ -31,6 +71,10 @@ import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
+import SelectForm from "../../components/select-form.vue";
+import {required} from "vuelidate/lib/validators";
+import ErrorForm from "../../components/error-form.vue";
+import errorHandlerMixin from "./../../mixins/error-handler";
 
 function parseBoolean(value) {
   const icon = value ? "check" : "times";
@@ -50,14 +94,61 @@ export default {
   components: {
     "custom-table": CustomTable,
     "loader": Loader,
-    "spinner": Spinner
+    "spinner": Spinner,
+    "select-form": SelectForm,
+    "error-form": ErrorForm
   },
+  mixins: [errorHandlerMixin],
   created() {
-    httpGet("/actions")
-      .then((response) => {
-        this.actions = response.data;
+    return Promise.all([
+        httpGet("/actions"),
+        httpGet("/principles"),
+        httpGet("/periods"),
+        httpGet("/partners"),
+      ])
+      .then(([actions, principles, periods, partners]) => {
+        this.actions = actions.data;
+        this.principles = principles.data;
+        this.periods = periods.data;
+        this.partners = partners.data;
         this.isLoading = false;
+      })
+  },
+  watch: {
+    'filtersAreInvalid': function _watch$vfilters$error (isInvalid) {
+        this.errorFilter.message = "selectAtLeastOneFilter";
+        this.errorFilter.exists = isInvalid;
+      }
+  },
+  computed: {
+    principlesFilter() {
+      return this.principles.map(({id, name, nameKey}) => {
+        return {
+          id,
+          name: this.$t(nameKey, name)
+        };
       });
+    },
+    periodsFilter() {
+      return this.periods.map(({id, name, dateFrom, dateTo}) => {
+        const label = `${name} | ${dateFrom} - ${dateTo}`
+        return {
+          id,
+          name: label
+        }
+      });
+    },
+    partnersFilter() {
+      return this.partners.map(({id, firstName, lastName}) => {
+        const name = `${capitalizeFirstChar(firstName)} ${capitalizeFirstChar(lastName)}`;
+        return {id, name};
+      });
+    },
+    filtersAreInvalid() {
+      return this.$v.filters.principle.$error &&
+        this.$v.filters.period.$error &&
+        this.$v.filters.partner.$error;
+    }
   },
   data() {
     return {
@@ -70,10 +161,39 @@ export default {
         {key: "partnersInvolved", value: "partners", parser: (p) => parsePartners(p.partnersInvolved)},
       ],
       actions: [],
+      principles: [],
+      periods: [],
+      partners: [],
+      filters: {
+        principle: {},
+        period: {},
+        partner: {}
+      },
+      errorFilter: {
+        exists: false,
+        message: "",
+        backgroundClass: "bg-danger"
+      },
       isLoading: true
     };
   },
   methods: {
+    cleanError() {
+      this.$v.filters.$reset();
+    },
+    cleanFilters() {
+      this.filters.principle = {};
+      this.filters.period = {};
+      this.filters.partner = {};
+      this.$v.filters.$reset();
+    },
+    submitFilters() {
+      console.log("ÁSDADASDASD");
+      this.$v.filters.$touch();
+      if (!this.filtersAreInvalid) {
+        return console.log("Success!");
+      }
+    },
     onEdit(action) {
       this.$router.push({name: "action-edit", params: {actionId: action.id}});
     },
@@ -110,6 +230,13 @@ export default {
       });
 
 
+    }
+  },
+  validations: {
+    filters: {
+      principle: {required},
+      period: {required},
+      partner: {required}
     }
   }
 };

@@ -1,9 +1,14 @@
 <template>
-  <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-2 mb-3 rounded">
-    <h3 class="h6 mb-0 text-gray-100">
+  <div v-if="error.exists" :class="error.backgroundClass" class="form-row d-sm-flex align-items-center justify-content-between p-2 mb-3 rounded h6 text-gray-100">
+    <div class="col-11">
       <i class="fas fa-exclamation-circle"></i>
-      <span v-html="$t(error.message, error.message)"></span>
-    </h3>
+      <span class="ml-3" v-html="$t(error.message, error.message)"></span>
+    </div>
+    <div class="col-1 text-right">
+      <button class="btn btn-sm btn-circle btn-danger" @click.prevent="close()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -20,6 +25,12 @@
             backgroundClass: "bg-danger"
           }
         }
+      }
+    },
+    methods: {
+      close() {
+        this.error.exists = false;
+        this.$emit("clean");
       }
     }
   }
