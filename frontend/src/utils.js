@@ -13,21 +13,6 @@ export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function translateLabels(obj, translateFunction) {
-  const labels = Object.keys(obj);
-  return labels.map((label) => {
-    return translateFunction(label);
-  });
-}
-
-export function allPrinciplesDataParser(actions, principles, translateFunction) {
-  let principlesData = actions.reduce(function(acc, action){
-    acc[action.principleNameKey] += 1;
-    return acc;
-  }, principles);
-  return {"labels": translateLabels(principlesData, translateFunction), "series": Object.values(principlesData)};
-}
-
 export function principlesParser(allPrinciplesData, totalActions) {
   const fullPercentage = totalActions / allPrinciplesData.labels.length / totalActions;
 
@@ -38,4 +23,11 @@ export function principlesParser(allPrinciplesData, totalActions) {
 
 export function parseMoney(number) {
   return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"); 
+}
+
+export function translatePrinciples(results, translateFunction) {
+  return results.map((result) => {
+    result.name = translateFunction(result.name);
+    return result;
+  });
 }

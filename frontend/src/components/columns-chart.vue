@@ -6,7 +6,7 @@
           <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
         </div>
         <div class="card-body" >
-          <apexchart type=bar :options="chartData" :series="columnsData" />
+          <apexchart height= "350" type=bar :options="chartData" :series="columnsData" />
         </div>
       </div>
     </div>
@@ -55,7 +55,6 @@ const commonsChartOptions = {
     }
   },
   stroke: {curve: "straight"},
-
 };
 
 export default {

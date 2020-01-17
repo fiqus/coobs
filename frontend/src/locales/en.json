@@ -94,5 +94,9 @@
   "budgetHelp": "The budget to be used in this period is 5% of the profits obtained.",
   "downloadBalance": "Download it",
   "page": "Page",
-  "of": "of"
+  "of": "of",
+  "investmentProgress": "Investment",
+  "actionsProgress":"Actions",
+  "periodProgress": "Period",
+  "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle"
 }

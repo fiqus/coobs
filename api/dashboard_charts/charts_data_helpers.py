@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Func
 from django.db.models import Count, Sum
 from collections import OrderedDict
+from itertools import accumulate
 import datetime 
 import requests
 import functools
@@ -10,6 +11,11 @@ import time
 
 def t(dt):
   return time.mktime(dt.timetuple())
+
+class Day(Func):
+    function = 'EXTRACT'
+    template = '%(function)s(DAY from %(expressions)s)'
+    output_field = models.IntegerField()
 
 class Month(Func):
     function = 'EXTRACT'
@@ -68,33 +74,32 @@ def get_actions_by_partner(partner_data):
     
     return {'labels': partners.keys(), 'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]}
 
-
-
 #MONTHLY INVESTMENT BY PRINCIPLE
 
 def get_monthly_investment_by_principle(action_data, date_from, principles):
-    date = datetime.date.today()
-
-    actions_amount_by_principle_and_month = list(action_data.annotate(m=Month('date'), y=Year('date')) \
-        .values('m', 'y', 'principle_id') \
+    actions_amount_by_principle_and_day = list(action_data.values('date', 'principle_id') \
         .annotate(total=Sum('invested_money')) \
         .order_by())
     
-    months_labels = list(create_date_range(date_from, date))
+    categories = [action['date'] for action in actions_amount_by_principle_and_day]
 
     
-    actions_amount_by_principle_and_month = [{'date': f"{action['m']:02d}" + "-" + str(action['y']), 'sum': action['total'], 'principle': principles[action['principle_id']]} for action in actions_amount_by_principle_and_month]
+    actions_amount_by_principle_and_day = [{'date': action['date'], 'sum': action['total'], 'principle': principles[action['principle_id']]} for action in actions_amount_by_principle_and_day]
     
-    data = {principle: [0]*len(months_labels) for principle in principles.values()}
+    series = {principle: [0]*(len(categories)) for principle in principles.values()}
 
-    for action in actions_amount_by_principle_and_month:
-        index = months_labels.index(action['date'])
-        data[action['principle']][index] = action['sum'] 
-    result = [{'name': principle, 'data': data[principle]} for principle in data]
+    for action in actions_amount_by_principle_and_day:
+        index = categories.index(action['date']) 
+        series[action['principle']][index] =  action['sum']
+
+    for principle in series.keys():
+        series[principle] = list(accumulate(series[principle]))
+    result = [{'name':serie, 'data':series[serie] } for serie in series.keys()]
     
-    return {'labels': months_labels, 'result': result}
+    return {'labels': categories, 'result': result}
 
-
+def sum_series_numbers(item, serie):
+    return item + serie[serie.index(item) + 1]
 #MONTHLY ACTIONS BY PRINCIPLE
 
 def get_monthly_actions_by_principle(action_data, date_from, principles):

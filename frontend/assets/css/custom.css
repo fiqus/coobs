@@ -29,3 +29,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.align-right {
+  text-align: right; 
+}

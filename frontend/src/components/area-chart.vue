@@ -6,7 +6,7 @@
           <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
         </div>
         <div class="card-body" >
-          <apexchart type=area :options="chartData" :series="columnsData" />
+          <apexchart height= "350" type=area :options="chartData" :series="columnsData" />
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@ const commonsChartOptions = {
     horizontalAlign: "left"
   }, */
   xaxis: {
-    type: "datetime"
+    type: "datetime",
   },
 
 };

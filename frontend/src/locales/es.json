@@ -94,5 +94,10 @@
   "budgetHelp": "El presupuesto a utilizar en dicho período supone el 5% de las ganancias obtenidas.",
   "downloadBalance": "Descargar",
   "page": "Página",
-  "of": "de"
+  "of": "de",
+  "investmentProgress": "Inversión",
+  "actionsProgress":"Acciones",
+  "periodProgress": "Período",
+  "monthlyInvestmentByPrincipleLabel": "Inversión acumulada por principio"
+
 }

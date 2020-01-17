@@ -6,7 +6,7 @@
     </div>
 
     <!-- Content Row -->
-    <div class="row">
+    <div class="row" >
 
       <smallcard-chart
         :label="$t('actionsDone')"
@@ -71,9 +71,10 @@
           <div class="card-body">
             <div class="">
               <!-- Period -->
+              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>
               <div class="row no-gutters align-items-center">
                 <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateFrom}}</div>
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data center">
@@ -84,11 +85,14 @@
                   <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
                 </div>
               </div>
+              <hr>
 
               <!-- Actions -->
+              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('actionsProgress')}}</div>
+              
               <div class="row no-gutters align-items-center">
                 <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">0</div>
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data">
@@ -99,11 +103,14 @@
                   <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone}}</div>
                 </div>
               </div>
+              <hr>
 
-              <!-- Actions -->
+              <!-- Investment -->
+              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('investmentProgress')}}</div>
+
               <div class="row no-gutters align-items-center">
                 <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">$0,00</div>
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0,00</div>
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data">
@@ -127,7 +134,7 @@
     </columns-chart>
 
     <area-chart
-      :title="allPrinciplesYearLabel"
+      :title="monthlyInvestmentByPrincipleLabel"
       :columns-data="monthlyInvestmentByPrincipleData"
       :xaxis="monthlyInvestmentByPrincipleLabels">
     </area-chart>
@@ -147,6 +154,7 @@ import DonutChart from "../components/donut-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
+import {translatePrinciples} from "./../utils";
 
 
 export default {
@@ -164,6 +172,9 @@ export default {
     allActionsByPartnersLabel() {
       return `${this.$t("allActionsByPartnersLabel")}`;
     },
+    monthlyInvestmentByPrincipleLabel() {
+      return `${this.$t("monthlyInvestmentByPrincipleLabel")}`;
+    },
     
   },
   async created() {
@@ -179,16 +190,18 @@ export default {
     this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
     this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
 
-
+    dashboardData.charts.allPrinciplesData.labels = dashboardData.charts.allPrinciplesData.labels.map((label) =>{
+      return this.$t(label);
+    });  
     this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
     
     this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
     this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
 
-    this.monthlyInvestmentByPrincipleData = dashboardData.charts.monthlyInvestmentByPrinciple.result;
-    this.monthlyInvestmentByPrincipleLabels = {categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
+    this.monthlyInvestmentByPrincipleData = translatePrinciples(dashboardData.charts.monthlyInvestmentByPrinciple.result, this.$t);
+    this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
     
-    this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
+    this.monthlyActionsByPrincipleData = translatePrinciples(dashboardData.charts.monthlyActionsByPrinciple.result, this.$t);
     this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
     
     this.progressData = dashboardData.charts.progressData;

@@ -1,12 +1,12 @@
 <template>
-  <div class="col-xl-6 col-lg-4">
+  <div class="col-xl-3 col-lg-4">
     <div class="card shadow mb-4">
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6>
       </div>
       <div class="card-body">
         <div class="">
-          <apexchart  type=  "donut" :options="donutData" :series="donutData.series"></apexchart>
+          <apexchart height= "300" type= "donut" :options="donutData" :series="donutData.series"></apexchart>
         </div>
       </div>
     </div>
@@ -19,6 +19,7 @@ const commonsChartOptions = {
   
   plotOptions: {
     pie: {
+      
     },
   },  
   responsive: [{
@@ -33,8 +34,13 @@ const commonsChartOptions = {
     enabled: true,
   },
   legend: {
-    show: false
+    show: false,
+    
   },
+  chart: {
+    height: "100%"
+  },
+  
   colors: ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"],
 };
 
