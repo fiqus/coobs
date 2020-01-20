@@ -36,7 +36,7 @@ def get_cards_data(action_data, done_actions_data, period_data):
     pending_actions = len(action_data) - len(done_actions_data)
     promotion_fund_percentage = round(total_invested / period_data.actions_budget * 100, 2)
     
-    return {'done_actions': done_actions, 'total_invested': total_invested, 'pending_actions': pending_actions, 'promotion_fund_percentage': promotion_fund_percentage}
+    return {'done_actions': done_actions, 'total_invested': total_invested, 'pending_actions': 0 if pending_actions < 0 else pending_actions, 'promotion_fund_percentage': promotion_fund_percentage}
 
 #PROGRESS
 
@@ -50,7 +50,7 @@ def get_progress_data(action_data, done_actions_data, period_data):
     actions_progress_data = {
         "actions_done": len(done_actions_data), 
         "total_actions": len(action_data), 
-        "actions_progress": round(len(done_actions_data)/len(action_data) * 100, 2)
+        "actions_progress": 0 if len(action_data) == 0 else round(len(done_actions_data)/len(action_data) * 100, 2)
     }
     invested = round(functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data]), 2)
     investment_progress_data = {

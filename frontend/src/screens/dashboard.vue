@@ -175,12 +175,11 @@ export default {
     monthlyInvestmentByPrincipleLabel() {
       return `${this.$t("monthlyInvestmentByPrincipleLabel")}`;
     },
-    
   },
   async created() {
     const dashboardData = await api.getDashboard();
     console.log(dashboardData);
-
+    
     this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
     this.doneActions = dashboardData.charts.cardsData.doneActions;
@@ -207,8 +206,7 @@ export default {
     this.progressData = dashboardData.charts.progressData;
     this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
     this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
-    this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;
-
+    this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;  
   },
   data() {
     return {

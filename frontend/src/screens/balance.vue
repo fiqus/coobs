@@ -1,20 +1,38 @@
 <template>
   <div class="container">
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
-      <h3 class="h5 mb-0 text-gray-100">
+      <h5 class="mb-0 text-gray-100">
         <i class="fas fa-exclamation-circle"></i>
         {{$t(error.message, error.message)}}
-      </h3>
+      </h5>
+      <div class="dropdown no-arrow float-right mx-3">
+        <a class="dropdown-toggle my-n2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <select class="period-select mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+              {{period.name}}
+            </option>
+          </select>
+        </a>
+      </div>
     </div>
     <div v-else>
-      <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download">{{$t("downloadBalance")}} <i class="fas fa-file-download"/></button>
+      <!-- <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download">{{$t("downloadBalance")}} <i class="fas fa-file-download"/></button> -->
+      <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'><i class="fas fa-file-download"/></button>
+      <div class="dropdown no-arrow float-right mx-3">
+        <a class="dropdown-toggle my-n2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+              {{period.name}}
+            </option>
+          </select>
+        </a>
+      </div>
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <h3 class="h5 mb-0 text-gray-800">
             {{$t("balanceSubtitle", {period: period.name, from: period.dateFrom, to: period.dateTo, budget: Number(period.actionsBudget)})}}
           </h3>
         </div>
-
         <balance-by-period-table v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
           :period-summary="periodSummary">
         </balance-by-period-table>
@@ -65,47 +83,66 @@
       BalanceByPeriodTable
     },
     methods:{
+      setErrorMsg(err){
+        this.error = {
+          exists: true,
+          backgroundClass: " bg-danger",
+          message: err.response.data.detail
+        };
+      },
       download() {
         print(this.period, this.$t);
-      }
+      },
+      showBalance(res){
+        const {period, actions, allPeriods} = res.data;
+        if (!period || !actions || !actions.length) {
+          this.error = {
+            exists: true,
+            backgroundClass: " bg-warning",
+            message: "notEnoughInfoForBalance"
+          };
+          return;
+        }
+        let invested = 0;        
+        this.allPeriods = allPeriods;
+        this.actionsByPeriod = actions.reduce((obj, action) => {
+          if (!action.public) {
+            return obj;
+          }
+          if (!Object.keys(obj).includes(action.principle.toString())) {
+            obj[action.principle] = {
+              principleNameKey: action.principleNameKey,
+              actions: []
+            };
+          }
+          const {date, description, investedMoney, name} = action;
+          invested += Number(investedMoney);
+          obj[action.principle].actions.push({date, description, investedMoney, name});
+          return obj;
+        }, {});
+        this.period = period;
+        this.selectedValue = period.id;
+        this.totalInvested = invested;        
+      },
+      async onPeriodChange(){
+        this.error.exists = false;
+        const params = this.selectedValue ? {periodId: this.selectedValue} : {};
+        return httpGet('/balance', params)
+          .then((res) => {
+            this.showBalance(res);
+          })
+          .catch((err) => {
+            this.setErrorMsg(err);
+          })
+      }      
     },    
     created() {
       return httpGet('/balance')
         .then((res) => {
-          const {period, actions, principles} = res.data;
-          if (!period || !actions || !actions.length) {
-            this.error = {
-              exists: true,
-              backgroundClass: " bg-warning",
-              message: "notEnoughInfoForBalance"
-            };
-            return;
-          }
-          let invested = 0;
-          this.actionsByPeriod = actions.reduce((obj, action) => {
-            if (!action.public) {
-              return obj;
-            }
-            if (!Object.keys(obj).includes(action.principle.toString())) {
-              obj[action.principle] = {
-                principleNameKey: action.principleNameKey,
-                actions: []
-              };
-            }
-            const {date, description, investedMoney, name} = action;
-            invested += Number(investedMoney);
-            obj[action.principle].actions.push({date, description, investedMoney, name});
-            return obj;
-          }, {});
-          this.period = period;
-          this.totalInvested = invested;
+          this.showBalance(res);
         })
         .catch((err) => {
-          this.error = {
-            exists: true,
-            backgroundClass: " bg-danger",
-            message: err.response.data.detail
-          };
+          this.setErrorMsg(err);
         })
     },
     data() {
@@ -117,7 +154,9 @@
           exists: false,
           backgroundClass: " bg-danger",
           message: ""
-        }
+        },
+        allPeriods: [],
+        selectedValue: []
       }
     }
   }
