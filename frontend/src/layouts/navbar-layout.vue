@@ -175,9 +175,12 @@ export default {
     },
     currentLanguage: {
       get() {
-        return this.$i18n.locale();
+        const lang = this.$store.state.lang || this.$i18n.locale();
+        this.$i18n.set(lang);
+        return lang;
       },
       set(lang) {
+        this.$store.commit("setLang", lang);
         this.$i18n.set(lang);
       }
     }
