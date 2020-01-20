@@ -70,7 +70,7 @@
       }
     },    
     created() {
-      return httpGet('/dashboard')
+      return httpGet('/balance')
         .then((res) => {
           const {period, actions, principles} = res.data;
           if (!period || !actions || !actions.length) {
