@@ -78,6 +78,7 @@
     }).save();
   }
 
+  //FIXME throwing Cannot read property 'setAttribute' of null when selecting a period
   export default {
     components: {
       BalanceByPeriodTable

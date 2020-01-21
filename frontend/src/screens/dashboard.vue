@@ -186,7 +186,7 @@ export default {
   },
   async created() {
     const dashboardData = await api.getDashboard();
-    console.log(dashboardData);
+    // console.log(dashboardData);
     
     this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
@@ -230,7 +230,7 @@ export default {
       periodProgressStyle: "",
       actionsProgressStyle: "",
       investmentProgressStyle: "",
-      progressData: {},
+      progressData: {periodProgressData:{dateFrom: 0, dateTo: 0}, actionsProgressData: {actionsDone: 0}, investmentProgressData: {budget: 0}},
       allPrinciplesData: {},
       actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
