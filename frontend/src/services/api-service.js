@@ -26,7 +26,7 @@ export async function getPartner(partnerId){
   return partnerResponse.data;
 }
 
-export async function getDashboard() {
-  const response = await httpGet("/dashboard");
+export async function getDashboard(params) {
+  const response = await httpGet("/dashboard", params);
   return response.data ? response.data : [];
 }

@@ -16,8 +16,7 @@
       </div>
     </div>
     <div v-else>
-      <!-- <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download">{{$t("downloadBalance")}} <i class="fas fa-file-download"/></button> -->
-      <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'><i class="fas fa-file-download"/></button>
+      <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}  <i class="fas fa-file-download"/></button>
       <div class="dropdown no-arrow float-right mx-3">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
           <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
@@ -78,7 +77,6 @@
     }).save();
   }
 
-  //FIXME throwing Cannot read property 'setAttribute' of null when selecting a period
   export default {
     components: {
       BalanceByPeriodTable

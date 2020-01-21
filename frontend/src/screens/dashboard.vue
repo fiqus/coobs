@@ -3,6 +3,15 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}</h1>
+      <div class="dropdown no-arrow float-right mx-3">
+        <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+          <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+              {{period.name}}
+            </option>
+          </select>
+        </a>
+      </div>
     </div>
 
     <!-- Content Row -->
@@ -184,40 +193,53 @@ export default {
       return `${this.$t("monthlyInvestmentByPrincipleLabel")}`;
     },
   },
+  methods: {
+    showDashboardData(dashboardData){
+      this.selectedValue = dashboardData.period.id;
+      this.allPeriods = dashboardData.allPeriods;
+
+      this.pendingActions = dashboardData.charts.cardsData.pendingActions;
+
+      this.doneActions = dashboardData.charts.cardsData.doneActions;
+
+      this.totalInvested = dashboardData.charts.cardsData.totalInvested;
+
+      this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
+      this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
+
+      dashboardData.charts.allPrinciplesData.labels = dashboardData.charts.allPrinciplesData.labels.map((label) =>{
+        return this.$t(label);
+      });  
+      this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
+
+      this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
+      this.actionsByPrincipleLabels = {categories: this.allPrinciplesData.labels};
+      
+      this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
+      this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
+
+      this.monthlyInvestmentByPrincipleData = translatePrinciples(dashboardData.charts.monthlyInvestmentByPrinciple.result, this.$t);
+      this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
+      
+      this.monthlyActionsByPrincipleData = translatePrinciples(dashboardData.charts.monthlyActionsByPrinciple.result, this.$t);
+      this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
+      
+      this.progressData = dashboardData.charts.progressData;
+      this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
+      this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
+      this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
+    },
+    async onPeriodChange(){
+      const params = this.selectedValue ? {periodId: this.selectedValue} : {};
+      const dashboardData = await api.getDashboard(params);
+      console.log(dashboardData);
+      this.showDashboardData(dashboardData);
+    }    
+  },
   async created() {
     const dashboardData = await api.getDashboard();
-    // console.log(dashboardData);
-    
-    this.pendingActions = dashboardData.charts.cardsData.pendingActions;
-
-    this.doneActions = dashboardData.charts.cardsData.doneActions;
-
-    this.totalInvested = dashboardData.charts.cardsData.totalInvested;
-
-    this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
-    this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
-
-    dashboardData.charts.allPrinciplesData.labels = dashboardData.charts.allPrinciplesData.labels.map((label) =>{
-      return this.$t(label);
-    });  
-    this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
-
-    this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
-    this.actionsByPrincipleLabels = {categories: this.allPrinciplesData.labels};
-    
-    this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
-    this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
-
-    this.monthlyInvestmentByPrincipleData = translatePrinciples(dashboardData.charts.monthlyInvestmentByPrinciple.result, this.$t);
-    this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
-    
-    this.monthlyActionsByPrincipleData = translatePrinciples(dashboardData.charts.monthlyActionsByPrinciple.result, this.$t);
-    this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
-    
-    this.progressData = dashboardData.charts.progressData;
-    this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
-    this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
-    this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;  
+    console.log(dashboardData);
+    this.showDashboardData(dashboardData);
   },
   data() {
     return {
@@ -236,7 +258,9 @@ export default {
       monthlyActionsByPrincipleData: [],
       monthlyInvestmentByPrincipleData: [],
       xaxis: {categories: []},
-      principles: []
+      principles: [],
+      allPeriods: [],
+      selectedValue: []
     };
   }
 };

@@ -4,7 +4,7 @@ from django.db.models import Func
 from django.db.models import Count, Sum
 from collections import OrderedDict
 from itertools import accumulate
-import datetime 
+from datetime import datetime, timedelta
 import requests
 import functools
 import time
@@ -34,18 +34,18 @@ def get_cards_data(action_data, done_actions_data, period_data):
     done_actions = len(done_actions_data)
     total_invested = functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data])
     pending_actions = len(action_data) - len(done_actions_data)
-    promotion_fund_percentage = round(total_invested / period_data.actions_budget * 100, 2)
+    promotion_fund_percentage = round(float(total_invested) / float(period_data['actions_budget']) * 100, 2)
     
     return {'done_actions': done_actions, 'total_invested': total_invested, 'pending_actions': 0 if pending_actions < 0 else pending_actions, 'promotion_fund_percentage': promotion_fund_percentage}
 
 #PROGRESS
 
 def get_progress_data(action_data, done_actions_data, period_data):
-    date = datetime.date.today()
+    date = datetime.today()
     period_progress_data = {
-        "date_from": period_data.date_from, 
-        "date_to": period_data.date_to,
-        "period_progress": round((t(date) - t(period_data.date_from)) / (t(period_data.date_to)- t(period_data.date_from)) * 100, 2)
+        "date_from": period_data['date_from'], 
+        "date_to": period_data['date_to'],
+        "period_progress": round((t(date) - t(datetime.strptime(period_data['date_from'], '%Y-%m-%d'))) / (t(datetime.strptime(period_data['date_to'], '%Y-%m-%d'))- t(datetime.strptime(period_data['date_from'], '%Y-%m-%d'))) * 100, 2)
     }
     actions_progress_data = {
         "actions_done": len(done_actions_data), 
@@ -55,8 +55,8 @@ def get_progress_data(action_data, done_actions_data, period_data):
     invested = round(functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data]), 2)
     investment_progress_data = {
         "invested": invested, 
-        "budget": period_data.actions_budget, 
-        "investment_progress": round(invested / period_data.actions_budget * 100, 2)
+        "budget": period_data['actions_budget'],
+        "investment_progress": round(float(invested) / float(period_data['actions_budget']) * 100, 2)
     }
     
     return {'period_progress_data': period_progress_data, 'actions_progress_data': actions_progress_data, "investment_progress_data": investment_progress_data}
@@ -103,7 +103,7 @@ def sum_series_numbers(item, serie):
 #MONTHLY ACTIONS BY PRINCIPLE
 
 def get_monthly_actions_by_principle(action_data, date_from, principles):
-    date = datetime.date.today()
+    date = datetime.today()
 
     actions_by_principle_and_month = list(action_data.annotate(m=Month('date'), y=Year('date')) \
         .values('m', 'y', 'principle_id') \
@@ -125,4 +125,4 @@ def get_monthly_actions_by_principle(action_data, date_from, principles):
     return {'labels': months_labels, 'result': result}
 
 def create_date_range(start, end):
-    return OrderedDict(((start + datetime.timedelta(_)).strftime(r"%m-%Y"), None) for _ in range((end - start).days)).keys()
+    return OrderedDict(((start + timedelta(_)).strftime(r"%m-%Y"), None) for _ in range((end - start).days)).keys()
