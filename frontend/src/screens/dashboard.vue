@@ -74,7 +74,7 @@
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
           </div>
-          <div class="card-body" style="height: 285px">
+          <div class="card-body first-col-db" >
             <div class="">
               <!-- Period -->
               <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>

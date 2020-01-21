@@ -4,7 +4,7 @@
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6>
       </div>
-      <div class="card-body" >
+      <div class="card-body first-col-db">
         <apexchart height= "230" type=bar :options="chartData" :series="columnsData" />
       </div>
     </div>
@@ -47,7 +47,7 @@ const commonsChartOptions = {
   chart: {
     orientation: "horizontal",
     stacked: false,
-    height: 300,
+    height: 240,
     zoom: {
       enabled: false
     }
