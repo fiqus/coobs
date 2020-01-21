@@ -63,12 +63,18 @@
         :chart-data="allPrinciplesData">
       </donut-chart>
 
+      <bars-chart
+        :label="$t('allPrinciples')"
+        :columns-data="actionsByPrincipleData"
+        :xaxis="actionsByPrincipleLabels">
+      </bars-chart>
+
       <div class="col-xl-6 col-lg-4">
         <div class="card shadow mb-4">
           <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="height: 285px">
             <div class="">
               <!-- Period -->
               <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>
@@ -78,7 +84,7 @@
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data center">
-                    <div class="progress-bar bg-info" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-warning" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
                 <div class="col-3">
@@ -96,7 +102,7 @@
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data">
-                    <div class="progress-bar bg-info" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-danger" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
                 <div class="col-3">
@@ -114,7 +120,7 @@
                 </div>
                 <div class="col center-col">
                   <div class="progress progress-sm mr-2 progress-data">
-                    <div class="progress-bar bg-info" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-success" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
                 <div class="col-3">
@@ -151,6 +157,7 @@
 import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
+import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
@@ -162,6 +169,7 @@ export default {
     "smallcard-chart": SmallCardChart,
     "stacked-columns-chart": StackedColumndsChart,
     "donut-chart": DonutChart,
+    "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
     "area-chart": AreaChart
   },
@@ -193,6 +201,9 @@ export default {
       return this.$t(label);
     });  
     this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
+
+    this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
+    this.actionsByPrincipleLabels = {categories: this.allPrinciplesData.labels};
     
     this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
     this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
