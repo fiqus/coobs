@@ -50,7 +50,7 @@
       <div class="form-row">
         <div class="col-6">
           <datepicker-form
-            :label="$t('date')"
+            :label="$t('startingDate')"
             name="date"
             format="dd/MM/yyyy"
             v-model="action.date"
