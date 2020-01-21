@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.db.models import Count
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, get_actions_by_partner, get_monthly_investment_by_principle, get_monthly_actions_by_principle
 import requests
-import datetime
+from datetime import datetime
 from django.template.loader import get_template
 from django.template import Context
 
@@ -229,7 +229,7 @@ class DashboardView(viewsets.ViewSet):
         action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
         
-        date = datetime.date.today()
+        date = datetime.today()
         done_actions_data = Action.get_current_actions(cooperative_id, period_data.date_from, date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
@@ -250,23 +250,33 @@ class DashboardView(viewsets.ViewSet):
 
         return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts})
 class BalanceView(viewsets.ViewSet):
+    def get_current_period(self, all_periods):
+        today = datetime.today()
+        # Note that if there are two periods that overlap, it returns the last one.
+        current_periods = [period for period in all_periods if datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(period['date_to'], '%Y-%m-%d')]
+        current_period = current_periods[len(current_periods)-1]
+        if (current_period):
+            return current_period
+        return None
+
     def list(self, request):
         cooperative_id = request.user.cooperative_id
-        period_id = request.query_params.get('periodId', None)
-        if period_id is not None:
-            period_data = Period.objects.get(pk=period_id)
-        else:
-            period_data = Period.get_current(cooperative_id)
-
-        if not period_data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)        
-        period_serializer = PeriodSerializer(period_data)
-
-        #FIXME we should get Periods only one time
+        
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
+        if not all_periods_serializer.data:
+            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+        
+        period_id = request.query_params.get('periodId', None)
+        if period_id is not None:
+            period_data = next((period for period in all_periods_serializer.data if period['id']==int(period_id)), None)
+        else:
+            period_data = self.get_current_period(all_periods_serializer.data)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to).order_by('date')
+        if not period_data:
+            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'], period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
         
-        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'all_periods':all_periods_serializer.data})
+        return Response({'period': period_data, 'actions': action_serializer.data, 'all_periods':all_periods_serializer.data})
