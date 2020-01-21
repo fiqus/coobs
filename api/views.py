@@ -219,23 +219,42 @@ class PartnerView(viewsets.ModelViewSet):
 
 
 class DashboardView(viewsets.ViewSet):
+    def get_current_period(self, all_periods):
+        today = datetime.today()
+        # Note that if there are two periods that overlap, it returns the last one.
+        current_periods = [period for period in all_periods if datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(period['date_to'], '%Y-%m-%d')]
+        current_period = current_periods[len(current_periods)-1]
+        if (current_period):
+            return current_period
+        return None
+        
     def list(self, request):        
         cooperative_id = request.user.cooperative_id
-        period_data = Period.get_current(cooperative_id)
-        if not period_data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)        
-        period_serializer = PeriodSerializer(period_data)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data.date_from, period_data.date_to).order_by('date')
+        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
+        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
+        if not all_periods_serializer.data:
+            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+        
+        period_id = request.query_params.get('periodId', None)
+        if period_id is not None:
+            period_data = next((period for period in all_periods_serializer.data if period['id']==int(period_id)), None)
+        else:
+            period_data = self.get_current_period(all_periods_serializer.data)        
+
+        if not period_data:
+            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'], period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
         
         date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, period_data.date_from, date).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data.date_from, action__date__lte=date).annotate(total=Count('username')).order_by()
+        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data['date_from'], action__date__lte=date).annotate(total=Count('username')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
         
@@ -244,11 +263,11 @@ class DashboardView(viewsets.ViewSet):
             'all_principles_data': get_all_principles_data(done_actions_data, principles),
             'progress_data': get_progress_data(action_data, done_actions_data, period_data),
             'actions_by_partner': get_actions_by_partner(partner_data),
-            'monthly_investment_by_principle': get_monthly_investment_by_principle(done_actions_data, period_data.date_from, principles),
-            'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data, period_data.date_from, principles),
+            'monthly_investment_by_principle': get_monthly_investment_by_principle(done_actions_data, period_data['date_from'], principles),
+            'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data, datetime.strptime(period_data['date_from'], '%Y-%m-%d'), principles),
             }
 
-        return Response({'period': period_serializer.data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts})
+        return Response({'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts, 'all_periods':all_periods_serializer.data})
 class BalanceView(viewsets.ViewSet):
     def get_current_period(self, all_periods):
         today = datetime.today()
