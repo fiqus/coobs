@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">{{$t('actions')}}</h3>
+      <h3 class="col-10">{{$t('actions')}}<i class="fas fa-fw fa-clipboard-list"></i></h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'action-edit', params: {actionId: 0}}">
         {{$t("addNew")}}   
         <i class="fa fa-plus"></i>
