@@ -11,59 +11,69 @@
 
 3. Install the requirements
 
-        pip install -R requirements.txt
+        pip install -r requirements.txt
 
-4. Create your postgres db
+4. Copy the settings template
+
+        cp coobs/settings.template.py coobs/settings.py
+
+5. Generate new Django secret key and replace 'change-me' value for SECRET_KEY at coobs/settings.py
+
+        python manage.py generate_secret_key
+
+6. Create your postgres db
 
         sudo su postgres 
         psql
         CREATE DATABASE coobs;
-        CREATE USER fiqus WITH PASSWORD 'fiquspass';
-        ALTER ROLE fiqus SET client_encoding TO 'utf8';
-        ALTER ROLE fiqus SET default_transaction_isolation TO 'read committed';
-        ALTER ROLE fiqus SET timezone TO 'UTC';
-        GRANT ALL PRIVILEGES ON DATABASE coobs TO fiqus;
+        CREATE USER coobs WITH PASSWORD 'coobspass';
+        ALTER ROLE coobs SET client_encoding TO 'utf8';
+        ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';
+        ALTER ROLE coobs SET timezone TO 'UTC';
+        GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;
+        \q
+        exit
 
-5. Copy the settings template and complete the variables
+7. Configure db parameters at coobs/settings.py
 
-        cp coobs/settings.template.py coobs/settings.py
+        DATABASES = {
+                'default': {
+                        'ENGINE': 'django.db.backends.sqlite3',
+                        'NAME': 'coobs',
+                        'USER': 'coobs',
+                        'PASSWORD': 'coobspass',
+                        'HOST': 'localhost',
+                        'PORT': '5432',
+                },
+        }
 
-6. Generate Django secret key and assign it to the setting's variable SECRET_KEY
-
-        python manage.py generate_secret_key
-
-7. Go back to the project root and run database migrations
+8. Run database migrations
 
         python manage.py migrate
 
-8. Create a superuser
+9. Create a superuser
 
         python manage.py createsuperuser
 
-9. Run the server
+10. Run the server
 
         python manage.py runserver
 
-10. API now should be accessible in:
+11. API now should be accessible in:
 
         http://localhost:8000/api/
 
 ## Running Frontend
 
-1. Go to `/coobs/frontend/` and run:
+1. Install node dependencies:
 
-        npm install
+        make frontend-install
 
-2. Go to `/coobs/frontend/landing` and run:
-
-        npm install
-
-3. Go to `/coobs/frontend/` and run:
+2. Start the frontend app:
         
-        npm run build
-        npm run dev
+        make frontend
 
-4. App core and landing page should be accesible on:
+3. App core and landing page should be accesible on:
 
         http://localhost:8080/app
         http://localhost:8080/landing
