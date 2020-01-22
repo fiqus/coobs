@@ -101,5 +101,6 @@
   "monthlyInvestmentByPrincipleLabel": "Inversión acumulada por principio",
   "medallion": "Medallero",
   "notEnoughInfoForMedallion": "No hay suficiente información cargada para el medallero. Por favor agregue algunas acciones a su cooperativa para ver que tan bien lo están haciendo.",
-  "cooperative": "Cooperativa"
+  "cooperative": "Cooperativa",
+  "downloading": "Downloading"
 }

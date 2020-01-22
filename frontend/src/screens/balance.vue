@@ -16,7 +16,14 @@
       </div>
     </div>
     <div v-else>
-      <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}  <i class="fas fa-file-download"/></button>
+      <div v-if="downloading">
+        <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...  <i class="fas fa-file-download"/>
+          <b-spinner small type="grow"></b-spinner>
+        </button>
+      </div>
+      <div v-else>
+        <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}  <i class="fas fa-file-download"/></button>
+      </div>
       <div class="dropdown no-arrow float-right mx-3">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
           <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
@@ -54,7 +61,8 @@
   import BalanceByPeriodTable from '../components/balance-by-period-table.vue';
   import html2pdf from 'html2pdf.js';
 
-  function print(period, translator){
+  function print(period, translator, parent){
+    const self = parent;
     const html = $('#nodeToRenderAsPDF')[0];
     const opt = {
       margin:       [5, 5, 5, 5],
@@ -74,7 +82,9 @@
         pdf.setTextColor(150);
         pdf.text(translator('page')+' '+i+' '+translator('of')+' '+totalPages, pdf.internal.pageSize.width/2-10, pdf.internal.pageSize.height - 5);
       } 
-    }).save();
+    }).save().then(() => {
+      self.downloading = false;
+    });
   }
 
   export default {
@@ -90,7 +100,8 @@
         };
       },
       download() {
-        print(this.period, this.$t);
+        this.downloading = true;
+        print(this.period, this.$t, this);
       },
       showBalance(res){
         const {period, actions, allPeriods} = res.data;
@@ -155,7 +166,8 @@
           message: ""
         },
         allPeriods: [],
-        selectedValue: []
+        selectedValue: [],
+        downloading: false
       }
     }
   }

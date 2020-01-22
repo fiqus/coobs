@@ -101,5 +101,6 @@
   "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle",
   "medallion": "Medallion",
   "notEnoughInfoForMedallion": "There's no enough info loaded for medallion yet. Please add some actions to your cooperative to see how good you are doing.",
-  "cooperative": "Cooperative"
+  "cooperative": "Cooperative",
+  "downloading": "Descargando"
 }
