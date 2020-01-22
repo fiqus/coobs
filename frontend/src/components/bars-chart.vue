@@ -5,7 +5,7 @@
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6>
       </div>
       <div class="card-body first-col-db">
-        <apexchart height= "230" type=bar :options="chartData" :series="columnsData" />
+        <apexchart height= "230" type=bar :options="barsData" :series="series" />
       </div>
     </div>
   </div>
@@ -60,7 +60,7 @@ export default {
     label: {
       type: String
     },
-    columnsData: {
+    chartData: {
       type: Array,
       required: true
     },
@@ -73,11 +73,11 @@ export default {
     "apexchart": VueApexCharts
   },
   computed: {
-    chartData() {
+    barsData() {
       return {
         ...commonsChartOptions,
-        xaxis: this.xaxis,
-        series: this.columnsData,
+        xaxis: {categories: this.chartData.labels},
+        series: [{data: this.chartData.series}],
       };
     }
   } 

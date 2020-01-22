@@ -72,7 +72,8 @@ def get_all_principles_data(done_actions_data, principles):
 def get_actions_by_partner(partner_data):
     partners = OrderedDict({'%s %s' % (partner.first_name, partner.last_name): partner.total for partner in list(partner_data)})
     
-    return {'labels': partners.keys(), 'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]}
+    result = {'labels': partners.keys(), 'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]} if not len(partners.values()) == 0 else {}
+    return result
 
 #MONTHLY INVESTMENT BY PRINCIPLE
 
@@ -94,7 +95,7 @@ def get_monthly_investment_by_principle(action_data, date_from, principles):
 
     for principle in series.keys():
         series[principle] = list(accumulate(series[principle]))
-    result = [{'name':serie, 'data':series[serie] } for serie in series.keys()]
+    result = [{'name_key':serie, 'data':series[serie] } for serie in series.keys()]
     
     return {'labels': categories, 'result': result}
 
@@ -120,7 +121,7 @@ def get_monthly_actions_by_principle(action_data, date_from, principles):
     for action in actions_by_principles_by_month_list:
         index = months_labels.index(action['date'])
         data[action['principle']][index] = action['count'] 
-    result = [{'name': principle, 'data': data[principle]} for principle in data]
+    result = [{'name_key': principle, 'data': data[principle]} for principle in data]
     
     return {'labels': months_labels, 'result': result}
 
