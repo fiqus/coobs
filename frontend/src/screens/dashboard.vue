@@ -69,13 +69,12 @@
       <!-- Principle Chart -->
       <donut-chart
         :label="$t('allPrinciples')"
-        :chart-data="allPrinciplesData">
+        :chart-data="localizeDonutChartLabels(allPrinciplesData)">
       </donut-chart>
 
       <bars-chart
         :label="$t('allPrinciples')"
-        :columns-data="actionsByPrincipleData"
-        :xaxis="actionsByPrincipleLabels">
+        :chart-data="localizeDonutChartLabels(allPrinciplesData)">
       </bars-chart>
 
       <div class="col-xl-6 col-lg-4">
@@ -151,13 +150,13 @@
 
     <area-chart
       :title="monthlyInvestmentByPrincipleLabel"
-      :columns-data="monthlyInvestmentByPrincipleData"
+      :columns-data="localizeLabels(monthlyInvestmentByPrincipleData)"
       :xaxis="monthlyInvestmentByPrincipleLabels">
     </area-chart>
     <!-- Content Row -->
     <stacked-columns-chart
       :title="allPrinciplesYearLabel"
-      :columns-data="monthlyActionsByPrincipleData"
+      :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
       :xaxis="monthlyActionsByPrincipleLabels">
     </stacked-columns-chart>
   </div>
@@ -171,7 +170,6 @@ import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
-import {translatePrinciples} from "./../utils";
 
 
 export default {
@@ -192,7 +190,7 @@ export default {
     },
     monthlyInvestmentByPrincipleLabel() {
       return `${this.$t("monthlyInvestmentByPrincipleLabel")}`;
-    },
+    }
   },
   methods: {
     showDashboardData(dashboardData){
@@ -208,13 +206,10 @@ export default {
       this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
       this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
 
-      dashboardData.charts.allPrinciplesData.labels = dashboardData.charts.allPrinciplesData.labels.map((label) =>{
-        return this.$t(label);
-      });  
       this.allPrinciplesData = dashboardData.charts.allPrinciplesData;
 
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
-      this.actionsByPrincipleLabels = {categories: this.allPrinciplesData.labels};
+      this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
       
       if (dashboardData.charts.actionsByPartner === {}) {
         this.showActionsByPartner = false;
@@ -223,10 +218,10 @@ export default {
         this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
       }
 
-      this.monthlyInvestmentByPrincipleData = translatePrinciples(dashboardData.charts.monthlyInvestmentByPrinciple.result, this.$t);
+      this.monthlyInvestmentByPrincipleData = dashboardData.charts.monthlyInvestmentByPrinciple.result;
       this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
       
-      this.monthlyActionsByPrincipleData = translatePrinciples(dashboardData.charts.monthlyActionsByPrinciple.result, this.$t);
+      this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
       
       this.progressData = dashboardData.charts.progressData;
@@ -234,15 +229,27 @@ export default {
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
     },
+    localizeDonutChartLabels({labels, series}){
+      const localizedLabels = labels.map((label) =>{
+        return this.$t(label);
+      });  
+      return {labels: localizedLabels, series};
+    },
+    localizeLabels(results) {
+      return results.map((result) => {
+        result.name = this.$t(result.nameKey);
+        return result;
+      });
+    },
     async onPeriodChange(){
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
-      console.log(dashboardData);
       this.showDashboardData(dashboardData);
     }    
   },
   async created() {
     const dashboardData = await api.getDashboard();
+    console.log(dashboardData);
     this.showDashboardData(dashboardData);
   },
   data() {
@@ -256,8 +263,8 @@ export default {
       periodProgressStyle: "",
       actionsProgressStyle: "",
       investmentProgressStyle: "",
-      progressData: {periodProgressData:{dateFrom: 0, dateTo: 0}, actionsProgressData: {actionsDone: 0}, investmentProgressData: {budget: 0}},
-      allPrinciplesData: {},
+      progressData: {periodProgressData: {dateFrom: 0, dateTo: 0}, actionsProgressData: {actionsDone: 0}, investmentProgressData: {budget: 0}},
+      allPrinciplesData: {labels: [], series: []},
       actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
       monthlyInvestmentByPrincipleData: [],

@@ -1,6 +1,6 @@
 
 export const state = {
   user: {},
-  cooperative:{},
+  cooperative: {},
   lang: ""
-}
+};
