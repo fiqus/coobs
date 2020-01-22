@@ -2,11 +2,22 @@ export function formatText(text, limit) {
   return text.length > limit ? `${text.substring(0, (limit - 3))}..` : text;
 }
 
-export function partnersParser(selectedPartnersIdList, partnersObject) {
+export function partnersSelectedParser(selectedPartnersIdList, partnersObject) {
   let parsedPartners = selectedPartnersIdList.map(function(partnerId){
     return {id: partnerId.toString(), name: partnersObject[partnerId]};
   });
   return parsedPartners;
+}
+
+export function principlesSelectedParser(selectedPrinciplesIdList, principles) {
+  const principlesObject = principles.reduce((acc, principle) => {
+    acc[principle.id] = [principle.name, principle.nameKey];
+    return acc;
+  }, {});
+  let parsedPrinciples = selectedPrinciplesIdList.map(function(principleId){
+    return {id: principleId.toString(), name: principlesObject[principleId][0], nameKey: principlesObject[principleId][1]} ;
+  });
+  return parsedPrinciples;
 }
 
 export function capitalizeFirstChar(s) {

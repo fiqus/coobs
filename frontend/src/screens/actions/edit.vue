@@ -26,14 +26,13 @@
 
       <div class="form-row">
         <div class="col-6">
-          <select-form
-            v-model="action.principle"
+          <multi-select-form
+            v-model="action.principles"
             :options="principles"
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
-            :error="$v.action.principle.$error"
-            :error-message="$t('required')">
-          </select-form>
+            :error="$v.action.principles.$error"
+            :error-message="$t('required')"/>
         </div>
         <div class="col-6">
           <multi-select-form
@@ -106,14 +105,13 @@
 <script>
 import InputForm from "../../components/input-form.vue";
 import TextareaForm from "../../components/textarea-form.vue";
-import BootstrapToggle from 'vue-bootstrap-toggle';
-import SelectForm from "../../components/select-form.vue";
+import BootstrapToggle from "vue-bootstrap-toggle";
 import DatePickerForm from "../../components/datepicker-form.vue";
 import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
 import {required, minLength, minValue} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {partnersParser, capitalizeFirstChar} from "../../utils";
+import {partnersSelectedParser, principlesSelectedParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
@@ -122,7 +120,6 @@ export default {
   components: {
     "input-form": InputForm,
     "textarea-form": TextareaForm,
-    "select-form": SelectForm,
     "datepicker-form": DatePickerForm,
     "bootstrap-toggle": BootstrapToggle,
     "multi-select-form": MultiSelectForm,
@@ -133,6 +130,10 @@ export default {
     // we need to force the translations for principles because the select is not updated automatically
     locale(newLocale) {
       this.principles = this.principles.map((p) => {
+        p.name = this.$t(p.nameKey, p.name);
+        return p;
+      });
+      this.action.principles = this.action.principles.map((p) => {
         p.name = this.$t(p.nameKey, p.name);
         return p;
       });
@@ -155,12 +156,13 @@ export default {
       return acc;
     }, {});
     
-    this.partnersList = partnersParser(Object.keys(this.partners), this.partners);
+    this.partnersList = partnersSelectedParser(Object.keys(this.partners), this.partners);
     
     const actionId = this.$route.params.actionId;
     if (!this.isNew) {
       this.action = await api.getAction(actionId);
-      this.partnersInvolved = partnersParser(this.action.partnersInvolved, this.partners);
+      this.partnersInvolved = partnersSelectedParser(this.action.partnersInvolved, this.partners);
+      this.action.principles = principlesSelectedParser(this.action.principles, this.principles);
     }
   },
   computed: {
@@ -172,7 +174,7 @@ export default {
     const isNew = this.$route.params.actionId == "0";
     return {
       action: {
-        principle: ""
+        principles: ""
       },
       principles: [],
       partnersInvolved: [],
@@ -191,6 +193,9 @@ export default {
         const actionId = this.$route.params.actionId;
         this.action.partnersInvolved = this.partnersInvolved.map((partner) => {
           return partner.id;
+        });
+        this.action.principles = this.action.principles.map((principle) => {
+          return principle.id;
         });
         let promise = null;
         if (this.isNew) {
@@ -219,7 +224,10 @@ export default {
       date: {required},
       name: {required},
       description: {required},
-      principle: {required},
+      principles: {
+        required,
+        minLength: minLength(1)
+      },
       investedMoney: {minValue: minValue(0)}
     },
     partnersInvolved: {

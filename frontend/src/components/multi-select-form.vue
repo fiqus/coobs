@@ -20,49 +20,49 @@
 </template>
 
 <script>
-  import Multiselect from "vue-multiselect";
+import Multiselect from "vue-multiselect";
 
-  export default {
-    components: {
-      "multiselect": Multiselect,
+export default {
+  components: {
+    "multiselect": Multiselect,
+  },
+  props: {
+    value: {
+      type: Array
     },
-    props: {
-      value: {
-        type: Array
-      },
-      label: {
-        type: String
-      },
-      options: {
-        type: Array
-      },
-      error: {
-        type: Boolean,
-        default: false
-      },
-      errorMessage: {
-        type: String
-      },
-      placeholder: {
-        type: String,
-        default: ""
-      }
+    label: {
+      type: String
     },
-    watch: {
-      'error': function _watch$vpartnersInvolved$error (isInvalid) {
-        const fixedClass = 'multiselect__tags';
-        if (!isInvalid) {
-          this.$refs.refMultiselect.$refs.tags.className = fixedClass;
-        } else {
-          this.$refs.refMultiselect.$refs.tags.className = `${fixedClass} form-control form-control-user is-invalid`;
-        }
-      }
+    options: {
+      type: Array
     },
-    methods: {
-      onInput() {
-        this.$emit("input", this.value);
+    error: {
+      type: Boolean,
+      default: false
+    },
+    errorMessage: {
+      type: String
+    },
+    placeholder: {
+      type: String,
+      default: ""
+    }
+  },
+  watch: {
+    "error": function _watch$vpartnersInvolved$error (isInvalid) {
+      const fixedClass = "multiselect__tags";
+      if (!isInvalid) {
+        this.$refs.refMultiselect.$refs.tags.className = fixedClass;
+      } else {
+        this.$refs.refMultiselect.$refs.tags.className = `${fixedClass} form-control form-control-user is-invalid`;
       }
     }
+  },
+  methods: {
+    onInput() {
+      this.$emit("input", this.value);
+    }
   }
+}
 </script>
 

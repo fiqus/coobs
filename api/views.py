@@ -43,11 +43,15 @@ class ActionView(viewsets.ModelViewSet):
             return Response(action_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         partners_involved = action_serializer.validated_data.pop('partners_involved')
+        principles = action_serializer.validated_data.pop('principles')
         action_data = Action.objects.create(**action_serializer.validated_data)
        
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
         for partner in partners_involved: 
             action_data.partners_involved.add(partner)
+       
+        for principle in principles: 
+            action_data.principles.add(principle)
 
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
@@ -256,14 +260,16 @@ class DashboardView(viewsets.ViewSet):
 
         partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data['date_from'], action__date__lte=date).annotate(total=Count('username')).order_by()
 
+        actions_by_principles_data = Principle.objects.filter(cooperative=cooperative_id, action__date__gte=period_data['date_from'], action__date__lte=date).annotate(total=Count('id')).order_by()
+
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
         
         charts = {
             'cards_data': get_cards_data(action_data, done_actions_data, period_data),
-            'all_principles_data': get_all_principles_data(done_actions_data, principles),
+            'all_principles_data': get_all_principles_data(actions_by_principles_data, principles),
             'progress_data': get_progress_data(action_data, done_actions_data, period_data),
             'actions_by_partner': get_actions_by_partner(partner_data),
-            'monthly_investment_by_principle': get_monthly_investment_by_principle(done_actions_data, period_data['date_from'], principles),
+            'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data, period_data['date_from'], principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data, datetime.strptime(period_data['date_from'], '%Y-%m-%d'), principles),
             }
 
