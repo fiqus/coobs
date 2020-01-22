@@ -143,6 +143,7 @@
     </div>
 
     <columns-chart
+      v-if="showActionsByPartner"
       :title="allActionsByPartnersLabel"
       :columns-data="actionsByPartnerData"
       :xaxis="actionsByPartnerLabels">
@@ -215,8 +216,12 @@ export default {
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = {categories: this.allPrinciplesData.labels};
       
-      this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
-      this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
+      if (dashboardData.charts.actionsByPartner === {}) {
+        this.showActionsByPartner = false;
+      } else {
+        this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
+        this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
+      }
 
       this.monthlyInvestmentByPrincipleData = translatePrinciples(dashboardData.charts.monthlyInvestmentByPrinciple.result, this.$t);
       this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
@@ -238,7 +243,6 @@ export default {
   },
   async created() {
     const dashboardData = await api.getDashboard();
-    console.log(dashboardData);
     this.showDashboardData(dashboardData);
   },
   data() {
@@ -260,7 +264,8 @@ export default {
       xaxis: {categories: []},
       principles: [],
       allPeriods: [],
-      selectedValue: []
+      selectedValue: [],
+      showActionsByPartner: true
     };
   }
 };

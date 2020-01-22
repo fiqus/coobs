@@ -72,7 +72,8 @@ def get_all_principles_data(done_actions_data, principles):
 def get_actions_by_partner(partner_data):
     partners = OrderedDict({'%s %s' % (partner.first_name, partner.last_name): partner.total for partner in list(partner_data)})
     
-    return {'labels': partners.keys(), 'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]}
+    result = {'labels': partners.keys(), 'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]} if not len(partners.values()) == 0 else {}
+    return result
 
 #MONTHLY INVESTMENT BY PRINCIPLE
 
