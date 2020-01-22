@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.db import transaction
 from django.core.mail import EmailMultiAlternatives
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer
+from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, ActionsByCoopSerializer
 from rest_framework.exceptions import ValidationError
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from django.db.models import Count
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, get_actions_by_partner, get_monthly_investment_by_principle, get_monthly_actions_by_principle
 import requests
-from datetime import datetime
+from datetime import datetime, date
 from django.template.loader import get_template
 from django.template import Context
 
@@ -299,3 +299,14 @@ class BalanceView(viewsets.ViewSet):
         action_serializer = ActionSerializer(action_data, many=True)
         
         return Response({'period': period_data, 'actions': action_serializer.data, 'all_periods':all_periods_serializer.data})
+
+class MedallionView(viewsets.ViewSet):
+    def list(self, request):
+        first_day_of_year = date(datetime.today().year, 1, 1)
+        actions_by_coop_data = Action.objects.filter(date__gte=first_day_of_year, public=True, principle__visible=True).values('cooperative', 'cooperative__name', 'principle__main_principle__name_key', 'principle__main_principle__name').annotate(actions_count=Count('principle')).order_by('cooperative')
+        actions_by_coop_serializer = ActionsByCoopSerializer(actions_by_coop_data, many=True)
+        
+        main_principle_data = MainPrinciple.objects.all()
+        main_principle_serializer = MainPrincipleSerializer(main_principle_data, many=True)
+
+        return Response({'actions': actions_by_coop_serializer.data, 'principles': main_principle_serializer.data})

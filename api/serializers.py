@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from api.models import Principle, Action, Period, Cooperative, Partner
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
@@ -51,6 +51,11 @@ class CooperativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cooperative
         fields = "__all__"
+        
+class MainPrincipleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainPrinciple
+        fields = "__all__"
 
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -83,6 +88,13 @@ class ChangePasswordSerializer(serializers.Serializer):
         if data['new_password'] != data['confirm_password']:
             raise serializers.ValidationError("Passwords must match")
         return data
+
+class ActionsByCoopSerializer(serializers.Serializer):
+    cooperative_id = serializers.IntegerField(source='cooperative')
+    cooperative_name = serializers.CharField(source='cooperative__name', max_length=128)
+    principle_name_key = serializers.CharField(source='principle__main_principle__name_key')
+    principle_name = serializers.CharField(source='principle__main_principle__name')
+    actions_count = serializers.IntegerField()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

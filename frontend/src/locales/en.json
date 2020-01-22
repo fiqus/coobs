@@ -98,5 +98,8 @@
   "investmentProgress": "Investment",
   "actionsProgress":"Actions",
   "periodProgress": "Period",
-  "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle"
+  "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle",
+  "medallion": "Medallion",
+  "notEnoughInfoForMedallion": "There's no enough info loaded for medallion yet. Please add some actions to your cooperative to see how good you are doing.",
+  "cooperative": "Cooperative"
 }

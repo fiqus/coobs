@@ -13,6 +13,7 @@ import PeriodEditScreen from "./screens/periods/edit.vue";
 import ProfileScreen from "./screens/profile/profile.vue";
 import SignupScreen from "./screens/signup.vue";
 import BalanceScreen from "./screens/balance.vue";
+import MedallionScreen from "./screens/medallion.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
@@ -67,6 +68,11 @@ const routes = [
     name: "balance",
     path: "/balance",
     component: BalanceScreen
+  },  
+  {
+    name: "medallion",
+    path: "/medallion",
+    component: MedallionScreen
   },
   {
     name: "cooperative",

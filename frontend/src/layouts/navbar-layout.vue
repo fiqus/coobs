@@ -55,8 +55,7 @@
             <i class="fas fa-fw fa-balance-scale"></i>
             <span>{{$t("balance")}}</span>
           </router-link>
-        </li>      
-
+        </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
             <i class="fas fa-fw fa-handshake"></i>
@@ -69,6 +68,12 @@
             </div>
           </div>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'medallion'}">
+            <i class="fas fa-fw fa-medal"></i>
+            <span>{{$t("medallion")}}</span>
+          </router-link>
+        </li>          
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>
