@@ -33,8 +33,14 @@ var myDictionary = {
       members, in their capacity as owners, managers, users and all other stakeholders who are impacted by 
       their actions in relation to the fulfilment of their own essence or identity, i.e. 
       from the perspective of co-operative values and principles.`,
-      "registerNow": "Register now!",
-      "aboutFiqusLabs": "Developed at FiqusLabs, a space where we create open source technology oriented to the community."
+    "registerNow": "Register now!",
+    "aboutFiqusLabs": "Developed at FiqusLabs, a space where we create open source technology oriented to the community.",
+    "firstImageTextTitle": "Load the actions that your cooperative performs",
+    "firstImageTextDescription": "In COOBS you can load the actions that your cooperative makes related to each cooperative principle.",
+    "secondImageTextTitle": "Watch all your cooperative activity",
+    "secondImageTextDescription": "You will be able to see daily what you do in your co-operative related to each co-operative principle allowing you to take action to improve it.",
+    "thirdImageTextTitle": "Get your annual balance sheet",
+    "thirdImageTextDescription": "Easily get your co-operative's social balance sheet for each period in which you have loaded your co-operative shares."
   },
   es : {
     "signIn": "Inicie sesión",
@@ -67,7 +73,13 @@ var myDictionary = {
       interesados que se ven afectados por sus acciones en relación con el cumplimiento de su propia 
       esencia o identidad, es decir, desde la perspectiva de los valores y principios cooperativos.`,
     "registerNow": "Registrate ahora!",
-    "aboutFiqusLabs": "Desarrollado en FiqusLabs, un espacio donde creamos tecnología de código abierto orientada a la comunidad."
+    "aboutFiqusLabs": "Desarrollado en FiqusLabs, un espacio donde creamos tecnología de código abierto orientada a la comunidad.",
+    "firstImageTextTitle": "Cargue las acciones que su cooperativa realiza",
+    "firstImageTextDescription": "En COOBS puede cargar las acciones que su cooperativa realiza relacionadas con cada principio cooperativo.",
+    "secondImageTextTitle": "Vea toda su actividad cooperativa",
+    "secondImageTextDescription": "Podrás ver diariamente lo que haces en tu cooperativa en relación con cada principio cooperativo permitiéndote tomar acciones para mejorarlo.",
+    "thirdImageTextTitle": "Obtenga su balance anual",
+    "thirdImageTextDescription": "Obtenga fácilmente el balance social de su cooperativa para cada período en el que haya cargado las acciones de su cooperativa."
   }
 }
 $.tr.dictionary(myDictionary);
