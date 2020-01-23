@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}<i class="fas fa-fw fa-tachometer-alt"></i></h1>
+    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
+      <h5 class="mb-0 text-gray-100">
+        <i class="fas fa-exclamation-circle"></i>
+        {{$t(error.message, error.message)}}
+      </h5>
       <div class="dropdown no-arrow float-right mx-3">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-          <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+          <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
             <option v-for="period in allPeriods" :key="period.id" :value="period.id">
               {{period.name}}
             </option>
@@ -13,152 +14,168 @@
         </a>
       </div>
     </div>
-
-    <!-- Content Row -->
-    <div class="row" >
-
-      <smallcard-chart
-        :label="$t('actionsDone')"
-        icon="calendar"
-        color-type="primary">
-        <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">{{doneActions}}</div>
-        </template>
-      </smallcard-chart>
-
-      <smallcard-chart
-        :label="$t('investment')"
-        icon="currency"
-        color-type="success">
-        <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{totalInvested}}</div>
-        </template>
-      </smallcard-chart>
-
-      <smallcard-chart
-        :label="$t('promotionFund')"
-        icon="coins"
-        color-type="info">
-        <template v-slot:chart-content>
-          <div class="row no-gutters align-items-center">
-            <div class="col-auto">
-              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{promotionFundPercentage}}%</div>
-            </div>
-            <div class="col">
-              <div class="progress progress-sm mr-2">
-                <div class="progress-bar bg-info" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
+    <div v-else>
+      <div>
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}<i class="fas fa-fw fa-tachometer-alt"></i></h1>
+          <div class="dropdown no-arrow float-right mx-3">
+            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+              <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                  {{period.name}}
+                </option>
+              </select>
+            </a>
           </div>
-        </template>
-      </smallcard-chart>
+        </div>
 
-      <smallcard-chart
-        :label="$t('pendingActions')"
-        icon="clipboard"
-        color-type="warning">
-        <template v-slot:chart-content>
-          <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingActions}}</div>
-        </template>
-      </smallcard-chart>
+        <!-- Content Row -->
+        <div class="row" >
 
-    </div>
+          <smallcard-chart
+            :label="$t('actionsDone')"
+            icon="calendar"
+            color-type="primary">
+            <template v-slot:chart-content>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{doneActions}}</div>
+            </template>
+          </smallcard-chart>
 
-    <!-- Content Row -->
-    <div class="row">
-      <!-- Principle Chart -->
-      <donut-chart
-        :label="$t('allPrinciples')"
-        :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-      </donut-chart>
+          <smallcard-chart
+            :label="$t('investment')"
+            icon="currency"
+            color-type="success">
+            <template v-slot:chart-content>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{totalInvested}}</div>
+            </template>
+          </smallcard-chart>
 
-      <bars-chart
-        :label="$t('allPrinciples')"
-        :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-      </bars-chart>
-
-      <div class="col-xl-6 col-lg-4">
-        <div class="card shadow mb-4">
-          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
-          </div>
-          <div class="card-body first-col-db" >
-            <div class="">
-              <!-- Period -->
-              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>
+          <smallcard-chart
+            :label="$t('promotionFund')"
+            icon="coins"
+            color-type="info">
+            <template v-slot:chart-content>
               <div class="row no-gutters align-items-center">
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{promotionFundPercentage}}%</div>
                 </div>
-                <div class="col center-col">
-                  <div class="progress progress-sm mr-2 progress-data center">
-                    <div class="progress-bar bg-warning" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="col">
+                  <div class="progress progress-sm mr-2">
+                    <div class="progress-bar bg-info" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
-                </div>
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
                 </div>
               </div>
-              <hr>
+            </template>
+          </smallcard-chart>
 
-              <!-- Actions -->
-              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('actionsProgress')}}</div>
-              
-              <div class="row no-gutters align-items-center">
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">0</div>
-                </div>
-                <div class="col center-col">
-                  <div class="progress progress-sm mr-2 progress-data">
-                    <div class="progress-bar bg-danger" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone}}</div>
-                </div>
+          <smallcard-chart
+            :label="$t('pendingActions')"
+            icon="clipboard"
+            color-type="warning">
+            <template v-slot:chart-content>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingActions}}</div>
+            </template>
+          </smallcard-chart>
+
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+          <!-- Principle Chart -->
+          <donut-chart
+            :label="$t('allPrinciples')"
+            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
+          </donut-chart>
+
+          <bars-chart
+            :label="$t('allPrinciples')"
+            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
+          </bars-chart>
+
+          <div class="col-xl-6 col-lg-4">
+            <div class="card shadow mb-4">
+              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
               </div>
-              <hr>
-
-              <!-- Investment -->
-              <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('investmentProgress')}}</div>
-
-              <div class="row no-gutters align-items-center">
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0,00</div>
-                </div>
-                <div class="col center-col">
-                  <div class="progress progress-sm mr-2 progress-data">
-                    <div class="progress-bar bg-success" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="card-body first-col-db" >
+                <div class="">
+                  <!-- Period -->
+                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
+                    </div>
+                    <div class="col center-col">
+                      <div class="progress progress-sm mr-2 progress-data center">
+                        <div class="progress-bar bg-warning" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-3">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                  <hr>
+
+                  <!-- Actions -->
+                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('actionsProgress')}}</div>
+                  
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">0</div>
+                    </div>
+                    <div class="col center-col">
+                      <div class="progress progress-sm mr-2 progress-data">
+                        <div class="progress-bar bg-danger" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone}}</div>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <!-- Investment -->
+                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('investmentProgress')}}</div>
+
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0,00</div>
+                    </div>
+                    <div class="col center-col">
+                      <div class="progress progress-sm mr-2 progress-data">
+                        <div class="progress-bar bg-success" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    </div>
+                    <div class="col-3">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <columns-chart
+          v-if="showActionsByPartner"
+          :title="allActionsByPartnersLabel"
+          :columns-data="actionsByPartnerData"
+          :xaxis="actionsByPartnerLabels">
+        </columns-chart>
+
+        <area-chart
+          :title="monthlyInvestmentByPrincipleLabel"
+          :columns-data="localizeLabels(monthlyInvestmentByPrincipleData)"
+          :xaxis="monthlyInvestmentByPrincipleLabels">
+        </area-chart>
+        <!-- Content Row -->
+        <stacked-columns-chart
+          :title="allPrinciplesYearLabel"
+          :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
+          :xaxis="monthlyActionsByPrincipleLabels">
+        </stacked-columns-chart>
       </div>
-    </div>
-
-    <columns-chart
-      v-if="showActionsByPartner"
-      :title="allActionsByPartnersLabel"
-      :columns-data="actionsByPartnerData"
-      :xaxis="actionsByPartnerLabels">
-    </columns-chart>
-
-    <area-chart
-      :title="monthlyInvestmentByPrincipleLabel"
-      :columns-data="localizeLabels(monthlyInvestmentByPrincipleData)"
-      :xaxis="monthlyInvestmentByPrincipleLabels">
-    </area-chart>
-    <!-- Content Row -->
-    <stacked-columns-chart
-      :title="allPrinciplesYearLabel"
-      :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
-      :xaxis="monthlyActionsByPrincipleLabels">
-    </stacked-columns-chart>
   </div>
 </template>
 
@@ -242,9 +259,18 @@ export default {
       });
     },
     async onPeriodChange(){
+      this.error.exists = false;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
-      this.showDashboardData(dashboardData);
+      if (!dashboardData.actions.length) {
+        this.error = {
+          exists: true,
+          backgroundClass: " bg-danger",
+          message: "notEnoughInfoForDashboard"
+        };
+      } else {
+        this.showDashboardData(dashboardData);
+      }
     }    
   },
   async created() {
@@ -272,6 +298,11 @@ export default {
       principles: [],
       allPeriods: [],
       selectedValue: [],
+      error: {
+        exists: false,
+        backgroundClass: " bg-danger",
+        message: ""
+      },      
       showActionsByPartner: true
     };
   }

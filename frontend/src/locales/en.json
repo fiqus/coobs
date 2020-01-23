@@ -100,7 +100,8 @@
   "periodProgress": "Period",
   "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle",
   "medallion": "Medallion",
-  "notEnoughInfoForMedallion": "There's no enough info loaded for medallion yet. Please add some actions to your cooperative to see how good you are doing.",
+  "notEnoughInfoForDashboard": "There's no enough info loaded for dashboard yet. Please add some actions to your cooperative or select another period.",
+  "notEnoughInfoForMedallion": "There's no enough info loaded to show in the medal table yet. Please add some actions to your cooperative to see how good you are doing.",
   "cooperative": "Cooperative",
   "downloading": "Descargando"
 }

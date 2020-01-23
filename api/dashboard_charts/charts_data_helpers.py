@@ -32,7 +32,7 @@ class Year(Func):
 
 def get_cards_data(action_data, done_actions_data, period_data):
     done_actions = len(done_actions_data)
-    total_invested = functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data])
+    total_invested = 0 if len(done_actions_data)==0 else functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data])
     pending_actions = len(action_data) - len(done_actions_data)
     promotion_fund_percentage = round(float(total_invested) / float(period_data['actions_budget']) * 100, 2)
     
@@ -52,7 +52,7 @@ def get_progress_data(action_data, done_actions_data, period_data):
         "total_actions": len(action_data), 
         "actions_progress": 0 if len(action_data) == 0 else round(len(done_actions_data)/len(action_data) * 100, 2)
     }
-    invested = round(functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data]), 2)
+    invested = 0 if len(done_actions_data)==0 else round(functools.reduce(lambda a, b : a + b, [action.invested_money for action in done_actions_data]), 2)
     investment_progress_data = {
         "invested": invested, 
         "budget": period_data['actions_budget'],
