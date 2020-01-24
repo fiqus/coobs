@@ -69,9 +69,9 @@
           </div>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'medallion'}">
+          <router-link class="nav-link collapsed" :to="{name: 'medal-table'}">
             <i class="fas fa-fw fa-medal"></i>
-            <span>{{$t("medallion")}}</span>
+            <span>{{$t("medalTable")}}</span>
           </router-link>
         </li>          
         <!-- Sidebar Toggler (Sidebar) -->

@@ -9,7 +9,7 @@
     <div v-else>
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="col-10">
-          {{$t("medallion")}}<i class="fas fa-fw fa-medal"></i>
+          {{$t("medalTable")}}<i class="fas fa-fw fa-medal"></i>
         </h1>
       </div>
       <table class="table table-hover table-sm">
@@ -49,13 +49,13 @@
           message: err.response.data.detail
         };
       },
-      showMedallion(res){
+      showMedalTable(res){
         const {actions, principles} = res.data;
         if (!actions) {
           this.error = {
             exists: true,
             backgroundClass: " bg-warning",
-            message: "notEnoughInfoForMedallion"
+            message: "notEnoughInfoForMedalTable"
           };
           return;
         }
@@ -88,9 +88,9 @@
       }
     },    
     created() {
-      return httpGet('/medallion')
+      return httpGet('/medal-table')
         .then((res) => {
-          this.showMedallion(res);
+          this.showMedalTable(res);
         })
         .catch((err) => {
           this.setErrorMsg(err);

@@ -300,7 +300,7 @@ class BalanceView(viewsets.ViewSet):
         
         return Response({'period': period_data, 'actions': action_serializer.data, 'all_periods':all_periods_serializer.data})
 
-class MedallionView(viewsets.ViewSet):
+class MedalTableView(viewsets.ViewSet):
     def list(self, request):
         first_day_of_year = date(datetime.today().year, 1, 1)
         actions_by_coop_data = Action.objects.filter(date__gte=first_day_of_year, public=True, principle__visible=True).values('cooperative', 'cooperative__name', 'principle__main_principle__name_key', 'principle__main_principle__name').annotate(actions_count=Count('principle')).order_by('cooperative')

@@ -99,9 +99,10 @@
   "actionsProgress":"Acciones",
   "periodProgress": "Período",
   "monthlyInvestmentByPrincipleLabel": "Inversión acumulada por principio",
-  "medallion": "Medallero",
+  "medalTable": "Medallero",
   "notEnoughInfoForDashboard": "No hay suficiente información cargada para el tablero de mandos todavía. Por favor, añade algunas acciones a tu cooperativa o selecciona otro periodo.",
-  "notEnoughInfoForMedallion": "No hay suficiente información cargada para el medallero. Por favor agregue algunas acciones a su cooperativa para ver que tan bien lo están haciendo.",
+  "notEnoughInfoForMedalTable": "No hay suficiente información cargada para el medallero. Por favor agregue algunas acciones a su cooperativa para ver que tan bien lo están haciendo.",
   "cooperative": "Cooperativa",
-  "downloading": "Downloading"
+  "downloading": "Downloading",
+  "loading": "Cargando"
 }

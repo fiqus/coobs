@@ -7,20 +7,25 @@
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
-    <custom-table
-      :headers="headers"
-      :data="actions"
-      :actions="{edit: true, delete: true}"
-      :empty-state-msg="$t('emptyActionMsg')"
-      @onEdit="onEdit"
-      @onDelete="onDelete">
-    </custom-table>
+    <spinner :loading='isLoading'/>
+    <loader :loading='isLoading'>
+    </loader>
+      <custom-table
+        :headers="headers"
+        :data="actions"
+        :actions="{edit: true, delete: true}"
+        :empty-state-msg="$t('emptyActionMsg')"
+        @onEdit="onEdit"
+        @onDelete="onDelete">
+      </custom-table>
   </div>
 </template>
 
 <script>
 import {httpGet, httpDelete} from "../../api-client.js";
 import CustomTable from "../../components/custom-table.vue";
+import Loader from "../../components/loader-overlay.vue";
+import Spinner from "../../components/spinner.vue";
 import {formatText} from "../../utils";
 import swal from "sweetalert";
 
@@ -31,12 +36,15 @@ function parseBoolean(value) {
 
 export default {
   components: {
-    "custom-table": CustomTable
+    "custom-table": CustomTable,
+    "loader": Loader,
+    "spinner": Spinner
   },
   created() {
     httpGet("/actions")
       .then((response) => {
         this.actions = response.data;
+        this.isLoading = false;
       });
   },
   data() {
@@ -48,7 +56,8 @@ export default {
         {key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
         {key: "public", value:  "public", parser: (p) => parseBoolean(p.public)},
       ],
-      actions: []
+      actions: [],
+      isLoading: true
     };
   },
   methods: {
