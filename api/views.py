@@ -12,6 +12,7 @@ from django.utils.translation import gettext as _
 from django.db.models import Count
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, get_actions_by_partner, get_monthly_investment_by_principle, get_monthly_actions_by_principle
 import requests
+import functools
 from datetime import datetime, date
 from django.template.loader import get_template
 from django.template import Context
@@ -274,6 +275,8 @@ class DashboardView(viewsets.ViewSet):
             }
 
         return Response({'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data, 'charts': charts, 'all_periods':all_periods_serializer.data})
+
+
 class BalanceView(viewsets.ViewSet):
     def get_current_period(self, all_periods):
         today = datetime.today()
@@ -303,8 +306,17 @@ class BalanceView(viewsets.ViewSet):
 
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'], period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
+
+        principle_data = Principle.objects.filter(visible=True)
+        principle_serializer = PrincipleSerializer(principle_data, many=True)
+        principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
+        actions = []
+        [[actions.append({**action, 'principle_name_key': principles[principle_id], 'principle': principle_id}) for principle_id in action['principles']] for action in action_serializer.data]
         
-        return Response({'period': period_data, 'actions': action_serializer.data, 'all_periods':all_periods_serializer.data})
+
+        total_invested = 0 if len(actions)==0 else functools.reduce(lambda a, b : a + b, [action.invested_money for action in list(action_data)])
+
+        return Response({'period': period_data, 'actions': actions, 'all_periods':all_periods_serializer.data, 'total_invested': total_invested})
 
 class MedalTableView(viewsets.ViewSet):
     def list(self, request):
@@ -314,5 +326,6 @@ class MedalTableView(viewsets.ViewSet):
         
         main_principle_data = MainPrinciple.objects.all()
         main_principle_serializer = MainPrincipleSerializer(main_principle_data, many=True)
+
 
         return Response({'actions': actions_by_coop_serializer.data, 'principles': main_principle_serializer.data})
