@@ -8,8 +8,7 @@
       </router-link>
     </div>
     <spinner :loading='isLoading'/>
-    <loader :loading='isLoading'>
-    </loader>
+    <loader :loading='isLoading'/>
       <custom-table
         :headers="headers"
         :data="actions"

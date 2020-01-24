@@ -7,6 +7,8 @@
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
+    <spinner :loading='isLoading'/>
+    <loader :loading='isLoading'/>    
     <custom-table
       :headers="headers"
       :data="periods"
@@ -23,6 +25,9 @@ import CustomTable from "../../components/custom-table.vue";
 import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
+import Loader from "../../components/loader-overlay.vue";
+import Spinner from "../../components/spinner.vue";
+
 
 function parseBoolean(value) {
   return `<i class="fas fa-dollar-sign fa-1x"></i> ${value}`;
@@ -30,12 +35,15 @@ function parseBoolean(value) {
 
 export default {
   components: {
-    "custom-table": CustomTable
+    "custom-table": CustomTable,
+    "loader": Loader,
+    "spinner": Spinner
   },
   created() {
     httpGet("/periods")
       .then((response) => {
         this.periods = response.data;
+        this.isLoading = false;
       });
   },
   data() {
@@ -46,7 +54,8 @@ export default {
         {key: "dateTo", value: "to", parser: (p) => formatText(p.dateTo, 50)},
         {key: "actionsBudget", value: "budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
-      periods: []
+      periods: [],
+      isLoading: true
     };
   },
   methods: {
