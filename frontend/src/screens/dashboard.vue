@@ -164,18 +164,18 @@
           :xaxis="actionsByPartnerLabels">
         </columns-chart>
 
-        <area-chart
-          :title="monthlyInvestmentByPrincipleLabel"
-          :columns-data="localizeLabels(monthlyInvestmentByPrincipleData)"
-          :xaxis="monthlyInvestmentByPrincipleLabels">
-        </area-chart>
-        <!-- Content Row -->
-        <stacked-columns-chart
-          :title="allPrinciplesYearLabel"
-          :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
-          :xaxis="monthlyActionsByPrincipleLabels">
-        </stacked-columns-chart>
-      </div>
+      <area-chart
+        :title="monthlyInvestmentByDateLabel"
+        :columns-data="monthlyInvestmentByDateData"
+        :xaxis="monthlyInvestmentByDateLabels">
+      </area-chart>
+      <!-- Content Row -->
+      <stacked-columns-chart
+        :title="allPrinciplesYearLabel"
+        :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
+        :xaxis="monthlyActionsByPrincipleLabels">
+      </stacked-columns-chart>
+    </div>
   </div>
 </template>
 
@@ -205,8 +205,8 @@ export default {
     allActionsByPartnersLabel() {
       return `${this.$t("allActionsByPartnersLabel")}`;
     },
-    monthlyInvestmentByPrincipleLabel() {
-      return `${this.$t("monthlyInvestmentByPrincipleLabel")}`;
+    monthlyInvestmentByDateLabel() {
+      return `${this.$t("monthlyInvestmentByDate Label")}`;
     }
   },
   methods: {
@@ -227,7 +227,7 @@ export default {
 
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
-      
+
       if (dashboardData.charts.actionsByPartner === {}) {
         this.showActionsByPartner = false;
       } else {
@@ -235,8 +235,8 @@ export default {
         this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
       }
 
-      this.monthlyInvestmentByPrincipleData = dashboardData.charts.monthlyInvestmentByPrinciple.result;
-      this.monthlyInvestmentByPrincipleLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByPrinciple.labels} ;
+      this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
+      this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
@@ -293,7 +293,7 @@ export default {
       allPrinciplesData: {labels: [], series: []},
       actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
-      monthlyInvestmentByPrincipleData: [],
+      monthlyInvestmentByDateData: [],
       xaxis: {categories: []},
       principles: [],
       allPeriods: [],

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import status
+from django.db.models import Count
 import datetime
 
 
@@ -91,7 +92,7 @@ class Partner(AbstractUser):
 
 
 class Action(models.Model):
-    principle = models.ForeignKey(Principle, on_delete=models.CASCADE, null=True, verbose_name=_('principle'))
+    principles = models.ManyToManyField(Principle, blank=False, verbose_name=_('principles'))
     date = models.DateField(_('date'), default=datetime.date.today)
     name = models.CharField(_('name'), max_length=256)
     description = models.TextField(_('description'), null=True, blank=True)
@@ -108,5 +109,5 @@ class Action(models.Model):
     
     @classmethod
     def get_current_actions(cls, cooperative, date_from, date_to):
-        qs = cls.objects.filter(cooperative=cooperative, principle__visible=True, date__gte=date_from, date__lte=date_to)
+        qs = cls.objects.filter(cooperative=cooperative, principles__visible=True, date__gte=date_from, date__lte=date_to).annotate(principles_num = Count('id'))
         return qs
