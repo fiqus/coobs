@@ -4,10 +4,11 @@
 
 1. Create virtualenv using python3 (follow https://virtualenvwrapper.readthedocs.io/en/latest/install.html)
 
+        mkvirtualenv coobs
 
 2. Activate the virtualenv
 
-        workon {{VIRTUALENV_NAME}}
+        workon coobs
 
 3. Install the requirements
 
@@ -43,7 +44,7 @@
                         'USER': 'coobs',
                         'PASSWORD': 'coobspass',
                         'HOST': 'localhost',
-                        'PORT': '5432',
+                        'PORT': '5432'
                 },
         }
 
