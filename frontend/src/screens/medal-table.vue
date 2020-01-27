@@ -59,7 +59,7 @@
       },
       showMedalTable(res){
         const {actions, principles} = res.data;
-        if (!actions) {
+        if (!actions.length) {
           this.error = {
             exists: true,
             backgroundClass: " bg-warning",
@@ -70,7 +70,7 @@
 
         function createCoopAcumObj(action){
           const actionsByPrinciple = principles.reduce((acc, principle) => {
-            acc[principle.nameKey] = 0;
+            acc[principle.id] = 0;
             return acc;
           }, []);
           return {"coopId": action.cooperativeId,"coopName": action.cooperativeName, actionsByPrinciple, "total": 0};
@@ -80,7 +80,8 @@
           if (!acc[action.cooperativeId]) {
             acc[action.cooperativeId] = createCoopAcumObj(action);
           }
-          acc[action.cooperativeId].actionsByPrinciple[action.principleNameKey] += action.actionsCount;
+
+          acc[action.cooperativeId].actionsByPrinciple[action.principles] += action.actionsCount;
           acc[action.cooperativeId].total += action.actionsCount;
           return acc;
         }, []);
