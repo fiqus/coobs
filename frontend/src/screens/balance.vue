@@ -104,7 +104,6 @@ export default {
       print(this.period, this.$t, this);
     },
     showBalance(res){
-      debugger
       const {period, actions, allPeriods, totalInvested} = res.data;
       if (!period || !actions || !actions.length) {
         this.error = {
