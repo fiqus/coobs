@@ -7,6 +7,8 @@
       </h5>
     </div>
     <div v-else>
+      <spinner :loading='isLoading'/>
+      <loader :loading='isLoading'/>      
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="col-10">
           {{$t("medalTable")}}<i class="fas fa-fw fa-medal"></i>
@@ -34,8 +36,14 @@
 
 <script>
   import {httpGet} from '../api-client';
+  import Loader from "../components/loader-overlay.vue";
+  import Spinner from "../components/spinner.vue";
 
   export default {
+    components: {
+      "loader": Loader,
+      "spinner": Spinner
+    },    
     methods:{
       isCurrentCooperative(cooperativeId){
         if (this.$store.state.cooperative.id == cooperativeId) {
@@ -91,6 +99,7 @@
       return httpGet('/medal-table')
         .then((res) => {
           this.showMedalTable(res);
+          this.isLoading = false;
         })
         .catch((err) => {
           this.setErrorMsg(err);
@@ -103,7 +112,8 @@
           exists: false,
           backgroundClass: " bg-danger",
           message: ""
-        }
+        },
+        isLoading: true
       }
     }
   }

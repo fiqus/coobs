@@ -3,6 +3,8 @@
     <div class="row">
       <h3 class="col-10">{{$t("principles")}}<i class="fas fa-fw fa-map-signs"></i></h3>
     </div>
+    <spinner :loading='isLoading'/>
+    <loader :loading='isLoading'/>
     <custom-table
       :headers="headers"
       :data="principles"
@@ -19,6 +21,8 @@
   import {deletePrinciple} from "../../mock-data";
   import {httpGet} from "../../api-client.js";
   import swal from 'sweetalert';
+  import Loader from "../../components/loader-overlay.vue";
+  import Spinner from "../../components/spinner.vue";
 
   function parseBoolean(value) {
     const icon = value ? "check" : "times";
@@ -27,12 +31,15 @@
 
   export default {
     components: {
-      "custom-table": CustomTable
+      "custom-table": CustomTable,
+      "loader": Loader,
+      "spinner": Spinner      
     },
     created() {
       httpGet("/principles")
         .then((response) => {
           this.principles = response.data;
+          this.isLoading = false;
         })
     },
     data() {
@@ -42,7 +49,8 @@
           {key: "description", value:  "description", parser: (p) => formatText(p.description, 50)},
           {key: "visible", value:  "visible", parser: (p) => parseBoolean(p.visible)},
         ],
-        principles: []
+        principles: [],
+        isLoading: true
       }
     },
     methods: {

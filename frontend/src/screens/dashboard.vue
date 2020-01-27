@@ -15,6 +15,8 @@
       </div>
     </div>
     <div v-else>
+      <spinner :loading='isLoading'/>
+      <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -187,6 +189,8 @@ import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
+import Loader from "../components/loader-overlay.vue";
+import Spinner from "../components/spinner.vue";
 
 
 export default {
@@ -196,7 +200,9 @@ export default {
     "donut-chart": DonutChart,
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
-    "area-chart": AreaChart
+    "area-chart": AreaChart,
+    "loader": Loader,
+    "spinner": Spinner    
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -245,6 +251,7 @@ export default {
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
+      this.isLoading = false;
     },
     localizeDonutChartLabels({labels, series}){
       const localizedLabels = labels.map((label) =>{
@@ -303,7 +310,8 @@ export default {
         backgroundClass: " bg-danger",
         message: ""
       },      
-      showActionsByPartner: true
+      showActionsByPartner: true,
+      isLoading: true
     };
   }
 };
