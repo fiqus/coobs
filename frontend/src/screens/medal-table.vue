@@ -70,7 +70,7 @@
 
         function createCoopAcumObj(action){
           const actionsByPrinciple = principles.reduce((acc, principle) => {
-            acc[principle.id] = 0;
+            acc[principle.nameKey] = 0;
             return acc;
           }, []);
           return {"coopId": action.cooperativeId,"coopName": action.cooperativeName, actionsByPrinciple, "total": 0};
@@ -81,7 +81,7 @@
             acc[action.cooperativeId] = createCoopAcumObj(action);
           }
 
-          acc[action.cooperativeId].actionsByPrinciple[action.principles] += action.actionsCount;
+          acc[action.cooperativeId].actionsByPrinciple[action.principleNameKey] += action.actionsCount;
           acc[action.cooperativeId].total += action.actionsCount;
           return acc;
         }, []);
@@ -91,8 +91,9 @@
             acc.push(coop);
             return acc;
         }, []);
-
-        this.actionsByCoop = actionsByCoop;
+        this.actionsByCoop = actionsByCoop.sort((a, b) => {
+            return a.total > b.total ? -1 : 1;
+        });
         this.principles = principles;
       }
     },    

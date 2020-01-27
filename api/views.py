@@ -325,6 +325,9 @@ class MedalTableView(viewsets.ViewSet):
         visible_principles_ids = visible_principles.values('id')
 
         actions_by_coop_data = Action.objects.filter(date__gte=first_day_of_year, public=True, principles__in=visible_principles_ids).values('cooperative', 'cooperative__name', 'principles').annotate(actions_count=Count('principles')).order_by('cooperative')
+        for action in actions_by_coop_data:
+            principle = visible_principles.get(id=action['principles'])
+            action['principle_name_key'] = principle.main_principle.name_key
         actions_by_coop_serializer = ActionsByCoopSerializer(actions_by_coop_data, many=True)
         
         main_principle_data = MainPrinciple.objects.all()
