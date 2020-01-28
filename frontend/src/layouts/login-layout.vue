@@ -7,7 +7,7 @@
     <!-- Copyright Section -->
     <section class="copyright py-4 text-center text-gray-600">
       <div class="container">
-        <small>{{$t("createdByFiqus")}} | &copy; COOBS 2019</small>
+        <small>{{$t("createdByFiqus")}} | COOBS 2019</small>
       </div>
     </section>
   </div>
