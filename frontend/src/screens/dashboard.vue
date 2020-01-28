@@ -131,7 +131,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone}}</div>
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone + pendingActions}}</div>
                     </div>
                   </div>
                   <hr>
