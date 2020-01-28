@@ -58,7 +58,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-handshake"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>{{$t("yourCoop")}}</span>
           </a>
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">

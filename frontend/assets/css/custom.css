@@ -41,3 +41,19 @@
 .first-col-db {
   height: 285px;
 }
+
+.custom-green {
+  background-color: #A7D18B !important;
+}
+
+.custom-red {
+  background-color: #E55763 !important;
+}
+
+.custom-orange {
+  background-color: #F2B589 !important;
+}
+
+.border-left-success {
+    border-left: .25rem solid #A7D18B !important;
+}
