@@ -141,7 +141,7 @@
 
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0,00</div>
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0.00</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
@@ -190,6 +190,7 @@ import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import Spinner from "../components/spinner.vue";
+import parseMoney from "./../utils";
 
 
 export default {
@@ -222,8 +223,7 @@ export default {
       this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
       this.doneActions = dashboardData.charts.cardsData.doneActions;
-
-      this.totalInvested = dashboardData.charts.cardsData.totalInvested;
+      this.totalInvested = (dashboardData.charts.cardsData.totalInvested).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 
       this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
       this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
@@ -247,6 +247,7 @@ export default {
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
       
       this.progressData = dashboardData.charts.progressData;
+      this.progressData.investmentProgressData.budget = parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
