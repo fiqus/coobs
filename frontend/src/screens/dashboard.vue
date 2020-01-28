@@ -211,7 +211,7 @@ export default {
       return `${this.$t("allActionsByPartnersLabel")}`;
     },
     monthlyInvestmentByDateLabel() {
-      return `${this.$t("monthlyInvestmentByDate Label")}`;
+      return `${this.$t("monthlyInvestmentByDateLabel")}`;
     }
   },
   methods: {
