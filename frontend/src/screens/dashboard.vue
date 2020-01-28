@@ -20,8 +20,7 @@
       <div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}<i class="fas fa-fw fa-tachometer-alt"></i></h1>
-          <div class="dropdown no-arrow float-right mx-3">
+          <div class="dropdown no-arrow float-right">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
               <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
                 <option v-for="period in allPeriods" :key="period.id" :value="period.id">

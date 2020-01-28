@@ -11,21 +11,21 @@
       <loader :loading='isLoading'/>      
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="col-10">
-          {{$t("medalTable")}}<i class="fas fa-fw fa-medal"></i>
+          {{$t("medalTable")}}
         </h1>
       </div>
       <table class="table table-hover table-sm">
         <thead>
           <tr class="row">
             <th class="col-sm" scope="col">{{$t("cooperative")}}</th>
-            <th v-for="principle in principles" class="col-sm" scope="col" :key="principle.nameKey">{{$t(principle.nameKey)}}</th>
+            <th v-for="principle in principles" class="col-sm align-center" v-align="center" scope="col" :key="principle.nameKey">{{$t(principle.nameKey)}}</th>
             <th class="col-sm" scope="col">Total</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="action in actionsByCoop" :key="action" class="row" v-bind:class="isCurrentCooperative(action.coopId)">
             <td class="col-sm">{{action.coopName}}</td>
-            <td v-for="principle in action.actionsByPrinciple" :key="principle" class="col-sm">{{principle.value}}</td>
+            <td v-for="principle in action.actionsByPrinciple" :key="principle" class="col-sm" align="center">{{principle.value}}</td>
             <td class="col-sm font-weight-bold">{{action.total}}</td>
           </tr>
         </tbody>

@@ -34,6 +34,10 @@
   text-align: right; 
 }
 
+.align-center {
+  text-align: center;
+}
+
 .first-col-db {
   height: 285px;
 }
