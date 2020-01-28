@@ -39,7 +39,7 @@ const commonsChartOptions = {
     height: 300
   },
   
-  colors: ["#ED0017", "#F06704", "#FEFF00", "#53CE00", "#61C9FF", "#1400CD", "#60009A"],
+  colors: ["#e55763", "#f2aa76", "#ffffa8", "#9bcc78", "#b7e1f7", "#5348ce", "#7d3ba5"],
 };
 
 export default {

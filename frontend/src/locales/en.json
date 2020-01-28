@@ -88,6 +88,7 @@
   "oncePeriodDeleted": "Once deleted, this period won't able anymore.",
   "positiveNumber": "Must be a positive number.",
   "allActionsByPartnersLabel": "Actions by partner",
+  "monthlyInvestmentByDateLabel": "Investment by date",
   "progress": "Progress",
   "actionVisibilityHelp": "Choose whether you want the action to be visible to other cooperatives, as well as in other sections of COOBS.",
   "principleVisibilityHelp": "Choose if you want the principle to be visible in the panel, as well as considered for statistics and balance.",

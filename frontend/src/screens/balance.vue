@@ -16,13 +16,15 @@
       </div>
     </div>
     <div v-else>
+      <spinner :loading='isLoading'/>
+      <loader :loading='isLoading'/>
       <div v-if="downloading">
-        <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...  <i class="fas fa-file-download"/>
+        <button type="button" class="btn btn-primary float-right my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
           <b-spinner small type="grow"></b-spinner>
         </button>
       </div>
       <div v-else>
-        <button type="button" class="btn btn-primary float-right my-n2" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}  <i class="fas fa-file-download"/></button>
+        <button type="button" class="btn btn-primary float-right my-n1" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}</button>
       </div>
       <div class="dropdown no-arrow float-right mx-3">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
@@ -60,6 +62,8 @@
 import {httpGet} from "../api-client";
 import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
+import Loader from "../components/loader-overlay.vue";
+import Spinner from "../components/spinner.vue";
 
 function print(period, translator, parent){
   const self = parent;
@@ -89,7 +93,9 @@ function print(period, translator, parent){
 
 export default {
   components: {
-    BalanceByPeriodTable
+    BalanceByPeriodTable,
+    "loader": Loader,
+    "spinner": Spinner    
   },
   methods: {
     setErrorMsg(err){
@@ -130,7 +136,8 @@ export default {
       }, {});
       this.period = period;
       this.selectedValue = period.id;
-      this.totalInvested = totalInvested;        
+      this.totalInvested = totalInvested;
+      this.isLoading = false;
     },
     async onPeriodChange(){
       this.error.exists = false;
@@ -165,7 +172,8 @@ export default {
       },
       allPeriods: [],
       selectedValue: [],
-      downloading: false
+      downloading: false,
+      isLoading: true
     };
   }
 };

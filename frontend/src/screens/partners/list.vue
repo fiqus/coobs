@@ -7,6 +7,8 @@
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
+    <spinner :loading='isLoading'/>
+    <loader :loading='isLoading'/>
     <custom-table
       :headers="headers"
       :data="listPartners"
@@ -23,16 +25,21 @@ import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
 import {capitalizeFirstChar} from "./../../utils";
+import Loader from "../../components/loader-overlay.vue";
+import Spinner from "../../components/spinner.vue";
 
 export default {
   components: {
-    "custom-table": CustomTable
+    "custom-table": CustomTable,
+    "loader": Loader,
+    "spinner": Spinner
   },
   created() {
     const {cooperativeId} = this.$store.state.user;
     httpGet(`/partners`)
       .then((response) => {
         this.partners = response.data;
+        this.isLoading = false;
       });
   },
   computed: {
@@ -50,7 +57,8 @@ export default {
         {key: "firstName", value: "firstName", parser: (p) => capitalizeFirstChar(formatText(p.firstName))},
         {key: "lastName", value: "lastName", parser: (p) => capitalizeFirstChar(formatText(p.lastName))}
       ],
-      partners: []
+      partners: [],
+      isLoading: true
     };
   },
   methods: {

@@ -58,7 +58,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-handshake"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>{{$t("yourCoop")}}</span>
           </a>
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
@@ -90,7 +90,7 @@
 
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-            <h1 class="display-4 font-weight-bold">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
+            <h1 class="display-5">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
               <i class="fa fa-bars"></i>

@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">{{$t("periods")}}<i class="fas fa-fw fa-calendar"></i></h3>
+      <h3 class="col-10">{{$t("periods")}}</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'period-edit', params: {periodId: 0}}">
         {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
     <spinner :loading='isLoading'/>
-    <loader :loading='isLoading'/>    
+    <loader :loading='isLoading'/>
     <custom-table
       :headers="headers"
       :data="periods"

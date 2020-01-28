@@ -15,11 +15,12 @@
       </div>
     </div>
     <div v-else>
+      <spinner :loading='isLoading'/>
+      <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 class="h3 mb-0 text-gray-800">{{$t("dashboard")}}<i class="fas fa-fw fa-tachometer-alt"></i></h1>
-          <div class="dropdown no-arrow float-right mx-3">
+          <div class="dropdown no-arrow float-right">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
               <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
                 <option v-for="period in allPeriods" :key="period.id" :value="period.id">
@@ -62,7 +63,7 @@
                 </div>
                 <div class="col">
                   <div class="progress progress-sm mr-2">
-                    <div class="progress-bar bg-info" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar custom-green" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                   </div>
                 </div>
               </div>
@@ -108,7 +109,7 @@
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data center">
-                        <div class="progress-bar bg-warning" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar custom-orange" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                     <div class="col-3">
@@ -126,7 +127,7 @@
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
-                        <div class="progress-bar bg-danger" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar custom-red" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                     <div class="col-3">
@@ -144,7 +145,7 @@
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
-                        <div class="progress-bar bg-success" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar custom-green" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     </div>
                     <div class="col-3">
@@ -187,6 +188,8 @@ import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
+import Loader from "../components/loader-overlay.vue";
+import Spinner from "../components/spinner.vue";
 
 
 export default {
@@ -196,7 +199,9 @@ export default {
     "donut-chart": DonutChart,
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
-    "area-chart": AreaChart
+    "area-chart": AreaChart,
+    "loader": Loader,
+    "spinner": Spinner    
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -206,7 +211,7 @@ export default {
       return `${this.$t("allActionsByPartnersLabel")}`;
     },
     monthlyInvestmentByDateLabel() {
-      return `${this.$t("monthlyInvestmentByDate Label")}`;
+      return `${this.$t("monthlyInvestmentByDateLabel")}`;
     }
   },
   methods: {
@@ -245,6 +250,7 @@ export default {
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
+      this.isLoading = false;
     },
     localizeDonutChartLabels({labels, series}){
       const localizedLabels = labels.map((label) =>{
@@ -303,7 +309,8 @@ export default {
         backgroundClass: " bg-danger",
         message: ""
       },      
-      showActionsByPartner: true
+      showActionsByPartner: true,
+      isLoading: true
     };
   }
 };

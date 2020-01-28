@@ -105,7 +105,7 @@ class Action(models.Model):
         verbose_name = _('action')
 
     def __str__(self):
-        return '%s - %s ' % (self.date, self.principle)
+        return '%s - %s ' % (self.date, self.name)
     
     @classmethod
     def get_current_actions(cls, cooperative, date_from, date_to):
