@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 User = get_user_model()
 
+
 class PrincipleSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
@@ -33,7 +34,8 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     def validate_date_from(self, value):
         id = self.instance.id if self.instance is not None else None
-        cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
+        cooperative_id = self.initial_data['cooperative'] if self.initial_data.get('cooperative') is not None else \
+        self.initial_data['cooperative_id']
         periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
             raise serializers.ValidationError(_("The date from you entered is contained in another period."))
@@ -41,21 +43,25 @@ class PeriodSerializer(serializers.ModelSerializer):
 
     def validate_date_to(self, value):
         id = self.instance.id if self.instance is not None else None
-        cooperative_id = self.initial_data['cooperative']  if self.initial_data.get('cooperative') is not None else self.initial_data['cooperative_id']
+        cooperative_id = self.initial_data['cooperative'] if self.initial_data.get('cooperative') is not None else \
+        self.initial_data['cooperative_id']
         periods = Period.get_date_period(id, value, cooperative_id)
         if periods.count() > 0:
             raise serializers.ValidationError(_("The date to you entered is contained in another period."))
         return value
 
+
 class CooperativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cooperative
         fields = "__all__"
-        
+
+
 class MainPrincipleSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainPrinciple
         fields = "__all__"
+
 
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -72,7 +78,8 @@ class PartnerSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data.get('last_name', instance.last_name)
 
         if self.initial_data.get('new_password'):
-            password_change_data = {'new_password': self.initial_data.get('new_password'), 'confirm_password': self.initial_data.get('confirm_password')}
+            password_change_data = {'new_password': self.initial_data.get('new_password'),
+                                    'confirm_password': self.initial_data.get('confirm_password')}
             change_pass_serializer = ChangePasswordSerializer(data=password_change_data)
             change_pass_serializer.is_valid(raise_exception=True)
             instance.set_password(self.initial_data.get('new_password'))
@@ -80,8 +87,10 @@ class PartnerSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class ChangePasswordSerializer(serializers.Serializer):
-    new_password = serializers.RegexField("^(?=.*[a-zA-Z])(?=.*[0-9])", min_length=8, error_messages={'invalid': 'Password must be more than 8 characters long, contain letters and numbers'})
+    new_password = serializers.RegexField("^(?=.*[a-zA-Z])(?=.*[0-9])", min_length=8, error_messages={
+        'invalid': 'Password must be more than 8 characters long, contain letters and numbers'})
     confirm_password = serializers.CharField()
 
     def validate(self, data):
@@ -89,11 +98,13 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError("Passwords must match")
         return data
 
+
 class ActionsByCoopSerializer(serializers.Serializer):
     cooperative_id = serializers.IntegerField(source='cooperative')
     cooperative_name = serializers.CharField(source='cooperative__name', max_length=128)
     principle_name_key = serializers.CharField()
     actions_count = serializers.IntegerField()
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

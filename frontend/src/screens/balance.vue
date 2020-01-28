@@ -119,7 +119,6 @@ export default {
         };
         return;
       }
-      let invested = 0;        
       this.allPeriods = allPeriods;
       this.actionsByPeriod = actions.reduce((obj, action) => {
         if (!action.public) {

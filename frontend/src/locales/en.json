@@ -106,5 +106,6 @@
   "notEnoughInfoForMedalTable": "There's no enough info loaded to show in the medal table yet. Please add some actions to your cooperative to see how good you are doing.",
   "cooperative": "Cooperative",
   "downloading": "Descargando",
-  "loading": "Loading"
+  "loading": "Loading",
+  "quickView": "View detail"
 }

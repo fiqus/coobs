@@ -29,6 +29,7 @@
           <multi-select-form
             v-model="action.principles"
             :options="principles"
+            :placeholder="$t('selectPrinciple')"
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
             :error="$v.action.principles.$error"

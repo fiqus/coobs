@@ -12,7 +12,7 @@
     <custom-table
       :headers="headers"
       :data="listPartners"
-      :actions="{edit: true, delete: true}"
+      :actions="{edit: true, delete: true, showViewButton: false}"
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
