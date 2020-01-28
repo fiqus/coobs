@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row">
-      <h3 class="col-10">{{$t("principles")}}<i class="fas fa-fw fa-map-signs"></i></h3>
+      <h3 class="col-10">{{$t("principles")}}</h3>
     </div>
     <spinner :loading='isLoading'/>
     <loader :loading='isLoading'/>
