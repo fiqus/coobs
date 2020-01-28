@@ -12,7 +12,7 @@
     <custom-table
       :headers="headers"
       :data="periods"
-      :actions="{edit: true, delete: true}"
+      :actions="{edit: true, delete: true, showViewButton: false}"
       :empty-state-msg="$t('noPeriodsMessage')" 
       @onEdit="onEdit"
       @onDelete="onDelete">

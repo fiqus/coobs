@@ -12,11 +12,13 @@
       <custom-table
         :headers="headers"
         :data="actions"
-        :actions="{edit: true, delete: true}"
+        :actions="{edit: true, delete: true, showViewButton: true}"
         :empty-state-msg="$t('emptyActionMsg')"
         @onEdit="onEdit"
-        @onDelete="onDelete">
+        @onDelete="onDelete"
+        @onQuickView="onQuickView">
       </custom-table>
+    
   </div>
 </template>
 
@@ -25,8 +27,10 @@ import {httpGet, httpDelete} from "../../api-client.js";
 import CustomTable from "../../components/custom-table.vue";
 import Loader from "../../components/loader-overlay.vue";
 import Spinner from "../../components/spinner.vue";
+import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText} from "../../utils";
 import swal from "sweetalert";
+import * as api from "./../../services/api-service";
 
 function parseBoolean(value) {
   const icon = value ? "check" : "times";
@@ -52,8 +56,8 @@ export default {
         {key: "date", value: "date"},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
         {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
-        {key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
-        {key: "public", value:  "public", parser: (p) => parseBoolean(p.public)},
+        //{key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
+        {key: "public", value: "public", parser: (p) => parseBoolean(p.public)},
       ],
       actions: [],
       isLoading: true
@@ -65,13 +69,12 @@ export default {
     },
     onDelete(action) {
       swal({
-        title: this.$t('areYouSure'),
-        text: this.$t('onceActionDeleted'),
+        title: this.$t("areYouSure"),
+        text: this.$t("onceActionDeleted"),
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      })
-      .then((willDelete) => {
+      }).then((willDelete) => {
         if (willDelete) {
           httpDelete(`/actions/${action.id}`)
             .then(() => {
@@ -87,6 +90,16 @@ export default {
             });
         }
       });
+    },
+    onQuickView(action) {
+      Promise.all([
+        api.getPrinciples(),
+        api.getAction(action.id)
+      ]).then(([principles, actionData]) => {
+        console.log(principles, actionData);
+      });
+
+
     }
   }
 };
