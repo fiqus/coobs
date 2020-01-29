@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import status
 from django.db.models import Count
 import datetime
-
+from decimal import Decimal
 
 class Cooperative(models.Model):
     name = models.CharField(_('name'), max_length=128, blank=True)
@@ -98,7 +98,7 @@ class Action(models.Model):
     date = models.DateField(_('date'), default=datetime.date.today)
     name = models.CharField(_('name'), max_length=256)
     description = models.TextField(_('description'), null=True, blank=True)
-    invested_money = models.DecimalField(_('invested money'), max_digits=19, decimal_places=2, null=True)
+    invested_money = models.DecimalField(_('invested money'), max_digits=19, decimal_places=2, default=Decimal('0.00'), blank=True)
     partners_involved = models.ManyToManyField(Partner, verbose_name=_('partners involved'), blank=False)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
     public = models.BooleanField(default=True)

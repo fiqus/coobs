@@ -40,10 +40,7 @@
             :label="$t('partners')"
             :placeholder="$t('selectPartners')"
             v-model="partnersInvolved"
-            :options="partnersList"
-            :error="$v.partnersInvolved.$error"
-            :error-message="$t('required')"
-          />
+            :options="partnersList"/>
         </div>
       </div>
 
@@ -235,10 +232,6 @@ export default {
         minLength: minLength(1)
       },
       investedMoney: {minValue: minValue(0)}
-    },
-    partnersInvolved: {
-      required,
-      minLength: minLength(1)
     }
   }
 };

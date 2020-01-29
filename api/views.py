@@ -33,12 +33,15 @@ class PrincipleView(viewsets.ModelViewSet):
 
 
 class ActionFilter(filters.FilterSet):
-    principle = filters.NumberFilter(field_name="principle__id")
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
     date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
     partner = filters.ModelMultipleChoiceFilter(
         field_name="partners_involved",
         queryset=Partner.objects.all()
+    )
+    principle = filters.ModelMultipleChoiceFilter(
+        field_name="principles",
+        queryset=Principle.objects.all()
     )
 
     class Meta:
