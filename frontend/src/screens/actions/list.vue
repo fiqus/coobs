@@ -183,10 +183,16 @@ export default {
       this.$v.filters.$reset();
     },
     cleanFilters() {
+      this.isLoading = true;
       this.filters.principle = null;
       this.filters.period = null;
       this.filters.partner = null;
       this.$v.filters.$reset();
+      return httpGet("/actions")
+        .then((response) => {
+          this.actions = response.data;
+          this.isLoading = false;
+        });
     },
     submitFilters() {
       this.$v.filters.$touch();
@@ -207,14 +213,17 @@ export default {
             params.date_to = period.dateTo;
           }
         }
+        this.isLoading = true;
         return httpGet(`/actions`, params)
           .then((res) => {
             this.actions = res.data;
             if (!this.actions.length) {
               this.emptyMsg = this.$t('noActionsResults');
             }
+            this.isLoading = false;
           })
           .catch((err) => {
+            this.isLoading = false;
             this.handleError(err);
           })
       }
@@ -238,9 +247,11 @@ export default {
                 buttons: false,
                 timer: 2000
               });
+              this.isLoading = true;
               return httpGet("/actions")
                 .then((response) => {
                   this.actions = response.data;
+                  this.isLoading = false;
                 });
             });
         }
