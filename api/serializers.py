@@ -35,7 +35,7 @@ class ActionSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
     def update(self, instance, validated_data):
-        instance.principle = validated_data.get('principle', instance.principle)
+        instance.principles.set(validated_data.get('principles', instance.principles))
         instance.date = validated_data.get('date', instance.date)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)

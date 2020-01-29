@@ -67,7 +67,7 @@ class ActionView(viewsets.ModelViewSet):
 
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
         for partner in partners_involved:
-            action_data.partners_involved.add(partner)
+            action_data.partners_involved.add(partner['id'])
 
         for principle in principles:
             action_data.principles.add(principle)

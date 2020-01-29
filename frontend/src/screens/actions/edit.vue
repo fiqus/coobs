@@ -164,12 +164,12 @@ export default {
       return acc;
     }, {});
     
-    this.partnersList = partnersSelectedParser(Object.keys(this.partners), this.partners);
+    this.partnersList = parserPartners(partners);
     
     const actionId = this.$route.params.actionId;
     if (!this.isNew) {
       this.action = await api.getAction(actionId);
-      this.partnersInvolved = partnersSelectedParser(this.action.partnersInvolved, this.partners);
+      this.partnersInvolved = parserPartners(this.action.partnersInvolved);
       this.action.principles = principlesSelectedParser(this.action.principles, this.principles);
     }
   },
@@ -199,9 +199,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
-        this.action.partnersInvolved = this.partnersInvolved.map((partner) => {
-          return partner.id;
-        });
+        this.action.partnersInvolved = this.partnersInvolved;
         this.action.principles = this.action.principles.map((principle) => {
           return principle.id;
         });
