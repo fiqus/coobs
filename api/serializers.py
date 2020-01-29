@@ -6,6 +6,7 @@ from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import ugettext_lazy as _
+from decimal import Decimal
 
 User = get_user_model()
 
@@ -25,10 +26,21 @@ class PartnerInvolvedSerializer(serializers.ModelSerializer):
         model = Partner
         fields = ('id', 'first_name', 'last_name')
 
+class BlankableDecimalField(serializers.DecimalField):
+    """
+    We wanted to be able to receive an empty string ('') for a decimal field
+    and in that case turn it into a None number
+    """
+    def to_internal_value(self, data):
+        if data == '':
+            return Decimal('0.00')
+
+        return super(BlankableDecimalField, self).to_internal_value(data)
 
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
     partners_involved = PartnerInvolvedSerializer(many=True)
+    invested_money = BlankableDecimalField(max_digits=19, decimal_places=2)
 
     class Meta:
         model = Action
