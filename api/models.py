@@ -29,6 +29,8 @@ class Cooperative(models.Model):
 class MainPrinciple(models.Model):
     name = models.CharField(_('name'), max_length=256)
     name_key = models.CharField(max_length=256)
+    description = models.CharField(max_length=1024, default="")
+    description_key = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name_key

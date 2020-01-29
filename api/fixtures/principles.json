@@ -2,7 +2,9 @@
   {
     "fields": {
       "name": "Open and voluntary membership",
-      "name_key": "openAndVoluntary"
+      "name_key": "openAndVoluntary",
+      "description": "Cooperatives are voluntary organisations, open to all persons able to use their services and willing to accept the responsibilities of membership, without gender, social, racial, political or religious discrimination.",
+      "description_key": "openAndVoluntaryDesc"
     },
     "model": "api.mainprinciple",
     "pk": 1
@@ -10,7 +12,9 @@
   {
     "fields": {
       "name": "Democratic control of the members",
-      "name_key": "democraticControl"
+      "name_key": "democraticControl",
+      "description": "Cooperatives are democratic organisations controlled by their members, who actively participate in setting their policies and making decisions. Men and women serving as elected representatives are accountable to the membership. In primary cooperatives members have equal voting rights (one member, one vote) and cooperatives at other levels are also organised in a democratic manner.",
+      "description_key": "democraticControlDesc"
     },
     "model": "api.mainprinciple",
     "pk": 2
@@ -18,7 +22,9 @@
   {
     "fields": {
       "name": "Economic participation of members",
-      "name_key": "economicParticipation"
+      "name_key": "economicParticipation",
+      "description": "Members contribute equitably to, and democratically control, the capital of their cooperative. At least part of that capital is usually the common property of the cooperative. Members usually receive limited compensation, if any, on capital subscribed as a condition of membership. Members allocate surpluses for any or all of the following purposes: developing their cooperative, possibly by setting up reserves, part of which at least would be indivisible; benefiting members in proportion to their transactions with the cooperative; and supporting other activities approved by the membership.",
+      "description_key": "economicParticipationDesc"
     },
     "model": "api.mainprinciple",
     "pk": 3
@@ -26,7 +32,9 @@
   {
     "fields": {
       "name": "Autonomy and independence",
-      "name_key": "autonomyIndependence"
+      "name_key": "autonomyIndependence",
+      "description": "Cooperatives are autonomous, self-help organisations controlled by their members. If they enter into agreements with other organisations, including governments, or raise capital from external sources, they do so on terms that ensure democratic control by their members and maintain their cooperative autonomy.",
+      "description_key": "autonomyIndependenceDesc"
     },
     "model": "api.mainprinciple",
     "pk": 4
@@ -34,7 +42,9 @@
   {
     "fields": {
       "name": "Education, training and information",
-      "name_key": "educationTraining"
+      "name_key": "educationTraining",
+      "description": "Cooperatives provide education and training for their members, elected representatives, managers, and employees so they can contribute effectively to the development of their co-operatives. They inform the general public - particularly young people and opinion leaders - about the nature and benefits of co-operation.",
+      "description_key": "educationTrainingDesc"
     },
     "model": "api.mainprinciple",
     "pk": 5
@@ -42,7 +52,9 @@
   {
     "fields": {
       "name": "Cooperation between cooperatives",
-      "name_key": "cooperationBetweenCoops"
+      "name_key": "cooperationBetweenCoops",
+      "description": "Cooperatives serve their members most effectively and strengthen the cooperative movement by working together through local, national, regional and international structures.",
+      "description_key": "cooperationBetweenCoopsDesc"
     },
     "model": "api.mainprinciple",
     "pk": 6
@@ -50,7 +62,9 @@
   {
     "fields": {
       "name": "Commitment to the community",
-      "name_key": "commitmentToCommunity"
+      "name_key": "commitmentToCommunity",
+      "description": "Cooperatives work for the sustainable development of their communities through policies approved by their members.",
+      "description_key": "commitmentToCommunityDesc"
     },
     "model": "api.mainprinciple",
     "pk": 7

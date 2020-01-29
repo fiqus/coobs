@@ -5,14 +5,16 @@
         <i class="fas fa-exclamation-circle"></i>
         {{$t(error.message, error.message)}}
       </h5>
-      <div class="dropdown no-arrow float-right mx-3">
-        <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-          <select class="period-select mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-              {{period.name}}
-            </option>
-          </select>
-        </a>
+      <div v-if="allPeriods.length">
+        <div class="dropdown no-arrow float-right mx-3">
+          <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+            <select class="period-select mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+              <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                {{period.name}}
+              </option>
+            </select>
+          </a>
+        </div>
       </div>
     </div>
     <div v-else>

@@ -129,7 +129,8 @@ class CooperativeView(viewsets.ModelViewSet):
             main_principles = MainPrinciple.objects.all()
             principles = list()
             for main_principle in main_principles:
-                principle_data = Principle(cooperative=cooperative, main_principle=main_principle)
+                #TODO we should set principles description based on the language set in the landing, makes sense?
+                principle_data = Principle(cooperative=cooperative, description = main_principle.description, main_principle=main_principle)
                 principles.append(principle_data)
             Principle.objects.bulk_create(principles)
 
@@ -265,11 +266,21 @@ class DashboardView(viewsets.ViewSet):
 
     def list(self, request):
         cooperative_id = request.user.cooperative_id
+        empty_response = {'period': [], 'actions': [], 'principles': [], 'charts': {
+            'cards_data': [],
+            'all_principles_data': [],
+            'progress_data': {'investmentProgressData': {}, 'periodProgressData': {}, 'actionsProgressData': {}},
+            'actions_by_partner': [],
+            'monthly_investment_by_date': [],
+            'monthly_actions_by_principle': []            
+        }, 'all_periods': []}
 
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -279,7 +290,9 @@ class DashboardView(viewsets.ViewSet):
             period_data = self.get_current_period(all_periods_serializer.data)
 
         if not period_data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
@@ -332,11 +345,21 @@ class BalanceView(viewsets.ViewSet):
 
     def list(self, request):
         cooperative_id = request.user.cooperative_id
+        empty_response = {'period': [], 'actions': [], 'principles': [], 'charts': {
+            'cards_data': [],
+            'all_principles_data': [],
+            'progress_data': {'investmentProgressData': {}, 'periodProgressData': {}, 'actionsProgressData': {}},
+            'actions_by_partner': [],
+            'monthly_investment_by_date': [],
+            'monthly_actions_by_principle': []            
+        }, 'all_periods': []}
 
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -346,8 +369,10 @@ class BalanceView(viewsets.ViewSet):
             period_data = self.get_current_period(all_periods_serializer.data)
 
         if not period_data:
-            return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)

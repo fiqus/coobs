@@ -13,6 +13,8 @@ User = get_user_model()
 class PrincipleSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
+    description = serializers.CharField(source='main_principle.description')
+    description_key = serializers.CharField(source='main_principle.description_key', read_only=True)
 
     class Meta:
         model = Principle

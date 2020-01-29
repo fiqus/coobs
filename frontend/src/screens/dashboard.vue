@@ -4,14 +4,16 @@
         <i class="fas fa-exclamation-circle"></i>
         {{$t(error.message, error.message)}}
       </h5>
-      <div class="dropdown no-arrow float-right mx-3">
-        <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-          <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-              {{period.name}}
-            </option>
-          </select>
-        </a>
+      <div v-if="allPeriods.length">
+        <div class="dropdown no-arrow float-right mx-3">
+          <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+            <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+              <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                {{period.name}}
+              </option>
+            </select>
+          </a>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -223,7 +225,7 @@ export default {
       this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
       this.doneActions = dashboardData.charts.cardsData.doneActions;
-      this.totalInvested = (dashboardData.charts.cardsData.totalInvested).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+      this.totalInvested = dashboardData.charts.cardsData.totalInvested ? (dashboardData.charts.cardsData.totalInvested).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
 
       this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
       this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
@@ -247,23 +249,26 @@ export default {
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
       
       this.progressData = dashboardData.charts.progressData;
-      this.progressData.investmentProgressData.budget = parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")
+      this.progressData.investmentProgressData.budget = dashboardData.charts.progressData.length > 0 ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
       this.isLoading = false;
     },
     localizeDonutChartLabels({labels, series}){
+      if (!labels) {
+        return {labels: []};
+      }
       const localizedLabels = labels.map((label) =>{
         return this.$t(label);
       });  
       return {labels: localizedLabels, series};
     },
     localizeLabels(results) {
-      return results.map((result) => {
+      return results ? results.map((result) => {
         result.name = this.$t(result.nameKey);
         return result;
-      });
+      }) : [];
     },
     async onPeriodChange(){
       this.error.exists = false;
@@ -283,7 +288,15 @@ export default {
   async created() {
     const dashboardData = await api.getDashboard();
     console.log(dashboardData);
-    this.showDashboardData(dashboardData);
+    if (!dashboardData.actions.length) {
+      this.error = {
+        exists: true,
+        backgroundClass: " bg-danger",
+        message: "notEnoughInfoForDashboard"
+      };
+    } else {
+      this.showDashboardData(dashboardData);
+    }
   },
   data() {
     return {
