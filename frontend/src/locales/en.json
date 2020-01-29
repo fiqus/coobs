@@ -107,5 +107,11 @@
   "cooperative": "Cooperative",
   "downloading": "Descargando",
   "loading": "Loading",
-  "quickView": "View detail"
+  "quickView": "View detail",
+  "period": "Period",
+  "partner": "Partner",
+  "clean": "Clean",
+  "apply": "Apply",
+  "selectAtLeastOneFilter": "Select at least one filter.",
+  "noActionsResults": "There are not actions for the filters selected."
 }

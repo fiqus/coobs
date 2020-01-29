@@ -18,13 +18,38 @@ class PrincipleSerializer(serializers.ModelSerializer):
         model = Principle
         fields = "__all__"
 
+class PartnerInvolvedSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=Partner()._meta.get_field('id'))
+
+    class Meta:
+        model = Partner
+        fields = ('id', 'first_name', 'last_name')
+
 
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
+    partners_involved = PartnerInvolvedSerializer(many=True)
 
     class Meta:
         model = Action
         fields = "__all__"
+    
+    def update(self, instance, validated_data):
+        instance.principles.set(validated_data.get('principles', instance.principles))
+        instance.date = validated_data.get('date', instance.date)
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.invested_money = validated_data.get('invested_money', instance.invested_money)
+        instance.public = validated_data.get('public', instance.public)
+
+        if validated_data.get('partners_involved'):
+            partners_involved = list()
+            for partner in validated_data.get('partners_involved'):
+                partners_involved.append(partner.get('id'))
+            instance.partners_involved.set(partners_involved)
+
+        instance.save()
+        return instance
 
 
 class PeriodSerializer(serializers.ModelSerializer):
