@@ -11,6 +11,9 @@ $(function() {
         obj[elem.name] = elem.value;
         return obj;
       }, {});
+      const languageEl = document.getElementById("language");
+      const languageStr = languageEl.options[languageEl.selectedIndex].value;
+      data["language"] = languageStr;
       $this = $("#registerAccount");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
 

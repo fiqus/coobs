@@ -107,6 +107,7 @@ class CooperativeView(viewsets.ModelViewSet):
 
     def create(self, request):
         data = request.data
+        language = data['language']
 
         def set_coop_data():
             cooperative_data = Cooperative.objects.create(**coop_serializer.validated_data)
@@ -132,8 +133,8 @@ class CooperativeView(viewsets.ModelViewSet):
             main_principles = MainPrinciple.objects.all()
             principles = list()
             for main_principle in main_principles:
-                #TODO we should set principles description based on the language set in the landing, makes sense?
-                principle_data = Principle(cooperative=cooperative, description = main_principle.description, main_principle=main_principle)
+                description = main_principle.description_es if language=='es' else main_principle.description_en
+                principle_data = Principle(cooperative=cooperative, description = description, main_principle=main_principle)
                 principles.append(principle_data)
             Principle.objects.bulk_create(principles)
 
