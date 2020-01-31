@@ -179,7 +179,8 @@ export default {
     const isNew = this.$route.params.actionId == "0";
     return {
       action: {
-        principles: ""
+        principles: "",
+        public: true
       },
       principles: [],
       partnersInvolved: [],

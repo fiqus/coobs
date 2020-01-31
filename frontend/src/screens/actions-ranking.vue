@@ -91,7 +91,6 @@
             acc.push(coop);
             return acc;
         }, []);
-        console.log(actionsByCoop);
         this.actionsByCoop = actionsByCoop.sort((a, b) => {
             return a.coopName < b.coopName ? -1 : 1;
         });
