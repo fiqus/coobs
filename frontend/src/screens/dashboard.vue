@@ -96,7 +96,7 @@
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
           </bars-chart>
 
-          <div class="col-xl-6 col-lg-4">
+          <div class="col-xl-4 col-lg-4">
             <div class="card shadow mb-4">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
@@ -104,10 +104,10 @@
               <div class="card-body first-col-db" >
                 <div class="">
                   <!-- Period -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('periodProgress')}}</div>
+                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('periodProgress')}}</div>
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data center">
@@ -115,17 +115,17 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
                     </div>
                   </div>
                   <hr>
 
                   <!-- Actions -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('actionsProgress')}}</div>
+                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('actionsProgress')}}</div>
                   
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">0</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">0</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
@@ -133,17 +133,17 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone + pendingActions}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone + pendingActions}}</div>
                     </div>
                   </div>
                   <hr>
 
                   <!-- Investment -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-1" :class="labelClass">{{$t('investmentProgress')}}</div>
+                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('investmentProgress')}}</div>
 
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 align-right">$0.00</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">$0.00</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
@@ -151,7 +151,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
                     </div>
                   </div>
                 </div>
