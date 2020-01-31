@@ -1,6 +1,6 @@
 import os
 from django.core.management import call_command
-from django.db import migrations
+from django.db import migrations, models
 
 fixture_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../fixtures'))
 
@@ -17,5 +17,15 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='mainprinciple',
+            name='description_en',
+            field=models.CharField(default='', max_length=1024),
+        ),
+        migrations.AlterField(
+            model_name='mainprinciple',
+            name='description_es',
+            field=models.CharField(default='', max_length=1024),
+        ),
         migrations.RunPython(load_fixture),
     ]
