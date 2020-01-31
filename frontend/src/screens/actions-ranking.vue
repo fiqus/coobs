@@ -93,7 +93,7 @@
         }, []);
         console.log(actionsByCoop);
         this.actionsByCoop = actionsByCoop.sort((a, b) => {
-            return a.total > b.total ? -1 : 1;
+            return a.coopName < b.coopName ? -1 : 1;
         });
         this.principles = principles;
       }
