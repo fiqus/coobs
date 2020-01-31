@@ -25,55 +25,38 @@
             <span>{{$t("dashboard")}}</span>
           </router-link>
         </li>
-
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'actions-list'}">
+          <router-link class="nav-link collapsed" :to="{name: 'actions-list'}" >
             <i class="fas fa-fw fa-clipboard-list"></i>
             <span>{{$t("actions")}}</span>
           </router-link>
-        </li>
-
-        <!-- Nav Item - Utilities Collapse Menu -->
-        <li class="nav-item">
-          <router-link class="nav-link" :to="{name: 'principles-list'}">
-            <i class="fas fa-fw fa-map-signs"></i>
-            <span>{{$t("principles")}}</span>
-          </router-link>
-        </li>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'periods-list'}">
-            <i class="fas fa-fw fa-calendar"></i>
-            <span>{{$t("periods")}}</span>
-          </router-link>
-        </li>
-        
+        </li>      
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'balance'}">
             <i class="fas fa-fw fa-balance-scale"></i>
             <span>{{$t("balance")}}</span>
           </router-link>
+        </li>        
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'actions-ranking'}">
+            <i class="fas fa-fw fa-th-list"></i>
+            <span>{{$t("actionsRanking")}}</span>
+          </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-            <i class="fas fa-fw fa-users"></i>
-            <span>{{$t("yourCoop")}}</span>
+            <i class="fas fa-fw fa-cog"></i>
+            <span>{{$t("configuration")}}</span>
           </a>
           <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
             <div class="bg-white py-2 collapse-inner rounded">
-              <router-link class="collapse-item" :to="{name: 'cooperative'}">{{$t("edit")}}</router-link>
-              <router-link class="collapse-item" :to="{name: 'partners-list'}">{{$t("partners")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'partners-list'}"><i class="fas fa-user-friends"></i> {{$t("partners")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'principles-list'}"><i class="fas fa-fw fa-map-signs"></i> {{$t("principles")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'periods-list'}"><i class="fas fa-fw fa-calendar"></i> {{$t("periods")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'cooperative'}"><i class="fas fa-fw fa-edit"></i> {{$t("yourCoop")}}</router-link>
             </div>
           </div>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'medal-table'}">
-            <i class="fas fa-fw fa-medal"></i>
-            <span>{{$t("medalTable")}}</span>
-          </router-link>
-        </li>          
+        </li>        
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>

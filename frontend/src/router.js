@@ -13,7 +13,7 @@ import PeriodEditScreen from "./screens/periods/edit.vue";
 import ProfileScreen from "./screens/profile/profile.vue";
 import SignupScreen from "./screens/signup.vue";
 import BalanceScreen from "./screens/balance.vue";
-import MedalTableScreen from "./screens/medal-table.vue";
+import ActionsRankingScreen from "./screens/actions-ranking.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
@@ -70,9 +70,9 @@ const routes = [
     component: BalanceScreen
   },  
   {
-    name: "medal-table",
-    path: "/medal-table",
-    component: MedalTableScreen
+    name: "actions-ranking",
+    path: "/actions-ranking",
+    component: ActionsRankingScreen
   },
   {
     name: "cooperative",

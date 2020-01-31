@@ -396,7 +396,7 @@ class BalanceView(viewsets.ViewSet):
                          'total_invested': total_invested})
 
 
-class MedalTableView(viewsets.ViewSet):
+class ActionsRankingView(viewsets.ViewSet):
     def list(self, request):
         first_day_of_year = date(datetime.today().year, 1, 1)
         visible_principles = Principle.objects.filter(visible=True)

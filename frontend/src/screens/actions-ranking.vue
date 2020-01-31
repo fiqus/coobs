@@ -11,7 +11,7 @@
       <loader :loading='isLoading'/>      
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="col-10">
-          {{$t("medalTable")}}
+          {{$t("actionsRanking")}}
         </h1>
       </div>
       <table class="table table-hover table-sm">
@@ -57,13 +57,13 @@
           message: err.response.data.detail
         };
       },
-      showMedalTable(res){
+      showActionsRanking(res){
         const {actions, principles} = res.data;
         if (!actions.length) {
           this.error = {
             exists: true,
             backgroundClass: " bg-warning",
-            message: "notEnoughInfoForMedalTable"
+            message: "notEnoughInfoForActionsRanking"
           };
           return;
         }
@@ -91,6 +91,7 @@
             acc.push(coop);
             return acc;
         }, []);
+        console.log(actionsByCoop);
         this.actionsByCoop = actionsByCoop.sort((a, b) => {
             return a.total > b.total ? -1 : 1;
         });
@@ -98,9 +99,9 @@
       }
     },    
     created() {
-      return httpGet('/medal-table')
+      return httpGet('/actions-ranking')
         .then((res) => {
-          this.showMedalTable(res);
+          this.showActionsRanking(res);
           this.isLoading = false;
         })
         .catch((err) => {

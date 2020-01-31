@@ -101,9 +101,9 @@
   "actionsProgress":"Acciones",
   "periodProgress": "Período",
   "monthlyInvestmentByPrincipleLabel": "Inversión acumulada por principio",
-  "medalTable": "Medallero Cooperativo",
+  "actionsRanking": "Rankings de acciones",
   "notEnoughInfoForDashboard": "No hay suficiente información cargada para el tablero de mandos todavía. Por favor, añade algunas acciones a tu cooperativa o selecciona otro periodo.",
-  "notEnoughInfoForMedalTable": "No hay suficiente información cargada para el medallero. Por favor agregue algunas acciones a su cooperativa para ver que tan bien lo están haciendo.",
+  "notEnoughInfoForActionsRanking": "No hay suficiente información cargada para el ranking de acciones. Por favor agregue algunas acciones a su cooperativa para ver que tan bien lo están haciendo.",
   "cooperative": "Cooperativa",
   "downloading": "Downloading",
   "loading": "Cargando",
@@ -112,5 +112,6 @@
   "partner": "Persona asociada",
   "clean": "Limpiar",
   "apply": "Aplicar",
-  "selectAtLeastOneFilter": "Seleccione al menos un filtro."
+  "selectAtLeastOneFilter": "Seleccione al menos un filtro.",
+  "configuration": "Configuración"
 }
