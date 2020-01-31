@@ -17,15 +17,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='mainprinciple',
-            name='description_en',
-            field=models.CharField(default='', max_length=1024),
-        ),
-        migrations.AlterField(
-            model_name='mainprinciple',
-            name='description_es',
-            field=models.CharField(default='', max_length=1024),
-        ),
         migrations.RunPython(load_fixture),
     ]
