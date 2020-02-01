@@ -35,8 +35,11 @@ source $(echo $VENVWRAPPER)
 TXT
 source $HOME/.bash_aliases
 
-# Install the requirements
-pip install -r requirements.txt
+# Install python requirements
+make install-requirements
+
+# Install node dependencies
+make install-frontend
 
 # Copy the settings template
 cp coobs/settings.template.py coobs/settings.py
@@ -45,28 +48,17 @@ cp coobs/settings.template.py coobs/settings.py
 SECRET_KEY=$(python manage.py generate_secret_key)
 sed -i "s/SECRET_KEY = .*/SECRET_KEY = '${SECRET_KEY}'/g" coobs/settings.py
 
-# Start postgres and create the DB
+# Start postgres and create the database's user
 pg_ctl start
-sudo su - postgres
-psql -c "CREATE DATABASE coobs;"
-psql -c "CREATE USER coobs WITH PASSWORD 'coobspass';"
-psql -c "ALTER ROLE coobs SET client_encoding TO 'utf8';"
-psql -c "ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';"
-psql -c "ALTER ROLE coobs SET timezone TO 'UTC';"
-psql -c "GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;"
-exit
+sudo -iu postgres bash -c "psql -c \"CREATE USER coobs WITH PASSWORD 'coobspass';\""
+sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET client_encoding TO 'utf8';\""
+sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';\""
+sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET timezone TO 'UTC';\""
 
 # @TODO Configure db parameters at coobs/settings.py
 
-
-# Run database migrations
-make migration
-
-# Create a superuser
-python manage.py createsuperuser
-
-# Install node dependencies:
-make frontend-install
+# Create the DB, run migrations and create django superuser
+make reset-db
 
 # Done!
 echo "Installation done!"

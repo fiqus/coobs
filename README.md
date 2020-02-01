@@ -10,32 +10,27 @@
 
         workon coobs
 
-3. Install the requirements
+3. Install python requirements
 
-        pip install -r requirements.txt
+        make install-requirements
 
 4. Copy the settings template
 
         cp coobs/settings.template.py coobs/settings.py
 
-5. Generate new Django secret key and replace 'change-me' value for SECRET_KEY at coobs/settings.py
+5. Generate new Django secret key and update `SECRET_KEY` value at `coobs/settings.py`
 
-        python manage.py generate_secret_key
+        SECRET_KEY=$(python manage.py generate_secret_key)
+        sed -i "s/SECRET_KEY = .*/SECRET_KEY = '${SECRET_KEY}'/g" coobs/settings.py
 
-6. Create your postgres db
+6. Setup postgres user for `coobs` database
 
-        sudo su postgres 
-        psql
-        CREATE DATABASE coobs;
-        CREATE USER coobs WITH PASSWORD 'coobspass';
-        ALTER ROLE coobs SET client_encoding TO 'utf8';
-        ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';
-        ALTER ROLE coobs SET timezone TO 'UTC';
-        GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;
-        \q
-        exit
+        sudo -iu postgres bash -c "psql -c \"CREATE USER coobs WITH PASSWORD 'coobspass';\""
+        sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET client_encoding TO 'utf8';\""
+        sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';\""
+        sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET timezone TO 'UTC';\""
 
-7. Configure db parameters at coobs/settings.py
+7. Configure database parameters at `coobs/settings.py`
 
         DATABASES = {
                 'default': {
@@ -48,19 +43,15 @@
                 },
         }
 
-8. Run database migrations
+8. Create the `coobs` database, run migrations and create Django superuser
 
-        python manage.py migrate
+        make reset-db
 
-9. Create a superuser
+9. Run the server
 
-        python manage.py createsuperuser
+        make server
 
-10. Run the server
-
-        python manage.py runserver
-
-11. API now should be accessible in:
+10. API now should be accessible at:
 
         http://localhost:8000/api/
 
@@ -68,7 +59,7 @@
 
 1. Install node dependencies:
 
-        make frontend-install
+        make install-frontend
 
 2. Start the frontend app:
         

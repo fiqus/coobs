@@ -1,4 +1,4 @@
-.PHONY: server frontend migration test
+.PHONY: server frontend install-frontend install-requirements migration reset-db test
 
 server:
 	@python manage.py runserver
@@ -6,12 +6,24 @@ server:
 frontend:
 	@cd frontend && npm run dev
 
-frontend-install:
+install-frontend:
 	@cd frontend/landing && npm install
 	@cd frontend && npm install && npm run build
+
+install-requirements:
+	@pip install -r requirements.txt
 
 migration:
 	@python manage.py migrate
 
+reset-db:
+	@sudo -iu postgres bash -c "psql -c 'DROP DATABASE IF EXISTS coobs;'"
+	@sudo -iu postgres bash -c "psql -c 'CREATE DATABASE coobs;'"
+	@sudo -iu postgres bash -c "psql -c 'GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;'"
+	@echo "\033[0;32mDB reset done! => Running migrations.."
+	@$(MAKE) -s migration
+	@echo "\033[0;32mMigrations done! => Creating superuser.."
+	@python manage.py createsuperuser
+
 test:
-	@echo "TODO"
+	@echo "\033[0;31m@TODO Add some tests!\033[0m"
