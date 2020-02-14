@@ -114,5 +114,8 @@
   "apply": "Apply",
   "selectAtLeastOneFilter": "Select at least one filter.",
   "noActionsResults": "There are not actions for the filters selected.",
-  "configuration": "Configuration"
+  "configuration": "Configuration",
+  "partnerHasBeen": "The partner has been",
+  "created": "created",
+  "edited": "edited"
 }

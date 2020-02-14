@@ -136,8 +136,8 @@ export default {
         }
         return promise
           .then(() => {
-            const partnerPerformed = this.isNew ? "created" : "edited";
-            swal(`The partner has been ${partnerPerformed}!`, {
+            const partnerPerformed = this.isNew ? this.$t("created") : this.$t("edited");
+            swal(`${this.$t('partnerHasBeen')} ${partnerPerformed}!`, {
               icon: "success",
               buttons: false,
               timer: 2000
