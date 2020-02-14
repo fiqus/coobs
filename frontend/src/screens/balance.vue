@@ -18,7 +18,6 @@
       </div>
     </div>
     <div v-else>
-      <spinner :loading='isLoading'/>
       <loader :loading='isLoading'/>
       <div v-if="downloading">
         <button type="button" class="btn btn-primary float-right my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
@@ -65,7 +64,6 @@ import {httpGet} from "../api-client";
 import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../components/loader-overlay.vue";
-import Spinner from "../components/spinner.vue";
 
 function print(period, translator, parent){
   const self = parent;
@@ -96,8 +94,7 @@ function print(period, translator, parent){
 export default {
   components: {
     BalanceByPeriodTable,
-    "loader": Loader,
-    "spinner": Spinner    
+    "loader": Loader
   },
   methods: {
     setErrorMsg(err){

@@ -8,7 +8,6 @@
       </router-link>
     </div>
 
-    <spinner :loading='isLoading'/>
     <loader :loading='isLoading'/>
 
     <form v-on:submit.prevent="submitFilters">
@@ -66,7 +65,6 @@
 import {httpGet, httpDelete} from "../../api-client.js";
 import CustomTable from "../../components/custom-table.vue";
 import Loader from "../../components/loader-overlay.vue";
-import Spinner from "../../components/spinner.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar} from "../../utils";
 import swal from "sweetalert";
@@ -94,7 +92,6 @@ export default {
   components: {
     "custom-table": CustomTable,
     "loader": Loader,
-    "spinner": Spinner,
     "select-form": SelectForm,
     "error-form": ErrorForm
   },

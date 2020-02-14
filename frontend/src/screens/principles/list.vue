@@ -3,7 +3,6 @@
     <div class="row">
       <h3 class="col-10">{{$t("principles")}}</h3>
     </div>
-    <spinner :loading='isLoading'/>
     <loader :loading='isLoading'/>
     <custom-table
       :headers="headers"
@@ -22,7 +21,6 @@
   import {httpGet} from "../../api-client.js";
   import swal from 'sweetalert';
   import Loader from "../../components/loader-overlay.vue";
-  import Spinner from "../../components/spinner.vue";
 
   function parseBoolean(value) {
     const icon = value ? "check" : "times";
@@ -32,8 +30,7 @@
   export default {
     components: {
       "custom-table": CustomTable,
-      "loader": Loader,
-      "spinner": Spinner      
+      "loader": Loader
     },
     created() {
       httpGet("/principles")

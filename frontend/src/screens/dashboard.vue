@@ -17,7 +17,6 @@
       </div>
     </div>
     <div v-else>
-      <spinner :loading='isLoading'/>
       <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
@@ -191,7 +190,6 @@ import ColumnsChart from "../components/columns-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
-import Spinner from "../components/spinner.vue";
 import parseMoney from "./../utils";
 
 
@@ -203,8 +201,7 @@ export default {
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
     "area-chart": AreaChart,
-    "loader": Loader,
-    "spinner": Spinner    
+    "loader": Loader
   },
   computed: {
     allPrinciplesYearLabel() {

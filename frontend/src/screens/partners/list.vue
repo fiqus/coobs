@@ -7,7 +7,6 @@
         <i class="fa fa-plus"></i>
       </router-link>
     </div>
-    <spinner :loading='isLoading'/>
     <loader :loading='isLoading'/>
     <custom-table
       :headers="headers"
@@ -26,13 +25,11 @@ import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
 import {capitalizeFirstChar} from "./../../utils";
 import Loader from "../../components/loader-overlay.vue";
-import Spinner from "../../components/spinner.vue";
 
 export default {
   components: {
     "custom-table": CustomTable,
-    "loader": Loader,
-    "spinner": Spinner
+    "loader": Loader
   },
   created() {
     const {cooperativeId} = this.$store.state.user;

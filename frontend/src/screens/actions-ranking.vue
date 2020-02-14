@@ -7,7 +7,6 @@
       </h5>
     </div>
     <div v-else>
-      <spinner :loading='isLoading'/>
       <loader :loading='isLoading'/>      
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="col-10">
@@ -37,12 +36,10 @@
 <script>
   import {httpGet} from '../api-client';
   import Loader from "../components/loader-overlay.vue";
-  import Spinner from "../components/spinner.vue";
 
   export default {
     components: {
-      "loader": Loader,
-      "spinner": Spinner
+      "loader": Loader
     },    
     methods:{
       isCurrentCooperative(cooperativeId){
