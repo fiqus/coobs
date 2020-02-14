@@ -26,14 +26,14 @@
       </textarea-form>
 
       <div class="form-row">
-        <div class="col-4">
+        <div class="col-3 py-1">
           <bootstrap-toggle class="form-control"
             v-model="principle.visible"
             data-toggle="toggle"
             :options="{on: $t('visible'), off: $t('hide'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
             :disabled="false" />
         </div>          
-        <div class="col-8">
+        <div class="col-9">
           <small class="form-text text-muted font-italic ml-3">{{$t('principleVisibilityHelp')}}</small>
         </div>          
       </div>

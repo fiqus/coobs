@@ -52,7 +52,7 @@
             :error-message="budgetErrorMsg">
           </input-form>
         </div>
-        <div class="col-8">
+        <div class="col-8 py-4">
           <small class="form-text text-muted font-italic ml-3">{{$t('budgetHelp')}}</small>
         </div>
       </div>

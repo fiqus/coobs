@@ -116,5 +116,6 @@
   "configuration": "Configuración",
   "partnerHasBeen": "La persona asociada ha sido",
   "created": "creada",
-  "edited": "editada"
+  "edited": "editada",
+  "noActionsResults": "No hay acciones para los filtros seleccionados."
 }

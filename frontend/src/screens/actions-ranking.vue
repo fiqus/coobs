@@ -18,14 +18,14 @@
           <tr class="row">
             <th class="col-sm" scope="col">{{$t("cooperative")}}</th>
             <th v-for="principle in principles" class="col-sm align-center" v-align="center" scope="col" :key="principle.nameKey">{{$t(principle.nameKey)}}</th>
-            <th class="col-sm" scope="col">Total</th>
+            <th class="col-sm align-right" scope="col">Total</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="action in actionsByCoop" :key="action" class="row" v-bind:class="isCurrentCooperative(action.coopId)">
             <td class="col-sm">{{action.coopName}}</td>
             <td v-for="principle in action.actionsByPrinciple" :key="principle" class="col-sm" align="center">{{principle.value}}</td>
-            <td class="col-sm font-weight-bold">{{action.total}}</td>
+            <td class="col-sm font-weight-bold" align="right">{{action.total}}</td>
           </tr>
         </tbody>
       </table>

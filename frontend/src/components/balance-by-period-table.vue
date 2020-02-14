@@ -9,7 +9,7 @@
         <th class="col-sm-3" scope="col">{{$t("action")}}</th>
         <th class="col-sm-5" scope="col">{{$t("description")}}</th>
         <th class="col-sm-2" scope="col">{{$t("date")}}</th>
-        <th class="col-sm-2" scope="col">{{$t("investedMoney")}}</th>
+        <th class="col-sm-2 align-right" scope="col">{{$t("investedMoney")}}</th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
         <td class="col-sm-3">{{action.name}}</td>
         <td class="col-sm-5">{{action.description}}</td>
         <td class="col-sm-2">{{action.date}}</td>
-        <td class="col-sm-2">${{Number(action.investedMoney)}}</td>
+        <td class="col-sm-2" align="right">${{Number(action.investedMoney)}}</td>
       </tr>
     </tbody>
   </table>

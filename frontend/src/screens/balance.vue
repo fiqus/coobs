@@ -50,7 +50,7 @@
           <thead>
             <tr class="row table-info h5">
               <th class="col-sm-10" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>
-              <th class="col-sm-2" scope="col">${{totalInvested}}</th>
+              <th class="col-sm-2 align-right" scope="col">${{totalInvested}}</th>
             </tr>
           </thead>
         </table>
