@@ -42,7 +42,7 @@
       </div>
       <div class="form-row">
         <div class="col-12">
-          <button type="button" class="btn btn-light mb-3 text-gray-600" @click="changingPassword = !changingPassword">Change password</button>
+          <button type="button" class="btn btn-light mb-3 text-gray-600" @click="changingPassword = !changingPassword">{{$t('changePassword')}}</button>
         </div>
       </div>
       <transition name="fade">
