@@ -22,6 +22,9 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
     TokenRefreshView,
 )
+from rest_framework.documentation import include_docs_urls
+
+
 router = routers.DefaultRouter()
 router.register(r'cooperatives', CooperativeView)
 router.register(r'principles', PrincipleView, basename="Principle")
@@ -34,6 +37,7 @@ router.register(r'actions-ranking', ActionsRankingView, basename="ActionsRanking
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
+    path('docs/', include_docs_urls(title='COOBS API', public=False)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

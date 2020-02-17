@@ -20,12 +20,23 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
+from rest_framework.decorators import detail_route
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 
 class PrincipleView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of principles for the current cooperative.
+
+    create:
+    Creates a principle for the current cooperative.
+
+    destroy:
+    Removes the selected principle.
+    """        
     serializer_class = PrincipleSerializer
 
     def get_queryset(self):
@@ -50,6 +61,16 @@ class ActionFilter(filters.FilterSet):
 
 
 class ActionView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of actions for the current cooperative.
+
+    create:
+    Creates an action for the current cooperative.
+
+    destroy:
+    Removes the selected action.
+    """    
     serializer_class = ActionSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ActionFilter
@@ -80,6 +101,16 @@ class ActionView(viewsets.ModelViewSet):
 
 
 class PeriodView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of periods for the current cooperative.
+
+    create:
+    Creates a period for the current cooperative.
+
+    destroy:
+    Removes the selected period.
+    """
     serializer_class = PeriodSerializer
 
     def get_queryset(self):
@@ -100,7 +131,17 @@ class PeriodView(viewsets.ModelViewSet):
         return Response("PERIOD_CREATED", status=status.HTTP_200_OK)
 
 
-class CooperativeView(viewsets.ModelViewSet):
+class CooperativeView(viewsets.ModelViewSet):    
+    """
+    list:
+    Returns the list of cooperatives.
+
+    create:
+    Creates a cooperative.
+
+    destroy:
+    Removes the selected cooperative.
+    """
     permission_classes = (permissions.AllowAny,)
     queryset = Cooperative.objects.all()
     serializer_class = CooperativeSerializer
@@ -193,6 +234,17 @@ class CooperativeView(viewsets.ModelViewSet):
 
 
 class PartnerView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of partners for the current cooperative.
+
+    create:
+    Creates a partner for the current cooperative.
+
+    destroy:
+    Removes the selected partner from the current cooperative.
+    """
+
     serializer_class = PartnerSerializer
 
     def get_queryset(self):
@@ -256,17 +308,30 @@ class PartnerView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
+def get_current_period(all_periods):
+    """
+    #FIXME not working
+    get_current_period:
+    Returns the current period for a cooperative id based on today date.
+    """
+    today = datetime.today()
+    # Note that if there are two periods that overlap, it returns the last one.
+    current_periods = [period for period in all_periods if
+                        datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(
+                            period['date_to'], '%Y-%m-%d')]
+    current_period = current_periods[len(current_periods) - 1]
+    if (current_period):
+        return current_period
+    return None
+
 class DashboardView(viewsets.ViewSet):
-    def get_current_period(self, all_periods):
-        today = datetime.today()
-        # Note that if there are two periods that overlap, it returns the last one.
-        current_periods = [period for period in all_periods if
-                           datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(
-                               period['date_to'], '%Y-%m-%d')]
-        current_period = current_periods[len(current_periods) - 1]
-        if (current_period):
-            return current_period
-        return None
+    """
+    list:
+    Returns a dashboard for the selected period {periodId as query param} and current cooperative. It shows information such as: 
+    performed and pending actions, investment budget, graphs summarizing actions (per month, per partner, etc)
+
+    """
 
     def list(self, request):
         cooperative_id = request.user.cooperative_id
@@ -291,7 +356,7 @@ class DashboardView(viewsets.ViewSet):
             period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
                                None)
         else:
-            period_data = self.get_current_period(all_periods_serializer.data)
+            period_data = get_current_period(all_periods_serializer.data)
 
         if not period_data:
             return Response(empty_response)
@@ -336,16 +401,10 @@ class DashboardView(viewsets.ViewSet):
 
 
 class BalanceView(viewsets.ViewSet):
-    def get_current_period(self, all_periods):
-        today = datetime.today()
-        # Note that if there are two periods that overlap, it returns the last one.
-        current_periods = [period for period in all_periods if
-                           datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(
-                               period['date_to'], '%Y-%m-%d')]
-        current_period = current_periods[len(current_periods) - 1]
-        if (current_period):
-            return current_period
-        return None
+    """
+    list:
+    Returns the cooperative balance for the selected period {periodId as query param} and cooperative.
+    """
 
     def list(self, request):
         cooperative_id = request.user.cooperative_id
@@ -357,6 +416,8 @@ class BalanceView(viewsets.ViewSet):
             'monthly_investment_by_date': [],
             'monthly_actions_by_principle': []            
         }, 'all_periods': []}
+        
+        return Response(data={"NO_PERIOD"}, status=status.HTTP_200_OK)
 
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
@@ -370,7 +431,7 @@ class BalanceView(viewsets.ViewSet):
             period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
                                None)
         else:
-            period_data = self.get_current_period(all_periods_serializer.data)
+            period_data = get_current_period(all_periods_serializer.data)
 
         if not period_data:
             return Response(empty_response)
@@ -397,6 +458,10 @@ class BalanceView(viewsets.ViewSet):
 
 
 class ActionsRankingView(viewsets.ViewSet):
+    """
+    list:
+    Returns a summary of public actions performed by all the cooperatives part of COOBS (sorted in a ranking).
+    """    
     def list(self, request):
         first_day_of_year = date(datetime.today().year, 1, 1)
         visible_principles = Principle.objects.filter(visible=True)
