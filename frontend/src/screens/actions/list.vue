@@ -80,6 +80,10 @@
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
         :empty-state-msg="emptyMsg"
+        :pagination="pagination"
+        @goNext="goNext"
+        @goPrevious="goPrevious"
+        @goToPage="goToPage"
         @onEdit="onEdit"
         @onDelete="onDelete"
         @onQuickView="onQuickView">
@@ -130,7 +134,9 @@ export default {
         httpGet("/partners"),
       ])
       .then(([actions, principles, periods, partners]) => {
-        this.actions = actions.data;
+        this.actions = actions.data.results;
+        const {next, previous, count, page, numPages, pageSize} = actions.data;
+        this.pagination = {next, previous, count, page, numPages, pageSize};
         this.principles = principles.data;
         this.periods = periods.data;
         this.partners = partners.data;
@@ -184,6 +190,7 @@ export default {
         {key: "partnersInvolved", value: "partners", parser: (p) => parsePartners(p.partnersInvolved)},
       ],
       actions: [],
+      pagination: {},
       principles: [],
       periods: [],
       partners: [],
@@ -203,20 +210,28 @@ export default {
     };
   },
   methods: {
+    goToPage(page) {
+      return this.getActions(`/actions/?page=${page}`);
+    },
+    goNext() {
+      const urlParts = this.pagination.next.split("/api");
+      const relativeUrl = urlParts[1];
+      return this.getActions(relativeUrl)
+    },
+    goPrevious() {
+      const urlParts = this.pagination.previous.split("/api");
+      const relativeUrl = urlParts[1];
+      return this.getActions(relativeUrl);
+    },
     cleanError() {
       this.$v.filters.$reset();
     },
     cleanFilters() {
-      this.isLoading = true;
       this.filters.principle = null;
       this.filters.period = null;
       this.filters.partner = null;
       this.$v.filters.$reset();
-      return httpGet("/actions")
-        .then((response) => {
-          this.actions = response.data;
-          this.isLoading = false;
-        });
+      return this.getActions("/actions");
     },
     submitFilters() {
       this.$v.filters.$touch();
@@ -237,10 +252,16 @@ export default {
             params.date_to = period.dateTo;
           }
         }
-        this.isLoading = true;
-        return httpGet(`/actions`, params)
+        return this.getActions(`/actions`, params);
+      }
+    },
+    getActions(url, params=null) {
+      this.isLoading = true;
+      return httpGet(url, params)
           .then((res) => {
-            this.actions = res.data;
+            this.actions = res.data.results;
+            const {next, previous, count, page, numPages, pageSize} = res.data;
+            this.pagination = {next, previous, count, page, numPages, pageSize};
             if (!this.actions.length) {
               this.emptyMsg = this.$t('noActionsResults');
             }
@@ -250,7 +271,6 @@ export default {
             this.isLoading = false;
             this.handleError(err);
           })
-      }
     },
     onEdit(action) {
       this.$router.push({name: "action-edit", params: {actionId: action.id}});
@@ -271,12 +291,7 @@ export default {
                 buttons: false,
                 timer: 2000
               });
-              this.isLoading = true;
-              return httpGet("/actions")
-                .then((response) => {
-                  this.actions = response.data;
-                  this.isLoading = false;
-                });
+              return this.getActions("/actions");
             });
         }
       });

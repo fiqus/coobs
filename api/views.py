@@ -21,6 +21,8 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
 from rest_framework.decorators import detail_route
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.utils.urls import remove_query_param, replace_query_param
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -59,6 +61,19 @@ class ActionFilter(filters.FilterSet):
         model = Action
         fields = ['principle', 'date_from', 'date_to', 'partner']
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 20
+
+    def get_paginated_response(self, data):
+        return Response({
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'count': self.page.paginator.count,
+            'page': self.page.number,
+            'num_pages': self.page.paginator.num_pages,
+            'page_size': self.page.paginator.per_page,
+            'results': data
+        })
 
 class ActionView(viewsets.ModelViewSet):
     """
@@ -74,9 +89,10 @@ class ActionView(viewsets.ModelViewSet):
     serializer_class = ActionSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ActionFilter
+    pagination_class =  StandardResultsSetPagination
 
     def get_queryset(self):
-        queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id)
+        queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id).order_by('-name')
         return queryset
 
     def create(self, request):

@@ -46,6 +46,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Action
+        ordering = ['-name']
         fields = "__all__"
     
     def update(self, instance, validated_data):

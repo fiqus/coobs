@@ -120,5 +120,6 @@
   "created": "created",
   "edited": "edited",
   "dashboardHelp": "Here you will be able to see graphs and indicators of your cooperative based on the actions carried out in the selected period.",
-  "actionsRankingHelp":"Check with other cooperatives how they go with their actions and ask them to help you improving yours!"
+  "actionsRankingHelp":"Check with other cooperatives how they go with their actions and ask them to help you improving yours!",
+  "paginationMessage": "Showing {start} to {end} of {count} entries"
 }
