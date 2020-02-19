@@ -7,7 +7,8 @@
       <div v-if="allPeriods.length">
         <div class="dropdown no-arrow float-right mx-3">
           <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-            <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <label>{{$t('periods')}}</label>
+            <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
               <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                 {{period.name}}
               </option>
@@ -23,12 +24,16 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
           <div class="dropdown no-arrow float-right">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <select id="period-select" class="mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+              <label>{{$t('periods')}}</label>
+              <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
                 <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                   {{period.name}}
                 </option>
               </select>
             </a>
+          </div>
+          <div class="col-9">
+            <small class="form-text text-muted font-italic ml-3">{{$t('dashboardHelp')}}</small>
           </div>
         </div>
 

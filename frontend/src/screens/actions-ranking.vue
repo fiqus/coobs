@@ -9,9 +9,12 @@
     <div v-else>
       <loader :loading='isLoading'/>      
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="col-10">
+        <h1 class="col-5">
           {{$t("actionsRanking")}}
         </h1>
+        <div class="col-9">
+          <small class="form-text text-muted font-italic ml-3">{{$t('actionsRankingHelp')}}</small>
+        </div>        
       </div>
       <table class="table table-hover table-sm">
         <thead>

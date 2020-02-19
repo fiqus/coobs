@@ -417,8 +417,6 @@ class BalanceView(viewsets.ViewSet):
             'monthly_investment_by_date': [],
             'monthly_actions_by_principle': []            
         }, 'all_periods': []}
-        
-        return Response(data={"NO_PERIOD"}, status=status.HTTP_200_OK)
 
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)

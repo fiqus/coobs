@@ -118,5 +118,7 @@
   "partnerHasBeen": "La persona asociada ha sido",
   "created": "creada",
   "edited": "editada",
-  "noActionsResults": "No hay acciones para los filtros seleccionados."
+  "noActionsResults": "No hay acciones para los filtros seleccionados.",
+  "dashboardHelp": "Aquí podrás ver gráficos e indicadores de tu cooperativa a partir de las acciones realizadas en el período seleccionado.",
+  "actionsRankingHelp":"¡Comprueba con otras cooperativas cómo van con sus acciones y pídeles que te ayuden a mejorar las tuyas!"
 }

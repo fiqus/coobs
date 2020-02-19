@@ -8,7 +8,8 @@
       <div v-if="allPeriods.length">
         <div class="dropdown no-arrow float-right mx-3">
           <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-            <select class="period-select mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <label>{{$t('periods')}}</label>
+            <select class="period-select ml-2 mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
               <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                 {{period.name}}
               </option>
@@ -19,17 +20,18 @@
     </div>
     <div v-else>
       <loader :loading='isLoading'/>
-      <div v-if="downloading">
-        <button type="button" class="btn btn-primary float-right my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
+      <div class="float-right ml-5 col-sm-2" v-if="downloading">
+        <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
           <b-spinner small type="grow"></b-spinner>
         </button>
       </div>
-      <div v-else>
-        <button type="button" class="btn btn-primary float-right my-n1" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}</button>
+      <div class="float-right ml-5 col-sm-2" v-else>
+        <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}</button>
       </div>
-      <div class="dropdown no-arrow float-right mx-3">
+      <div class="dropdown no-arrow float-right mx-3 col-sm-2">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-          <select id="period-select" class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+          <label>{{$t('periods')}}</label>
+          <select id="period-select" class="ml-2 mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
             <option v-for="period in allPeriods" :key="period.id" :value="period.id">
               {{period.name}}
             </option>
@@ -37,7 +39,7 @@
         </a>
       </div>
       <div id="nodeToRenderAsPDF">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
             {{$t("balanceSubtitle", {period: period.name, from: period.dateFrom, to: period.dateTo, budget: Number(period.actionsBudget)})}}
           </h3>
