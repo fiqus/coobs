@@ -34,13 +34,13 @@
         <div class=" paging_simple_numbers">
           <ul class="justify-content-end pagination">
             <li class="paginate_button page-item previous" :class="{'disabled': !pagination.previous}">
-              <button class="page-link" @click="goPrevious()">Previous</button>
+              <button class="page-link" @click="goPrevious()">{{$t('previous')}}</button>
             </li>
             <li v-for="pageNumber in pagination.numPages" :key="pageNumber" class="paginate_button page-item " :class="{'active': pageNumber === pagination.page}">
               <button class="page-link" @click="goToPage(pageNumber)">{{pageNumber}}</button>
             </li>
             <li class="paginate_button page-item next" :class="{'disabled': !pagination.next}">
-              <button class="page-link" @click="goNext()">Next</button>
+              <button class="page-link" @click="goNext()">{{$t('next')}}</button>
             </li>
           </ul>
         </div>
