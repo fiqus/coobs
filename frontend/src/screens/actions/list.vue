@@ -10,6 +10,32 @@
 
     <loader :loading='isLoading'/>
 
+    <div class="modal fade" id="actionDetailModal" tabindex="-1" role="dialog" aria-labelledby="actionDetailModalTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Action detail</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label>{{$t('name')}}</label>
+            <span name="name"
+              type="text">{{modalAction.name}}
+            </span><br/>
+            <label>{{$t('description')}}</label>
+            <span name="description"
+              type="text">
+              {{modalAction.description}}
+            </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <form v-on:submit.prevent="submitFilters">
       <div class="row">
         <div class="col-4">
@@ -172,7 +198,8 @@ export default {
         backgroundClass: "bg-danger"
       },
       isLoading: true,
-      emptyMsg: this.$t('emptyActionMsg')
+      emptyMsg: this.$t('emptyActionMsg'),
+      modalAction: {}
     };
   },
   methods: {
@@ -260,6 +287,8 @@ export default {
         api.getAction(action.id)
       ]).then(([principles, actionData]) => {
         console.log(principles, actionData);
+        this.modalAction = actionData;
+        $('#actionDetailModal').modal()
       });
 
 
