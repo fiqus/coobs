@@ -3,14 +3,14 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th v-for="header in headers" :key="header.key">
-            {{ $t(header.value, header.value) }}
+          <th v-for="header in headers" :key="header.key" @click="sort(header.key)">
+            {{ $t(header.value, header.value) }}<span v-if="header.key == currentSort" class="arrow" :class="currentSortDir"/>
           </th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="elem in data" :key="elem.id">
+        <tr v-for="elem in sortedData" :key="elem.id">
           <td class="cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
           <td>
             <button v-if="actions.edit && !elem.noActions" class="btn btn-primary" @click.stop="onEdit(elem)" :title="$t('edit')"><i class="fa fa-edit"></i></button>
@@ -49,6 +49,8 @@
   </div>
 </template>
 <script>
+// import '../css/custom.css'
+
 export default {
   props: {
     headers: {
@@ -59,7 +61,15 @@ export default {
     data: {
       type: Array,
       default: [],
-      required: true
+      required: true      
+    },
+    currentSort: {
+      type: String,
+      default: 'name'
+    },
+    currentSortDir: {
+      type: String,
+      default: 'asc'
     },
     actions: {
       type: Object,
@@ -81,6 +91,19 @@ export default {
       const start = (this.pagination.pageSize * (this.pagination.page-1)) + 1;
       const end = this.data.length < this.pagination.pageSize ? ((this.pagination.pageSize * (this.pagination.page-1)) + this.data.length) : this.pagination.pageSize * this.pagination.page;
       return this.$t('paginationMessage', {start, end, count: this.pagination.count});
+    },
+    sortedData(){
+      return this.data.sort((a,b) => {
+        let modifier = 1;
+        if(this.currentSortDir === 'desc') modifier = -1;
+        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+        return 0;
+      }).filter((row, index) => {
+          let start = (this.pagination.page-1)*this.pagination.pageSize;
+          let end = this.pagination.page*this.pagination.pageSize;
+          if(index >= start && index < end) return true;
+        });
     }
   },
   methods: {
@@ -111,7 +134,14 @@ export default {
     },
     onQuickView(elem) {
       this.$emit("onQuickView", elem);
-    }
+    },
+    sort(s) {
+      //if s == current sort, reverse
+      if(s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+      }
+      this.currentSort = s;
+    }    
   }
 };
 </script>
