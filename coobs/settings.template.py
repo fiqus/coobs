@@ -29,10 +29,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+gettext = lambda s: s
+LANGUAGES = (
+    ('es', gettext('Español')),
+    ('en', gettext('English')),
+)
 
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -173,6 +179,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',        
     ),
+        'EXCEPTION_HANDLER': 'api.utils.custom_exception_handler'
 }
 
 
