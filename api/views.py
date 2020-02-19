@@ -142,6 +142,7 @@ class CooperativeView(viewsets.ModelViewSet):
     destroy:
     Removes the selected cooperative.
     """
+    schema = None
     permission_classes = (permissions.AllowAny,)
     queryset = Cooperative.objects.all()
     serializer_class = CooperativeSerializer

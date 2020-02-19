@@ -37,7 +37,7 @@ router.register(r'actions-ranking', ActionsRankingView, basename="ActionsRanking
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
-    path('docs/', include_docs_urls(title='COOBS API', public=False)),
+    path('docs/', include_docs_urls(title='COOBS API', permission_classes=[], public=False)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
