@@ -99,6 +99,7 @@ class Action(models.Model):
     name = models.CharField(_('name'), max_length=256)
     description = models.TextField(_('description'), null=True, blank=True)
     invested_money = models.DecimalField(_('invested money'), max_digits=19, decimal_places=2, default=Decimal('0.00'), blank=True)
+    invested_hours = models.DecimalField(_('invested hours'), max_digits=19, decimal_places=1, default=Decimal('0.0'), blank=True)
     partners_involved = models.ManyToManyField(Partner, verbose_name=_('partners involved'), blank=False)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
     public = models.BooleanField(default=True)

@@ -461,7 +461,7 @@ class BalanceView(viewsets.ViewSet):
 class ActionsRankingView(viewsets.ViewSet):
     """
     list:
-    Returns a summary of public actions performed by all the cooperatives part of COOBS (sorted in a ranking).
+    Returns a summary of public actions (for current year) performed by all the cooperatives part of COOBS (sorted in a ranking).
     """    
     def list(self, request):
         first_day_of_year = date(datetime.today().year, 1, 1)

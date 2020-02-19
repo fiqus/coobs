@@ -56,6 +56,18 @@
             @input="onDateSelected">
           </datepicker-form>
         </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6">
+          <input-form
+            :label="$t('investedHours')"
+            name="hours"
+            type="number"
+            v-model="action.investedHours"
+            :error="$v.action.investedHours.$error"
+            :error-message="$t('positiveNumber')">
+          </input-form>
+        </div>
         <div class="col-6">
           <input-form
             :label="$t('investedMoney')"
@@ -232,7 +244,8 @@ export default {
         required,
         minLength: minLength(1)
       },
-      investedMoney: {minValue: minValue(0)}
+      investedMoney: {minValue: minValue(0)},
+      investedHours: {minValue: minValue(0)}
     }
   }
 };
