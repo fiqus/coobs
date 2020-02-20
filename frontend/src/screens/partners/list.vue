@@ -12,6 +12,7 @@
       :headers="headers"
       :data="listPartners"
       :actions="{edit: true, delete: true, showViewButton: false}"
+      :sortEnabled=true
       @onEdit="onEdit"
       @onDelete="onDelete">
     </custom-table>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import CustomTable from "../../components/custom-table.vue";
+import CustomTable from "../../components/simple-table.vue";
 import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";

@@ -103,6 +103,7 @@
         :actions="{edit: true, delete: true, showViewButton: true}"
         :empty-state-msg="emptyMsg"
         :pagination="pagination"
+        :sortEnabled=true
         @goNext="goNext"
         @goPrevious="goPrevious"
         @goToPage="goToPage"
@@ -115,7 +116,7 @@
 
 <script>
 import {httpGet, httpDelete} from "../../api-client.js";
-import CustomTable from "../../components/custom-table.vue";
+import CustomTable from "../../components/simple-table.vue";
 import Loader from "../../components/loader-overlay.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar, principlesSelectedParser} from "../../utils";
