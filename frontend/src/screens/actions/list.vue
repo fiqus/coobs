@@ -58,44 +58,13 @@
         </div>
       </div>
     </div>
-    <form v-on:submit.prevent="submitFilters">
-      <div class="row">
-        <div class="col-4">
-          <select-form
-            v-model="filters.principle"
-            :options="principlesFilter"
-            :label="$t('principle')">
-          </select-form>
-        </div>
-        <div class="col-4">
-          <select-form
-            v-model="filters.period"
-            :options="periodsFilter"
-            :label="$t('period')">
-          </select-form>
-        </div>
-        <div class="col-4">
-          <select-form
-            v-model="filters.partner"
-            :options="partnersFilter"
-            :label="$t('partner')">
-          </select-form>
-        </div>
-      </div>
 
-      <error-form :error="errorFilter" @clean="cleanError()"/>
+    <filters-table-component
+      :filters="filters"
+      @applyFilters="applyFilters">
+    </filters-table-component>
 
-      <div class="mb-3">
-        <button type="submit" class="btn btn-warning">
-          <i class="fa fa-filter"></i>
-          {{$t("apply")}}
-        </button>
-        <button type="button" class="btn btn-secondary" @click.stop="cleanFilters()">
-          <i class="fa fa-eraser"></i> 
-          {{$t("clean")}}
-        </button>
-      </div>
-    </form>
+    <error-form :error="error"></error-form>
 
     <custom-table
         :headers="headers"
@@ -117,13 +86,12 @@
 <script>
 import {httpGet, httpDelete} from "../../api-client.js";
 import CustomTable from "../../components/simple-table.vue";
+import FiltersTable from "../../components/filters-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar, principlesSelectedParser} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
-import SelectForm from "../../components/select-form.vue";
-import {required} from "vuelidate/lib/validators";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
 
@@ -145,8 +113,8 @@ export default {
   components: {
     "custom-table": CustomTable,
     "loader": Loader,
-    "select-form": SelectForm,
-    "error-form": ErrorForm
+    "error-form": ErrorForm,
+    "filters-table-component": FiltersTable
   },
   mixins: [errorHandlerMixin],
   created() {
@@ -160,47 +128,20 @@ export default {
         this.actions = actions.data.results;
         const {next, previous, count, page, numPages, pageSize} = actions.data;
         this.pagination = {next, previous, count, page, numPages, pageSize};
-        this.principles = principles.data;
         this.periods = periods.data;
-        this.partners = partners.data;
+        this.filters.forEach((filter) => {
+          if (filter.key === "principle") {
+            filter.options = this.principlesFilter(principles.data);
+          }
+          if (filter.key === "partner") {
+            filter.options = this.partnersFilter(partners.data);
+          }
+          if (filter.key === "period") {
+            filter.options = this.periodsFilter(periods.data);
+          }
+        });
         this.isLoading = false;
       })
-  },
-  watch: {
-    'filtersAreInvalid': function _watch$vfilters$error (isInvalid) {
-        this.errorFilter.message = "selectAtLeastOneFilter";
-        this.errorFilter.exists = isInvalid;
-      }
-  },
-  computed: {
-    principlesFilter() {
-      return this.principles.map(({id, name, nameKey}) => {
-        return {
-          id,
-          name: this.$t(nameKey, name)
-        };
-      });
-    },
-    periodsFilter() {
-      return this.periods.map(({id, name, dateFrom, dateTo}) => {
-        const label = `${name} | ${dateFrom} - ${dateTo}`
-        return {
-          id,
-          name: label
-        }
-      });
-    },
-    partnersFilter() {
-      return this.partners.map(({id, firstName, lastName}) => {
-        const name = `${capitalizeFirstChar(firstName)} ${capitalizeFirstChar(lastName)}`;
-        return {id, name};
-      });
-    },
-    filtersAreInvalid() {
-      return this.$v.filters.principle.$error &&
-        this.$v.filters.period.$error &&
-        this.$v.filters.partner.$error;
-    }
   },
   data() {
     return {
@@ -214,25 +155,53 @@ export default {
       ],
       actions: [],
       pagination: {},
-      principles: [],
       periods: [],
-      partners: [],
-      filters: {
-        principle: null,
-        period: null,
-        partner: null
-      },
-      errorFilter: {
-        exists: false,
-        message: "",
-        backgroundClass: "bg-danger"
-      },
+      filters: [
+        {
+          key: "principle",
+          value: null,
+          options: []
+        },
+        {
+          key: "period",
+          value: null,
+          options: []
+        },
+        {
+          key: "partner",
+          value: null,
+          options: []
+        }
+      ],
       isLoading: true,
       emptyMsg: this.$t('emptyActionMsg'),
       modalAction: {actionData:{}, principles: {}}
     };
   },
   methods: {
+    principlesFilter(principles) {
+      return principles.map(({id, name, nameKey}) => {
+        return {
+          id,
+          name: this.$t(nameKey, name)
+        };
+      });
+    },
+    periodsFilter(periods) {
+      return periods.map(({id, name, dateFrom, dateTo}) => {
+        const label = `${name} | ${dateFrom} - ${dateTo}`
+        return {
+          id,
+          name: label
+        }
+      });
+    },
+    partnersFilter(partners) {
+      return partners.map(({id, firstName, lastName}) => {
+        const name = `${capitalizeFirstChar(firstName)} ${capitalizeFirstChar(lastName)}`;
+        return {id, name};
+      });
+    },
     goToPage(page) {
       return this.getActions(`/actions/?page=${page}`);
     },
@@ -246,37 +215,17 @@ export default {
       const relativeUrl = urlParts[1];
       return this.getActions(relativeUrl);
     },
-    cleanError() {
-      this.$v.filters.$reset();
-    },
-    cleanFilters() {
-      this.filters.principle = null;
-      this.filters.period = null;
-      this.filters.partner = null;
-      this.$v.filters.$reset();
-      return this.getActions("/actions");
-    },
-    submitFilters() {
-      this.$v.filters.$touch();
-      if (!this.filtersAreInvalid) {
-        const params = {}
-        if (this.filters.principle) {
-          params.principle = this.filters.principle;
+    applyFilters(params) {
+      if (params.period) {
+        const period = this.periods.find((period) => {
+          return period.id === params.period;
+        });
+        if (period) {
+          params.date_from = period.dateFrom;
+          params.date_to = period.dateTo;
         }
-        if (this.filters.partner) {
-          params.partner = this.filters.partner;
-        }
-        if (this.filters.period) {
-          const period = this.periods.find((period) => {
-            return period.id === this.filters.period;
-          });
-          if (period) {
-            params.date_from = period.dateFrom;
-            params.date_to = period.dateTo;
-          }
-        }
-        return this.getActions(`/actions`, params);
       }
+      return this.getActions(`/actions`, params);
     },
     getActions(url, params=null) {
       this.isLoading = true;
@@ -333,15 +282,6 @@ export default {
         this.modalAction = {actionData: actionData, principles: principlesSelected};
         $('#actionDetailModal').modal()
       });
-
-
-    }
-  },
-  validations: {
-    filters: {
-      principle: {required},
-      period: {required},
-      partner: {required}
     }
   }
 };
