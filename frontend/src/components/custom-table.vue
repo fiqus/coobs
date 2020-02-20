@@ -96,13 +96,17 @@ export default {
       return this.$t('paginationMessage', {start, end, count: this.pagination.count});
     },
     sortedData(){
-      return this.data.sort((a,b) => {
+      const sortedData = this.data.sort((a,b) => {
         let modifier = 1;
         if(this.currentSortDir === 'desc') modifier = -1;
         if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
         if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
         return 0;
-      }).filter((row, index) => {
+      });
+      if (!this.pagination) {
+        return sortedData;
+      }
+      return sortedData.filter((row, index) => {
           let start = (this.pagination.page-1)*this.pagination.pageSize;
           let end = this.pagination.page*this.pagination.pageSize;
           if(index >= start && index < end) return true;
