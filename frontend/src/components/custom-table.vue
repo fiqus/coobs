@@ -24,7 +24,7 @@
       </tbody>
     </table>
 
-    <div v-if="data.length" class="row">
+    <div v-if="pagination && data.length" class="row">
       <div class="col-sm-12 col-md-5">
         <div class="" role="status" aria-live="polite">
           {{paginationMessage}}
@@ -88,6 +88,9 @@ export default {
   },
   computed: {
     paginationMessage() {
+      if (!this.pagination) {
+        return;
+      }
       const start = (this.pagination.pageSize * (this.pagination.page-1)) + 1;
       const end = this.data.length < this.pagination.pageSize ? ((this.pagination.pageSize * (this.pagination.page-1)) + this.data.length) : this.pagination.pageSize * this.pagination.page;
       return this.$t('paginationMessage', {start, end, count: this.pagination.count});
