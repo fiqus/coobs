@@ -123,5 +123,7 @@
   "actionsRankingHelp":"Check with other cooperatives how they go with their actions and ask them to help you improving yours!",
   "paginationMessage": "Showing {start} to {end} of {count} entries",
   "previous": "Previous",
-  "next": "Next"
+  "next": "Next",
+  "actionDetail": "Action Detail",
+  "close": "Close"
 }
