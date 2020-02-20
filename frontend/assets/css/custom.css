@@ -86,3 +86,7 @@ th.active .arrow {
 table th{
   cursor: pointer;
 }
+
+.bold {
+  font-weight: bold;
+}
