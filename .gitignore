@@ -21,7 +21,7 @@ frontend/dist/
 frontend/images/
 frontend/node_modules/
 frontend/package-lock.json
-/coobs/settings.py
 /coobs/bin/
 /coobs/include/
 /coobs/lib/
+/coobs/settings/dev.py
