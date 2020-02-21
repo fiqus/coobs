@@ -8,19 +8,19 @@
       </router-link>
     </div>
     <loader :loading='isLoading'/>
-    <custom-table
+    <simple-table
       :headers="headers"
       :data="listPartners"
       :actions="{edit: true, delete: true, showViewButton: false}"
       :sortEnabled=true
       @onEdit="onEdit"
       @onDelete="onDelete">
-    </custom-table>
+    </simple-table>
   </div>
 </template>
 
 <script>
-import CustomTable from "../../components/simple-table.vue";
+import SimpleTable from "../../components/simple-table.vue";
 import {formatText} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
@@ -29,7 +29,7 @@ import Loader from "../../components/loader-overlay.vue";
 
 export default {
   components: {
-    "custom-table": CustomTable,
+    "simple-table": SimpleTable,
     "loader": Loader
   },
   created() {

@@ -54,28 +54,33 @@
 
     <error-form :error="error"></error-form>
 
-    <custom-table
+    <simple-table
         :headers="headers"
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
         :empty-state-msg="emptyMsg"
         :pagination="pagination"
         :sortEnabled=true
-        @goNext="goNext"
-        @goPrevious="goPrevious"
-        @goToPage="goToPage"
         @onEdit="onEdit"
         @onDelete="onDelete"
         @onQuickView="onQuickView">
-      </custom-table>
+      </simple-table>
+      <pagination-table-component
+        :dataLength="actions.length"
+        :pagination="pagination"
+        @goNext="goNext"
+        @goPrevious="goPrevious"
+        @goToPage="goToPage">
+      </pagination-table-component>
   </div>
 </template>
 
 <script>
 import {httpGet, httpDelete} from "../../api-client.js";
-import CustomTable from "../../components/simple-table.vue";
+import SimpleTable from "../../components/simple-table.vue";
 import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
+import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar, principlesSelectedParser} from "../../utils";
@@ -100,10 +105,11 @@ function parsePartners(partners) {
 
 export default {
   components: {
-    "custom-table": CustomTable,
+    "simple-table": SimpleTable,
     "loader": Loader,
     "error-form": ErrorForm,
     "filters-table-component": FiltersTable,
+    "pagination-table-component": PaginationTable,
     "detail-modal": DetailModal
   },
   mixins: [errorHandlerMixin],
@@ -193,7 +199,13 @@ export default {
       });
     },
     goToPage(page) {
-      return this.getActions(`/actions/?page=${page}`);
+      const params = this.filters.reduce((acc, filter) => {
+        if (filter.value) {
+          acc[filter.key] = filter.value;
+        }
+        return acc;
+      }, {});
+      return this.getActions(`/actions/?page=${page}`, params);
     },
     goNext() {
       const urlParts = this.pagination.next.split("/api");
@@ -206,7 +218,7 @@ export default {
       return this.getActions(relativeUrl);
     },
     applyFilters(params) {
-      if (params.period) {
+      if (params && params.period) {
         const period = this.periods.find((period) => {
           return period.id === params.period;
         });

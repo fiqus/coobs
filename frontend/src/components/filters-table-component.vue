@@ -76,7 +76,7 @@
               acc[filter.key] = filter.value;
             }
             return acc;
-          }, {})
+          }, {});
           this.$emit("applyFilters", params);
         }
       },

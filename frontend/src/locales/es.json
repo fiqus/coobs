@@ -122,8 +122,8 @@
   "dashboardHelp": "Aquí podrás ver gráficos e indicadores de tu cooperativa a partir de las acciones realizadas en el período seleccionado.",
   "actionsRankingHelp":"¡Comprueba con otras cooperativas cómo van con sus acciones y pídeles que te ayuden a mejorar las tuyas!",
   "paginationMessage": "Mostrando {start} a {end} de {count} resultados",
-  "previous": "Previas",
-  "next": "Siguientes"  ,
+  "previous": "Previa",
+  "next": "Siguiente"  ,
   "actionDetail": "Detalle de la Acción",
   "close": "Cerrar"
 }

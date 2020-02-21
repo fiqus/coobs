@@ -4,19 +4,19 @@
       <h3 class="col-10">{{$t("principles")}}</h3>
     </div>
     <loader :loading='isLoading'/>
-    <custom-table
+    <simple-table
       :headers="headers"
       :data="principles"
       :actions="{edit: true}"
       :sortEnabled=true
       empty-state-msg="You don't have any principles yet!"
       @onEdit="onEdit">
-    </custom-table>
+    </simple-table>
   </div>
 </template>
 
 <script>
-  import CustomTable from "../../components/simple-table.vue";
+  import SimpleTable from "../../components/simple-table.vue";
   import {formatText} from "../../utils";
   import {deletePrinciple} from "../../mock-data";
   import {httpGet} from "../../api-client.js";
@@ -30,7 +30,7 @@
 
   export default {
     components: {
-      "custom-table": CustomTable,
+      "simple-table": SimpleTable,
       "loader": Loader
     },
     created() {
