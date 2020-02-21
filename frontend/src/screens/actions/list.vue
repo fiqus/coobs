@@ -104,7 +104,8 @@ export default {
     "loader": Loader,
     "error-form": ErrorForm,
     "filters-table-component": FiltersTable,
-    "detail-modal": DetailModal
+    "detail-modal": DetailModal,
+    "action-quick-view": ActionQuickView
   },
   mixins: [errorHandlerMixin],
   created() {
