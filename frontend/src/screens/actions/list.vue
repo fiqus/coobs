@@ -9,55 +9,43 @@
     </div>
 
     <loader :loading='isLoading'/>
-
-    <div class="modal fade" id="actionDetailModal" tabindex="-1" role="dialog" aria-labelledby="actionDetailModalTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">{{$t('actionDetail')}}</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <label class="bold">{{$t('name')}}:</label>
-            <span name="name"
-              type="text">{{modalAction.actionData.name}}
-            </span><br/>
-            <label class="bold">{{$t('description')}}:</label>
-            <span name="description"
-              type="text">
-              {{modalAction.actionData.description}}
-            </span><br/>
-            <label class="bold">{{$t('principles')}}:</label><br/>
-            <span class="multiselect__tag" v-for="principle in modalAction.principles" v-bind:key="principle" 
-              name="principles" type="text">
-              {{$t(principle.nameKey)}}
-            </span><br/>
-            <label class="bold">{{$t('partners')}}:</label><br/>
-            <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
-              name="partners" type="text">
-              {{partner}}
-            </span><br/>
-            <label class="bold">{{$t('startingDate')}}:</label>
-            <span name="startingDate"
-              type="text">{{modalAction.actionData.date}}
-            </span><br/>
-            <label class="bold">{{$t('investedHours')}}:</label>
-            <span name="investedHours"
-              type="text">{{modalAction.actionData.investedHours}}
-            </span><br/>
-            <label class="bold">{{$t('investedMoney')}}:</label>
-            <span name="investedMoney"
-              type="text">$ {{modalAction.actionData.investedMoney}}
-            </span><br/>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{$t('close')}}</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
+    <detail-modal 
+      :title="$t('actionDetail')">
+      <template v-slot:modal-body>
+        <label class="bold">{{$t('name')}}:</label>
+        <span name="name"
+          type="text">{{modalAction.actionData.name}}
+        </span><br/>
+        <label class="bold">{{$t('description')}}:</label>
+        <span name="description"
+          type="text">
+          {{modalAction.actionData.description}}
+        </span><br/>
+        <label class="bold">{{$t('principles')}}:</label><br/>
+        <span class="multiselect__tag" v-for="principle in modalAction.principles" v-bind:key="principle" 
+          name="principles" type="text">
+          {{$t(principle.nameKey)}}
+        </span><br/>
+        <label class="bold">{{$t('partners')}}:</label><br/>
+        <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
+          name="partners" type="text">
+          {{partner}}
+        </span><br/>
+        <label class="bold">{{$t('startingDate')}}:</label>
+        <span name="startingDate"
+          type="text">{{modalAction.actionData.date}}
+        </span><br/>
+        <label class="bold">{{$t('investedHours')}}:</label>
+        <span name="investedHours"
+          type="text">{{modalAction.actionData.investedHours}}
+        </span><br/>
+        <label class="bold">{{$t('investedMoney')}}:</label>
+        <span name="investedMoney"
+          type="text">$ {{modalAction.actionData.investedMoney}}
+        </span><br/>
+      </template>
+    </detail-modal>
 
     <filters-table-component
       :filters="filters"
@@ -86,6 +74,7 @@
 <script>
 import {httpGet, httpDelete} from "../../api-client.js";
 import CustomTable from "../../components/simple-table.vue";
+import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
 import ActionQuickView from "../../components/action-quick-view.vue";
@@ -114,7 +103,8 @@ export default {
     "custom-table": CustomTable,
     "loader": Loader,
     "error-form": ErrorForm,
-    "filters-table-component": FiltersTable
+    "filters-table-component": FiltersTable,
+    "detail-modal": DetailModal
   },
   mixins: [errorHandlerMixin],
   created() {
