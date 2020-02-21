@@ -90,7 +90,7 @@ def get_all_principles_data(actions_by_principles_data, principles):
 # ACTIONS BY PARTNER
 def get_actions_by_partner(partner_data):
     partners = OrderedDict(
-        {'%s %s' % (partner.first_name, partner.last_name): partner.total for partner in list(partner_data)})
+        {'%s %s' % (partner.first_name.lower().capitalize(), partner.last_name.lower().capitalize()): partner.total for partner in list(partner_data)})
 
     result = {'labels': partners.keys(),
               'result': [{'name': 'Acciones Realizadas', 'data': partners.values()}]} if not len(

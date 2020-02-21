@@ -1,5 +1,5 @@
 <template>
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
+  <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
       <h5 class="mb-0 text-gray-100">
         <i class="fas fa-exclamation-circle"></i>
         {{$t(error.message, error.message)}}
@@ -171,18 +171,18 @@
           :xaxis="actionsByPartnerLabels">
         </columns-chart>
 
-      <area-chart
-        :title="monthlyInvestmentByDateLabel"
-        :columns-data="monthlyInvestmentByDateData"
-        :xaxis="monthlyInvestmentByDateLabels">
-      </area-chart>
-      <!-- Content Row -->
-      <stacked-columns-chart
-        :title="allPrinciplesYearLabel"
-        :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
-        :xaxis="monthlyActionsByPrincipleLabels">
-      </stacked-columns-chart>
-    </div>
+        <area-chart
+          :title="monthlyInvestmentByDateLabel"
+          :columns-data="monthlyInvestmentByDateData"
+          :xaxis="monthlyInvestmentByDateLabels">
+        </area-chart>
+        <!-- Content Row -->
+        <stacked-columns-chart
+          :title="allPrinciplesYearLabel"
+          :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
+          :xaxis="monthlyActionsByPrincipleLabels">
+        </stacked-columns-chart>
+    </div>  
   </div>
 </template>
 
