@@ -16,7 +16,7 @@
 
 4. Copy the settings template
 
-        cp coobs/settings.template.py coobs/settings.py
+        cp coobs/settings/dev.template.py coobs/settings/dev.py
 
 5. Generate new Django secret key and update `SECRET_KEY` value at `coobs/settings.py`
 
