@@ -106,7 +106,7 @@ export default {
       return this.$t('paginationMessage', {start, end, count: this.pagination.count});
     },
     sortedData(){
-      console.log(this.sortEnabled);
+
       if (!this.sortEnabled){
         return this.data;
       }
