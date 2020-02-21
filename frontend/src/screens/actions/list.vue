@@ -82,7 +82,6 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import ActionQuickView from "../../components/action-quick-view.vue";
 import {formatText, capitalizeFirstChar, principlesSelectedParser} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
@@ -275,9 +274,7 @@ export default {
         api.getPrinciples(),
         api.getAction(action.id)
       ]).then(([principles, actionData]) => {
-        console.log(JSON.stringify(actionData));
         let principlesSelected = principlesSelectedParser(actionData.principles, principles)
-        console.log(JSON.stringify(principlesSelected))
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         }); 
