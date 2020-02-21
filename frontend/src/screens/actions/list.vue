@@ -9,6 +9,7 @@
     </div>
 
     <loader :loading='isLoading'/>
+<<<<<<< HEAD
     
     <detail-modal 
       :title="$t('actionDetail')">
@@ -46,6 +47,13 @@
         </span><br/>
       </template>
     </detail-modal>
+=======
+
+    <div class="modal fade" id="actionDetailModal" tabindex="-1" role="dialog" aria-labelledby="actionDetailModalTitle" aria-hidden="true">
+        <action-quick-view :modalAction="modalAction"/>
+
+    </div>
+>>>>>>> Separated component for modal content in the actions quick view
 
     <filters-table-component
       :filters="filters"
