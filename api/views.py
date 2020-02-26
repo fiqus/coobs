@@ -92,7 +92,7 @@ class ActionView(viewsets.ModelViewSet):
     pagination_class =  StandardResultsSetPagination
 
     def get_queryset(self):
-        queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id).order_by('-name')
+        queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id).order_by('-date')
         return queryset
 
     def create(self, request):

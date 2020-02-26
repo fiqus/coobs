@@ -42,7 +42,8 @@ class BlankableDecimalField(serializers.DecimalField):
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
     partners_involved = PartnerInvolvedSerializer(many=True)
-    invested_money = BlankableDecimalField(max_digits=19, decimal_places=2)
+    invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
+    invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
 
     class Meta:
         model = Action
@@ -55,13 +56,13 @@ class ActionSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.invested_money = validated_data.get('invested_money', instance.invested_money)
+        instance.invested_hours = validated_data.get('invested_hours', instance.invested_hours)
         instance.public = validated_data.get('public', instance.public)
 
-        if validated_data.get('partners_involved'):
-            partners_involved = list()
-            for partner in validated_data.get('partners_involved'):
-                partners_involved.append(partner.get('id'))
-            instance.partners_involved.set(partners_involved)
+        partners_involved = list()
+        for partner in validated_data.get('partners_involved'):
+            partners_involved.append(partner.get('id'))
+        instance.partners_involved.set(partners_involved)
 
         instance.save()
         return instance
