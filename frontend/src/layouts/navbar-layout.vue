@@ -44,6 +44,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link collapsed" class-active="active" :to="{name: 'my-stats'}" >
+            <i class="fas fa-fw fa-signal"></i>
+            <span>{{$t("myStats")}}</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
             <i class="fas fa-fw fa-cog"></i>
             <span>{{$t("configuration")}}</span>

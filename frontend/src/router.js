@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 // route components
 import DashboardScreen from "./screens/dashboard.vue";
+import MyStatsScreen from "./screens/my-stats.vue";
 import LoginScreen from "./screens/login.vue";
 import ActionsListScreen from "./screens/actions/list.vue";
 import ActionsEditScreen from "./screens/actions/edit.vue";
@@ -102,7 +103,11 @@ const routes = [
     component: SignupScreen,
     props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
   },
-
+  {
+    name: "my-stats",
+    path: "/my-stats",
+    component: MyStatsScreen
+  },
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }
 ];

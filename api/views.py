@@ -496,3 +496,76 @@ class ActionsRankingView(viewsets.ViewSet):
         main_principle_serializer = MainPrincipleSerializer(main_principle_data, many=True)
 
         return Response({'actions': actions_by_coop_serializer.data, 'principles': main_principle_serializer.data})
+
+
+class PartnerStatsView(viewsets.ViewSet):
+    """
+    list:
+    Returns a dashboard for the selected period {periodId as query param} and current partner. It shows information such as: 
+    performed and pending actions, invested hours, graphs summarizing actions
+
+    """
+
+    def list(self, request):
+        user_id = request.user.id
+        cooperative_id = request.user.cooperative_id
+        empty_response = {'period': [], 'actions': [], 'principles': [], 'charts': {
+            'cards_data': [],
+            'all_principles_data': [],
+            'progress_data': {'investmentProgressData': {}, 'periodProgressData': {}, 'actionsProgressData': {}},
+            'actions_by_partner': [],
+            'monthly_investment_by_date': [],
+            'monthly_actions_by_principle': []            
+        }, 'all_periods': []}
+
+        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
+        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
+        if not all_periods_serializer.data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        period_id = request.query_params.get('periodId', None)
+        if period_id is not None:
+            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
+                               None)
+        else:
+            period_data = get_current_period(all_periods_serializer.data)
+
+        if not period_data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
+                                                 period_data['date_to'], user_id).order_by('date')
+        action_serializer = ActionSerializer(action_data, many=True)
+
+        date = datetime.today()
+        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date, user_id).order_by('date')
+
+        principle_data = Principle.objects.filter(visible=True)
+        principle_serializer = PrincipleSerializer(principle_data, many=True)
+
+        actions_by_principles_data = Principle.objects.filter(cooperative=cooperative_id,
+                                                              action__date__gte=period_data['date_from'],
+                                                              action__date__lte=date, 
+                                                              action__partners_involved__in=[user_id]).annotate(
+            total=Count('id')).order_by()
+
+        principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
+
+        charts = {
+            'cards_data': get_cards_data(action_data, done_actions_data, period_data),
+            'all_principles_data': get_all_principles_data(actions_by_principles_data, principles),
+            'progress_data': get_progress_data(action_data, done_actions_data, period_data),
+            'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
+                                                                              period_data['date_from'], principles),
+            'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,
+                                                                             datetime.strptime(period_data['date_from'],
+                                                                                               '%Y-%m-%d'), principles),
+        }
+
+        return Response(
+            {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
+             'charts': charts, 'all_periods': all_periods_serializer.data})

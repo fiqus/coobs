@@ -30,3 +30,8 @@ export async function getDashboard(params) {
   const response = await httpGet("/dashboard", params);
   return response.data ? response.data : [];
 }
+
+export async function getMyStats(params) {
+  const response = await httpGet("/my-stats", params);
+  return response.data ? response.data : [];
+}

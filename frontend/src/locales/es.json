@@ -125,5 +125,7 @@
   "previous": "Previa",
   "next": "Siguiente"  ,
   "actionDetail": "Detalle de la Acción",
-  "close": "Cerrar"
+  "close": "Cerrar",
+  "myStats": "Mis estadísticas",
+  "myStatsHelp": "Aquí podrá ver gráficos e indicadores basados en las acciones realizadas por usted en el período seleccionado."
 }

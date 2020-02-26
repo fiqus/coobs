@@ -111,6 +111,9 @@ class Action(models.Model):
         return '%s - %s ' % (self.date, self.name)
     
     @classmethod
-    def get_current_actions(cls, cooperative, date_from, date_to):
-        qs = cls.objects.filter(cooperative=cooperative, principles__visible=True, date__gte=date_from, date__lte=date_to).annotate(principles_num = Count('id'))
+    def get_current_actions(cls, cooperative, date_from, date_to, user_id = None):
+        qs = cls.objects.filter(cooperative=cooperative, principles__visible=True, date__gte=date_from, date__lte=date_to)
+        if (user_id):
+            qs = qs.filter(partners_involved__in=[user_id])
+        qs = qs.annotate(principles_num = Count('id'))
         return qs

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-xl-3 col-md-6 mb-4">
+  <div class="col-md-6 mb-4" :class="columns">
     <div class="card shadow h-100 py-2" :class="borderLeftClass">
       <div class="card-body">
         <div class="row no-gutters align-items-center">
@@ -20,6 +20,7 @@ const typesMap = {
   calendar: "fa-calendar",
   currency: "fa-dollar-sign",
   coins: "fa-coins",
+  time: "fa-clock",
   clipboard: "fa-clipboard-list"
 };
 
@@ -34,13 +35,18 @@ export default {
     colorType: {
       type: String,
       default: "primary"
+    },
+    columns: {
+      type: String,
+      default: "col-xl-3"
     }
   },
   data() {
     return {
       iconClass: typesMap[this.icon] || "",
       labelClass: `text-${this.colorType}`,
-      borderLeftClass: `border-left-${this.colorType}`
+      borderLeftClass: `border-left-${this.colorType}`,
+      columns: this.columns
     };
   }
 };

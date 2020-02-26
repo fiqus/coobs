@@ -125,5 +125,7 @@
   "previous": "Previous",
   "next": "Next",
   "actionDetail": "Action Detail",
-  "close": "Close"
+  "close": "Close",
+  "myStats": "My stats",
+  "myStatsHelp": "Here you will be able to see graphs and indicators based on the actions carried out by you in the selected period."
 }

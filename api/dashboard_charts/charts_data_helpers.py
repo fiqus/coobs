@@ -38,10 +38,13 @@ def get_cards_data(action_data, done_actions_data, period_data):
     total_invested = 0 if len(done_actions_data) == 0 else functools.reduce(lambda a, b: a + b,
                                                                             [action.invested_money for action in
                                                                              done_actions_data])
+    total_hours_invested = 0 if len(done_actions_data) == 0 else functools.reduce(lambda a, b: a + b,
+                                                                            [action.invested_hours for action in
+                                                                             done_actions_data])
     pending_actions = len(action_data) - len(done_actions_data)
     promotion_fund_percentage = round(float(total_invested) / float(period_data['actions_budget']) * 100, 2)
 
-    return {'done_actions': done_actions, 'total_invested': total_invested,
+    return {'done_actions': done_actions, 'total_invested': total_invested, 'total_hours_invested': total_hours_invested,
             'pending_actions': 0 if pending_actions < 0 else pending_actions,
             'promotion_fund_percentage': promotion_fund_percentage}
 
