@@ -1,12 +1,14 @@
 <template>
   <div class="container">
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
-      <h5 class="mb-0 text-gray-100">
-        <i class="fas fa-exclamation-circle"></i>
-        {{$t(error.message, error.message)}}
-      </h5>
-      <div v-if="allPeriods.length">
-        <div class="dropdown no-arrow float-right mx-3">
+    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+      <div  class="col-sm-9">
+        <h5 class="mb-0 text-gray-100">
+          <i class="fas fa-exclamation-circle"></i>
+          {{$t(error.message, error.message)}}
+        </h5>
+      </div>
+        <div v-if="allPeriods.length" class="col-sm-2 float-right ">
+        <div class="dropdown no-arrow mx-3">
           <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
             <label>{{$t('periods')}}</label>
             <select class="period-select ml-2 mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
