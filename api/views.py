@@ -551,8 +551,7 @@ class PartnerStatsView(viewsets.ViewSet):
 
         actions_by_principles_data = Action.objects.filter(cooperative=cooperative_id, 
                                     principles__visible=True, date__gte=period_data['date_from'],   
-                                    date__lte=date, partners_involved__in=[user_id])
-                                    .values('principles').annotate(total=Count('principles')).order_by()
+                                    date__lte=date, partners_involved__in=[user_id]).values('principles').annotate(total=Count('principles')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
 
