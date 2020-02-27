@@ -164,12 +164,11 @@
           </div>
         </div>
 
-        <columns-chart
-          v-if="showActionsByPartner"
-          :title="allActionsByPartnersLabel"
-          :columns-data="actionsByPartnerData"
-          :xaxis="actionsByPartnerLabels">
-        </columns-chart>
+        <line-chart
+          :title="monthlyHoursByDateLabel"
+          :columns-data="monthlyHoursByDateData"
+          :xaxis="monthlyHoursByDateLabels">
+        </line-chart>
 
         <area-chart
           :title="monthlyInvestmentByDateLabel"
@@ -192,6 +191,7 @@ import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
 import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
+import LineChart from "../components/line-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
@@ -206,6 +206,7 @@ export default {
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
     "area-chart": AreaChart,
+    "line-chart": LineChart,
     "loader": Loader
   },
   computed: {
@@ -214,6 +215,9 @@ export default {
     },
     allActionsByPartnersLabel() {
       return `${this.$t("allActionsByPartnersLabel")}`;
+    },
+    monthlyHoursByDateLabel() {
+      return `${this.$t("monthlyHoursByDateLabel")}`;
     },
     monthlyInvestmentByDateLabel() {
       return `${this.$t("monthlyInvestmentByDateLabel")}`;
@@ -237,12 +241,15 @@ export default {
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
-      if (dashboardData.charts.actionsByPartner === {}) {
+      /* if (dashboardData.charts.actionsByPartner === {}) {
         this.showActionsByPartner = false;
       } else {
         this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
         this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
-      }
+      } */
+
+      this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
+      this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
 
       this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
       this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
@@ -313,8 +320,8 @@ export default {
       investmentProgressStyle: "",
       progressData: {periodProgressData: {dateFrom: 0, dateTo: 0}, actionsProgressData: {actionsDone: 0}, investmentProgressData: {budget: 0}},
       allPrinciplesData: {labels: [], series: []},
-      actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
+      monthlyHoursByDateData: [],
       monthlyInvestmentByDateData: [],
       xaxis: {categories: []},
       principles: [],
@@ -325,7 +332,7 @@ export default {
         backgroundClass: " bg-danger",
         message: ""
       },      
-      showActionsByPartner: true,
+      //showActionsByPartner: true,
       isLoading: true
     };
   }

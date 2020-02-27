@@ -101,6 +101,7 @@
   "investmentProgress": "Investment",
   "actionsProgress":"Actions",
   "periodProgress": "Period",
+  "monthlyHoursByDateLabel": "Hours invested by date",
   "monthlyInvestmentByPrincipleLabel": "Accumulated investment by principle",
   "actionsRanking": "Actions ranking",
   "notEnoughInfoForDashboard": "There's no enough info loaded for dashboard yet. Please add some actions to your cooperative or select another period.",

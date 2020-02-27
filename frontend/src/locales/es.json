@@ -101,6 +101,7 @@
   "investmentProgress": "Inversión",
   "actionsProgress":"Acciones",
   "periodProgress": "Período",
+  "monthlyHoursByDateLabel": "Horas invertidas por fecha",
   "monthlyInvestmentByPrincipleLabel": "Inversión acumulada por principio",
   "actionsRanking": "Rankings de acciones",
   "notEnoughInfoForDashboard": "No hay suficiente información cargada para el tablero de mandos todavía. Por favor, añade algunas acciones a tu cooperativa o selecciona otro periodo.",
