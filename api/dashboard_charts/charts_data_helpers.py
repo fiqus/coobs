@@ -112,28 +112,46 @@ def get_monthly_hours(action_data):
     actions_by_date = list(action_data.values('date', 'invested_hours') \
                             .order_by())
 
-    categories = [action['date'] for action in actions_by_date]
-    print(actions_by_date)
+    dates_list = [action['date'] for action in actions_by_date]
+    categories = list(set(dates_list))
+    categories.sort()
+
     actions_by_date = [{'date': action['date'], 'hours': action['invested_hours']} for action in actions_by_date]
-    result = {'name': 'all_principles', 'data': []}
+
+    hours_by_date = {}
     for action in actions_by_date:
-        result['data'].append(action['hours'])
+        if action['date'] in hours_by_date.keys():
+            hours_by_date[action['date']] += action['hours']
+        else:
+            hours_by_date[action['date']] = action['hours']
+
+    result = {'name': 'all_principles', 'data': []}
+    for date in hours_by_date.keys():
+        result['data'].append(hours_by_date[date])
 
     return {'labels': categories, 'result': [result]}
 
 # MONTHLY INVESTMENT BY PRINCIPLE
 
 def get_monthly_investment_by_principle(action_data, date_from, principles):
-    actions_amount_by_date = list(action_data.values('date') \
-                                  .annotate(total=Sum('invested_money')) \
+    actions_amount_by_date = list(action_data.values('date', 'invested_money') \
                                   .order_by())
 
-    categories = [action['date'] for action in actions_amount_by_date]
+    dates_list = [action['date'] for action in actions_amount_by_date]
+    categories = list(set(dates_list))
+    categories.sort()
 
-    actions_amount_by_date = [{'date': action['date'], 'sum': action['total']} for action in actions_amount_by_date]
-    result = {'name': 'all_principles', 'data': []}
+    actions_amount_by_date = [{'date': action['date'], 'amount': action['invested_money']} for action in actions_amount_by_date]
+    amounts_by_date = {}
     for action in actions_amount_by_date:
-        result['data'].append(action['sum'])
+        if action['date'] in amounts_by_date.keys():
+            amounts_by_date[action['date']] += action['amount']
+        else:
+            amounts_by_date[action['date']] = action['amount']
+
+    result = {'name': 'all_principles', 'data': []}
+    for date in amounts_by_date.keys():
+        result['data'].append(amounts_by_date[date])
 
     return {'labels': categories, 'result': [result]}
 
