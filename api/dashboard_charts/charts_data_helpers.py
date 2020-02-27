@@ -86,6 +86,16 @@ def get_all_principles_data(actions_by_principles_data, principles):
 
     return {'labels': actions_by_principle.keys(), 'series': actions_by_principle.values()}
 
+# ALL PRINCIPLES ACTIONS DATA
+def get_all_principles_data_for_current_partner(actions_by_principles_data, principles):
+    actions_list = list(actions_by_principles_data)
+    actions_by_principle = OrderedDict(
+        {principle['principles']: principle['total'] for principle in actions_list})
+    for principle in principles.keys():
+        if principle not in actions_by_principle.keys():
+            actions_by_principle[principle] = 0
+
+    return {'labels': principles.values(), 'series': actions_by_principle.values()}
 
 # ACTIONS BY PARTNER
 def get_actions_by_partner(partner_data):

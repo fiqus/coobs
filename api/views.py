@@ -14,7 +14,8 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, \
-    get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle
+    get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle,\
+    get_all_principles_data_for_current_partner
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
@@ -548,18 +549,18 @@ class PartnerStatsView(viewsets.ViewSet):
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        actions_by_principles_data = Principle.objects.filter(cooperative=cooperative_id,
-                                                              action__date__gte=period_data['date_from'],
-                                                              action__date__lte=date, 
-                                                              action__partners_involved__in=[user_id]).annotate(
-            total=Count('id')).order_by()
+        actions_by_principles_data = Action.objects.filter(cooperative=cooperative_id, 
+                                    principles__visible=True, date__gte=period_data['date_from'],   
+                                    date__lte=date, partners_involved__in=[user_id])
+                                    .values('principles').annotate(total=Count('principles')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
 
         charts = {
             'cards_data': get_cards_data(action_data, done_actions_data, period_data),
-            'all_principles_data': get_all_principles_data(actions_by_principles_data, principles),
+            'all_principles_data': get_all_principles_data_for_current_partner(actions_by_principles_data, principles),
             'progress_data': get_progress_data(action_data, done_actions_data, period_data),
+            'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
                                                                               period_data['date_from'], principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,

@@ -1,10 +1,12 @@
 <template>
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
-      <h5 class="mb-0 text-gray-100">
-        <i class="fas fa-exclamation-circle"></i>
-        {{$t(error.message, error.message)}}
-      </h5>
-      <div v-if="allPeriods.length">
+    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+      <div class="col-sm-9">
+        <h5 class="mb-0 text-gray-100">
+          <i class="fas fa-exclamation-circle"></i>
+          {{$t(error.message, error.message)}}
+        </h5>
+      </div>
+      <div v-if="allPeriods.length" class="col-sm-2 float-right ">
         <div class="dropdown no-arrow float-right mx-3">
           <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
             <label>{{$t('periods')}}</label>
@@ -83,6 +85,11 @@
           <bars-chart
             :label="$t('allPrinciples')"
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
+            <template v-slot:tooltip>
+              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="localizeTooltip()">
+                <icon id="allPrinciplesTooltip" class="fa fa-question-circle"></icon>
+              </span>
+            </template>
           </bars-chart>
 
           <div class="col-xl-4 col-lg-4">
@@ -149,11 +156,12 @@
           </div>
         </div>
 
-      <area-chart
-        :title="monthlyInvestmentByDateLabel"
-        :columns-data="monthlyInvestmentByDateData"
-        :xaxis="monthlyInvestmentByDateLabels">
-      </area-chart>
+      <line-chart
+        :title="monthlyHoursByDateLabel"
+        :columns-data="monthlyHoursByDateData"
+        :xaxis="monthlyHoursByDateLabels">
+      </line-chart>
+
       <!-- Content Row -->
       <stacked-columns-chart
         :title="allPrinciplesYearLabel"
@@ -170,7 +178,7 @@ import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
 import BarsChart from "../components/bars-chart.vue";
 import ColumnsChart from "../components/columns-chart.vue";
-import AreaChart from "../components/area-chart.vue";
+import LineChart from "../components/line-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import parseMoney from "./../utils";
@@ -183,15 +191,15 @@ export default {
     "donut-chart": DonutChart,
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
-    "area-chart": AreaChart,
+    "line-chart": LineChart,
     "loader": Loader
   },
   computed: {
     allPrinciplesYearLabel() {
       return `${this.$t("allPrinciples")}`;
     },
-    monthlyInvestmentByDateLabel() {
-      return `${this.$t("monthlyInvestmentByDateLabel")}`;
+    monthlyHoursByDateLabel() {
+      return `${this.$t("monthlyHoursByDateLabel")}`;
     }
   },
   methods: {
@@ -209,15 +217,14 @@ export default {
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
-      // FIXME we should add a graph to show time spent per month
-      this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
-      this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
+      this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
+      this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
       
       this.progressData = dashboardData.charts.progressData;
-      // FIXME what should we show in investment? there's no goal to compare with
+      // FIXME #137 we could show hours invested against hours expected to use in cooperativistic activities
       this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
@@ -239,10 +246,13 @@ export default {
         return result;
       }) : [];
     },
+    localizeTooltip(){
+      return this.$t('allPrinciplesTooltip');
+    },
     async onPeriodChange(){
       this.error.exists = false;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      const dashboardData = await api.getDashboard(params);
+      const dashboardData = await api.getMyStats(params);
       if (!dashboardData.actions.length) {
         this.error = {
           exists: true,
@@ -267,6 +277,9 @@ export default {
       this.showDashboardData(dashboardData);
     }
   },
+  toggleTooltip(){
+    this.$refs.tooltip.$emit('toggle');
+  },
   data() {
     return {
       periodName: "",
@@ -279,7 +292,7 @@ export default {
       allPrinciplesData: {labels: [], series: []},
       actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
-      monthlyInvestmentByDateData: [],
+      monthlyHoursByDateData: [],
       xaxis: {categories: []},
       principles: [],
       allPeriods: [],

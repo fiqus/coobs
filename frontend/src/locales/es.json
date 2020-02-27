@@ -128,5 +128,6 @@
   "actionDetail": "Detalle de la Acción",
   "close": "Cerrar",
   "myStats": "Mis estadísticas",
-  "myStatsHelp": "Aquí podrá ver gráficos e indicadores basados en las acciones realizadas por usted en el período seleccionado."
+  "myStatsHelp": "Aquí podrá ver gráficos e indicadores basados en las acciones realizadas por usted en el período seleccionado.",
+  "allPrinciplesTooltip":"Dado que las acciones pueden asociarse con varios principios, el total de acciones agrupadas por principios puede diferir del total de acciones realizadas."
 }
