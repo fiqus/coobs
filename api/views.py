@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, \
-    get_actions_by_partner, get_monthly_investment_by_principle, get_monthly_actions_by_principle
+    get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
@@ -405,6 +405,7 @@ class DashboardView(viewsets.ViewSet):
             'all_principles_data': get_all_principles_data(actions_by_principles_data, principles),
             'progress_data': get_progress_data(action_data, done_actions_data, period_data),
             'actions_by_partner': get_actions_by_partner(partner_data),
+            'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
                                                                               period_data['date_from'], principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,

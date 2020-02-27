@@ -97,6 +97,19 @@ def get_actions_by_partner(partner_data):
         partners.values()) == 0 else {}
     return result
 
+#MONTHLY HOURS
+def get_monthly_hours(action_data):
+    actions_by_date = list(action_data.values('date', 'invested_hours') \
+                            .order_by())
+
+    categories = [action['date'] for action in actions_by_date]
+    print(actions_by_date)
+    actions_by_date = [{'date': action['date'], 'hours': action['invested_hours']} for action in actions_by_date]
+    result = {'name': 'all_principles', 'data': []}
+    for action in actions_by_date:
+        result['data'].append(action['hours'])
+
+    return {'labels': categories, 'result': [result]}
 
 # MONTHLY INVESTMENT BY PRINCIPLE
 
