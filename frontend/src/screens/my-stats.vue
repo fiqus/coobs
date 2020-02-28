@@ -182,7 +182,13 @@ import LineChart from "../components/line-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import parseMoney from "./../utils";
+import moment from "moment";
+import _ from "lodash";
 
+
+function dateToUserTimeZone (date){
+  return moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
+}
 
 export default {
   components: {
@@ -200,10 +206,17 @@ export default {
     },
     monthlyHoursByDateLabel() {
       return `${this.$t("monthlyHoursByDateLabel")}`;
+    },
+    monthlyHoursByDateLabels(){
+      const labels = _.get(this.dashboardData, "charts.monthlyHoursByDate.labels", []);
+      const newLabels = labels.map(dateToUserTimeZone);
+      
+      return {type: "datetime", categories: newLabels};
     }
   },
   methods: {
     showDashboardData(dashboardData){
+      this.dashboardData = dashboardData;
       this.selectedValue = dashboardData.period.id;
       this.allPeriods = dashboardData.allPeriods;
 
@@ -218,7 +231,6 @@ export default {
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
-      this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
@@ -293,7 +305,6 @@ export default {
       actionsByPartnerData: [],
       monthlyActionsByPrincipleData: [],
       monthlyHoursByDateData: [],
-      xaxis: {categories: []},
       principles: [],
       allPeriods: [],
       selectedValue: [],
@@ -302,7 +313,8 @@ export default {
         backgroundClass: " bg-danger",
         message: ""
       },
-      isLoading: true
+      isLoading: true,
+      dashboardData: {}
     };
   }
 };
