@@ -75,16 +75,17 @@
           }, []);
           return {"coopId": action.cooperativeId,"coopName": action.cooperativeName, actionsByPrinciple, "total": 0};
         }
-
+        debugger
         const accumActionsByCoop = actions.reduce((acc, action) => {
           if (!acc[action.cooperativeId]) {
             acc[action.cooperativeId] = createCoopAcumObj(action);
           }
 
           acc[action.cooperativeId].actionsByPrinciple[action.principleNameKey] += action.actionsCount;
-          acc[action.cooperativeId].total += action.actionsCount;
+          acc[action.cooperativeId].total = actions.length;
           return acc;
         }, []);
+
 
         var actionsByCoop = accumActionsByCoop.reduce((acc, coop) => {
             coop.actionsByPrinciple = Object.keys(coop.actionsByPrinciple).map(k => {return {key: k, value: coop.actionsByPrinciple[k]}});
