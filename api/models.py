@@ -82,6 +82,7 @@ class Period(models.Model):
 class Partner(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
+    hours_to_invest = models.DecimalField(_('hours to invest'), max_digits=19, decimal_places=1, default=Decimal('0.0'), blank=True, null=True)
 
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
     USERNAME_FIELD = 'email'

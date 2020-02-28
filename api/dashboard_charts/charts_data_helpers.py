@@ -50,7 +50,7 @@ def get_cards_data(action_data, done_actions_data, period_data):
 
 
 # PROGRESS
-def get_progress_data(action_data, done_actions_data, period_data):
+def get_progress_data(action_data, done_actions_data, period_data, user=None):
     date = datetime.today()
     period_progress_data = {
         "date_from": period_data['date_from'],
@@ -66,11 +66,18 @@ def get_progress_data(action_data, done_actions_data, period_data):
     }
     invested = 0 if len(done_actions_data) == 0 else round(
         functools.reduce(lambda a, b: a + b, [action.invested_money for action in done_actions_data]), 2)
+    invested_hours = 0 if len(done_actions_data) == 0 else round(
+        functools.reduce(lambda a, b: a + b, [action.invested_hours for action in done_actions_data]), 2)
+
     investment_progress_data = {
         "invested": invested,
         "budget": period_data['actions_budget'],
+        "partner_hours_goal": 0,
         "investment_progress": round(float(invested) / float(period_data['actions_budget']) * 100, 2)
     }
+    if user:
+        investment_progress_data['partner_hours_goal'] = user.hours_to_invest
+        investment_progress_data['investment_progress'] = round(float(invested_hours) / float(user.hours_to_invest) * 100, 2)
 
     return {'period_progress_data': period_progress_data, 'actions_progress_data': actions_progress_data,
             "investment_progress_data": investment_progress_data}

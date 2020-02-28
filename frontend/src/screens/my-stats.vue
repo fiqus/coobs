@@ -135,11 +135,11 @@
                   <hr>
 
                   <!-- Investment -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('investmentProgress')}}</div>
+                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('investedHours')}}</div>
 
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">$0.00</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">0</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
@@ -147,7 +147,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.investmentProgressData.partnerHoursGoal}}</div>
                     </div>
                   </div>
                 </div>

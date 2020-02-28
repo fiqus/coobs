@@ -558,7 +558,7 @@ class PartnerStatsView(viewsets.ViewSet):
         charts = {
             'cards_data': get_cards_data(action_data, done_actions_data, period_data),
             'all_principles_data': get_all_principles_data_for_current_partner(actions_by_principles_data, principles),
-            'progress_data': get_progress_data(action_data, done_actions_data, period_data),
+            'progress_data': get_progress_data(action_data, done_actions_data, period_data, request.user),
             'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
                                                                               period_data['date_from'], principles),

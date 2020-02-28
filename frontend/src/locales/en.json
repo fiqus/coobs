@@ -129,5 +129,7 @@
   "close": "Close",
   "myStats": "My stats",
   "myStatsHelp": "Here you will be able to see graphs and indicators based on the actions carried out by you in the selected period.",
-  "allPrinciplesTooltip":"Since actions can be associated with several principles, the total of actions group by principles can differ from total done actions."
+  "allPrinciplesTooltip":"Since actions can be associated with several principles, the total of actions group by principles can differ from total done actions.",
+  "hoursToInvest": "Hours to invest",
+  "hoursToInvestHelp": "This field will set a goal to fulfill for the current period."
 }

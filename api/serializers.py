@@ -107,7 +107,7 @@ class MainPrincipleSerializer(serializers.ModelSerializer):
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password')
+        fields = ('id', 'username', 'first_name', 'last_name', 'cooperative_id', 'email', 'password', 'hours_to_invest')
         extra_kwargs = {
             'password': {'write_only': True},
             'username': {'validators': [UnicodeUsernameValidator()]}
@@ -117,6 +117,7 @@ class PartnerSerializer(serializers.ModelSerializer):
         instance.email = validated_data.get('email', instance.email)
         instance.first_name = validated_data.get('first_name', instance.first_name)
         instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.hours_to_invest = validated_data.get('hours_to_invest', instance.hours_to_invest)
 
         if self.initial_data.get('new_password'):
             password_change_data = {'new_password': self.initial_data.get('new_password'),

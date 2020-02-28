@@ -41,6 +41,21 @@
         </div>
       </div>
       <div class="form-row">
+        <div class="col-6">
+          <input-form
+            :label="$t('hoursToInvest')"
+            name="hours"
+            type="number"
+            v-model="partner.hoursToInvest"
+            :error="$v.partner.hoursToInvest.$error"
+            :error-message="$t('positiveNumber')">
+          </input-form>
+        </div>
+        <div class="col-6 py-4">
+          <small class="form-text text-muted font-italic ml-3">{{$t('hoursToInvestHelp')}}</small>
+        </div>
+      </div>      
+      <div class="form-row">
         <div class="col-12">
           <button type="button" class="btn btn-light mb-3 text-gray-600" @click="changingPassword = !changingPassword">{{$t('changePassword')}}</button>
         </div>
@@ -93,7 +108,7 @@
 
 <script>
 import InputForm from "../../components/input-form.vue";
-import {required, sameAs, minLength} from "vuelidate/lib/validators";
+import {required, sameAs, minLength, minValue} from "vuelidate/lib/validators";
 import {httpGet, httpPatch} from "../../api-client.js";
 import swal from "sweetalert";
 import ErrorForm from "../../components/error-form.vue";
@@ -103,7 +118,8 @@ const requiredFields = (changingPassword) => {
   const validations = {
     firstName: {required},
     lastName: {required},
-    email: {required}
+    email: {required},
+    hoursToInvest: {minValue: minValue(0)}
   };
   if (changingPassword) {
     validations.newPassword = {
@@ -176,8 +192,8 @@ export default {
             this.loadProfile()
               .then(() => {
                 const currentUser = this.user;
-                const {firstName, lastName, email} = this.partner;
-                const newUser = Object.assign({}, currentUser, {firstName, lastName, email});
+                const {firstName, lastName, email, hoursToInvest} = this.partner;
+                const newUser = Object.assign({}, currentUser, {firstName, lastName, email, hoursToInvest});
                 this.$store.commit("setUser", newUser);
                 this.$v.$reset();
               })
