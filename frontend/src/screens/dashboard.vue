@@ -234,13 +234,13 @@ export default {
       const labels = _.get(this.dashboardData, "charts.monthlyHoursByDate.labels", []);
       const newLabels = labels.map(dateToUserTimeZone);
       
-      return {type: "datetime", categories: newLabels};
+      return {type: "datetime", categories: newLabels, labels: {format: 'dd-MM-yy'}};
     },
     monthlyInvestmentByDateLabels(){
       const labels = _.get(this.dashboardData, "charts.monthlyInvestmentByDate.labels", []);
       const newLabels = labels.map(dateToUserTimeZone);
 
-      return {type: "datetime", categories: newLabels};
+      return {type: "datetime", categories: newLabels, labels: {format: 'dd-MM-yy'}};
     }
   },
   methods: {
