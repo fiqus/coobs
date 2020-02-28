@@ -77,7 +77,7 @@ def get_progress_data(action_data, done_actions_data, period_data, user=None):
     }
     if user:
         investment_progress_data['partner_hours_goal'] = user.hours_to_invest
-        investment_progress_data['investment_progress'] = round(float(invested_hours) / float(user.hours_to_invest) * 100, 2)
+        investment_progress_data['investment_progress'] = round(float(invested_hours) / float(user.hours_to_invest) * 100, 2) if user.hours_to_invest > 0 else 0
 
     return {'period_progress_data': period_progress_data, 'actions_progress_data': actions_progress_data,
             "investment_progress_data": investment_progress_data}
