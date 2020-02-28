@@ -198,7 +198,13 @@ import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import parseMoney from "./../utils";
+import moment from "moment";
+import _ from "lodash";
 
+
+function dateToUserTimeZone (date){
+  return moment(date).format("YYYY-MM-DDTHH:mm:ssZ");
+}
 
 export default {
   components: {
@@ -223,10 +229,24 @@ export default {
     },
     monthlyInvestmentByDateLabel() {
       return `${this.$t("monthlyInvestmentByDateLabel")}`;
+    },
+    monthlyHoursByDateLabels(){
+      const labels = _.get(this.dashboardData, "charts.monthlyHoursByDate.labels", []);
+      const newLabels = labels.map(dateToUserTimeZone);
+      
+      return {type: "datetime", categories: newLabels};
+    },
+    monthlyInvestmentByDateLabels(){
+      const labels = _.get(this.dashboardData, "charts.monthlyInvestmentByDate.labels", []);
+      const newLabels = labels.map(dateToUserTimeZone);
+
+      return {type: "datetime", categories: newLabels};
     }
   },
   methods: {
     showDashboardData(dashboardData){
+      this.dashboardData = dashboardData;
+
       this.selectedValue = dashboardData.period.id;
       this.allPeriods = dashboardData.allPeriods;
 
@@ -251,10 +271,10 @@ export default {
       } */
 
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
-      this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
+      //this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
 
       this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
-      this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
+      //this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
@@ -325,7 +345,7 @@ export default {
       monthlyActionsByPrincipleData: [],
       monthlyHoursByDateData: [],
       monthlyInvestmentByDateData: [],
-      xaxis: {categories: []},
+      //xaxis: {categories: []},
       principles: [],
       allPeriods: [],
       selectedValue: [],
@@ -335,7 +355,8 @@ export default {
         message: ""
       },      
       //showActionsByPartner: true,
-      isLoading: true
+      isLoading: true,
+      dashboardData: {}
     };
   }
 };
