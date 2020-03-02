@@ -5,6 +5,7 @@
         <select-form
           v-model="filter.value"
           :options="filter.options"
+          :placeholder="filter.key"
           :label="$t(filter.label, filter.label)">
         </select-form>
       </div>

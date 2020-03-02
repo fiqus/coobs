@@ -131,5 +131,6 @@
   "myStatsHelp": "Aquí podrá ver gráficos e indicadores basados en las acciones realizadas por usted en el período seleccionado.",
   "allPrinciplesTooltip":"Dado que las acciones pueden asociarse con varios principios, el total de acciones agrupadas por principios puede diferir del total de acciones realizadas.",
   "hoursToInvest": "Horas a invertir",
-  "hoursToInvestHelp": "Este campo establecerá un objetivo a cumplir para el período actual."
+  "hoursToInvestHelp": "Este campo establecerá un objetivo a cumplir para el período actual.",
+  "selectLabel": "Seleccione"
 }
