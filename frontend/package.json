@@ -4,8 +4,9 @@
   "description": "Fiqus lab for investigate and building vuejs apps",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config build/webpack.config.dev.js",
-    "dev": "webpack-dev-server --progress --config build/webpack.config.dev.js"
+    "build": "webpack --config webpack.config.js",
+    "dev": "webpack-dev-server --progress --config webpack.config.js",
+    "serve": "serve dist"
   },
   "author": "",
   "license": "ISC",

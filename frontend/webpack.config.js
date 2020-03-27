@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.join(__dirname, "../dist"),
+    path: path.join(__dirname, "./dist"),
   },
   // cheap-module-eval-source-map is faster for development
   devtool: "#cheap-module-eval-source-map",
@@ -57,7 +57,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'jquery': path.join(__dirname, '../assets/js/jquery.min.js')
+      'jquery': path.join(__dirname, './assets/js/jquery.min.js')
     }
   },
   externals: {
@@ -70,19 +70,19 @@ module.exports = {
     }), 
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
+    new CopyWebpackPlugin([{ from: 'static/', to: './' }]),
     new HtmlWebpackPlugin({
       template: 'index.html',
       chunks: ["app"],
-      path: path.join(__dirname, "../dist/"),
-      filename: 'app.html',
+      path: path.join(__dirname, "./dist/"),
+      filename: 'app',
       inject: true
     }),
     new HtmlWebpackPlugin({
       template: 'landing/index.html',
       chunks: ["landing"],
-      path: path.join(__dirname, "../dist/"),
-      filename: 'landing.html',
+      path: path.join(__dirname, "./dist/"),
+      filename: 'landing',
       inject: true
     })
   ]

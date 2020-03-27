@@ -8,7 +8,7 @@ const { scheme, hostname } =
     ? { scheme: "https"
       , hostname: window.location.hostname }
     : { scheme: "http"
-      , hostname: "localhost:8080" };
+      , hostname: "localhost:"+window.location.port };
 
 const apiURL = `${scheme}://${hostname}/api`;
 
