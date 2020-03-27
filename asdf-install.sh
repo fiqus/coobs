@@ -45,8 +45,7 @@ make install-frontend
 cp coobs/settings/dev.template.py coobs/settings/dev.py
 
 # Generate secret key for django and update it at coobs/settings.py
-SECRET_KEY=$(python manage.py generate_secret_key)
-sed -i "s/SECRET_KEY = .*/SECRET_KEY = '${SECRET_KEY}'/g" coobs/settings/dev.py
+sed -i "s!SECRET_KEY = .*!SECRET_KEY = '$(openssl rand -base64 32)'!g" coobs/settings/dev.py
 
 # Start postgres and create the database's user
 pg_ctl start

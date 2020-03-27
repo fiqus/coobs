@@ -5,7 +5,6 @@ const { VueLoaderPlugin } = require('vue-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require("path");
-const Auxpack = require('auxpack'); 
 
 module.exports = {
   mode: 'development',
@@ -56,7 +55,19 @@ module.exports = {
       }
     ]
   },
+  resolve: {
+    alias: {
+      'jquery': path.join(__dirname, '../assets/js/jquery.min.js')
+    }
+  },
+  externals: {
+    'jQuery': 'jquery'
+  },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
+    }), 
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([{ from: 'static/', to: '../' }]),
@@ -64,14 +75,14 @@ module.exports = {
       template: 'index.html',
       chunks: ["app"],
       path: path.join(__dirname, "../dist/"),
-      filename: 'app',
+      filename: 'app.html',
       inject: true
     }),
     new HtmlWebpackPlugin({
       template: 'landing/index.html',
       chunks: ["landing"],
       path: path.join(__dirname, "../dist/"),
-      filename: 'landing',
+      filename: 'landing.html',
       inject: true
     })
   ]

@@ -18,10 +18,9 @@
 
         cp coobs/settings/dev.template.py coobs/settings/dev.py
 
-5. Generate new Django secret key and update `SECRET_KEY` value at `coobs/settings.py`
+5. Generate new Django secret key and update `SECRET_KEY` value at `coobs/settings/dev.py`
 
-        SECRET_KEY=$(python manage.py generate_secret_key)
-        sed -i "s/SECRET_KEY = .*/SECRET_KEY = '${SECRET_KEY}'/g" coobs/settings.py
+        sed -i "s!SECRET_KEY = .*!SECRET_KEY = '$(openssl rand -base64 32)'!g" coobs/settings/dev.py
 
 6. Setup postgres user for `coobs` database
 
@@ -30,7 +29,7 @@
         sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';\""
         sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET timezone TO 'UTC';\""
 
-7. Configure database parameters at `coobs/settings.py`
+7. Configure database parameters at `coobs/settings/dev.py`
 
         DATABASES = {
                 'default': {

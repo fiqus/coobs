@@ -13,6 +13,15 @@ import NavbarLayout from "./layouts/navbar-layout.vue";
 import EmptyLayout from "./layouts/empty-layout.vue";
 import LoginLayout from "./layouts/login-layout.vue";
 
+import "../node_modules/@fortawesome/fontawesome-free/css/all.css"
+import "../assets/css/fonts.css"
+import "../assets/css/custom.css"
+import "../assets/css/sb-admin-2.min.css"
+import "jquery"
+import "../assets/js/bootstrap.bundle.min.js"
+import "../assets/js/jquery.easing.min.js"
+import "../assets/js/sb-admin-2.min.js"
+
 Vue.config.silent = true; // https://vuejs.org/v2/api/#silent
 
 Vue.component("navbar-layout", NavbarLayout);
