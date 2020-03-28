@@ -13,13 +13,13 @@ module.exports = {
     landing: './landing/app.js'
   },
   output: {
-    filename: "[name].bundle.js",
+    //publicPath: "/",
     path: path.join(__dirname, "./dist"),
+    filename: "[name].bundle.js"
   },
   // cheap-module-eval-source-map is faster for development
   devtool: "#cheap-module-eval-source-map",
   //devtool: "inline-source-map",
-  // watch: true,
   devServer: {
     hot: true,
     watchOptions: {
@@ -67,22 +67,28 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    }), 
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([{ from: 'static/', to: './' }]),
+    // new CopyWebpackPlugin([{ from: 'static/', to: './app' }]),
+    // new CopyWebpackPlugin([{ from: 'static/', to: './landing' }]),
     new HtmlWebpackPlugin({
       template: 'index.html',
       chunks: ["app"],
-      path: path.join(__dirname, "./dist/app"),
-      filename: 'index.html',
+      path: path.join(__dirname, "./dist"),
+      filename: 'app',
+      // path: path.join(__dirname, "./dist/app/"),
+      // filename: 'app/index.html',
       inject: true
     }),
     new HtmlWebpackPlugin({
       template: 'landing/index.html',
       chunks: ["landing"],
-      path: path.join(__dirname, "./dist/landing"),
-      filename: 'index.html',
+      path: path.join(__dirname, "./dist"),
+      filename: 'landing',
+      // path: path.join(__dirname, "./dist/landing/"),
+      // filename: 'landing/index.html',
       inject: true
     })
   ]
