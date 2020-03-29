@@ -19,8 +19,6 @@ __pycache__/
 /venv
 frontend/dist/
 frontend/images/
-frontend/node_modules/
-frontend/package-lock.json
 /coobs/bin/
 /coobs/include/
 /coobs/lib/
