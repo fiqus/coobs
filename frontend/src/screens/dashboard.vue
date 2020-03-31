@@ -318,7 +318,6 @@ export default {
   },
   async created() {
     const dashboardData = await api.getDashboard();
-    console.log(dashboardData);
     if (!dashboardData.actions.length) {
       this.error = {
         exists: true,
