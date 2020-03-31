@@ -1,0 +1,17 @@
+# Tools
+postgres:
+  image: postgres
+  ports:
+    - "5432:5432"
+  volumes_from:
+    - 'data'
+  environment:
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
+  volumes:
+    - "/tmp:/tmp"
+
+data:
+  image: busybox
+  volumes:
+    - ./data:/data
