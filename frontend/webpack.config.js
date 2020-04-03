@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 const baseConf = {
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   // cheap-module-eval-source-map is faster for development
   devtool: "#cheap-module-eval-source-map",
   //devtool: "inline-source-map",
@@ -59,7 +59,7 @@ const appConf = Object.assign({}, baseConf, {
   entry: "./src/app.js",
   output: {
     path: path.join(__dirname, "./dist/app"),
-    filename: "[name].bundle.js"
+    filename: "app.bundle.js"
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -77,12 +77,13 @@ const appConf = Object.assign({}, baseConf, {
     })
   ]
 });
+
 const landingConf = Object.assign({}, baseConf, {
   name: "landing",
   entry: "./landing/app.js",
   output: {
     path: path.join(__dirname, "./dist/landing"),
-    filename: "[name].bundle.js"
+    filename: "landing.bundle.js"
   },
   plugins: [
     new webpack.ProvidePlugin({
