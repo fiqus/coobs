@@ -8,10 +8,10 @@
         <!-- Sidebar - Brand -->
         <router-link class="sidebar-brand d-flex align-items-center justify-content-center" :to="{name: 'dashboard'}" >
           <div v-if="toggled" class="sidebar-brand-icon rotate-n-15">
-            <img src="/images/bs.png" style="max-height: 45px;">
+            <img src="images/bs.png" style="max-height: 45px;">
           </div>
           <div class="sidebar-brand-text mx-3">
-            <img src="/images/coobs.png" style="max-height: 45px;">
+            <img src="images/coobs.png" style="max-height: 45px;">
           </div>
         </router-link>
 
