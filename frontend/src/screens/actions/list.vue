@@ -34,7 +34,7 @@
         </span><br/>
         <label class="bold">{{$t('startingDate')}}:</label>
         <span name="startingDate"
-          type="text">{{modalAction.actionData.date}}
+          type="text">{{modalAction.actionData.date | formatToUIDate}}
         </span><br/>
         <label class="bold">{{$t('investedHours')}}:</label>
         <span name="investedHours"
@@ -82,7 +82,7 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import {formatText, capitalizeFirstChar, principlesSelectedParser} from "../../utils";
+import {formatText, capitalizeFirstChar, principlesSelectedParser, formatToUIDate} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
@@ -141,7 +141,7 @@ export default {
   data() {
     return {
       headers: [
-        {key: "date", value: "date"},
+        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
         // {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
         //{key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
@@ -184,7 +184,7 @@ export default {
     },
     periodsFilter(periods) {
       return periods.map(({id, name, dateFrom, dateTo}) => {
-        const label = `${name} | ${dateFrom} - ${dateTo}`
+        const label = `${name} | ${formatToUIDate(dateFrom)} - ${formatToUIDate(dateTo)}`
         return {
           id,
           name: label

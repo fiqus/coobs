@@ -113,7 +113,7 @@
                   <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('periodProgress')}}</div>
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom | formatToUIDate}}</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data center">
@@ -121,7 +121,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo | formatToUIDate}}</div>
                     </div>
                   </div>
                   <hr>

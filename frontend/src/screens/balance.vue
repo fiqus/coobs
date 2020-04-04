@@ -43,7 +43,7 @@
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
-            {{$t("balanceSubtitle", {period: period.name, from: period.dateFrom, to: period.dateTo, budget: Number(period.actionsBudget)})}}
+            {{$t("balanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
           </h3>
         </div>
         <balance-by-period-table v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
@@ -68,6 +68,7 @@ import {httpGet} from "../api-client";
 import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../components/loader-overlay.vue";
+import {formatToUIDate} from "../utils";
 
 function print(period, translator, parent){
   const self = parent;
@@ -101,6 +102,9 @@ export default {
     "loader": Loader
   },
   methods: {
+    format(date) {
+      return formatToUIDate(date);
+    },
     setErrorMsg(err){
       this.error = {
         exists: true,

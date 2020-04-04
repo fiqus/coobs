@@ -42,3 +42,24 @@ export function translatePrinciples(results, translateFunction) {
     return result;
   });
 }
+
+// format YYYY-MM-DD to DD/MM/YYY
+export function formatToUIDate(dateString) {
+  if (!dateString instanceof String) {
+    return `Error formatting ${dateString}`;
+  }
+  const dateParts = dateString.split("-");
+  if (!dateParts.length) {
+    return `Error formatting ${dateString}`;
+  }
+  if (!dateParts[0] || dateParts[0].length !== 4) {
+    return `Error formatting ${dateString}`;
+  }
+  if (!dateParts[1] || dateParts[1].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 12)) {
+    return `Error formatting ${dateString}`;
+  }
+  if (!dateParts[2] || dateParts[2].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 31)) {
+    return `Error formatting ${dateString}`;
+  }
+  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+}

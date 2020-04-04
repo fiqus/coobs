@@ -22,7 +22,7 @@
 
 <script>
 import SimpleTable from "../../components/simple-table.vue";
-import {formatText} from "../../utils";
+import {formatText, formatToUIDate} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
 import Loader from "../../components/loader-overlay.vue";
@@ -48,8 +48,8 @@ export default {
     return {
       headers: [
         {key: "name", value: "name", parser: (p) => formatText(p.name)},
-        {key: "dateFrom", value: "from", parser: (p) => formatText(p.dateFrom, 50)},
-        {key: "dateTo", value: "to", parser: (p) => formatText(p.dateTo, 50)},
+        {key: "dateFrom", value: "from", parser: (p) => formatToUIDate(p.dateFrom)},
+        {key: "dateTo", value: "to", parser: (p) => formatToUIDate(p.dateTo)},
         {key: "actionsBudget", value: "budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: [],
