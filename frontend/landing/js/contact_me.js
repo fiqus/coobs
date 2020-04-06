@@ -1,4 +1,10 @@
 $(function() {
+  const { scheme, hostname } =
+    process.env.NODE_ENV === "production"
+      ? { scheme: "https"
+        , hostname: window.location.hostname }
+      : { scheme: "http"
+        , hostname: "localhost:"+window.location.port };
 
   $("#registerForm input").jqBootstrapValidation({
     preventSubmit: true,
@@ -64,7 +70,7 @@ $(function() {
           .then((reCaptchaToken) => {
             data.reCaptchaToken = reCaptchaToken;
             $.ajax({
-              url: "http://127.0.0.1:8000/api/cooperatives/", // TODO fix URL
+              url: `${scheme}://${hostname}/api/cooperatives/`,
               type: "POST",
               headers: {"Accept-Language": $('#language').val() || 'en'},
               data,
