@@ -1,0 +1,24 @@
+name: CI - Deploy to production
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    name: Deploy coobs to https://coobs.io
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Set RELEASE_TAG env
+        run: echo ::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})
+
+      - name: Dispatch release
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_DISPATCH_TOKEN }}
+          repository: ${{ secrets.REPO_DISPATCH_PATH }}
+          event-type: coobs-release
+          client-payload: '{"tag": "${{ env.RELEASE_TAG }}", "ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
