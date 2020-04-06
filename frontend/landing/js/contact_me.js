@@ -4,7 +4,7 @@ $(function() {
       ? { scheme: "https"
         , hostname: window.location.hostname }
       : { scheme: "http"
-        , hostname: "localhost:"+window.location.port };
+        , hostname: "localhost:8000" };
 
   $("#registerForm input").jqBootstrapValidation({
     preventSubmit: true,
