@@ -132,6 +132,10 @@ msgstr "La fecha hasta que ha ingresado está dentro de un período ya existente
 msgid "Current logged in user can not delete it self."
 msgstr "El usuario actualmente logeado no puede borrarse a si mismo."
 
+#: api/views.py:214
+msgid "There has been an error validating recaptcha. Please, contact the site administrator."
+msgstr "Se produjo un error al validar el recaptcha. Por favor, contacte al administrador del sitio."
+
 msgid "No active account found with the given credentials"
 msgstr "No existe ninguna cuenta activa para los datos ingresados."
 

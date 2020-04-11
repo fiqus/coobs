@@ -40,7 +40,9 @@ var myDictionary = {
     "secondImageTextTitle": "Watch all your cooperative activity",
     "secondImageTextDescription": "You will be able to see daily what you do in your co-operative related to each co-operative principle allowing you to take action to improve it.",
     "thirdImageTextTitle": "Get your annual balance sheet",
-    "thirdImageTextDescription": "Easily get your co-operative's social balance sheet for each period in which you have loaded your co-operative shares."
+    "thirdImageTextDescription": "Easily get your co-operative's social balance sheet for each period in which you have loaded your co-operative shares.",
+    "errorTryLater": "There has been an error. Please try again later, if it persists contact the site adminsitrator.",
+    "errorInPostedData": "There has been an error with data. Please, check your data."
   },
   es : {
     "signIn": "Inicie sesión",
@@ -79,7 +81,9 @@ var myDictionary = {
     "secondImageTextTitle": "Vea toda su actividad cooperativa",
     "secondImageTextDescription": "Podrás ver diariamente lo que haces en tu cooperativa en relación con cada principio cooperativo permitiéndote tomar acciones para mejorarlo.",
     "thirdImageTextTitle": "Obtenga su balance anual",
-    "thirdImageTextDescription": "Obtenga fácilmente el balance social de su cooperativa para cada período en el que haya cargado las acciones de su cooperativa."
+    "thirdImageTextDescription": "Obtenga fácilmente el balance social de su cooperativa para cada período en el que haya cargado las acciones de su cooperativa.",
+    "errorTryLater": "Se produjo un error. Por favor intente más tarde, si el problema persiste contacto al administrador del sitio.",
+    "errorInPostedData": "Se produjo un error con los datos. Por favor, verifica los datos ingresados."
   }
 }
 $.tr.dictionary(myDictionary);

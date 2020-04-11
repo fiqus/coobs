@@ -211,7 +211,8 @@ class CooperativeView(viewsets.ModelViewSet):
         )
 
         if not recaptchaResult.json()['success']:
-            raise ValidationError({"recaptcha": "ERROR_RECAPTCHA"})
+            return Response(data={'detail': _("There has been an error validating recaptcha. Please, contact the site administrator.")},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         coop = {'business_name': data['businessName']}
         coop_serializer = CooperativeSerializer(data=coop)

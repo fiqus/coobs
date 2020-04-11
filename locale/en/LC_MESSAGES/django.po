@@ -144,6 +144,10 @@ msgstr "Hello %(partner_name), you have been added to COOBS!"
 msgid "Current logged in user can not delete it self."
 msgstr ""
 
+#: api/views.py:214
+msgid "There has been an error validating recaptcha. Please, contact the site administrator."
+msgstr ""
+
 #: venv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
 msgstr ""
