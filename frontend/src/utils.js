@@ -45,7 +45,7 @@ export function translatePrinciples(results, translateFunction) {
 
 // format YYYY-MM-DD to DD/MM/YYY
 export function formatToUIDate(dateString) {
-  if (!dateString instanceof String) {
+  if (!(dateString instanceof String)) {
     return `Error formatting ${dateString}`;
   }
   const dateParts = dateString.split("-");
