@@ -310,7 +310,7 @@ class PartnerView(viewsets.ModelViewSet):
         try:
             with transaction.atomic():
                 partner.save()
-                send_email()
+                # send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
