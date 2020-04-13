@@ -3,26 +3,9 @@ const { VueLoaderPlugin } = require("vue-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const baseConf = {
-  mode: process.env.NODE_ENV || "development",
-  // cheap-module-eval-source-map is faster for development
-  devtool: "#cheap-module-eval-source-map",
-  //devtool: "inline-source-map",
-  devServer: {
-    hot: true,
-    watchOptions: {
-      poll: true
-    },
-    clientLogLevel: "error", // https://webpack.js.org/configuration/dev-server/#devserverclientloglevel
-    proxy: {
-      "/api": {
-        target: "http://localhost:8000",
-        ws: true,
-        changeOrigin: true
-      }
-    }
-  },
   module: {
     rules: [
       {
@@ -32,7 +15,12 @@ const baseConf = {
       {
         test: /\.(scss|css)$/,
         use: [
-          "vue-style-loader",
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              hmr: process.env.NODE_ENV === 'development',
+            }
+          },
           "css-loader",
         ]
       },
@@ -62,11 +50,15 @@ const appConf = Object.assign({}, baseConf, {
     filename: "app.bundle.js"
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false,
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([{ from: "static/", to: "./" }]),
     new HtmlWebpackPlugin({
@@ -86,6 +78,11 @@ const landingConf = Object.assign({}, baseConf, {
     filename: "landing.bundle.js"
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false,
+    }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
@@ -100,6 +97,6 @@ const landingConf = Object.assign({}, baseConf, {
   ]
 });
 
-module.exports = [
+module.exports = {
   appConf, landingConf
-];
+};
