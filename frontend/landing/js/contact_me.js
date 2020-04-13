@@ -65,6 +65,22 @@ $(function() {
         }, 1000);
       }
 
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+          var cookies = document.cookie.split(';');
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
       grecaptcha.ready(() => {
         grecaptcha.execute('6LepzsgUAAAAAJTtaoDibT1Duf2CFQrI0RFl3srT', {action: 'signup'})
           .then((reCaptchaToken) => {
@@ -72,7 +88,10 @@ $(function() {
             $.ajax({
               url: `${scheme}://${hostname}/api/cooperatives/`,
               type: "POST",
-              headers: {"Accept-Language": $('#language').val() || 'en'},
+              headers: {
+                "X-CSRFToken": getCookie("csrftoken"),
+                "Accept-Language": $('#language').val() || 'en'
+              },
               data,
               cache: false,
               success: (msgs) => {onSucess(msgs)},
