@@ -46,19 +46,16 @@ export function translatePrinciples(results, translateFunction) {
 // format YYYY-MM-DD to DD/MM/YYY
 export function formatToUIDate(dateString) {
   if (!(dateString instanceof String)) {
-    return `Error formatting ${dateString}`;
+    return;
   }
   const dateParts = dateString.split("-");
   if (!dateParts.length) {
     return `Error formatting ${dateString}`;
   }
-  if (!dateParts[0] || dateParts[0].length !== 4) {
-    return `Error formatting ${dateString}`;
-  }
-  if (!dateParts[1] || dateParts[1].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 12)) {
-    return `Error formatting ${dateString}`;
-  }
-  if (!dateParts[2] || dateParts[2].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 31)) {
+  const invalidYear = !dateParts[0] || dateParts[0].length !== 4,
+    invalidMonth = !dateParts[1] || dateParts[1].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 12),
+    invalidDate = !dateParts[2] || dateParts[2].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 31);
+  if (invalidYear || invalidMonth || invalidDate) {
     return `Error formatting ${dateString}`;
   }
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
