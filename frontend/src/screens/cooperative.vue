@@ -27,7 +27,7 @@
         name="starting date"
         format="dd/MM/yyyy"
         v-model="cooperative.startingDate"
-        @input="onDateSelected('from', $event)">
+        @input="onDateSelected">
       </datepicker-form>
 
       <error-form :error="error" />
@@ -71,8 +71,8 @@ export default {
     };
   },
   methods: {
-    onDateSelected(dateField, value) {
-      this.cooperative[`startingDate_${dateField}`] = new Date(value).toISOString().slice(0, 10);
+    onDateSelected(newDate) {
+      this.cooperative.startingDate = new Date(newDate).toISOString().slice(0, 10);
     },
     created() {
       httpGet(`/cooperatives/${this.cooperativeId}`)
