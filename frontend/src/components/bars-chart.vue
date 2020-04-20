@@ -5,7 +5,7 @@
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6><slot name="tooltip"/>
       </div>
       <div class="card-body first-col-db">
-        <apexchart height= "230" type=bar :options="barsData" :series="series" />
+        <apexchart v-if='barsData.length > 0' height= "230" type=bar :options="barsData" :series="series" />
       </div>
     </div>
   </div>
