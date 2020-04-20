@@ -9,7 +9,7 @@
       <div v-if="allPeriods.length" class="col-sm-2 float-right ">
         <div class="dropdown no-arrow float-right mx-3">
           <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-            <label>{{$t('periods')}}</label>
+            <label class="text-gray-100">{{$t('periods')}}</label>
             <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
               <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                 {{period.name}}
@@ -278,7 +278,6 @@ export default {
   },
   async created() {
     const dashboardData = await api.getMyStats();
-    console.log(dashboardData);
     if (!dashboardData.actions.length) {
       this.error = {
         exists: true,

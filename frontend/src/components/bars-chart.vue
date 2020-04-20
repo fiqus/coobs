@@ -5,7 +5,7 @@
         <h6 class="m-0 font-weight-bold text-primary">{{label}}</h6><slot name="tooltip"/>
       </div>
       <div class="card-body first-col-db">
-        <apexchart v-if='barsData.length > 0' height= "230" type=bar :options="barsData" :series="series" />
+        <apexchart height= "230" type=bar :options="barsData" :series="series" />
       </div>
     </div>
   </div>
@@ -40,7 +40,6 @@ const commonsChartOptions = {
     }
   },
   colors: ["#e55763", "#f2aa76", "#ffffa8", "#9bcc78", "#b7e1f7", "#5348ce", "#7d3ba5"],
-
   legend: {
     show: false
   },
@@ -52,7 +51,7 @@ const commonsChartOptions = {
       enabled: false
     }
   },
-  stroke: {curve: "straight"},
+  stroke: {curve: "straight"}
 };
 
 export default {
@@ -77,7 +76,7 @@ export default {
       return {
         ...commonsChartOptions,
         xaxis: {categories: this.chartData.labels},
-        series: [{data: this.chartData.series}],
+        series: [{data: this.chartData.series}]
       };
     }
   } 
