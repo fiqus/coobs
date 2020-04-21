@@ -5,6 +5,7 @@ from rest_framework import status
 from django.db.models import Count
 import datetime
 from decimal import Decimal
+from django.core.validators import URLValidator
 
 class Cooperative(models.Model):
     name = models.CharField(_('name'), max_length=128, blank=True)
@@ -34,12 +35,20 @@ class MainPrinciple(models.Model):
 
     def __str__(self):
         return self.name_key
+        
+class SustainableDevelopmentGoal(models.Model):
+    name = models.CharField(_('name'), max_length=256)
+    description = models.CharField(max_length=1024, default="")
+    url = models.TextField(validators=[URLValidator()])
+
+    def __str__(self):
+        return self.name_key
 
 
 class Principle(models.Model):
     description = models.TextField(_('description'))
     visible = models.BooleanField(default=True)
-    main_principle = models.ForeignKey(MainPrinciple, on_delete=models.CASCADE, null=True, verbose_name=_('main principle'))
+    main_principle = models.ForeignKey(MainPrinciple, on_delete=models.CASCADE, null=True, verbose_name=_('main principle'))    
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
 
     class Meta:
@@ -95,6 +104,7 @@ class Partner(AbstractUser):
 
 
 class Action(models.Model):
+    sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=False, verbose_name=_('sustainable development goals'))
     principles = models.ManyToManyField(Principle, blank=False, verbose_name=_('principles'))
     date = models.DateField(_('date'), default=datetime.date.today)
     name = models.CharField(_('name'), max_length=256)

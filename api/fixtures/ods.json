@@ -1,0 +1,223 @@
+[
+  {
+    "fields": {
+      "name": "No poverty",
+      "name_en": "No poverty",
+      "name_es": "Fin de la pobreza",
+      "description": "More than 700 million people, or 10% of the world population, still live in extreme poverty and is struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. The majority of people living on less than $1.90 a day live in sub-Saharan Africa. Worldwide, the poverty rate in rural areas is 17.2 per cent—more than three times higher than in urban areas. Having a job does not guarantee a decent living. In fact, 8 per cent of employed workers and their families worldwide lived in extreme poverty in 2018. Poverty affects children disproportionately. One out of five children live in extreme poverty. Ensuring social protection for all children and other vulnerable groups is critical to reduce poverty. Poverty has many dimensions, but its causes include unemployment, social exclusion, and high vulnerability of certain populations to disasters, diseases and other phenomena which prevent them from being productive. Growing inequality is detrimental to economic growth and undermines social cohesion, increasing political and social tensions and, in some circumstances, driving instability and conflicts.",
+      "description_en": "More than 700 million people, or 10% of the world population, still live in extreme poverty and is struggling to fulfil the most basic needs like health, education, and access to water and sanitation, to name a few. The majority of people living on less than $1.90 a day live in sub-Saharan Africa. Worldwide, the poverty rate in rural areas is 17.2 per cent—more than three times higher than in urban areas. Having a job does not guarantee a decent living. In fact, 8 per cent of employed workers and their families worldwide lived in extreme poverty in 2018. Poverty affects children disproportionately. One out of five children live in extreme poverty. Ensuring social protection for all children and other vulnerable groups is critical to reduce poverty. Poverty has many dimensions, but its causes include unemployment, social exclusion, and high vulnerability of certain populations to disasters, diseases and other phenomena which prevent them from being productive. Growing inequality is detrimental to economic growth and undermines social cohesion, increasing political and social tensions and, in some circumstances, driving instability and conflicts.",
+      "description_es": "Pese a que la tasa de pobreza mundial se ha reducido a la mitad desde el año 2000, en las regiones en desarrollo aún una de cada diez personas, y sus familias, sigue subsistiendo con 1,90 dólares diarios y hay millones más que ganan poco más que esta cantidad diaria. Se han logrado avances significativos en muchos países del Asia oriental y sudoriental, pero casi el 42 por ciento de la población del África Subsahariana continúa viviendo por debajo del umbral de la pobreza. La pobreza va más allá de la falta de ingresos y recursos para garantizar unos medios de vida sostenibles. La pobreza es un problema de derechos humanos. Entre las distintas manifestaciones de la pobreza figuran el hambre, la malnutrición, la falta de una vivienda digna y el acceso limitado a otros servicios básicos como la educación o la salud. También se encuentran la discriminación y la exclusión social, que incluye la ausencia de la participación de los pobres en la adopción de decisiones, especialmente de aquellas que les afectan. Para lograr este Objetivo de acabar con la pobreza, el crecimiento económico debe ser inclusivo, con el fin de crear empleos sostenibles y de promover la igualdad. Los sistemas de protección social deben aplicarse para mitigar los riesgos de los países propensos a sufrir desastres y brindar apoyo para enfrentarse a las dificultades económicas. Estos sistemas ayudarán a fortalecer las respuestas de las poblaciones afectadas ante pérdidas económicas inesperadas durante los desastres y, finalmente, ayudarán a erradicar la pobreza extrema en las zonas más empobrecidas.",
+      "url": "https://www.un.org/sustainabledevelopment/poverty/"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 1
+  },
+  {
+    "fields": {
+      "name": "Zero hunger",
+      "name_en": "Zero hunger",
+      "name_es": "Hambre cero",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/hunger/"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 2
+  },
+  {
+    "fields": {
+      "name": "Good health and well-being",
+      "name_en": "Good health and well-being",
+      "name_es": "Salud y bienestar",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/health/"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 3
+  },
+  {
+    "fields": {
+      "name": "Quality education",
+      "name_en": "Quality education",
+      "name_es": "Educación de calidad",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/education"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 4
+  },
+  {
+    "fields": {
+      "name": "Gender equality",
+      "name_en": "Gender equality",
+      "name_es": "Igualdad de género",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/gender-equality"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 5
+  },
+  {
+    "fields": {
+      "name": "Clean water and sanitation",
+      "name_en": "Clean water and sanitation",
+      "name_es": "Agua limpia y saneamiento",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/water-and-sanitation/"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 6
+  },
+  {
+    "fields": {
+      "name": "Affordable and clean energy",
+      "name_en": "Affordable and clean energy",
+      "name_es": "Energía asequible y no contaminante",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/energy"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 7
+  },
+  {
+    "fields": {
+      "name": "Decent work and economic growth",
+      "name_en": "Decent work and economic growth",
+      "name_es": "Trabajo decente y crecimiento económico",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/economic-growth"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 8
+  },
+  {
+    "fields": {
+      "name": "Industry, innovation and infrastructure",
+      "name_en": "Industry, innovation and infrastructure",
+      "name_es": "Industria, innovación e infraestructura",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/infrastructure-industrialization"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 9
+  },
+  {
+    "fields": {
+      "name": "Reduced inequalities",
+      "name_en": "Reduced inequalities",
+      "name_es": "Reducción de las desigualdades",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/inequality"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 10
+  },
+  {
+    "fields": {
+      "name": "Sustainable cities and communities",
+      "name_en": "Sustainable cities and communities",
+      "name_es": "Ciudades y comunidades sostenibles",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/cities"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 11
+  },
+  {
+    "fields": {
+      "name": "Responsible consumption and production",
+      "name_en": "Responsible consumption and production",
+      "name_es": "Producción y consumo responsables",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/sustainable-consumption-production"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 12
+  },
+  {
+    "fields": {
+      "name": "Climate action",
+      "name_en": "Climate action",
+      "name_es": "Acción por el clima",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/climate-change"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 13
+  },
+  {
+    "fields": {
+      "name": "Life below water",
+      "name_en": "Life below water",
+      "name_es": "Vida submarina",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/oceans"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 14
+  },
+  {
+    "fields": {
+      "name": "Life on land",
+      "name_en": "Life on land",
+      "name_es": "Vida de ecosistemas terrestres",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/biodiversity"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 15
+  },
+  {
+    "fields": {
+      "name": "Peace, justice and strong institutions",
+      "name_en": "Peace, justice and strong institutions",
+      "name_es": "Paz, justicia e instituciones sólidas",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/peace-justice"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 16
+  },
+  {
+    "fields": {
+      "name": "Partnerships for the goals",
+      "name_en": "Partnerships for the goals",
+      "name_es": "Alianzas para lograr los objetivos",
+      "description": "",
+      "description_en": "",
+      "description_es": "",
+      "url": "https://www.un.org/sustainabledevelopment/globalpartnerships"
+    },
+    "model": "api.sustainabledevelopmentgoal",
+    "pk": 17
+  }
+]
