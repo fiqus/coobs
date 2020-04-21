@@ -132,5 +132,7 @@
   "allPrinciplesTooltip":"Dado que las acciones pueden asociarse con varios principios, el total de acciones agrupadas por principios puede diferir del total de acciones realizadas.",
   "hoursToInvest": "Horas a invertir",
   "hoursToInvestHelp": "Este campo establecerá un objetivo a cumplir para el período actual.",
-  "selectLabel": "Seleccione"
+  "selectLabel": "Seleccione",
+  "selectSustainableDevelopmentGoals": "Seleccione un objetivo de desarrollo sustentable",
+  "sustainableDevelopmentGoals": "Objetivos de desarrollo sustentable"
 }

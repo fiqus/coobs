@@ -132,5 +132,7 @@
   "allPrinciplesTooltip":"Since actions can be associated with several principles, the total of actions group by principles can differ from total done actions.",
   "hoursToInvest": "Hours to invest",
   "hoursToInvestHelp": "This field will set a goal to fulfill for the current period.",
-  "selectLabel": "Select"
+  "selectLabel": "Select",
+  "selectSustainableDevelopmentGoals": "Select a sustainable development goal",
+  "sustainableDevelopmentGoals": "Sustainable development goals"
 }

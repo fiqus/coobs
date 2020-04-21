@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
@@ -41,6 +41,7 @@ class BlankableDecimalField(serializers.DecimalField):
 
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
+    sustainable_development_goal_name = serializers.CharField(source='sustainable_development_goals')
     partners_involved = PartnerInvolvedSerializer(many=True)
     invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
     invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
@@ -52,6 +53,7 @@ class ActionSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         instance.principles.set(validated_data.get('principles', instance.principles))
+        instance.sustainable_development_goals.set(validated_data.get('sustainable_development_goals', instance.sustainable_development_goals))
         instance.date = validated_data.get('date', instance.date)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
@@ -101,6 +103,12 @@ class CooperativeSerializer(serializers.ModelSerializer):
 class MainPrincipleSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainPrinciple
+        fields = "__all__"
+
+
+class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SustainableDevelopmentGoal
         fields = "__all__"
 
 

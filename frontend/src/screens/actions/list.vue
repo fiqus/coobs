@@ -27,6 +27,11 @@
           name="principles" type="text">
           {{$t(principle.nameKey)}}
         </span><br/>
+        <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
+        <span class="multiselect__tag" v-for="goal in modalAction.sustainableDevelopmentGoals" v-bind:key="goal" 
+          name="sustainableDevelopmentGoals" type="text">
+          {{$t(goal.name)}}
+        </span><br/>
         <label class="bold">{{$t('partners')}}:</label><br/>
         <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
           name="partners" type="text">
@@ -82,7 +87,7 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import {formatText, capitalizeFirstChar, principlesSelectedParser, formatToUIDate} from "../../utils";
+import {formatText, capitalizeFirstChar, principlesSelectedParser, formatToUIDate, sustainableDevelopmentGoalsSelectedParser} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
@@ -170,7 +175,7 @@ export default {
       ],
       isLoading: true,
       emptyMsg: this.$t('emptyActionMsg'),
-      modalAction: {actionData:{}, principles: {}}
+      modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}}
     };
   },
   methods: {
@@ -272,13 +277,15 @@ export default {
     onQuickView(action) {
       Promise.all([
         api.getPrinciples(),
-        api.getAction(action.id)
-      ]).then(([principles, actionData]) => {
+        api.getAction(action.id),
+        api.getSustainableDevelopmentGoals()
+      ]).then(([principles, actionData, sustainableDevelopmentGoals]) => {
         let principlesSelected = principlesSelectedParser(actionData.principles, principles)
+        let goalsSelected = sustainableDevelopmentGoalsSelectedParser(actionData.sustainableDevelopmentGoals, sustainableDevelopmentGoals)
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         }); 
-        this.modalAction = {actionData: actionData, principles: principlesSelected};
+        this.modalAction = {actionData: actionData, principles: principlesSelected, sustainableDevelopmentGoals: goalsSelected};
         $('#actionDetailModal').modal()
       });
     }

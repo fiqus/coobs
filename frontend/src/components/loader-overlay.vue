@@ -1,6 +1,5 @@
 <template>
     <div :class="[loading?'overlay':'']">
-      <!-- FIXME we should decide wheter to use loading text or not -->
       <h1 class="loading-text" v-bind:style="loading? '': 'display:none;'">{{$t('loading')}}</h1>
       <!-- <slot/> -->
       <div class="lds-roller" v-bind:style="loading?'left:40%;':'display:none;'">
@@ -26,7 +25,6 @@
   }
 </script>
 
-// FIXME we should remove loading-text styles if we decide not to use loading text
 <style scoped>
   .overlay{
     width: 100%; 

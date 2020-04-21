@@ -16,10 +16,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, \
     get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle,\
     get_all_principles_data_for_current_partner
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
-    ActionsByCoopSerializer
+    ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer
 from django_filters import rest_framework as filters
 from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
@@ -46,6 +46,23 @@ class PrincipleView(viewsets.ModelViewSet):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
 
+class SustainableDevelopmentGoalView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of SustainableDevelopmentGoal for the current cooperative.
+
+    create:
+    Creates a SustainableDevelopmentGoal for the current cooperative.
+
+    destroy:
+    Removes the selected SustainableDevelopmentGoal.
+    """            
+    serializer_class = SustainableDevelopmentGoalSerializer
+
+    def get_queryset(self):
+        return SustainableDevelopmentGoal.objects.all()
+
+
 class ActionFilter(filters.FilterSet):
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
     date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
@@ -61,6 +78,7 @@ class ActionFilter(filters.FilterSet):
     class Meta:
         model = Action
         fields = ['principle', 'date_from', 'date_to', 'partner']
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 20
@@ -104,6 +122,7 @@ class ActionView(viewsets.ModelViewSet):
 
         partners_involved = action_serializer.validated_data.pop('partners_involved')
         principles = action_serializer.validated_data.pop('principles')
+        sustainable_development_goals = action_serializer.validated_data.pop('sustainable_development_goals')
         action_data = Action.objects.create(**action_serializer.validated_data)
 
         setattr(action_data, 'cooperative_id', request.user.cooperative.id)
@@ -112,6 +131,9 @@ class ActionView(viewsets.ModelViewSet):
 
         for principle in principles:
             action_data.principles.add(principle)
+
+        for goal in sustainable_development_goals:
+            action_data.sustainable_development_goals.add(goal)
 
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)

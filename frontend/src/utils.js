@@ -20,6 +20,17 @@ export function principlesSelectedParser(selectedPrinciplesIdList, principles) {
   return parsedPrinciples;
 }
 
+export function sustainableDevelopmentGoalsSelectedParser(selectedGoalsIdList, sustainableDevelopmentGoals) {
+  const goalsObject = sustainableDevelopmentGoals.reduce((acc, goal) => {
+    acc[goal.id] = [goal.name, goal.description];
+    return acc;
+  }, {});
+  let parsedGoals = selectedGoalsIdList.map(function(goalId){
+    return {id: goalId.toString(), name: goalsObject[goalId][0], description: goalsObject[goalId][1]} ;
+  });
+  return parsedGoals;
+}
+
 export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }

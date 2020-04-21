@@ -42,7 +42,7 @@ class SustainableDevelopmentGoal(models.Model):
     url = models.TextField(validators=[URLValidator()])
 
     def __str__(self):
-        return self.name_key
+        return self.name
 
 
 class Principle(models.Model):
@@ -104,7 +104,7 @@ class Partner(AbstractUser):
 
 
 class Action(models.Model):
-    sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=False, verbose_name=_('sustainable development goals'))
+    sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=False, verbose_name=_('sustainable_development_goals'))
     principles = models.ManyToManyField(Principle, blank=False, verbose_name=_('principles'))
     date = models.DateField(_('date'), default=datetime.date.today)
     name = models.CharField(_('name'), max_length=256)
