@@ -129,7 +129,7 @@ import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
 import {required, minLength, minValue} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {partnersSelectedParser, principlesSelectedParser, sustainableDevelopmentGoalsSelectedParser, capitalizeFirstChar} from "../../utils";
+import {principlesSelectedParser, sustainableDevelopmentGoalsSelectedParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";

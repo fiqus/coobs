@@ -197,7 +197,6 @@ import LineChart from "../components/line-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
-import parseMoney from "./../utils";
 import moment from "moment";
 import _ from "lodash";
 

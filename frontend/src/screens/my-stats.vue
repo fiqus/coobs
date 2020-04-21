@@ -181,7 +181,6 @@ import ColumnsChart from "../components/columns-chart.vue";
 import LineChart from "../components/line-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
-import parseMoney from "./../utils";
 import moment from "moment";
 import _ from "lodash";
 
