@@ -134,5 +134,6 @@
   "hoursToInvestHelp": "This field will set a goal to fulfill for the current period.",
   "selectLabel": "Select",
   "selectSustainableDevelopmentGoals": "Select a sustainable development goal",
-  "sustainableDevelopmentGoals": "Sustainable development goals"
+  "sustainableDevelopmentGoals": "Sustainable development goals",
+  "selectPrincipleOrODS": "Must select a principle or a sustainable development goal"
 }

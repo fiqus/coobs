@@ -134,5 +134,6 @@
   "hoursToInvestHelp": "Este campo establecerá un objetivo a cumplir para el período actual.",
   "selectLabel": "Seleccione",
   "selectSustainableDevelopmentGoals": "Seleccione un objetivo de desarrollo sustentable",
-  "sustainableDevelopmentGoals": "Objetivos de desarrollo sustentable"
+  "sustainableDevelopmentGoals": "Objetivos de desarrollo sustentable",
+  "selectPrincipleOrODS": "Debe seleccionar un principio o un objetivo de desarrollo sustentable"
 }
