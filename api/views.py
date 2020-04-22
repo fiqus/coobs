@@ -450,14 +450,7 @@ class BalanceView(viewsets.ViewSet):
 
     def list(self, request):
         cooperative_id = request.user.cooperative_id
-        empty_response = {'period': [], 'actions': [], 'principles': [], 'charts': {
-            'cards_data': [],
-            'all_principles_data': [],
-            'progress_data': {'investmentProgressData': {}, 'periodProgressData': {}, 'actionsProgressData': {}},
-            'actions_by_partner': [],
-            'monthly_investment_by_date': [],
-            'monthly_actions_by_principle': []            
-        }, 'all_periods': []}
+        empty_response = {'period': [], 'actions': [], 'all_periods': []}
 
         all_periods_data = Period.objects.filter(cooperative=cooperative_id)
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
@@ -488,6 +481,54 @@ class BalanceView(viewsets.ViewSet):
         actions = []
         [[actions.append({**action, 'principle_name_key': principles[principle_id], 'principle': principle_id}) for
           principle_id in action['principles']] for action in action_serializer.data]
+
+        total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
+                                                                      [action.invested_money for action in
+                                                                       list(action_data)])
+
+        return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
+                         'total_invested': total_invested})
+
+
+class ODSBalanceView(viewsets.ViewSet):
+    """
+    list:
+    Returns the ODS balance for the selected period {periodId as query param} and cooperative.
+    """
+
+    def list(self, request):
+        cooperative_id = request.user.cooperative_id
+        empty_response = {'period': [], 'actions': [], 'all_periods': []}
+
+        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
+        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
+        if not all_periods_serializer.data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        period_id = request.query_params.get('periodId', None)
+        if period_id is not None:
+            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
+                               None)
+        else:
+            period_data = get_current_period(all_periods_serializer.data)
+
+        if not period_data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            
+        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
+                                                 period_data['date_to']).order_by('date')
+        action_serializer = ActionSerializer(action_data, many=True)
+
+        ods_data = SustainableDevelopmentGoal.objects.all()
+        ods_serializer = SustainableDevelopmentGoalSerializer(ods_data, many=True)
+        objectives = {objective['id']: objective['name_key'] for objective in list(ods_serializer.data)}
+        actions = []
+        [[actions.append({**action, 'objective_name_key': objectives[objective_id], 'objective': objective_id}) for
+          objective_id in action['sustainable_development_goals']] for action in action_serializer.data]
 
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in

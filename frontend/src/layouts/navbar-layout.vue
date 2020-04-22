@@ -38,6 +38,12 @@
           </router-link>
         </li>        
         <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'ods-balance'}">
+            <i class="fas fa-fw fa-globe-americas"></i>
+            <span>{{$t("odsBalance")}}</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'actions-ranking'}">
             <i class="fas fa-fw fa-th-list"></i>
             <span>{{$t("actionsRanking")}}</span>

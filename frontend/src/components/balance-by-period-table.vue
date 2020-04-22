@@ -3,7 +3,8 @@
   <table class="table table-hover">
     <thead>
       <tr class="row thead-light">
-        <th class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
+        <th v-if="groupedBy === 'ods'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.objectiveNameKey, periodSummary.objectiveNameKey)}}</th>
+        <th v-if="groupedBy !== 'ods'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
       </tr>
       <tr class="row">
         <th class="col-sm-3" scope="col">{{$t("action")}}</th>
@@ -30,7 +31,8 @@ export default {
     periodSummary: {
       type: Object,
       required: true
-    }
+    },
+    groupedBy: String
   }
 };
 </script>

@@ -19,6 +19,7 @@ import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
 import SustainableDevelopmentGoalsScreen from "./screens/sustainable-development-goals.vue";
+import ODSBalanceScreen from "./screens/ods-balance.vue";
 
 import store from './store';
 
@@ -113,6 +114,11 @@ const routes = [
     name: "sustainable-development-goals",
     path: "/sustainable-development-goals",
     component: SustainableDevelopmentGoalsScreen
+  },
+  {
+    name: "ods-balance",
+    path: "/ods-balance",
+    component: ODSBalanceScreen
   },  
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }

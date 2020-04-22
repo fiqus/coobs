@@ -171,5 +171,7 @@
   "peaceJusticeDesc": "Promover sociedades, justas, pacíficas e inclusivas",
   "partnerships": "Alianzas para lograr los objetivos",
   "partnershipsDesc": "Revitalizar la Alianza Mundial para el Desarrollo Sostenible",
-  "selectPrincipleOrODS": "Debe seleccionar un principio o un objetivo de desarrollo sustentable"
+  "selectPrincipleOrODS": "Debe seleccionar un principio o un objetivo de desarrollo sustentable",
+  "odsBalance": "Balance de ODS",
+  "odsBalanceSubtitle": "Balance de Objetivos de Desarrollo Sostenible del período {period} desde {from} hasta {to} y un presupuesto de ${budget}."
 }

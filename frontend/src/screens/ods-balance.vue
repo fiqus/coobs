@@ -43,10 +43,10 @@
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
-            {{$t("balanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
+            {{$t("odsBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
           </h3>
         </div>
-        <balance-by-period-table groupedBy="principle" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
+        <balance-by-period-table groupedBy="ods" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
           :period-summary="periodSummary">
         </balance-by-period-table>
 
@@ -75,7 +75,7 @@ function print(period, translator, parent){
   const html = $("#nodeToRenderAsPDF")[0];
   const opt = {
     margin:       [5, 5, 5, 5],
-    filename:     `Balance - ${period.name}.pdf`,
+    filename:     `Sustainable Development Goals Balance - ${period.name}.pdf`,
     image:        { type: "jpg", quality: 0.98 },
     html2canvas:  { scale: 1 },
     jsPDF:        { unit: "mm", format: "a4", orientation: "portrait"},
@@ -131,14 +131,14 @@ export default {
         if (!action.public) {
           return obj;
         }
-        if (!Object.keys(obj).includes(action.principle.toString())) {
-          obj[action.principle] = {
-            principleNameKey: action.principleNameKey,
+        if (!Object.keys(obj).includes(action.sustainableDevelopmentGoals.toString())) {
+          obj[action.sustainableDevelopmentGoals] = {
+            objectiveNameKey: action.objectiveNameKey,
             actions: []
           };
         }
         const {date, description, investedMoney, name} = action;
-        obj[action.principle].actions.push({date, description, investedMoney, name});
+        obj[action.sustainableDevelopmentGoals].actions.push({date, description, investedMoney, name});
         return obj;
       }, {});
       this.period = period;
@@ -149,7 +149,7 @@ export default {
     async onPeriodChange(){
       this.error.exists = false;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      return httpGet("/balance", params)
+      return httpGet("/ods-balance", params)
         .then((res) => {
           this.showBalance(res);
         })
@@ -159,7 +159,7 @@ export default {
     }      
   },    
   created() {
-    return httpGet("/balance")
+    return httpGet("/ods-balance")
       .then((res) => {
         this.showBalance(res);
       })
