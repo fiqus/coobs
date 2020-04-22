@@ -25,7 +25,7 @@
       </textarea-form>
 
       <div class="form-row">
-        <div class="col-6">
+        <div class="col-12">
           <multi-select-form
             v-model="action.principles"
             :options="principles"
@@ -33,16 +33,21 @@
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
             :error="$v.action.principles.$error"
-            :error-message="$t('required')"/>
+            :error-message="$t('selectPrincipleOrODS')"/>
         </div>
-        <div class="col-6">
+      </div>
+
+      <div class="form-row">
+        <div class="col-12">
           <multi-select-form
             v-model="action.sustainableDevelopmentGoals"
             :options="sustainableDevelopmentGoals"
             :placeholder="$t('selectSustainableDevelopmentGoals')"
             :label="$t('sustainableDevelopmentGoals')"
-            :default-value="sustainableDevelopmentGoals"/>
-        </div>        
+            :default-value="sustainableDevelopmentGoals"
+            :error="$v.action.sustainableDevelopmentGoals.$error"
+            :error-message="$t('selectPrincipleOrODS')"/>
+        </div>
       </div>
 
       <div class="form-row">
@@ -127,9 +132,9 @@ import BootstrapToggle from "vue-bootstrap-toggle";
 import DatePickerForm from "../../components/datepicker-form.vue";
 import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
-import {required, minLength, minValue} from "vuelidate/lib/validators";
+import {required, minLength, minValue, requiredIf} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {partnersSelectedParser, principlesSelectedParser, sustainableDevelopmentGoalsSelectedParser, capitalizeFirstChar} from "../../utils";
+import {principlesSelectedParser, sustainableDevelopmentGoalsSelectedParser, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
@@ -258,8 +263,16 @@ export default {
       date: {required},
       name: {required},
       description: {required},
-      principles: {  //TODO deberia ser requerido ppios o goals (uno como minimo)
-        required,
+      principles: {
+        requiredIf: requiredIf((v) => {
+          return !required(v.sustainableDevelopmentGoals);
+        }),
+        minLength: minLength(1)
+      },
+      sustainableDevelopmentGoals: {
+        requiredIf: requiredIf((v) => {
+          return !required(v.principles);
+        }),
         minLength: minLength(1)
       },
       investedMoney: {minValue: minValue(0)},
