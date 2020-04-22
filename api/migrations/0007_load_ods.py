@@ -13,7 +13,7 @@ def load_fixture(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0006_auto_20200421_1222'),
+        ('api', '0006_auto_20200422_2025'),
     ]
 
     operations = [

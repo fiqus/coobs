@@ -286,7 +286,7 @@ export default {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         }); 
         this.modalAction = {actionData: actionData, principles: principlesSelected, sustainableDevelopmentGoals: goalsSelected};
-        $('#actionDetailModal').modal()
+        $('#detailModal').modal()
       });
     }
   }

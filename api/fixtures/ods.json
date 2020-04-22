@@ -2,9 +2,11 @@
   {
     "fields": {
       "name": "No poverty",
+      "name_key": "noPoverty",
       "name_en": "No poverty",
       "name_es": "Fin de la pobreza",
       "description": "End poverty in all its forms everywhere",
+      "description_key": "noPovertyDesc",
       "description_en": "End poverty in all its forms everywhere",
       "description_es": "Poner fin a la pobreza en todas sus formas en todo el mundo",
       "url": "https://www.un.org/sustainabledevelopment/poverty/"
@@ -15,9 +17,11 @@
   {
     "fields": {
       "name": "Zero hunger",
+      "name_key": "zeroHunger",
       "name_en": "Zero hunger",
       "name_es": "Hambre cero",
       "description": "Zero Hunger",
+      "description_key": "zeroHungerDesc",
       "description_en": "Zero Hunger",
       "description_es": "Poner fin al hambre, lograr la seguridad alimentaria y la mejora de la nutrición y promover la agricultura sostenible",
       "url": "https://www.un.org/sustainabledevelopment/hunger/"
@@ -28,9 +32,11 @@
   {
     "fields": {
       "name": "Good health and well-being",
+      "name_key": "goodHealth",
       "name_en": "Good health and well-being",
       "name_es": "Salud y bienestar",
       "description": "Ensure healthy lives and promote well-being for all at all ages",
+      "description_key": "goodHealthDesc",      
       "description_en": "Ensure healthy lives and promote well-being for all at all ages",
       "description_es": "Garantizar una vida sana y promover el bienestar para todos en todas las edades",
       "url": "https://www.un.org/sustainabledevelopment/health/"
@@ -41,9 +47,11 @@
   {
     "fields": {
       "name": "Quality education",
+      "name_key": "qualityEducation",
       "name_en": "Quality education",
       "name_es": "Educación de calidad",
       "description": "Quality education",
+      "description_key": "qualityEducationDesc",
       "description_en": "Quality education",
       "description_es": "Garantizar una educación inclusiva, equitativa y de calidad y promover oportunidades de aprendizaje durante toda la vida para todos",
       "url": "https://www.un.org/sustainabledevelopment/education"
@@ -54,9 +62,11 @@
   {
     "fields": {
       "name": "Gender equality",
+      "name_key": "genderEquality",
       "name_en": "Gender equality",
       "name_es": "Igualdad de género",
       "description": "Achieve gender equality and empower all women and girls",
+      "description_key": "genderEqualityDesc",
       "description_en": "Achieve gender equality and empower all women and girls",
       "description_es": "Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos",
       "url": "https://www.un.org/sustainabledevelopment/gender-equality"
@@ -67,11 +77,13 @@
   {
     "fields": {
       "name": "Clean water and sanitation",
+      "name_key": "cleanWater",
       "name_en": "Clean water and sanitation",
       "name_es": "Agua limpia y saneamiento",
       "description": "Ensure access to water and sanitation for all",
+      "description_key": "cleanWaterDesc",
       "description_en": "Ensure access to water and sanitation for all",
-      "description_es": "Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos",
+      "description_es": "Garantizar la disponibilidad de agua y su gestión sostenible y el saneamiento para todos",
       "url": "https://www.un.org/sustainabledevelopment/water-and-sanitation/"
     },
     "model": "api.sustainabledevelopmentgoal",
@@ -80,9 +92,11 @@
   {
     "fields": {
       "name": "Affordable and clean energy",
+      "name_key": "cleanEnergy",
       "name_en": "Affordable and clean energy",
       "name_es": "Energía asequible y no contaminante",
       "description": "Ensure access to affordable, reliable, sustainable and modern energy",
+      "description_key": "cleanEnergyDesc",
       "description_en": "Ensure access to affordable, reliable, sustainable and modern energy",
       "description_es": "Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos",
       "url": "https://www.un.org/sustainabledevelopment/energy"
@@ -93,9 +107,11 @@
   {
     "fields": {
       "name": "Decent work and economic growth",
+      "name_key": "decentWork",
       "name_en": "Decent work and economic growth",
       "name_es": "Trabajo decente y crecimiento económico",
       "description": "Promote inclusive and sustainable economic growth, employment and decent work for all",
+      "description_key": "decentWorkDesc",
       "description_en": "Promote inclusive and sustainable economic growth, employment and decent work for all",
       "description_es": "Promover el crecimiento económico sostenido, inclusivo y sostenible, el empleo pleno y productivo y el trabajo decente para todos",
       "url": "https://www.un.org/sustainabledevelopment/economic-growth"
@@ -106,9 +122,11 @@
   {
     "fields": {
       "name": "Industry, innovation and infrastructure",
+      "name_key": "industryInnovation",
       "name_en": "Industry, innovation and infrastructure",
       "name_es": "Industria, innovación e infraestructura",
       "description": "Build resilient infrastructure, promote sustainable industrialization and foster innovation",
+      "description_key": "industryInnovationDesc",
       "description_en": "Build resilient infrastructure, promote sustainable industrialization and foster innovation",
       "description_es": "Construir una infraestructura resistente, promover la industrialización sostenible y fomentar la innovación",
       "url": "https://www.un.org/sustainabledevelopment/infrastructure-industrialization"
@@ -119,9 +137,11 @@
   {
     "fields": {
       "name": "Reduced inequalities",
+      "name_key": "reducedInequalities",
       "name_en": "Reduced inequalities",
       "name_es": "Reducción de las desigualdades",
       "description": "Reduce inequality within and among countries",
+      "description_key": "reducedInequalitiesDesc",
       "description_en": "Reduce inequality within and among countries",
       "description_es": "Reducir la desigualdad en y entre los países",
       "url": "https://www.un.org/sustainabledevelopment/inequality"
@@ -132,9 +152,11 @@
   {
     "fields": {
       "name": "Sustainable cities and communities",
+      "name_key": "sustainableCities",
       "name_en": "Sustainable cities and communities",
       "name_es": "Ciudades y comunidades sostenibles",
       "description": "Make cities inclusive, safe, resilient and sustainable",
+      "description_key": "sustainableCitiesDesc",
       "description_en": "Make cities inclusive, safe, resilient and sustainable",
       "description_es": "Lograr que las ciudades y los asentamientos humanos sean inclusivos, seguros, resilientes y sostenibles",
       "url": "https://www.un.org/sustainabledevelopment/cities"
@@ -145,9 +167,11 @@
   {
     "fields": {
       "name": "Responsible consumption and production",
+      "name_key": "responsibleConsumption",
       "name_en": "Responsible consumption and production",
       "name_es": "Producción y consumo responsables",
       "description": "Ensure sustainable consumption and production patterns",
+      "description_key": "responsibleConsumptionDesc",
       "description_en": "Ensure sustainable consumption and production patterns",
       "description_es": "Garantizar modalidades de consumo y producción sostenibles",
       "url": "https://www.un.org/sustainabledevelopment/sustainable-consumption-production"
@@ -158,9 +182,11 @@
   {
     "fields": {
       "name": "Climate action",
+      "name_key": "climateAction",
       "name_en": "Climate action",
       "name_es": "Acción por el clima",
       "description": "Take urgent action to combat climate change and its impacts",
+      "description_key": "climateActionDesc",
       "description_en": "Take urgent action to combat climate change and its impacts",
       "description_es": "Adoptar medidas urgentes para combatir el cambio climático y sus efectos",
       "url": "https://www.un.org/sustainabledevelopment/climate-change"
@@ -171,9 +197,11 @@
   {
     "fields": {
       "name": "Life below water",
+      "name_key": "lifeBelowWater",
       "name_en": "Life below water",
       "name_es": "Vida submarina",
       "description": "Conserve and sustainably use the oceans, seas and marine resources",
+      "description_key": "lifeBelowWaterDesc",
       "description_en": "Conserve and sustainably use the oceans, seas and marine resources",
       "description_es": "Conservar y utilizar en forma sostenible los océanos, los mares y los recursos marinos para el desarrollo sostenible",
       "url": "https://www.un.org/sustainabledevelopment/oceans"
@@ -184,9 +212,11 @@
   {
     "fields": {
       "name": "Life on land",
+      "name_key": "lifeOnLand",
       "name_en": "Life on land",
       "name_es": "Vida de ecosistemas terrestres",
       "description": "Sustainably manage forests, combat desertification, halt and reverse land degradation, halt biodiversity loss",
+      "description_key": "lifeOnLandDesc",
       "description_en": "Sustainably manage forests, combat desertification, halt and reverse land degradation, halt biodiversity loss",
       "description_es": "Gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad",
       "url": "https://www.un.org/sustainabledevelopment/biodiversity"
@@ -197,9 +227,11 @@
   {
     "fields": {
       "name": "Peace, justice and strong institutions",
+      "name_key": "peaceJustice",
       "name_en": "Peace, justice and strong institutions",
       "name_es": "Paz, justicia e instituciones sólidas",
       "description": "Promote just, peaceful and inclusive societies",
+      "description_key": "peaceJusticeDesc",
       "description_en": "Promote just, peaceful and inclusive societies",
       "description_es": "Promover sociedades, justas, pacíficas e inclusivas",
       "url": "https://www.un.org/sustainabledevelopment/peace-justice"
@@ -210,9 +242,11 @@
   {
     "fields": {
       "name": "Partnerships for the goals",
+      "name_key": "partnerships",
       "name_en": "Partnerships for the goals",
       "name_es": "Alianzas para lograr los objetivos",
       "description": "Revitalize the global partnership for sustainable development",
+      "description_key": "partnershipsDesc",
       "description_en": "Revitalize the global partnership for sustainable development",
       "description_es": "Revitalizar la Alianza Mundial para el Desarrollo Sostenible",
       "url": "https://www.un.org/sustainabledevelopment/globalpartnerships"

@@ -20,6 +20,11 @@ export async function getSustainableDevelopmentGoals(){
   return principlesResponse.data;
 }
 
+export async function getSustainableDevelopmentGoal(goalId) {
+  const response = await httpGet(`/sustainable-development-goals/${goalId}`);
+  return response.data;
+}
+
 export async function getPartners(){
   const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;

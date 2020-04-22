@@ -38,7 +38,9 @@ class MainPrinciple(models.Model):
         
 class SustainableDevelopmentGoal(models.Model):
     name = models.CharField(_('name'), max_length=256)
+    name_key = models.CharField(max_length=256)
     description = models.CharField(max_length=1024, default="")
+    description_key = models.CharField(max_length=256)    
     url = models.TextField(validators=[URLValidator()])
 
     def __str__(self):

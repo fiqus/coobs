@@ -18,6 +18,7 @@ import ActionsRankingScreen from "./screens/actions-ranking.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
+import SustainableDevelopmentGoalsScreen from "./screens/sustainable-development-goals.vue";
 
 import store from './store';
 
@@ -108,6 +109,11 @@ const routes = [
     path: "/my-stats",
     component: MyStatsScreen
   },
+  {
+    name: "sustainable-development-goals",
+    path: "/sustainable-development-goals",
+    component: SustainableDevelopmentGoalsScreen
+  },  
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }
 ];
