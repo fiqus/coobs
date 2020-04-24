@@ -7,7 +7,7 @@ frontend:
 	@cd frontend && npm run start
 
 install-frontend:
-	@cd frontend && npm install && npm run build
+	@cd frontend && npm install
 	@cd frontend/landing && npm install
 
 install-requirements:
