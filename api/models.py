@@ -106,8 +106,8 @@ class Partner(AbstractUser):
 
 
 class Action(models.Model):
-    sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=False, verbose_name=_('sustainable_development_goals'))
-    principles = models.ManyToManyField(Principle, blank=False, verbose_name=_('principles'))
+    sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=True, verbose_name=_('sustainable_development_goals'))
+    principles = models.ManyToManyField(Principle, blank=True, verbose_name=_('principles'))
     date = models.DateField(_('date'), default=datetime.date.today)
     name = models.CharField(_('name'), max_length=256)
     description = models.TextField(_('description'), null=True, blank=True)

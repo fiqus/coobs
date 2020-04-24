@@ -41,7 +41,6 @@ class BlankableDecimalField(serializers.DecimalField):
 
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
-    sustainable_development_goal_name = serializers.CharField(source='sustainable_development_goals')
     partners_involved = PartnerInvolvedSerializer(many=True)
     invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
     invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
