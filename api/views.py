@@ -204,8 +204,8 @@ class CooperativeView(viewsets.ModelViewSet):
             text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}. Remember to activate the cooperative and created user. After that send them an email to notify that te cooperative can be used.'
             html_content = f'<div><h3>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h3><br/><p>Remember to activate the cooperative and created user. <br/>After that send them an email to notify that te cooperative can be used.</p></div>'
             email = EmailMultiAlternatives('A new cooperative wants to join COOBS!',
-                                           text_content, getattr(settings, "DEFAULT_FROM_EMAIL", "test@console.com"),
-                                           [getattr(settings, "EMAIL_ADMIN_ACCOUNT", "test@console.com")])
+                                           text_content, getattr(settings, "EMAIL_ADMIN_ACCOUNT", "test@console.com"),
+                                           [getattr(settings, "DEFAULT_TO_EMAIL", "test@console.com")])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
@@ -324,7 +324,7 @@ class PartnerView(viewsets.ModelViewSet):
             html_template = get_template('partner_created_email_template.html')
             html_content = html_template.render(context)
             subject = _('Hello {0}, you have been added to COOBS!'.format(partner.first_name))
-            email = EmailMultiAlternatives(subject, text_content, settings.EMAIL_ADMIN_ACCOUNT, [partner.email])
+            email = EmailMultiAlternatives(subject, text_content, getattr(settings, "EMAIL_ADMIN_ACCOUNT", "test@console.com"), [partner.email])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
@@ -332,7 +332,7 @@ class PartnerView(viewsets.ModelViewSet):
         try:
             with transaction.atomic():
                 partner.save()
-                # send_email()
+                send_email()
         except Exception as errors:
             return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
