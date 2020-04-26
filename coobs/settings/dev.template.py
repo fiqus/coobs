@@ -19,7 +19,7 @@ DATABASES = {
 
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_TO_EMAIL = ''
-EMAIL_ADMIN_ACCOUNT = ''
+EMAIL_FROM_ACCOUNT = ''
+EMAIL_TO_ADMIN = ''
 
 RECAPTCHA_SECRET_KEY = ''
