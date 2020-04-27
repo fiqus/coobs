@@ -4,7 +4,7 @@ from datetime import datetime, date
 import requests
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.db.models import Count
 from django.template.loader import get_template
 from django.utils.translation import gettext as _
@@ -186,6 +186,7 @@ class CooperativeView(viewsets.ModelViewSet):
     queryset = Cooperative.objects.all()
     serializer_class = CooperativeSerializer
 
+    @transaction.atomic
     def create(self, request):
         data = request.data
         language = data['language']
@@ -252,13 +253,14 @@ class CooperativeView(viewsets.ModelViewSet):
         partner = set_partner_data()
 
         try:
-            with transaction.atomic():
-                cooperative.save()
-                partner.cooperative = cooperative
-                partner.save()
-                send_email()
+            cooperative.save()
+            partner.cooperative = cooperative
+            partner.save()
+            send_email()
         except Exception as errors:
-            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            raise IntegrityError("Partner asked to be created but it FAILED.", errors)
+            #FIXME this way it rollbacks the transaction, do we have a way to handle what we send to the client?
+            # return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         transaction.on_commit(assign_coop_to_partner)
         created_coop_success_msg = _(
@@ -292,6 +294,7 @@ class PartnerView(viewsets.ModelViewSet):
         queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
+    @transaction.atomic
     def create(self, request):
         data = request.data
         password = data['password']
@@ -332,11 +335,12 @@ class PartnerView(viewsets.ModelViewSet):
             email.send()
 
         try:
-            with transaction.atomic():
-                partner.save()
-                send_email()
+            partner.save()
+            send_email()
         except Exception as errors:
-            return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            # return Response(errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            #FIXME this way it rollbacks the transaction, do we have a way to handle what we send to the client?
+            raise IntegrityError("Partner asked to be created but it FAILED.", errors)
 
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
