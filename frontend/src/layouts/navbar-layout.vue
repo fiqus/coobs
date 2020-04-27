@@ -64,9 +64,9 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <router-link class="collapse-item" :to="{name: 'partners-list'}"><i class="fas fa-user-friends"></i> {{$t("partners")}}</router-link>
               <router-link class="collapse-item" :to="{name: 'principles-list'}"><i class="fas fa-fw fa-map-signs"></i> {{$t("principles")}}</router-link>
+              <router-link class="collapse-item text-truncate" :to="{name: 'sustainable-development-goals'}"><i class="fas fa-fw fa-globe-americas"></i> {{$t("sustainableDevelopmentGoals")}}</router-link>
               <router-link class="collapse-item" :to="{name: 'periods-list'}"><i class="fas fa-fw fa-calendar"></i> {{$t("periods")}}</router-link>
-              <router-link class="collapse-item" :to="{name: 'cooperative'}"><i class="fas fa-fw fa-edit"></i> {{$t("yourCoop")}}</router-link>
-              <router-link class="collapse-item" :to="{name: 'sustainable-development-goals'}"><i class="fas fa-fw fa-globe-americas"></i> {{$t("sustainableDevelopmentGoals")}}</router-link>
+              <router-link class="collapse-item " :to="{name: 'cooperative'}"><i class="fas fa-fw fa-edit"></i> {{$t("yourCoop")}}</router-link>
             </div>
           </div>
         </li>        

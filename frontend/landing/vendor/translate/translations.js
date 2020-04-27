@@ -61,7 +61,7 @@ var myDictionary = {
     "goodPasswordHelpText": "La contraseña debe tener mínimo ocho caracteres, al menos una letra y un número.",
     "lettersAndNumbers": "Debe contener letras y números.",
     "required": "Obligatorio",
-    "repeatPassword": "Repita la constraseña",
+    "repeatPassword": "Repita la contraseña",
     "COOPERATIVE_ALREADY_EXISTS": "La cooperativa ingresada ya existe.",
     "EMAIL_ALREADY_EXISTS": "Ya existe un usuario con el mismo mail ingresado.",
     "INVALID_RECAPTCHA": "Hubo un error al validar el captcha internamente. Pruebe más tarde.",
