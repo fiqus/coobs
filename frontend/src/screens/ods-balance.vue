@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <loader :loading='isLoading'/>
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
       <div class="col-sm-9">
         <h5 class="mb-0 text-gray-100">
@@ -20,8 +21,7 @@
           </div>
         </div>
     </div>
-    <div v-else>
-      <loader :loading='isLoading'/>
+    <div v-else-if="!isLoading">
       <div class="float-right ml-5 col-sm-2" v-if="downloading">
         <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
           <b-spinner small type="grow"></b-spinner>
