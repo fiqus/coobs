@@ -74,10 +74,14 @@ class ActionFilter(filters.FilterSet):
         field_name="principles",
         queryset=Principle.objects.all()
     )
+    sustainable_development_goal = filters.ModelMultipleChoiceFilter(
+        field_name="sustainable_development_goals",
+        queryset=SustainableDevelopmentGoal.objects.all()
+    )
 
     class Meta:
         model = Action
-        fields = ['principle', 'date_from', 'date_to', 'partner']
+        fields = ['principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
 
 
 class StandardResultsSetPagination(PageNumberPagination):

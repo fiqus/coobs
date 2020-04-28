@@ -123,8 +123,9 @@ export default {
         httpGet("/principles"),
         httpGet("/periods"),
         httpGet("/partners"),
+        httpGet("/sustainable-development-goals"),
       ])
-      .then(([actions, principles, periods, partners]) => {
+      .then(([actions, principles, periods, partners, sustainableDevelopmentGoals]) => {
         this.actions = actions.data.results;
         const {next, previous, count, page, numPages, pageSize} = actions.data;
         this.pagination = {next, previous, count, page, numPages, pageSize};
@@ -132,6 +133,9 @@ export default {
         this.filters.forEach((filter) => {
           if (filter.key === "principle") {
             filter.options = this.principlesFilter(principles.data);
+          }
+          if (filter.key === "sustainable_development_goal") {
+            filter.options = this.sustainableDevelopmentGoalsFilter(sustainableDevelopmentGoals.data);
           }
           if (filter.key === "partner") {
             filter.options = this.partnersFilter(partners.data);
@@ -171,6 +175,11 @@ export default {
           key: "partner",
           value: null,
           options: []
+        },
+        {
+          key: "sustainable_development_goal",
+          value: null,
+          options: []
         }
       ],
       isLoading: true,
@@ -200,6 +209,14 @@ export default {
       return partners.map(({id, firstName, lastName}) => {
         const name = `${capitalizeFirstChar(firstName)} ${capitalizeFirstChar(lastName)}`;
         return {id, name};
+      });
+    },
+    sustainableDevelopmentGoalsFilter(sustainableDevelopmentGoals){
+      return sustainableDevelopmentGoals.map(({id, name, nameKey}) => {
+        return {
+          id,
+          name: this.$t(nameKey, name)
+        };
       });
     },
     goToPage(page) {
