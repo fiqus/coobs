@@ -39,6 +39,13 @@ class BlankableDecimalField(serializers.DecimalField):
 
         return super(BlankableDecimalField, self).to_internal_value(data)
 
+
+class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SustainableDevelopmentGoal
+        fields = "__all__"
+
+
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
     partners_involved = PartnerInvolvedSerializer(many=True)
@@ -50,6 +57,12 @@ class ActionSerializer(serializers.ModelSerializer):
         ordering = ['-name']
         fields = "__all__"
     
+    def validate(self, data):
+        if not data.get('principles') and not data.get('sustainable_development_goals'):
+            raise serializers.ValidationError(_("You must select a principle or a sustainable development goal."))
+        return data
+
+
     def update(self, instance, validated_data):
         instance.principles.set(validated_data.get('principles', instance.principles))
         instance.sustainable_development_goals.set(validated_data.get('sustainable_development_goals', instance.sustainable_development_goals))
@@ -102,12 +115,6 @@ class CooperativeSerializer(serializers.ModelSerializer):
 class MainPrincipleSerializer(serializers.ModelSerializer):
     class Meta:
         model = MainPrinciple
-        fields = "__all__"
-
-
-class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SustainableDevelopmentGoal
         fields = "__all__"
 
 

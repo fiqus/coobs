@@ -1353,3 +1353,6 @@ msgstr ""
 
 msgid "Cooperatives work for the sustainable development of their communities through policies approved by their members."
 msgstr ""
+
+msgid "You must select a principle or a sustainable development goal."
+msgstr ""
