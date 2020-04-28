@@ -105,6 +105,9 @@ msgstr "Una de las personas asociadas te agregó a COOBS siendo parte de "
 msgid "Your password has been set to"
 msgstr "Tu contraseña fue seteada como"
 
+msgid "You have been registered with email"
+msgstr "Haz sido registrada/o con el email"
+
 #: api/templates/html_email_template.html:7
 msgid "Please change it as soon as possible."
 msgstr "Por favor cambiala lo más pronto posible."

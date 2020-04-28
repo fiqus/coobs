@@ -115,6 +115,9 @@ msgstr "One of your partners added you to COOBS being part of"
 msgid "Your password has been set to"
 msgstr "Your password has been set to"
 
+msgid "You have been registered with email"
+msgstr "You have been registered with email"
+
 #: api/templates/html_email_template.html:29
 #: api/templates/text_email_template.txt:4
 msgid "Please change it as soon as possible."

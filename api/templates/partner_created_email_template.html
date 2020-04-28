@@ -25,6 +25,7 @@
       <section class="horizontal-central-align">
         <div>
           <h3>{% trans "One of your partners added you to COOBS being part of" %} {% firstof cooperative.name cooperative.business_name%}</h3>
+          <p>{% trans "You have been registered with email" %}: {{email}}. <br/></p>
           <p>{% trans "Your password has been set to" %}: {{password}}. <br/>{% trans "Please change it as soon as possible."%}</p>
           <br/><p>{% blocktrans %} Enter to  {{public_url}} and start using COOBS!{% endblocktrans %}</p>
         </div>
