@@ -7,17 +7,17 @@ from api.models import Cooperative, Action, Principle, Partner, SustainableDevel
 class Command(BaseCommand):
     help = """command used to generate test actions, receives coop_id, quantity, 
         a boolean value to indicate if you would like to associate multiple principles to each action (the quantity of principles to associate is generated randomly)
-        and a boolean value to indicate if you would like to associate multiple ODSs to each action (the quantity of ODSs to associate is generated randomly) """
+        and a boolean value to indicate if you would like to associate multiple SDGs to each action (the quantity of SDGs to associate is generated randomly) """
 
     def add_arguments(self, parser):
         parser.add_argument('coop_id', type=int, help='for which cooperative id you want to add actions?')
         parser.add_argument('quantity', type=int, help='how many actions do you want to create?')
         parser.add_argument('associate_multiple_principles', type=int, default=0, help=' indicate 1 if you would like to associate multiple principles to each action (the quantity of principles to associate is generated randomly)')
-        parser.add_argument('associate_multiple_ods', type=int, default=0, help=' indicate 1 if you would like to associate multiple ODSs to each action (the quantity of ODSs to associate is generated randomly)')
+        parser.add_argument('associate_multiple_sdg', type=int, default=0, help=' indicate 1 if you would like to associate multiple SDGs to each action (the quantity of SDGs to associate is generated randomly)')
 
     def handle(self, *args, **options):
         try:
-            ods = list(SustainableDevelopmentGoal.objects.all())
+            sdg = list(SustainableDevelopmentGoal.objects.all())
             principles = list(Principle.objects.filter(cooperative=options['coop_id']))
             partners = list(Partner.objects.filter(cooperative=options['coop_id']))
             investments = random.sample(range(1, 1000), options['quantity'])
@@ -29,7 +29,7 @@ class Command(BaseCommand):
                                 cooperative=coop, public=True)
                 action.save()
                 associated_principles = []
-                associated_ods = []
+                associated_sdg = []
                 if options['associate_multiple_principles']:
                     random.seed()
                     quantity = random.randint(1, principles.__len__()-1)
@@ -38,16 +38,16 @@ class Command(BaseCommand):
                 else:
                     associated_principles.append(random.choice(principles))
 
-                if options['associate_multiple_ods']:
+                if options['associate_multiple_sdg']:
                     random.seed()
-                    quantity = random.randint(1, ods.__len__()-1)
+                    quantity = random.randint(1, sdg.__len__()-1)
                     for i in range(quantity):
-                        associated_ods.append(random.choice(ods))
+                        associated_sdg.append(random.choice(sdg))
                 else:
-                    associated_ods.append(random.choice(ods))
+                    associated_sdg.append(random.choice(sdg))
 
                 action.principles.set(associated_principles)
-                action.sustainable_development_goals.set(associated_ods)
+                action.sustainable_development_goals.set(associated_sdg)
                 action.save()
 
                 if partners:

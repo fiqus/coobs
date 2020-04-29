@@ -172,7 +172,10 @@
   "partnerships": "Partnerships for the goals",
   "partnershipsDesc": "Revitalize the global partnership for sustainable development",
   "selectPrincipleOrODS": "Must select a principle or a sustainable development goal",
-  "odsBalance": "ODS Balance",
-  "odsBalanceSubtitle": "Sustainable Development Goals Balance for period {period} from {from} to {to} and a budget of ${budget}.",
-  "sustainable_development_goal": "Sustainable development goal"
+  "socialBalance": "Social Balance",
+  "sdgBalanceSubtitle": "Social Balance for period {period} from {from} to {to} and a budget of ${budget}.",
+  "sustainable_development_goal": "Sustainable development goal",
+  "goals": "Goals",
+  "descriptiveTable": "Descriptive table",
+  "monitoring": "Monitoring"
 }

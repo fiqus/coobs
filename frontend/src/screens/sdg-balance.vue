@@ -43,10 +43,10 @@
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
-            {{$t("odsBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
+            {{$t("sdgBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
           </h3>
         </div>
-        <balance-by-period-table groupedBy="ods" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
+        <balance-by-period-table groupedBy="sdg" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
           :period-summary="periodSummary">
         </balance-by-period-table>
 
@@ -149,7 +149,7 @@ export default {
     async onPeriodChange(){
       this.error.exists = false;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      return httpGet("/ods-balance", params)
+      return httpGet("/sdg-balance", params)
         .then((res) => {
           this.showBalance(res);
         })
@@ -159,7 +159,7 @@ export default {
     }      
   },    
   created() {
-    return httpGet("/ods-balance")
+    return httpGet("/sdg-balance")
       .then((res) => {
         this.showBalance(res);
       })

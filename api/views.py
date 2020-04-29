@@ -500,10 +500,10 @@ class BalanceView(viewsets.ViewSet):
                          'total_invested': total_invested})
 
 
-class ODSBalanceView(viewsets.ViewSet):
+class SDGBalanceView(viewsets.ViewSet):
     """
     list:
-    Returns the ODS balance for the selected period {periodId as query param} and cooperative.
+    Returns the SDG balance for the selected period {periodId as query param} and cooperative.
     """
 
     def list(self, request):
