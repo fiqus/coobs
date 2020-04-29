@@ -17,7 +17,7 @@ const axios = require("axios").create({baseURL: apiURL, timeout: 0, headers: {}}
 axios.interceptors.response.use((response) => response,
   (err) =>{
     const originalRequest = err.config;
-    if (err.response.status === 401 && originalRequest.url.indexOf("/api/token/refresh/") !== -1) {
+    if (err.response.status === 401 && originalRequest.url.includes("/refresh")) {
       router.push("/login");
       return Promise.reject(err);
     }
