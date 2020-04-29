@@ -2,28 +2,6 @@ export function formatText(text, limit) {
   return text.length > limit ? `${text.substring(0, (limit - 3))}..` : text;
 }
 
-export function principlesSelectedParser(selectedPrinciplesIdList, principles) {
-  const principlesObject = principles.reduce((acc, principle) => {
-    acc[principle.id] = [principle.name, principle.nameKey];
-    return acc;
-  }, {});
-  let parsedPrinciples = selectedPrinciplesIdList.map(function(principleId){
-    return {id: principleId.toString(), name: principlesObject[principleId][0], nameKey: principlesObject[principleId][1]} ;
-  });
-  return parsedPrinciples;
-}
-
-export function sustainableDevelopmentGoalsSelectedParser(selectedGoalsIdList, sustainableDevelopmentGoals) {
-  const goalsObject = sustainableDevelopmentGoals.reduce((acc, goal) => {
-    acc[goal.id] = [goal.name, goal.description];
-    return acc;
-  }, {});
-  let parsedGoals = selectedGoalsIdList.map(function(goalId){
-    return {id: goalId.toString(), name: goalsObject[goalId][0], description: goalsObject[goalId][1]} ;
-  });
-  return parsedGoals;
-}
-
 export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }

@@ -49,6 +49,8 @@ class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
     partners_involved = PartnerInvolvedSerializer(many=True)
+    principles = PrincipleSerializer(many=True)
+    sustainable_development_goals = SustainableDevelopmentGoalSerializer(many=True)
     invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
     invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
 
@@ -64,8 +66,6 @@ class ActionSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        instance.principles.set(validated_data.get('principles', instance.principles))
-        instance.sustainable_development_goals.set(validated_data.get('sustainable_development_goals', instance.sustainable_development_goals))
         instance.date = validated_data.get('date', instance.date)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
@@ -77,6 +77,16 @@ class ActionSerializer(serializers.ModelSerializer):
         for partner in validated_data.get('partners_involved'):
             partners_involved.append(partner.get('id'))
         instance.partners_involved.set(partners_involved)
+
+        principles = list()
+        for principle in self.initial_data.get('principles'):
+            principles.append(principle.get('id'))
+        instance.principles.set(principles)
+
+        sustainable_development_goals = list()
+        for goal in self.initial_data.get('sustainable_development_goals'):
+            sustainable_development_goals.append(goal.get('id'))
+        instance.sustainable_development_goals.set(sustainable_development_goals)
 
         instance.save()
         return instance

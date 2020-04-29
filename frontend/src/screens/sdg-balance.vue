@@ -157,7 +157,25 @@ export default {
           this.setErrorMsg(err);
         });
     }      
-  },    
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale();
+    }
+  },
+  watch: {
+    // we need to ask for ODS again with names translated to the new locale
+    locale(newLocale) {
+      this.isLoading = true;
+      return httpGet("/ods-balance")
+        .then((res) => {
+          this.showBalance(res);
+        })
+        .catch((err) => {
+          this.setErrorMsg(err);
+        });
+    }
+  },
   created() {
     return httpGet("/sdg-balance")
       .then((res) => {
