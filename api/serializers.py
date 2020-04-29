@@ -158,6 +158,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ActionsByCoopSerializer(serializers.Serializer):
     cooperative_id = serializers.IntegerField(source='cooperative')
     cooperative_name = serializers.CharField(source='cooperative__name', max_length=128)
+    cooperative_business_name = serializers.CharField(source='cooperative__business_name', max_length=128)
     principle_name_key = serializers.CharField()
     actions_count = serializers.IntegerField()
 

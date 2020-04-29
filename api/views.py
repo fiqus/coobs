@@ -561,6 +561,7 @@ class ActionsRankingView(viewsets.ViewSet):
         actions_by_coop_data = Action.objects.filter(date__gte=first_day_of_year, public=True,
                                                      principles__in=visible_principles_ids).values('cooperative',
                                                                                                    'cooperative__name',
+                                                                                                   'cooperative__business_name',
                                                                                                    'principles').annotate(
             actions_count=Count('principles')).order_by('cooperative')
         for action in actions_by_coop_data:
