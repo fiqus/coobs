@@ -23,12 +23,12 @@
           {{modalAction.actionData.description}}
         </span><br/>
         <label class="bold">{{$t('principles')}}:</label><br/>
-        <span class="multiselect__tag" v-for="principle in modalAction.principles" v-bind:key="principle" 
+        <span class="multiselect__tag" v-for="principle in modalAction.actionData.principles" v-bind:key="principle" 
           name="principles" type="text">
           {{$t(principle.nameKey)}}
         </span><br/>
         <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
-        <span class="multiselect__tag" v-for="goal in modalAction.sustainableDevelopmentGoals" v-bind:key="goal" 
+        <span class="multiselect__tag" v-for="goal in modalAction.actionData.sustainableDevelopmentGoals" v-bind:key="goal" 
           name="sustainableDevelopmentGoals" type="text">
           {{$t(goal.name)}}
         </span><br/>
@@ -87,7 +87,7 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import {formatText, capitalizeFirstChar, principlesSelectedParser, formatToUIDate, sustainableDevelopmentGoalsSelectedParser} from "../../utils";
+import {formatText, capitalizeFirstChar, formatToUIDate} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
@@ -297,12 +297,10 @@ export default {
         api.getAction(action.id),
         api.getSustainableDevelopmentGoals()
       ]).then(([principles, actionData, sustainableDevelopmentGoals]) => {
-        let principlesSelected = principlesSelectedParser(actionData.principles, principles)
-        let goalsSelected = sustainableDevelopmentGoalsSelectedParser(actionData.sustainableDevelopmentGoals, sustainableDevelopmentGoals)
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         }); 
-        this.modalAction = {actionData: actionData, principles: principlesSelected, sustainableDevelopmentGoals: goalsSelected};
+        this.modalAction = {actionData};
         $('#detailModal').modal()
       });
     }

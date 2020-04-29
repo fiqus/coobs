@@ -485,12 +485,9 @@ class BalanceView(viewsets.ViewSet):
                                                  period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        principle_data = Principle.objects.filter(visible=True)
-        principle_serializer = PrincipleSerializer(principle_data, many=True)
-        principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
         actions = []
-        [[actions.append({**action, 'principle_name_key': principles[principle_id], 'principle': principle_id}) for
-          principle_id in action['principles']] for action in action_serializer.data]
+        [[actions.append({**action, 'principle_name_key': action_principle['name_key'], 'principle': action_principle['id']}) for
+          action_principle in action['principles']] for action in action_serializer.data]
 
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in
@@ -533,12 +530,9 @@ class SDGBalanceView(viewsets.ViewSet):
                                                  period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        ods_data = SustainableDevelopmentGoal.objects.all()
-        ods_serializer = SustainableDevelopmentGoalSerializer(ods_data, many=True)
-        objectives = {objective['id']: objective['name_key'] for objective in list(ods_serializer.data)}
         actions = []
-        [[actions.append({**action, 'objective_name_key': objectives[objective_id], 'objective': objective_id}) for
-          objective_id in action['sustainable_development_goals']] for action in action_serializer.data]
+        [[actions.append({**action, 'objective_name_key': action_ods['name'], 'objective': action_ods['id']}) for
+          action_ods in action['sustainable_development_goals']] for action in action_serializer.data]
 
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in
