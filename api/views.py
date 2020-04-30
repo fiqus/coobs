@@ -21,6 +21,7 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
     ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer
 from django_filters import rest_framework as filters
+from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
@@ -110,9 +111,11 @@ class ActionView(viewsets.ModelViewSet):
     Removes the selected action.
     """    
     serializer_class = ActionSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filterset_class = ActionFilter
     pagination_class =  StandardResultsSetPagination
+    ordering_fields = ['date', 'name']
+    ordering = ['-date']
 
     def get_queryset(self):
         queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id).order_by('-date')

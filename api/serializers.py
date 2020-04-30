@@ -58,7 +58,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Action
-        ordering = ['-name']
+        ordering = ['-date']
         fields = "__all__"
     
     def validate(self, data):

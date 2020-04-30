@@ -27,7 +27,6 @@
       :headers="headers"
       :data="sustainableDevelopmentGoals"      
       :actions="{showViewButton: true}"
-      :sortEnabled=true
       @onQuickView="onQuickView">
     </simple-table>
   </div>

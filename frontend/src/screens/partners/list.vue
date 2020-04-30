@@ -12,7 +12,6 @@
       :headers="headers"
       :data="listPartners"
       :actions="{edit: true, delete: true, showViewButton: false}"
-      :sortEnabled=true
       @onEdit="onEdit"
       @onDelete="onDelete">
     </simple-table>

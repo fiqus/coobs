@@ -65,12 +65,11 @@
         :actions="{edit: true, delete: true, showViewButton: true}"
         :empty-state-msg="emptyMsg"
         :pagination="pagination"
-        :sortEnabled=true
-        currentSort="date"
-        currentSortDir="desc"
+        :ordering="ordering"
         @onEdit="onEdit"
         @onDelete="onDelete"
-        @onQuickView="onQuickView">
+        @onQuickView="onQuickView"
+        @onSort=onSort>
       </simple-table>
       <pagination-table-component
         :dataLength="actions.length"
@@ -152,8 +151,8 @@ export default {
   data() {
     return {
       headers: [
-        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
-        {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
+        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date), sortEnabled: true},
+        {key: "name", value: "name", parser: (p) => formatText(p.name, 50), sortEnabled: true},
         // {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
         //{key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
         {key: "public", value: "public", parser: (p) => parseBoolean(p.public)},
@@ -184,6 +183,13 @@ export default {
           options: []
         }
       ],
+      ordering: {
+        enabled: true,
+        by: "date",
+        dir: "-"
+      },
+      filterParams: {},
+      orderingParams: {},
       isLoading: true,
       emptyMsg: this.$t('emptyActionMsg'),
       modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}}
@@ -250,7 +256,9 @@ export default {
           params.date_to = period.dateTo;
         }
       }
-      return this.getActions(`/actions`, params);
+      this.filterParams = params;
+      const fetchParams = Object.assign({}, params, this.orderingParams);
+      return this.getActions(`/actions`, fetchParams);
     },
     getActions(url, params=null) {
       this.isLoading = true;
@@ -292,6 +300,18 @@ export default {
             });
         }
       });
+    },
+    onSort(sort) {
+      if (this.ordering.by === sort) {
+        this.ordering.dir = !this.ordering.dir ? "-" : "";
+      }
+      this.ordering.by = sort;
+      const params = {
+        ordering: `${this.ordering.dir}${this.ordering.by}`
+      };
+      this.orderingParams = params;
+      const fetchParams = Object.assign({}, params, this.filterParams);
+      return this.getActions("/actions", fetchParams);
     },
     onQuickView(action) {
       Promise.all([

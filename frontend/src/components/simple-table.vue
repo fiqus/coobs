@@ -2,13 +2,13 @@
   <div>
     <table class="table table-striped">
       <thead>
-        <tr v-if="sortEnabled">
-          <th class="cursorPointer" v-for="header in headers" :key="header.key" @click="sort(header.key)">
-            {{ $t(header.value, header.value) }}<span v-if="header.key == currentSort" class="arrow" :class="currentSortDir"/>
+        <tr v-if="ordering.enabled">
+          <th :class="{'cursorPointer': header.sortEnabled}" v-for="header in headers" :key="header.key" @click="onSort(header.sortEnabled, header.key)">
+            {{ $t(header.value, header.value) }}<span v-if="header.key == ordering.by" :class="{'arrow': header.sortEnabled, [sortDirClass]: header.sortEnabled}"/>
           </th>
           <th></th>
         </tr>
-        <tr v-if="!sortEnabled">
+        <tr v-if="!ordering.enabled">
           <th v-for="header in headers" :key="header.key">
             {{ $t(header.value, header.value) }}
           </th>
@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="elem in sortedData" :key="elem.id">
+        <tr v-for="elem in data" :key="elem.id">
           <td class="cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
           <td>
             <button v-if="actions.edit && !elem.noActions" class="btn btn-primary" @click.stop="onEdit(elem)" :title="$t('edit')"><i class="fa fa-edit"></i></button>
@@ -46,14 +46,6 @@ export default {
       default: [],
       required: true
     },
-    currentSort: {
-      type: String,
-      default: 'name'
-    },
-    currentSortDir: {
-      type: String,
-      default: 'asc'
-    },
     actions: {
       type: Object,
       default: {
@@ -64,31 +56,16 @@ export default {
     emptyStateMsg: {
       type: String
     },
-    sortEnabled: {
-      type: Boolean,
-      default: false
+    ordering: {
+      type: Object,
+      default: {
+        enabled: false
+      }
     }
   },
   computed: {
-    sortedData(){
-      if (!this.sortEnabled){
-        return this.data;
-      }
-      const sortedData = this.data.sort((a,b) => {
-        let modifier = 1;
-        if(this.currentSortDir === 'desc') modifier = -1;
-        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-        return 0;
-      });
-      if (!this.pagination) {
-        return sortedData;
-      }
-      return sortedData.filter((row, index) => {
-          let start = (this.pagination.page-1)*this.pagination.pageSize;
-          let end = this.pagination.page*this.pagination.pageSize;
-          if(index >= start && index < end) return true;
-        });
+    sortDirClass() {
+      return !this.ordering.dir ? "asc" : "desc";
     }
   },
   methods: {
@@ -111,13 +88,11 @@ export default {
     onQuickView(elem) {
       this.$emit("onQuickView", elem);
     },
-    sort(s) {
-      //if s == current sort, reverse
-      if(s === this.currentSort) {
-        this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+    onSort(enabled, sort) {
+      if (enabled) {
+        this.$emit("onSort", sort);
       }
-      this.currentSort = s;
-    }    
+    }
   }
 };
 </script>
