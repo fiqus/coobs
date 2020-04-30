@@ -13,7 +13,6 @@
       :data="periods"
       :actions="{edit: true, delete: true, showViewButton: false}"
       :empty-state-msg="$t('noPeriodsMessage')" 
-      :sortEnabled=true
       @onEdit="onEdit"
       @onDelete="onDelete">
     </simple-table>

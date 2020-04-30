@@ -12,6 +12,7 @@ User = get_user_model()
 
 
 class PrincipleSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=Principle()._meta.get_field('id'))
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
     description = serializers.CharField()
@@ -41,6 +42,7 @@ class BlankableDecimalField(serializers.DecimalField):
 
 
 class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=SustainableDevelopmentGoal()._meta.get_field('id'))
     class Meta:
         model = SustainableDevelopmentGoal
         fields = "__all__"
@@ -66,7 +68,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Action
-        ordering = ['-name']
+        ordering = ['-date']
         fields = "__all__"
     
     def validate(self, data):
@@ -89,12 +91,12 @@ class ActionSerializer(serializers.ModelSerializer):
         instance.partners_involved.set(partners_involved)
 
         principles = list()
-        for principle in self.initial_data.get('principles'):
+        for principle in validated_data.get('principles'):
             principles.append(principle.get('id'))
         instance.principles.set(principles)
 
         sustainable_development_goals = list()
-        for goal in self.initial_data.get('sustainable_development_goals'):
+        for goal in validated_data.get('sustainable_development_goals'):
             sustainable_development_goals.append(goal.get('id'))
         instance.sustainable_development_goals.set(sustainable_development_goals)
 
