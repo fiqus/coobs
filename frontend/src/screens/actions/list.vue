@@ -66,6 +66,8 @@
         :empty-state-msg="emptyMsg"
         :pagination="pagination"
         :sortEnabled=true
+        currentSort="date"
+        currentSortDir="desc"
         @onEdit="onEdit"
         @onDelete="onDelete"
         @onQuickView="onQuickView">
