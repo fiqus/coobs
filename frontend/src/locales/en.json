@@ -175,7 +175,17 @@
   "socialBalance": "Social Balance",
   "sdgBalanceSubtitle": "Social Balance for period {period} from {from} to {to} and a budget of ${budget}.",
   "sustainable_development_goal": "Sustainable development goal",
+  "sustainable_development_goals": "Sustainable development goal",
   "goals": "Goals",
   "descriptiveTable": "Descriptive table",
-  "monitoring": "Monitoring"
+  "monitoring": "Monitoring",
+  "sdg_objectives": "Sustainable development goal objectives",
+  "noSDGObjectivesMessage": "You don't have any objectives yet!",
+  "createSDGObjective": "Create objective",
+  "editSDGObjective": "Edit objective",
+  "deletedSDGObjectiveMsg": "The objective has been deleted!",
+  "onceSDGObjectiveDeleted": "Once deleted, this objective won't able anymore.",
+  "hoursToReach": "Hours to reach",
+  "moneyToInvest": "Money to invest",
+  "actionsToPerform": "Actions to perform"
 }

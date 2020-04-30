@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal, SDGObjective
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
@@ -43,6 +43,16 @@ class BlankableDecimalField(serializers.DecimalField):
 class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = SustainableDevelopmentGoal
+        fields = "__all__"
+
+
+class SDGObjectiveSerializer(serializers.ModelSerializer):
+    cooperative_name = serializers.CharField(source='cooperative', read_only=True)
+    period_name = serializers.CharField(source='period', read_only=True)
+    sdg_name = serializers.CharField(source='sustainable_development_goal', read_only=True)
+    
+    class Meta:
+        model = SDGObjective
         fields = "__all__"
 
 

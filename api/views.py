@@ -16,10 +16,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, \
     get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle,\
     get_all_principles_data_for_current_partner
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
+    SustainableDevelopmentGoal, SDGObjective
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
-    ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer
+    ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer, SDGObjectiveSerializer
 from django_filters import rest_framework as filters
 from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
@@ -62,6 +63,41 @@ class SustainableDevelopmentGoalView(viewsets.ModelViewSet):
     def get_queryset(self):
         return SustainableDevelopmentGoal.objects.all()
 
+
+class SDGObjectiveView(viewsets.ModelViewSet):
+    """
+    list:
+    Returns the list of SDG objectives for the current cooperative.
+
+    create:
+    Creates a SDG objective for the current cooperative.
+
+    destroy:
+    Removes the selected SDG objective.
+    """
+    serializer_class = SDGObjectiveSerializer
+
+    def get_queryset(self):
+        queryset = SDGObjective.objects.filter(cooperative=self.request.user.cooperative_id)
+        return queryset
+
+    def create(self, request):
+        sdg_objective_serializer = SDGObjectiveSerializer(data=request.data)
+
+        if not sdg_objective_serializer.is_valid():
+            return Response(sdg_objective_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        sdg_objective_data = SDGObjective.objects.create(**sdg_objective_serializer.validated_data)
+
+        setattr(sdg_objective_data, 'cooperative_id', request.user.cooperative.id)
+        try:
+            sdg_objective_data.save()
+        except IntegrityError:
+            return Response(_("This objective already exists, please modify the existing one."), status=status.HTTP_400_BAD_REQUEST)
+        except Exception as errors:
+            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response("SDG_OBJ_CREATED", status=status.HTTP_200_OK)
 
 class ActionFilter(filters.FilterSet):
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')

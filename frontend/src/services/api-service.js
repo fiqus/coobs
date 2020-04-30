@@ -45,3 +45,8 @@ export async function getMyStats(params) {
   const response = await httpGet("/my-stats", params);
   return response.data ? response.data : [];
 }
+
+export async function getPeriods(params) {
+  const response = await httpGet("/periods", params);
+  return response.data ? response.data : [];
+}

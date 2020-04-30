@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import {httpGet} from "../api-client";
-import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
+import {httpGet} from "../../api-client";
+import BalanceByPeriodTable from "../../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
-import Loader from "../components/loader-overlay.vue";
-import {formatToUIDate} from "../utils";
+import Loader from "../../components/loader-overlay.vue";
+import {formatToUIDate} from "../../utils";
 
 function print(period, translator, parent){
   const self = parent;

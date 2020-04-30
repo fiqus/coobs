@@ -34,13 +34,13 @@
 </template>
 
 <script>
-  import SimpleTable from "../components/simple-table.vue";
-  import DetailModal from "../components/detail-modal.vue";  
-  import {formatText} from "../utils";
-  import {httpGet} from "../api-client.js";
+  import SimpleTable from "../../components/simple-table.vue";
+  import DetailModal from "../../components/detail-modal.vue";  
+  import {formatText} from "../../utils";
+  import {httpGet} from "../../api-client.js";
   import swal from 'sweetalert';
-  import Loader from "../components/loader-overlay.vue";
-  import * as api from "./../services/api-service";
+  import Loader from "../../components/loader-overlay.vue";
+  import * as api from "./../../services/api-service";
 
   export default {
     components: {

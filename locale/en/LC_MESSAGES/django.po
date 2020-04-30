@@ -1359,3 +1359,6 @@ msgstr ""
 
 msgid "You must select a principle or a sustainable development goal."
 msgstr ""
+
+msgid "This objective already exists, please modify the existing one."
+msgstr "This objective already exists, please modify the existing one."

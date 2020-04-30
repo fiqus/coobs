@@ -72,7 +72,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <router-link class="collapse-item" :to="{name: 'sdg-balance'}"><i class="fas fa-fw fa-balance-scale"></i> {{$t("socialBalance")}}</router-link>
               <router-link class="collapse-item text-truncate" :to="{name: 'sustainable-development-goals'}"><i class="fas fa-fw fa-table"></i> {{$t("descriptiveTable")}}</router-link>
-              <router-link class="collapse-item" :to="{name: 'periods-list'}"><i class="fas fa-fw fa-bullseye"></i> {{$t("goals")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'sdg-objectives-list'}"><i class="fas fa-fw fa-bullseye"></i> {{$t("goals")}}</router-link>
               <router-link class="collapse-item " :to="{name: 'cooperative'}"><i class="fas fa-fw fa-chart-bar"></i> {{$t("monitoring")}}</router-link> <!-- file-medical-alt -->
             </div>
           </div>

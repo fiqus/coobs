@@ -165,3 +165,6 @@ msgstr "Las cooperativas trabajan en pro del desarrollo sostenible de sus comuni
 
 msgid "You must select a principle or a sustainable development goal."
 msgstr "Debe seleccionar un principio o un objetivo de desarrollo sustentable."
+
+msgid "This objective already exists, please modify the existing one."
+msgstr "Este objetivo ya existe, por favor, modifique el existente."

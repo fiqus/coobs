@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, MyTokenObtainPairView, DashboardView, BalanceView, ActionsRankingView, PartnerStatsView, SustainableDevelopmentGoalView, SDGBalanceView
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, MyTokenObtainPairView, DashboardView, BalanceView, ActionsRankingView, PartnerStatsView, SustainableDevelopmentGoalView, SDGBalanceView, SDGObjectiveView
 from rest_framework_simplejwt.views import (
     TokenVerifyView,
     TokenRefreshView,
@@ -37,6 +37,7 @@ router.register(r'sdg-balance', SDGBalanceView, basename="BalanceODS")
 router.register(r'actions-ranking', ActionsRankingView, basename="ActionsRanking")
 router.register(r'my-stats', PartnerStatsView, basename="PartnerStats")
 router.register(r'sustainable-development-goals', SustainableDevelopmentGoalView, basename="SustainableDevelopmentGoal")
+router.register(r'sdg-objectives', SDGObjectiveView, basename="SDGObjective")
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
