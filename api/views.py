@@ -134,10 +134,10 @@ class ActionView(viewsets.ModelViewSet):
             action_data.partners_involved.add(partner['id'])
 
         for principle in principles:
-            action_data.principles.add(principle)
+            action_data.principles.add(principle['id'])
 
         for goal in sustainable_development_goals:
-            action_data.sustainable_development_goals.add(goal)
+            action_data.sustainable_development_goals.add(goal['id'])
 
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
