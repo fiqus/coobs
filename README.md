@@ -143,7 +143,7 @@ To create a release just follow this steps:
         git push origin production
         git checkout master
 
-2. Generate a new release [here](/fiqus/coobs/releases/new) and make sure to select the **production** branch!  
+2. Generate a new release [here](https://github.com/fiqus/coobs/releases/new) and make sure to select the **production** branch!  
 Write a brief release description and use a *senver* string for **tag** and **title** like: `vX.Y.Z`
 
 ![Release to production](.github/release-production.png)
