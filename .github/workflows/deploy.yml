@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-
       - name: Set RELEASE_TAG env
         run: echo ::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})
 
