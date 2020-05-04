@@ -94,7 +94,7 @@ class SDGObjectiveView(viewsets.ModelViewSet):
         try:
             sdg_objective_data.save()
         except IntegrityError:
-            return Response(_("This objective already exists, please modify the existing one."), status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={'detail': _("This objective already exists, please modify the existing one.")}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as errors:
             return Response(errors, status=status.HTTP_400_BAD_REQUEST)
         
