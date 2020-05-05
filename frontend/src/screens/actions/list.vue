@@ -135,7 +135,7 @@ export default {
           if (filter.key === "principle") {
             filter.options = this.principlesFilter(principles.data);
           }
-          if (filter.key === "sustainable_development_goal") {
+          if (filter.key === "sustainableDevelopmentGoal") {
             filter.options = this.sustainableDevelopmentGoalsFilter(sustainableDevelopmentGoals.data);
           }
           if (filter.key === "partner") {
@@ -178,7 +178,7 @@ export default {
           options: []
         },
         {
-          key: "sustainable_development_goal",
+          key: "sustainableDevelopmentGoal",
           value: null,
           options: []
         }

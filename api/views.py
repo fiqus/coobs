@@ -112,7 +112,7 @@ class ActionFilter(filters.FilterSet):
         queryset=Principle.objects.all()
     )
     sustainable_development_goal = filters.ModelMultipleChoiceFilter(
-        field_name="sustainable_development_goals",
+        field_name="sustainableDevelopmentGoal",
         queryset=SustainableDevelopmentGoal.objects.all()
     )
 

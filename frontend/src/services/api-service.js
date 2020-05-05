@@ -25,6 +25,11 @@ export async function getSustainableDevelopmentGoal(goalId) {
   return response.data;
 }
 
+export async function getSDGObjective(sdgObjectiveId) {
+  const response = await httpGet(`/sdg-objectives/${sdgObjectiveId}`);
+  return response.data;
+}
+
 export async function getPartners(){
   const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;
