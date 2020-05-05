@@ -12,7 +12,9 @@
               v-model="sdgObjective.sustainableDevelopmentGoal"
               :options="sustainableDevelopmentGoals"
               :placeholder="$t('sustainable_development_goal')"
-              :label="$t($t('sustainable_development_goal'))">
+              :label="$t($t('sustainable_development_goal'))"
+              :error="$v.sdgObjective.sustainableDevelopmentGoal.$error"
+              :error-message="$t('required')">
             </select-form>
           </div>
         </div>
@@ -22,7 +24,9 @@
               v-model="sdgObjective.period"
               :options="periods"
               :placeholder="$t('period')"
-              :label="$t($t('period'))">
+              :label="$t($t('period'))"
+              :error="$v.sdgObjective.period.$error"
+              :error-message="$t('required')">
             </select-form>
           </div>
         </div>
