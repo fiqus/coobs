@@ -187,5 +187,7 @@
   "onceSDGObjectiveDeleted": "Once deleted, this objective won't able anymore.",
   "hoursToReach": "Hours to reach",
   "moneyToInvest": "Money to invest",
-  "actionsToPerform": "Actions to perform"
+  "actionsToPerform": "Actions to perform",
+  "notEnoughInfoForMonitoring": "There's no enough info loaded to monitor yet. Please add some actions to your cooperative or select another period.",
+  "monitoringHelp": "Here you will be able to monitor the goals you previously set for the Sustainable development goals. The progress you see is based on the actions carried out by your cooperative in the selected period."
 }

@@ -581,6 +581,59 @@ class SDGBalanceView(viewsets.ViewSet):
                          'total_invested': total_invested})
 
 
+class SDGMonitoringView(viewsets.ViewSet):
+    """
+    list:
+    Returns SDGs objectives for the selected period {periodId as query param} and cooperative.
+    """
+
+    def list(self, request):
+        cooperative_id = request.user.cooperative_id
+        empty_response = {'period': [], 'actions': [], 'all_periods': []}
+
+        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
+        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
+        if not all_periods_serializer.data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+
+        period_id = request.query_params.get('periodId', None)
+        if period_id is not None:
+            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
+                               None)
+        else:
+            period_data = get_current_period(all_periods_serializer.data)
+            period_id = period_data['id']
+
+        if not period_data:
+            return Response(empty_response)
+            #FIXME based on #122
+            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
+            
+        sdg_objectives_data = SDGObjective.objects.filter(cooperative=cooperative_id, period=period_id)
+        sdg_objectives_serializer = SDGObjectiveSerializer(sdg_objectives_data, many=True)
+        
+        actions = Action.objects.filter(cooperative=cooperative_id, date__gte=period_data['date_from'], date__lte=period_data['date_to'])
+        actions_serializer = ActionSerializer(actions, many=True)
+
+        def filterData(sdg):
+            return list(filter(lambda x: sdg in list(map(lambda x:x['id'], x['sustainable_development_goals'])), actions_serializer.data))
+
+        monitoring_data = []
+        for sdg_objective in sdg_objectives_serializer.data:
+            data = filterData(sdg_objective['sustainable_development_goal'])
+            invested_hours = sum(map(lambda x: float(x['invested_hours']), data))
+            invested_money = sum(map(lambda x: float(x['invested_money']), data))
+
+            monitoring_data.append({**sdg_objective, 
+                'invested_hours': invested_hours,
+                'invested_money': invested_money,
+                'performed_actions': len(data)})
+
+        return Response({'period': period_data, 'monitoring_data': monitoring_data, 'all_periods': all_periods_serializer.data})
+
+
 class ActionsRankingView(viewsets.ViewSet):
     """
     list:

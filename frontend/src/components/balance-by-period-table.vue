@@ -1,5 +1,5 @@
 <template>
-<div class="container-flud">
+<div class="container-fluid">
   <table class="table table-hover">
     <thead>
       <tr class="row thead-light">

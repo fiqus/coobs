@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal, SDGObjective
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
+    SustainableDevelopmentGoal, SDGObjective
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
@@ -56,7 +57,6 @@ class SDGObjectiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = SDGObjective
         fields = "__all__"
-
 
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)

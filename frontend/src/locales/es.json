@@ -175,7 +175,6 @@
   "socialBalance": "Balance Social",
   "sdgBalanceSubtitle": "Balance Social del período {period} desde {from} hasta {to} y un presupuesto de ${budget}.",
   "sustainableDevelopmentGoal": "Objetivo de desarrollo sustentable",
-  "sustainableDevelopmentGoals": "Objetivos de desarrollo sustentable",
   "goals": "Metas",
   "descriptiveTable": "Tabla descriptiva",
   "monitoring": "Seguimiento",
@@ -189,5 +188,7 @@
   "onceSDGObjectiveDeleted": "Una vez eliminado, éste objetivo no estará más disponible.",
   "hoursToReach": "Horas a destinar",
   "moneyToInvest": "Dinero a invertir",
-  "actionsToPerform": "Acciones a realizar"
+  "actionsToPerform": "Acciones a realizar",
+  "notEnoughInfoForMonitoring": "Aún no existe información suficiente para monitorear. Revisá que haya un período y acciones creadas o selecciona otro período.",
+  "monitoringHelp": "Aquí podrás monitorear las metas que previamente estableciste para los objetivos de desarrollo sostenible. El progreso que observas se basa en las acciones llevadas a cabo por tu cooperativa en el período seleccionado."
 }

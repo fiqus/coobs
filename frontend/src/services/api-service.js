@@ -30,6 +30,11 @@ export async function getSDGObjective(sdgObjectiveId) {
   return response.data;
 }
 
+export async function getSDGMonitoringData(params) {
+  const response = await httpGet(`/sdg-monitoring/`, params);
+  return response.data;
+}
+
 export async function getPartners(){
   const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;

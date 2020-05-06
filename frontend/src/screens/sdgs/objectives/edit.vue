@@ -11,8 +11,8 @@
             <select-form
               v-model="sdgObjective.sustainableDevelopmentGoal"
               :options="sustainableDevelopmentGoals"
-              :placeholder="$t('sustainable_development_goal')"
-              :label="$t($t('sustainable_development_goal'))"
+              :placeholder="$t('sustainableDevelopmentGoal')"
+              :label="$t($t('sustainableDevelopmentGoal'))"
               :error="$v.sdgObjective.sustainableDevelopmentGoal.$error"
               :error-message="$t('required')">
             </select-form>

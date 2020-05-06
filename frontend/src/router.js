@@ -22,6 +22,7 @@ import SustainableDevelopmentGoalsScreen from "./screens/sdgs/sustainable-develo
 import SDGBalanceScreen from "./screens/sdgs/sdg-balance.vue";
 import SDGObjectivesListScreen from "./screens/sdgs/objectives/list.vue";
 import SDGObjectivesEditScreen from "./screens/sdgs/objectives/edit.vue";
+import SDGMonitoringScreen from "./screens/sdgs/sdg-monitoring.vue";
 
 import store from './store';
 
@@ -131,6 +132,11 @@ const routes = [
     name: "sdg-objectives-edit",
     path: "/sdg-objectives-edit/:sdgObjectiveId",
     component: SDGObjectivesEditScreen
+  },    
+  {
+    name: "sdg-monitoring",
+    path: "/sdg-monitoring",
+    component: SDGMonitoringScreen
   },
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }
