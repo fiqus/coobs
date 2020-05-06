@@ -135,7 +135,7 @@ export default {
           if (filter.key === "principle") {
             filter.options = this.principlesFilter(principles.data);
           }
-          if (filter.key === "sustainableDevelopmentGoal") {
+          if (filter.key === "sustainable_development_goal") {
             filter.options = this.sustainableDevelopmentGoalsFilter(sustainableDevelopmentGoals.data);
           }
           if (filter.key === "partner") {
@@ -178,7 +178,7 @@ export default {
           options: []
         },
         {
-          key: "sustainableDevelopmentGoal",
+          key: "sustainable_development_goal", // query params are not supported by DRF camel case lib
           value: null,
           options: []
         }
