@@ -236,7 +236,8 @@ export default {
         }
         return acc;
       }, {});
-      return this.getActions(`/actions/?page=${page}`, params);
+      const fetchParams = Object.assign({}, params, this.orderingParams);
+      return this.getActions(`/actions/?page=${page}`, fetchParams);
     },
     goNext() {
       const urlParts = this.pagination.next.split("/api");
