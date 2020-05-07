@@ -174,6 +174,7 @@
   "selectPrincipleOrODS": "Debe seleccionar un principio o un objetivo de desarrollo sustentable",
   "socialBalance": "Balance Social",
   "sdgBalanceSubtitle": "Balance Social del período {period} desde {from} hasta {to} y un presupuesto de ${budget}.",
+  "sustainable_development_goal": "Objetivo de desarrollo sustentable",
   "sustainableDevelopmentGoal": "Objetivo de desarrollo sustentable",
   "goals": "Metas",
   "descriptiveTable": "Tabla descriptiva",
@@ -190,5 +191,8 @@
   "moneyToInvest": "Dinero a invertir",
   "actionsToPerform": "Acciones a realizar",
   "notEnoughInfoForMonitoring": "Aún no existe información suficiente para monitorear. Revisá que haya un período y acciones creadas o selecciona otro período.",
-  "monitoringHelp": "Aquí podrás monitorear las metas que previamente estableciste para los objetivos de desarrollo sostenible. El progreso que observas se basa en las acciones llevadas a cabo por tu cooperativa en el período seleccionado."
+  "monitoringHelp": "Aquí podrás monitorear las metas que previamente estableciste para los objetivos de desarrollo sostenible. El progreso que observas se basa en las acciones llevadas a cabo por tu cooperativa en el período seleccionado.",
+  "sustainableDevelopmentGoalsActiveHelp": "Utilizar los objetivos de desarrollo sostenible en COOBS?",
+  "yes": "Si",
+  "no": "No"
 }

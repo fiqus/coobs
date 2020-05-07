@@ -19,6 +19,13 @@ class Cooperative(models.Model):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    sustainable_development_goals_active = models.BooleanField(
+        _('sustainable development goals active'),
+        default=False,
+        help_text=_(
+            'Designates whether this cooperative will be allowed to see and use sustainable development goals.'
+        ),
+    )    
 
     class Meta:
         verbose_name = _('cooperative')

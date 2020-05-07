@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-7">
       <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+        <h1 class="h4 text-gray-900 mb-4">{{$t("editCooperative")}}</h1>
       </div>
     </div>
     <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
@@ -30,6 +30,18 @@
         @input="onDateSelected">
       </datepicker-form>
 
+      <div class="form-row">
+        <div class="col-1 py-1">
+          <bootstrap-toggle class="form-control"
+            v-model="cooperative.sustainableDevelopmentGoalsActive"
+            data-toggle="toggle"
+            :options="{on: $t('yes'), off: $t('no'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+            :disabled="false" />
+        </div>
+        <div class="col-9">
+          <label class="form-text ml-4">{{$t('sustainableDevelopmentGoalsActiveHelp')}}</label>
+        </div>
+      </div>
       <error-form :error="error" />
 
       <div>
@@ -43,6 +55,7 @@
 <script>
 import InputForm from "../components/input-form.vue";
 import DatePickerForm from "../components/datepicker-form.vue";
+import BootstrapToggle from "vue-bootstrap-toggle";
 import swal from "sweetalert";
 import {required} from "vuelidate/lib/validators";
 import {httpGet, httpPut} from "../api-client.js";
@@ -53,6 +66,7 @@ export default {
   components: {
     "input-form": InputForm,
     "datepicker-form": DatePickerForm,
+    "bootstrap-toggle": BootstrapToggle,
     "error-form": ErrorForm
   },
   mixins: [errorHandlerMixin],
@@ -66,8 +80,7 @@ export default {
     return {
       user: this.$store.state.user,
       cooperativeId: this.$store.state.user.cooperativeId,
-      cooperative: {},
-      title: this.$t("editCooperative")
+      cooperative: {}
     };
   },
   methods: {

@@ -173,6 +173,7 @@
   "selectPrincipleOrODS": "Must select a principle or a sustainable development goal",
   "socialBalance": "Social Balance",
   "sdgBalanceSubtitle": "Social Balance for period {period} from {from} to {to} and a budget of ${budget}.",
+  "sustainable_development_goal": "Sustainable development goal",
   "sustainableDevelopmentGoal": "Sustainable development goal",
   "sustainableDevelopmentGoals": "Sustainable development goals",
   "goals": "Goals",
@@ -189,5 +190,8 @@
   "moneyToInvest": "Money to invest",
   "actionsToPerform": "Actions to perform",
   "notEnoughInfoForMonitoring": "There's no enough info loaded to monitor yet. Please add some actions to your cooperative or select another period.",
-  "monitoringHelp": "Here you will be able to monitor the goals you previously set for the Sustainable development goals. The progress you see is based on the actions carried out by your cooperative in the selected period."
+  "monitoringHelp": "Here you will be able to monitor the goals you previously set for the Sustainable development goals. The progress you see is based on the actions carried out by your cooperative in the selected period.",
+  "sustainableDevelopmentGoalsActiveHelp": "Use sustainable development goals in COOBS?",
+  "yes": "Yes",
+  "no": "No"
 }

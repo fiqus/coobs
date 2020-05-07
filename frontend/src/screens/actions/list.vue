@@ -27,11 +27,13 @@
           name="principles" type="text">
           {{$t(principle.nameKey)}}
         </span><br/>
-        <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
-        <span class="multiselect__tag" v-for="goal in modalAction.actionData.sustainableDevelopmentGoals" v-bind:key="goal" 
-          name="sustainableDevelopmentGoals" type="text">
-          {{$t(goal.name)}}
-        </span><br/>
+        <div v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive">
+          <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
+          <span class="multiselect__tag" v-for="goal in modalAction.actionData.sustainableDevelopmentGoals" v-bind:key="goal" 
+            name="sustainableDevelopmentGoals" type="text">
+            {{$t(goal.name)}}
+          </span><br/>
+        </div>
         <label class="bold">{{$t('partners')}}:</label><br/>
         <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
           name="partners" type="text">

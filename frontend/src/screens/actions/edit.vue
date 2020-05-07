@@ -33,11 +33,11 @@
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
             :error="$v.action.principles.$error"
-            :error-message="$t('selectPrincipleOrODS')"/>
+            :error-message="$store.state.cooperative.sustainableDevelopmentGoalsActive ? $t('selectPrincipleOrODS'):$t('selectPrinciple')"/>
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row" v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive">
         <div class="col-12">
           <multi-select-form
             v-model="action.sustainableDevelopmentGoals"
@@ -167,16 +167,18 @@ export default {
         p.name = this.$t(p.nameKey, p.name);
         return p;
       });
-      return api.getSustainableDevelopmentGoals()
-        .then((sustainableDevelopmentGoals) => {
-          this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
-          this.action.sustainableDevelopmentGoals = this.action.sustainableDevelopmentGoals.map((actionGoal) => {
-            const goal = sustainableDevelopmentGoals.find(({id}) => {
-              return id === actionGoal.id;
+      if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
+        return api.getSustainableDevelopmentGoals()
+          .then((sustainableDevelopmentGoals) => {
+            this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
+            this.action.sustainableDevelopmentGoals = this.action.sustainableDevelopmentGoals.map((actionGoal) => {
+              const goal = sustainableDevelopmentGoals.find(({id}) => {
+                return id === actionGoal.id;
+              });
+              return goal;
             });
-            return goal;
-          });
-        })
+          })
+      }
     }
   },
   async created() {
@@ -198,7 +200,9 @@ export default {
     }, {});
     
     this.partnersList = parserPartners(partners);
-    this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
+    if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
+      this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
+    }
 
     const actionId = this.$route.params.actionId;
     if (!this.isNew) {
