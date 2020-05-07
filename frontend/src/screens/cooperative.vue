@@ -58,7 +58,7 @@ import DatePickerForm from "../components/datepicker-form.vue";
 import BootstrapToggle from "vue-bootstrap-toggle";
 import swal from "sweetalert";
 import {required} from "vuelidate/lib/validators";
-import {httpGet, httpPut} from "../api-client.js";
+import {httpGet} from "../api-client.js";
 import ErrorForm from "../components/error-form.vue";
 import errorHandlerMixin from "./../mixins/error-handler";
 
@@ -87,40 +87,20 @@ export default {
     onDateSelected(newDate) {
       this.cooperative.startingDate = new Date(newDate).toISOString().slice(0, 10);
     },
-    created() {
-      httpGet(`/cooperatives/${this.cooperativeId}`)
-        .then((response) => {
-          this.cooperative = response.data;
-        });
-    },
-    data() {
-      return {
-        cooperativeId: this.$store.state.user.cooperativeId,
-        cooperative: {},
-        title: "editCooperative"
-      };
-    },
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        httpPut(`/cooperatives/${this.cooperativeId}/`, this.cooperative)
+        this.$store.dispatch("updateCooperative", this.cooperative)
           .then(() => {
             swal(this.$t("editedCoopMsg"), {
               icon: "success",
               buttons: false,
               timer: 2000
             });
-            this.$store.commit("setCooperative",  this.cooperative);
-            this.$router.push({name: "cooperative"});
           })
           .catch((err) => {
             this.handleError(err);
           });
-      }
-    },
-    validations: {
-      cooperative: {
-        businessName: {required}
       }
     }
   },
