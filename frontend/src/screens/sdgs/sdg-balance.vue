@@ -118,32 +118,32 @@ export default {
     },
     showBalance(res){
       const {period, actions, allPeriods, totalInvested} = res.data;
+      this.allPeriods = allPeriods;
+      this.period = period;
+      this.selectedValue = period.id;      
       if (!period || !actions || !actions.length) {
         this.error = {
           exists: true,
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
-        return;
-      }
-      this.allPeriods = allPeriods;
-      this.actionsByPeriod = actions.reduce((obj, action) => {
-        if (!action.public) {
+      } else {
+        this.actionsByPeriod = actions.reduce((obj, action) => {
+          if (!action.public) {
+            return obj;
+          }
+          if (!Object.keys(obj).includes(action.sustainableDevelopmentGoals.toString())) {
+            obj[action.sustainableDevelopmentGoals] = {
+              objectiveNameKey: action.objectiveNameKey,
+              actions: []
+            };
+          }
+          const {date, description, investedMoney, name} = action;
+          obj[action.sustainableDevelopmentGoals].actions.push({date, description, investedMoney, name});
           return obj;
-        }
-        if (!Object.keys(obj).includes(action.sustainableDevelopmentGoals.toString())) {
-          obj[action.sustainableDevelopmentGoals] = {
-            objectiveNameKey: action.objectiveNameKey,
-            actions: []
-          };
-        }
-        const {date, description, investedMoney, name} = action;
-        obj[action.sustainableDevelopmentGoals].actions.push({date, description, investedMoney, name});
-        return obj;
-      }, {});
-      this.period = period;
-      this.selectedValue = period.id;
-      this.totalInvested = totalInvested;
+        }, {});
+        this.totalInvested = totalInvested;
+      }
       this.isLoading = false;
     },
     async onPeriodChange(){

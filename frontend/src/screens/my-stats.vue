@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-else-if="!isLoading">
       <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
