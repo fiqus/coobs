@@ -194,5 +194,6 @@
   "sustainableDevelopmentGoalsActiveHelp": "Use sustainable development goals in COOBS?",
   "yes": "Yes",
   "no": "No",
-  "zeroPartnerHoursGoal": "You haven't configured your hours to invest goal."
+  "zeroPartnerHoursGoal": "You haven't configured your hours to invest goal.",
+  "noActionsRelatedToMonitor": "There are no actions related to this objective. Please add any related actions in order to monitor your goals."
 }

@@ -56,6 +56,9 @@
           </div>
         </div>
       </div>
+      <div v-if="noActionsRelated" class="col-12">
+        <small class="form-text text-muted font-italic ml-3">{{$t('noActionsRelatedToMonitor')}}</small>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +80,9 @@ export default {
     },
     actionsProgressStyle(){
       return `width: ${this.objective.performedActions / this.objective.actionsToPerform * 100}%`;
+    },
+    noActionsRelated(){
+      return !(this.objective.investedHours && this.objective.investedMoney && this.objective.performedActions);
     }
   }
 };
