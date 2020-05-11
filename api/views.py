@@ -438,8 +438,6 @@ class DashboardView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -450,8 +448,6 @@ class DashboardView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
@@ -505,8 +501,6 @@ class BalanceView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -517,8 +511,6 @@ class BalanceView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
             
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
@@ -550,8 +542,6 @@ class SDGBalanceView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -562,8 +552,6 @@ class SDGBalanceView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
             
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
@@ -595,8 +583,6 @@ class SDGMonitoringView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -608,8 +594,6 @@ class SDGMonitoringView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
             
         sdg_objectives_data = SDGObjective.objects.filter(cooperative=cooperative_id, period=period_id)
         sdg_objectives_serializer = SDGObjectiveSerializer(sdg_objectives_data, many=True)
@@ -685,8 +669,6 @@ class PartnerStatsView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -697,8 +679,6 @@ class PartnerStatsView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to'], user_id).order_by('date')
