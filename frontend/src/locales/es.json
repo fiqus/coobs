@@ -194,5 +194,6 @@
   "monitoringHelp": "Aquí podrás monitorear las metas que previamente estableciste para los objetivos de desarrollo sostenible. El progreso que observas se basa en las acciones llevadas a cabo por tu cooperativa en el período seleccionado.",
   "sustainableDevelopmentGoalsActiveHelp": "Utilizar los objetivos de desarrollo sostenible en COOBS?",
   "yes": "Si",
-  "no": "No"
+  "no": "No",
+  "zeroPartnerHoursGoal": "No has configurado tu meta de horas para invertir."
 }

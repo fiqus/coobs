@@ -193,5 +193,6 @@
   "monitoringHelp": "Here you will be able to monitor the goals you previously set for the Sustainable development goals. The progress you see is based on the actions carried out by your cooperative in the selected period.",
   "sustainableDevelopmentGoalsActiveHelp": "Use sustainable development goals in COOBS?",
   "yes": "Yes",
-  "no": "No"
+  "no": "No",
+  "zeroPartnerHoursGoal": "You haven't configured your hours to invest goal."
 }

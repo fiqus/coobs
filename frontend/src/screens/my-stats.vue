@@ -149,6 +149,7 @@
                     <div class="col-3">
                       <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.investmentProgressData.partnerHoursGoal}}</div>
                     </div>
+                    <small v-if='progressData.investmentProgressData.partnerHoursGoal==0' class="form-text text-muted font-italic ml-3">{{$t('zeroPartnerHoursGoal')}}</small>
                   </div>
                 </div>
               </div>
