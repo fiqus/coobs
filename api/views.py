@@ -449,22 +449,23 @@ class DashboardView(viewsets.ViewSet):
         if not period_data:
             return Response(empty_response)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to']).order_by('date')
+        date_from = period_data['date_from']
+        date_to = period_data['date_to']
+        action_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
         date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data['date_from'],
-                                              action__date__lte=date).annotate(total=Count('username')).order_by()
+        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=date_from,
+                                              action__date__lte=date_to).annotate(total=Count('username')).order_by()
 
         actions_by_principles_data = Principle.objects.filter(cooperative=cooperative_id,
-                                                              action__date__gte=period_data['date_from'],
-                                                              action__date__lte=date).annotate(
+                                                              action__date__gte=date_from,
+                                                              action__date__lte=date_to).annotate(
             total=Count('id')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
@@ -476,10 +477,10 @@ class DashboardView(viewsets.ViewSet):
             'actions_by_partner': get_actions_by_partner(partner_data),
             'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
-                                                                              period_data['date_from'], principles),
+                                                                              date_from, principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,
-                                                                             datetime.strptime(period_data['date_from'],
-                                                                                               '%Y-%m-%d'), principles),
+                                                                             datetime.strptime(date_from, '%Y-%m-%d'), 
+                                                                             principles),
         }
 
         return Response(
@@ -680,19 +681,19 @@ class PartnerStatsView(viewsets.ViewSet):
         if not period_data:
             return Response(empty_response)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to'], user_id).order_by('date')
+        date_from = period_data['date_from']
+        date_to = period_data['date_to']
+        action_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date, user_id).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
         actions_by_principles_data = Action.objects.filter(cooperative=cooperative_id, 
-                                    principles__visible=True, date__gte=period_data['date_from'],   
-                                    date__lte=date, partners_involved__in=[user_id]).values('principles').annotate(total=Count('principles')).order_by()
+                                    principles__visible=True, date__gte=date_from,   
+                                    date__lte=date_to, partners_involved__in=[user_id]).values('principles').annotate(total=Count('principles')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
 
@@ -702,10 +703,10 @@ class PartnerStatsView(viewsets.ViewSet):
             'progress_data': get_progress_data(action_data, done_actions_data, period_data, request.user),
             'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
-                                                                              period_data['date_from'], principles),
+                                                                              date_from, principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,
-                                                                             datetime.strptime(period_data['date_from'],
-                                                                                               '%Y-%m-%d'), principles),
+                                                                             datetime.strptime(date_from, '%Y-%m-%d'), 
+                                                                             principles)
         }
 
         return Response(
