@@ -1,5 +1,6 @@
 import functools
 from datetime import datetime, date
+from .views_utils import *
 
 import requests
 from django.conf import settings
@@ -17,10 +18,10 @@ from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progres
     get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle,\
     get_all_principles_data_for_current_partner
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
-    SustainableDevelopmentGoal, SDGObjective
+    SustainableDevelopmentGoal
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
-    ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer, SDGObjectiveSerializer
+    ActionsByCoopSerializer
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import detail_route
@@ -46,59 +47,6 @@ class PrincipleView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
-
-
-class SustainableDevelopmentGoalView(viewsets.ModelViewSet):
-    """
-    list:
-    Returns the list of SustainableDevelopmentGoal for the current cooperative.
-
-    create:
-    Creates a SustainableDevelopmentGoal for the current cooperative.
-
-    destroy:
-    Removes the selected SustainableDevelopmentGoal.
-    """            
-    serializer_class = SustainableDevelopmentGoalSerializer
-
-    def get_queryset(self):
-        return SustainableDevelopmentGoal.objects.all()
-
-
-class SDGObjectiveView(viewsets.ModelViewSet):
-    """
-    list:
-    Returns the list of SDG objectives for the current cooperative.
-
-    create:
-    Creates a SDG objective for the current cooperative.
-
-    destroy:
-    Removes the selected SDG objective.
-    """
-    serializer_class = SDGObjectiveSerializer
-
-    def get_queryset(self):
-        queryset = SDGObjective.objects.filter(cooperative=self.request.user.cooperative_id)
-        return queryset
-
-    def create(self, request):
-        sdg_objective_serializer = SDGObjectiveSerializer(data=request.data)
-
-        if not sdg_objective_serializer.is_valid():
-            return Response(sdg_objective_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        sdg_objective_data = SDGObjective.objects.create(**sdg_objective_serializer.validated_data)
-
-        setattr(sdg_objective_data, 'cooperative_id', request.user.cooperative.id)
-        try:
-            sdg_objective_data.save()
-        except IntegrityError:
-            return Response(data={'detail': _("This objective already exists, please modify the existing one.")}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as errors:
-            return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response("SDG_OBJ_CREATED", status=status.HTTP_200_OK)
 
 class ActionFilter(filters.FilterSet):
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
@@ -398,23 +346,6 @@ class PartnerView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-def get_current_period(all_periods):
-    """
-    #FIXME not working
-    get_current_period:
-    Returns the current period for a cooperative id based on today date.
-    """
-    today = datetime.today()
-    # Note that if there are two periods that overlap, it returns the last one.
-    current_periods = [period for period in all_periods if
-                        datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(
-                            period['date_to'], '%Y-%m-%d')]
-    current_period = current_periods[len(current_periods) - 1]
-    if (current_period):
-        return current_period
-    return None
-
 class DashboardView(viewsets.ViewSet):
     """
     list:
@@ -487,7 +418,6 @@ class DashboardView(viewsets.ViewSet):
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
 
-
 class BalanceView(viewsets.ViewSet):
     """
     list:
@@ -527,96 +457,6 @@ class BalanceView(viewsets.ViewSet):
 
         return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
                          'total_invested': total_invested})
-
-
-class SDGBalanceView(viewsets.ViewSet):
-    """
-    list:
-    Returns the SDG balance for the selected period {periodId as query param} and cooperative.
-    """
-
-    def list(self, request):
-        cooperative_id = request.user.cooperative_id
-        empty_response = {'period': [], 'actions': [], 'all_periods': []}
-
-        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
-        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
-        if not all_periods_serializer.data:
-            return Response(empty_response)
-
-        period_id = request.query_params.get('periodId', None)
-        if period_id is not None:
-            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
-                               None)
-        else:
-            period_data = get_current_period(all_periods_serializer.data)
-
-        if not period_data:
-            return Response(empty_response)
-            
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to']).order_by('date')
-        action_serializer = ActionSerializer(action_data, many=True)
-
-        actions = []
-        [[actions.append({**action, 'objective_name_key': action_ods['name'], 'objective': action_ods['id']}) for
-          action_ods in action['sustainable_development_goals']] for action in action_serializer.data]
-
-        total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
-                                                                      [action.invested_money for action in
-                                                                       list(action_data)])
-
-        return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
-                         'total_invested': total_invested})
-
-
-class SDGMonitoringView(viewsets.ViewSet):
-    """
-    list:
-    Returns SDGs objectives for the selected period {periodId as query param} and cooperative.
-    """
-
-    def list(self, request):
-        cooperative_id = request.user.cooperative_id
-        empty_response = {'period': [], 'actions': [], 'all_periods': []}
-
-        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
-        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
-        if not all_periods_serializer.data:
-            return Response(empty_response)
-
-        period_id = request.query_params.get('periodId', None)
-        if period_id is not None:
-            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
-                               None)
-        else:
-            period_data = get_current_period(all_periods_serializer.data)
-            period_id = period_data['id']
-
-        if not period_data:
-            return Response(empty_response)
-            
-        sdg_objectives_data = SDGObjective.objects.filter(cooperative=cooperative_id, period=period_id)
-        sdg_objectives_serializer = SDGObjectiveSerializer(sdg_objectives_data, many=True)
-        
-        actions = Action.objects.filter(cooperative=cooperative_id, date__gte=period_data['date_from'], date__lte=period_data['date_to'])
-        actions_serializer = ActionSerializer(actions, many=True)
-
-        def filterData(sdg):
-            return list(filter(lambda x: sdg in list(map(lambda x:x['id'], x['sustainable_development_goals'])), actions_serializer.data))
-
-        monitoring_data = []
-        for sdg_objective in sdg_objectives_serializer.data:
-            data = filterData(sdg_objective['sustainable_development_goal'])
-            invested_hours = sum(map(lambda x: float(x['invested_hours']), data))
-            invested_money = sum(map(lambda x: float(x['invested_money']), data))
-
-            monitoring_data.append({**sdg_objective, 
-                'invested_hours': invested_hours,
-                'invested_money': invested_money,
-                'performed_actions': len(data)})
-
-        return Response({'period': period_data, 'monitoring_data': monitoring_data, 'all_periods': all_periods_serializer.data})
 
 
 class ActionsRankingView(viewsets.ViewSet):
