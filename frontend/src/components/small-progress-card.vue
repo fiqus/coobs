@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="col-3">
-            <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{objective.hoursToReach}}</div>
+            <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{formatNumber(objective.hoursToReach)}}</div>
           </div>
         </div>
         <hr>
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="col-3">
-            <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{objective.moneyToInvest}}</div>
+            <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{formatNumber(objective.moneyToInvest)}}</div>
           </div>
         </div>
         <hr>
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import { parseMoney } from "../utils";
 export default {
   props: {
     objective: {
@@ -71,6 +72,11 @@ export default {
       required: true
     }
   },
+  methods: {
+    formatNumber(number) {
+      return parseMoney(number);
+    }
+  },  
   computed: {
     hoursProgressStyle(){
       return `width: ${this.objective.investedHours / this.objective.hoursToReach * 100}%`;

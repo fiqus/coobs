@@ -18,7 +18,7 @@
         <td class="col-sm-3">{{action.name}}</td>
         <td class="col-sm-5">{{action.description}}</td>
         <td class="col-sm-2">{{action.date | formatToUIDate}}</td>
-        <td class="col-sm-2" align="right">${{Number(action.investedMoney)}}</td>
+        <td class="col-sm-2" align="right">${{formatNumber(Number(action.investedMoney))}}</td>
       </tr>
     </tbody>
   </table>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import {parseMoney} from "../utils";
 export default {
   props: {
     periodSummary: {
@@ -33,7 +34,12 @@ export default {
       required: true
     },
     groupedBy: String
-  }
+  },
+  methods: {
+    formatNumber(number) {
+      return parseMoney(number);
+    }
+  }  
 };
 </script>
 

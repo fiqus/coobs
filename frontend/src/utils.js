@@ -6,9 +6,13 @@ export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-// TODO not in use. Maybe should?
 export function parseMoney(number) {
-  return number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,"); 
+  const regex = /\d(?=(\d{3})+\.)/g;
+  if (regex.test(number)){
+    number = isNaN(number) ? number.toFixed(2): number;
+    return number.replace(regex, "$&,"); 
+  }
+  return number; 
 }
 
 // format YYYY-MM-DD to DD/MM/YYY

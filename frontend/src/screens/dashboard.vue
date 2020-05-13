@@ -56,7 +56,7 @@
             icon="currency"
             color-type="success">
             <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{totalInvested}}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{formatNumber(totalInvested)}}</div>
             </template>
           </smallcard-chart>
 
@@ -67,7 +67,7 @@
             <template v-slot:chart-content>
               <div class="row no-gutters align-items-center">
                 <div class="col-auto">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{promotionFundPercentage}}%</div>
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{formatNumber(promotionFundPercentage)}}%</div>
                 </div>
                 <div class="col">
                   <div class="progress progress-sm mr-2">
@@ -157,7 +157,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{formatNumber(progressData.investmentProgressData.budget)}}</div>
                     </div>
                   </div>
                 </div>
@@ -199,6 +199,7 @@ import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
+import { parseMoney } from "../utils";
 
 
 function dateToUserTimeZone (date){
@@ -243,6 +244,9 @@ export default {
     }
   },
   methods: {
+    formatNumber(number) {
+      return parseMoney(number);
+    },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;
 

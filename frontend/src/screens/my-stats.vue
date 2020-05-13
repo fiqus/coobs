@@ -58,7 +58,7 @@
             columns="col-xl-4"
             color-type="success">
             <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalHoursInvested}}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{formatNumber(totalHoursInvested)}}</div>
             </template>
           </smallcard-chart>
 
@@ -147,7 +147,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.investmentProgressData.partnerHoursGoal}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{formatNumber(progressData.investmentProgressData.partnerHoursGoal)}}</div>
                     </div>
                     <small v-if='progressData.investmentProgressData.partnerHoursGoal==0' class="form-text text-muted font-italic ml-3">{{$t('zeroPartnerHoursGoal')}}</small>
                   </div>
@@ -184,6 +184,7 @@ import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
+import {parseMoney} from "../utils";
 
 
 function dateToUserTimeZone (date){
@@ -215,6 +216,9 @@ export default {
     }
   },
   methods: {
+    formatNumber(number) {
+      return parseMoney(number);
+    },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;
       this.selectedValue = dashboardData.period.id;

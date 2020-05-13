@@ -43,7 +43,7 @@
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
-            {{$t("sdgBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
+            {{$t("sdgBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: formatNumber(Number(period.actionsBudget))})}}
           </h3>
         </div>
         <balance-by-period-table groupedBy="sdg" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
@@ -54,7 +54,7 @@
           <thead>
             <tr class="row table-info h5">
               <th class="col-sm-10" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>
-              <th class="col-sm-2 align-right" scope="col">${{totalInvested}}</th>
+              <th class="col-sm-2 align-right" scope="col">${{formatNumber(totalInvested)}}</th>
             </tr>
           </thead>
         </table>
@@ -68,7 +68,7 @@ import {httpGet} from "../../api-client";
 import BalanceByPeriodTable from "../../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../../components/loader-overlay.vue";
-import {formatToUIDate} from "../../utils";
+import {formatToUIDate, parseMoney} from "../../utils";
 
 function print(period, translator, parent){
   const self = parent;
@@ -104,6 +104,9 @@ export default {
   methods: {
     format(date) {
       return formatToUIDate(date);
+    },
+    formatNumber(number) {
+      return parseMoney(number);
     },
     setErrorMsg(err){
       this.error = {

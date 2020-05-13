@@ -45,11 +45,11 @@
         </span><br/>
         <label class="bold">{{$t('investedHours')}}:</label>
         <span name="investedHours"
-          type="text">{{modalAction.actionData.investedHours}}
+          type="text">{{formatNumber(modalAction.actionData.investedHours)}}
         </span><br/>
         <label class="bold">{{$t('investedMoney')}}:</label>
         <span name="investedMoney"
-          type="text">$ {{modalAction.actionData.investedMoney}}
+          type="text">$ {{formatNumber(modalAction.actionData.investedMoney)}}
         </span><br/>
       </template>
     </detail-modal>
@@ -90,7 +90,7 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import {formatText, capitalizeFirstChar, formatToUIDate} from "../../utils";
+import {formatText, capitalizeFirstChar, formatToUIDate, parseMoney} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
@@ -198,6 +198,9 @@ export default {
     };
   },
   methods: {
+    formatNumber(number){
+      return parseMoney(number);
+    },
     principlesFilter(principles) {
       return principles.map(({id, name, nameKey}) => {
         return {

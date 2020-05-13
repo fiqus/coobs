@@ -23,12 +23,12 @@
         <label class="bold">{{$t('hoursToReach')}}:</label>
         <span name="hoursToReach"
           type="text">
-          {{modalSDGObjective.sdgObjectiveData.hoursToReach}}
+          {{formatNumber(modalSDGObjective.sdgObjectiveData.hoursToReach)}}
         </span><br/>
         <label class="bold">{{$t('moneyToInvest')}}:</label>
         <span name="moneyToInvest"
           type="text">
-          {{modalSDGObjective.sdgObjectiveData.moneyToInvest}}
+          {{formatNumber(modalSDGObjective.sdgObjectiveData.moneyToInvest)}}
         </span><br/>
         <label class="bold">{{$t('actionsToPerform')}}:</label>
         <span name="actionsToPerform"
@@ -54,7 +54,7 @@
 <script>
 import SimpleTable from "../../../components/simple-table.vue";
 import DetailModal from "../../../components/detail-modal.vue";  
-import {formatText} from "../../../utils";
+import {formatText, parseMoney} from "../../../utils";
 import {httpGet, httpDelete} from "../../../api-client.js";
 import swal from "sweetalert";
 import Loader from "../../../components/loader-overlay.vue";
@@ -87,6 +87,9 @@ export default {
     };
   },
   methods: {
+    formatNumber(number){
+      return parseMoney(number);
+    },
     onQuickView(sdgObj) {
       return api.getSDGObjective(sdgObj.id).then((sdgObjectiveData) => {
         this.modalSDGObjective = {sdgObjectiveData: sdgObjectiveData};
