@@ -119,7 +119,6 @@ export default {
     showBalance(res){
       const {period, actions, allPeriods, totalInvested} = res.data;
       this.allPeriods = allPeriods;
-      this.period = period;
       this.selectedValue = period.id;      
       if (!period || !actions || !actions.length) {
         this.error = {
@@ -128,18 +127,19 @@ export default {
           message: "notEnoughInfoForBalance"
         };
       } else {
+        this.period = period;
         this.actionsByPeriod = actions.reduce((obj, action) => {
           if (!action.public) {
             return obj;
           }
-          if (!Object.keys(obj).includes(action.sustainableDevelopmentGoals.toString())) {
-            obj[action.sustainableDevelopmentGoals] = {
+          if (!Object.keys(obj).includes(action.objectiveNameKey)) {
+            obj[action.objectiveNameKey] = {
               objectiveNameKey: action.objectiveNameKey,
               actions: []
             };
           }
           const {date, description, investedMoney, name} = action;
-          obj[action.sustainableDevelopmentGoals].actions.push({date, description, investedMoney, name});
+          obj[action.objectiveNameKey].actions.push({date, description, investedMoney, name});
           return obj;
         }, {});
         this.totalInvested = totalInvested;
@@ -167,7 +167,8 @@ export default {
     // we need to ask for ODS again with names translated to the new locale
     locale(newLocale) {
       this.isLoading = true;
-      return httpGet("/ods-balance")
+      const params = this.selectedValue ? {periodId: this.selectedValue} : {};
+      return httpGet("/sdg-balance", params)
         .then((res) => {
           this.showBalance(res);
         })

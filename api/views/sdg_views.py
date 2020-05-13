@@ -96,12 +96,10 @@ class SDGBalanceView(viewsets.ViewSet):
         action_serializer = ActionSerializer(action_data, many=True)
 
         actions = []
-        [[actions.append({**action, 'objective_name_key': action_ods['name'], 'objective': action_ods['id']}) for
+        [[actions.append({**action, 'objective_name_key': action_ods['name_key'], 'objective': action_ods['id']}) for
           action_ods in action['sustainable_development_goals']] for action in action_serializer.data]
-
-        total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
-                                                                      [action.invested_money for action in
-                                                                       list(action_data)])
+        
+        total_invested = sum([float(action['invested_money']) for action in action_serializer.data if len(action['sustainable_development_goals'])])
 
         return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
                          'total_invested': total_invested})
