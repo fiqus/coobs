@@ -15,26 +15,17 @@
 
 <script>
 import VueApexCharts from "vue-apexcharts";
+import {parseMoney} from "../utils"
 
 const commonsChartOptions = {
-  plotOptions: {
-    area: {
-      
-    }
-  },
-  
   colors: ["#e55763", "#f2aa76", "#ffffa8", "#9bcc78", "#b7e1f7", "#5348ce", "#7d3ba5"],
   chart: {
     height: 350,
-    stacked: true,
-    events: {
-      selection: function (chart, e) {
-        console.log(new Date(e.xaxis.min));
-      }
-    },
+    stacked: true
   },
   dataLabels: {
-    enabled: true
+    enabled: true,
+    formatter: (val) => `$ ${parseMoney(val)}`
   },
   stroke: {
     curve: "smooth"
@@ -45,15 +36,18 @@ const commonsChartOptions = {
       opacityFrom: 0.6,
       opacityTo: 0.8,
     }
-  },  
-  /* legend: {
-    position: "bottom",
-    horizontalAlign: "left"
-  }, */
+  },
   xaxis: {
     type: "datetime",
   },
-
+  tooltip: {
+    x: {
+      show: false
+    },
+    y: {
+      formatter: (val) => `$ ${parseMoney(val)}`
+    }
+  }
 };
 
 export default {

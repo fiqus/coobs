@@ -97,12 +97,7 @@
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
           </donut-chart>
 
-          <bars-chart
-            :label="$t('allPrinciples')"
-            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-          </bars-chart>
-
-          <div class="col-xl-4 col-lg-4">
+          <div class="col-xl-6 col-lg-4">
             <div class="card shadow mb-4">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
@@ -266,18 +261,9 @@ export default {
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
-      /* if (dashboardData.charts.actionsByPartner === {}) {
-        this.showActionsByPartner = false;
-      } else {
-        this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
-        this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
-      } */
-
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
-      //this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
 
       this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
-      //this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;

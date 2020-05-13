@@ -168,3 +168,9 @@ msgstr "Debe seleccionar un principio o un objetivo de desarrollo sustentable."
 
 msgid "This objective already exists, please modify the existing one."
 msgstr "Este objetivo ya existe, por favor, modifique el existente."
+
+msgid "Invested hours"
+msgstr "Horas invertidas"
+
+msgid "Invested money"
+msgstr "Dinero invertido"

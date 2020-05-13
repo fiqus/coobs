@@ -1362,3 +1362,9 @@ msgstr ""
 
 msgid "This objective already exists, please modify the existing one."
 msgstr "This objective already exists, please modify the existing one."
+
+msgid "Invested hours"
+msgstr "Invested hours"
+
+msgid "Invested money"
+msgstr "Invested money"

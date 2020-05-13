@@ -82,17 +82,7 @@
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
           </donut-chart>
 
-          <bars-chart
-            :label="$t('allPrinciples')"
-            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-            <template v-slot:tooltip>
-              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="localizeTooltip()">
-                <icon id="allPrinciplesTooltip" class="fa fa-question-circle"></icon>
-              </span>
-            </template>
-          </bars-chart>
-
-          <div class="col-xl-4 col-lg-4">
+          <div class="col-xl-6 col-lg-4">
             <div class="card shadow mb-4">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
@@ -261,9 +251,6 @@ export default {
         result.name = this.$t(result.nameKey);
         return result;
       }) : [];
-    },
-    localizeTooltip(){
-      return this.$t('allPrinciplesTooltip');
     },
     async onPeriodChange(){
       this.error.exists = false;
