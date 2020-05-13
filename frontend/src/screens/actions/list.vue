@@ -163,7 +163,22 @@ export default {
       actions: [],
       pagination: {},
       periods: [],
-      filters: [
+      filters: this.loadFilters(),
+      ordering: {
+        enabled: true,
+        by: "date",
+        dir: "-"
+      },
+      filterParams: {},
+      orderingParams: {},
+      isLoading: true,
+      emptyMsg: this.$t('emptyActionMsg'),
+      modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}}
+    };
+  },
+  methods: {
+    loadFilters() {
+      const filters = [
         {
           key: "principle",
           value: null,
@@ -179,25 +194,17 @@ export default {
           value: null,
           options: []
         },
-        {
+        
+      ];
+      if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
+        filters.push({
           key: "sustainable_development_goal", // query params are not supported by DRF camel case lib
           value: null,
           options: []
-        }
-      ],
-      ordering: {
-        enabled: true,
-        by: "date",
-        dir: "-"
-      },
-      filterParams: {},
-      orderingParams: {},
-      isLoading: true,
-      emptyMsg: this.$t('emptyActionMsg'),
-      modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}}
-    };
-  },
-  methods: {
+        });
+      }
+      return filters;
+    },
     formatNumber(number){
       return parseMoney(number);
     },
