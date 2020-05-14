@@ -54,7 +54,7 @@
 <script>
 import SimpleTable from "../../../components/simple-table.vue";
 import DetailModal from "../../../components/detail-modal.vue";  
-import {formatText, parseMoney} from "../../../utils";
+import {formatText, parseNumber} from "../../../utils";
 import {httpGet, httpDelete} from "../../../api-client.js";
 import swal from "sweetalert";
 import Loader from "../../../components/loader-overlay.vue";
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     formatNumber(number){
-      return parseMoney(number);
+      return parseNumber(number, this.$i18n.locale());
     },
     onQuickView(sdgObj) {
       return api.getSDGObjective(sdgObj.id).then((sdgObjectiveData) => {

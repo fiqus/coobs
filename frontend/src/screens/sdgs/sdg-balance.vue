@@ -68,7 +68,7 @@ import {httpGet} from "../../api-client";
 import BalanceByPeriodTable from "../../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../../components/loader-overlay.vue";
-import {formatToUIDate, parseMoney} from "../../utils";
+import {formatToUIDate, parseNumber} from "../../utils";
 
 function print(period, translator, parent){
   const self = parent;
@@ -106,7 +106,7 @@ export default {
       return formatToUIDate(date);
     },
     formatNumber(number) {
-      return parseMoney(number);
+      return parseNumber(number, this.$i18n.locale());
     },
     setErrorMsg(err){
       this.error = {

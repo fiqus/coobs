@@ -90,7 +90,7 @@ import DetailModal from "../../components/detail-modal.vue";
 import FiltersTable from "../../components/filters-table-component.vue";
 import PaginationTable from "../../components/pagination-table-component.vue";
 import Loader from "../../components/loader-overlay.vue";
-import {formatText, capitalizeFirstChar, formatToUIDate, parseMoney} from "../../utils";
+import {formatText, capitalizeFirstChar, formatToUIDate, parseNumber} from "../../utils";
 import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
@@ -206,7 +206,7 @@ export default {
       return filters;
     },
     formatNumber(number){
-      return parseMoney(number);
+      return parseNumber(number, this.$i18n.locale());
     },
     principlesFilter(principles) {
       return principles.map(({id, name, nameKey}) => {

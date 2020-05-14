@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import {parseMoney} from "../utils";
+import {parseNumber} from "../utils";
 export default {
   props: {
     periodSummary: {
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     formatNumber(number) {
-      return parseMoney(number);
+      return parseNumber(number, this.$i18n.locale());
     }
   }  
 };

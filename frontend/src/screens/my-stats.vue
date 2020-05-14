@@ -174,7 +174,7 @@ import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
-import {parseMoney} from "../utils";
+import {parseNumber} from "../utils";
 
 
 function dateToUserTimeZone (date){
@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     formatNumber(number) {
-      return parseMoney(number);
+      return parseNumber(number, this.$i18n.locale());
     },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;

@@ -6,13 +6,8 @@ export function capitalizeFirstChar(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function parseMoney(number) {
-  const regex = /\d(?=(\d{3})+\.)/g;
-  if (regex.test(number)){
-    number = isNaN(number) ? number.toFixed(2): number;
-    return number.replace(regex, "$&,"); 
-  }
-  return number; 
+export function parseNumber(number, locale) {
+  return Intl.NumberFormat(locale || "es").format(number);
 }
 
 // format YYYY-MM-DD to DD/MM/YYY

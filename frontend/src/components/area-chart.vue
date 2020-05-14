@@ -15,7 +15,7 @@
 
 <script>
 import VueApexCharts from "vue-apexcharts";
-import {parseMoney} from "../utils"
+import {parseNumber} from "../utils"
 
 const commonsChartOptions = {
   colors: ["#e55763", "#f2aa76", "#ffffa8", "#9bcc78", "#b7e1f7", "#5348ce", "#7d3ba5"],
@@ -25,7 +25,7 @@ const commonsChartOptions = {
   },
   dataLabels: {
     enabled: true,
-    formatter: (val) => `$ ${parseMoney(val)}`
+    formatter: (val) => `$ ${parseNumber(val)}`
   },
   stroke: {
     curve: "smooth"
@@ -45,7 +45,7 @@ const commonsChartOptions = {
       show: false
     },
     y: {
-      formatter: (val) => `$ ${parseMoney(val)}`
+      formatter: (val) => `$ ${parseNumber(val)}`
     }
   }
 };
