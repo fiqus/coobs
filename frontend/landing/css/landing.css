@@ -1,0 +1,110 @@
+.btn-lang {
+    background-color: #171E3F;
+    color: white;
+    border-radius: 8px;
+}
+
+.btn-sign-in {
+    color: #171E3F;
+    background-color: transparent;
+}
+
+.masthead {
+  padding-top: calc(6rem + 74px);
+  padding-bottom: 6rem;
+}
+
+.masthead .masthead-heading {
+  font-size: 2.75rem;
+  line-height: 2.75rem;
+}
+
+.masthead .masthead-subheading {
+  font-size: 1.25rem;
+  margin-top: 40px;
+  padding-right: 190px;
+}
+
+.masthead .masthead-avatar {
+  width: 15rem;
+}
+
+@media (min-width: 992px) {
+  .masthead {
+    padding-top: calc(6rem + 104px);
+    padding-bottom: 6rem;
+  }
+  .masthead .masthead-heading {
+    font-size: 4.9rem;
+    line-height: 4.7rem;
+    font-weight: 910;
+    letter-spacing: 4px;
+  }
+  .masthead .masthead-subheading {
+    font-size: 1.5rem;
+    margin-top: 40px;
+    padding-right: 190px;
+  }
+}
+
+.masthead img {
+    max-height: 350px;
+}
+
+.masthead h1 {
+    font-weight:bold;
+}
+
+masthead-subheading {
+  font-size: 1.2rem;
+}
+
+.custom-green {
+  color: #00E546;
+}
+
+.bg-custom-green {
+  background-color: #00D337;
+}
+
+.custom-blue {
+  color: #00C3FF;
+}
+
+.custom-orange {
+  color: #FF6A24;
+}
+
+.custom-violet {
+  color: #171E3F;
+}
+
+.bg-grey {
+  background-color: #F2F4F9;
+}
+
+.signup {
+  border: solid 2px #171E3F;
+  border-radius: 47px;
+}
+
+.signup input {
+  border: solid 2px #171E3F;
+  border-radius: 10px;
+}
+
+.footer {
+  color: white;
+  font-weight: 500;
+}
+
+.btn-register {
+  background-color: #171E3F;
+  color: white;
+  border-radius: 10px !important;
+}
+
+#signup {
+  font-size: 54px;
+  font-weight: 900;
+}

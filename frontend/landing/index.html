@@ -6,80 +6,80 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="author" content="Fiqus">
 
   <title>COOBS</title>
 
   <!-- Custom fonts for this theme -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
+  <link href="https://fonts.google.com/specimen/IBM+Plex+Sans" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 
-<body id="page-top">
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top bg-white" id="navbar-top">
+        <div class="container-fluid p-4">
+          <img class="navbar-brand js-scroll-trigger" src="images/coobs.png" style="height: 40px;width: 190px;">
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg bg-secondary fixed-top" id="mainNav">
-    <div class="container">
-      <img class="navbar-brand js-scroll-trigger" src="images/coobs.png" style="height: 46px;width: 225px;">
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <a id="signIn" class="btn btn-sign-in ml-auto" href="app#/login"></a>
 
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <a id="signIn" class="btn btn-primary ml-auto" href="app#/login"></a>
-
-        <select class="btn btn-primary ml-3" id="language">
-          <option value="es" selected="selected">Español</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Masthead -->
-  <header class="masthead bg-primary text-white text-center">
-    <div class="container d-flex align-items-center flex-column">
-
-      <!-- Masthead Avatar Image 
-        <img class="masthead-avatar mb-5" src="img/avataaars.svg" alt="">
-      -->
-      <!-- Masthead Heading -->
-      <h1 id="welcomeToCoobs" class="masthead-heading text-uppercase mb-0"></h1>
-
-      <!-- Icon Divider -->
-      <div class="divider-custom divider-light">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon rotate-n-15">
-          <i class="fas fa-handshake"></i>
+            <select class="btn btn-lang ml-3" id="language">
+              <option value="es" selected="selected">Español</option>
+              <option value="en">English</option>
+            </select>
+          </div>
         </div>
-        <div class="divider-custom-line"></div>
-      </div>
+    </nav>
 
-      <!-- Masthead Subheading -->
-      <p id="subtitle" class="masthead-subheading font-weight-light mb-0">
-      </p>
+  <header class="masthead bg-grey">
+    <div class="container d-flex align-items-center flex-column">
+        <div class="row">
+            <div class="col-md-7">
+                <h1 id="header-title" class="masthead-heading mb-0 custom-green"></h1>
+                <p id="header-subtitle" class="masthead-subheading font-weight-bold mb-0"></p>
+            </div>
+            <div class="col-md-5">
 
+                <img src="images/Ilustracion_COOBS_home_01.png">
+            </div>
+        </div>
     </div>
   </header>
-
-  <section class="bg-gray-100 pb-5" id="signup">
+  <section class="bg-gray-100 pt-5 pb-5" id="metrics">
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-xl-8 col-lg-10 col-md-7">
-          <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-              <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-md-7">
+          <h1 id="section-metrics-title" class="masthead-heading mb-0 custom-orange"></h1>
+          <p id="section-metrics-subtitle" class="masthead-subheading font-weight-bold mb-0"></p>
+        </div>
+        <div class="col-md-5">
+          <img src="images/Ilustracion_COOBS_home_02.png">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-gray-100 pt-5 pb-5" id="section-bs">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <img src="images/Ilustracion_COOBS_home_03.png">
+        </div>
+        <div class="col-md-7">
+          <h1 id="section-bs-title" class="masthead-heading mb-0 custom-blue"></h1>
+          <p id="section-bs-subtitle" class="masthead-subheading font-weight-bold mb-0"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-gray-100 pt-5 pb-5" id="section-signup">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="signup">
               <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-10">
+                <div class="col-md-10 offset-md-1">
                   <div class="p-5">
-                    <h2 id="joinUs" class="page-section-heading text-center text-uppercase text-secondary mb-0"></h2>
-                    <!-- Icon Divider -->
-                    <div class="divider-custom">
-                      <div class="divider-custom-line"></div>
-                      <div class="divider-custom-icon rotate-n-15">
-                        <i class="fas fa-handshake"></i>
-                      </div>
-                      <div class="divider-custom-line"></div>
-                    </div>
+                    <h2 id="signup" class="text-center custom-violet mb-4"></h2>
                     <form id="registerForm" novalidate="novalidate" class="user">
                       <div class="form-group control-group mb-45">
                         <input type="text" class="form-control form-control-user" id="coopBusinessName" name="businessName" placeholder="Cooperative Business name"
@@ -123,7 +123,7 @@
                       </div>
                       <div id="success"></div>
                       <div class="form-group">
-                        <button id="registerAccount" type="submit" class="btn btn-primary btn-user btn-block"></button>
+                        <button id="registerAccount" type="submit" class="btn btn-user btn-block btn-register"></button>
                       </div>
                     </form>
                     <hr>
@@ -132,122 +132,35 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-1"></div>
               </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+  <section class="bg-gray-100 pt-3 pb-5 bg-grey" id="section-labs">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 pt-5 text-center">
+          <img src="images/COOBS_Logo_Labs.png">
+        </div>
+        <div class="col-md-12 text-center">
+          <p class="col-md-6 offset-md-3 pt-2 text-center" id="section-labs-text"></p>
 
-  <section class="showcase bg-primary text-white mb-0" id="features">
-    <div class="container-fluid p-0">
-      <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 text-white showcase-img"
-          style="background-image: url('images/laptop.jpg');"></div>
-        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <h2 id="firstImageTextTitle"></h2>
-          <p id="firstImageTextDescription" class="lead mb-0"></p>
-        </div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 my-auto showcase-text">
-          <h2 id="secondImageTextTitle"></h2>
-          <p id="secondImageTextDescription" class="lead mb-0"></p>
-        </div>
-        <div class="col-lg-6 order-lg-1 text-white showcase-img"
-          style="background-image: url('images/mobile.jpg');"></div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 text-white showcase-img"
-          style="background-image: url('images/laptop.jpg');"></div>
-        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <h2 id="thirdImageTextTitle"></h2>
-          <p id="thirdImageTextDescription" class="lead mb-0"></p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-gray-100 pt-5 pb-5" id="about">
-    <div class="container">
-
-      <!-- About Section Heading -->
-      <h2 id="whyToJoin" class="page-section-heading text-center text-uppercase text-secondary"></h2>
-
-      <!-- Icon Divider -->
-      <div class="divider-custom">
-        <div class="divider-custom-line"></div>
-        <div class="divider-custom-icon">
-          <i class="fas fa-handshake rotate-n-15"></i>
-        </div>
-        <div class="divider-custom-line"></div>
-      </div>
-
-      <!-- About Section Content -->
-      <div class="row">
-        <div class="col-lg-12 ml-auto">
-          <p id="aboutCoobs" class="lead"></p>
-        </div>
-      </div>
-
-      <!-- About Section Button -->
-      <div class="text-center mt-4">
-        <a class="btn btn-xl btn-outline-primary js-scroll-trigger" href="#signup">
-          <i class="fas fa-sign-in-alt mr-2"></i>
-          <span id="registerNow"></span>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer text-center">
+  <footer class="footer text-center bg-custom-green">
     <div class="container">
       <div class="row">
-
-        <!-- Footer Location -->
-        <div class="col-lg-2 mb-5 mb-lg-0">
+        <div class="col-md-12 pt-3">
+            <p>Created with love by Fiqus | COOBS 2020</p>
         </div>
-
-        <!-- Footer Social Icons -->
-        <div class="col-lg-8 mb-5 mb-lg-0">
-          <img class="mb-4" src="images/fiquslab_white_bg.png" style="max-height: 120px;">
-          <h4 id="aboutFiqusLabs" class="mb-4">
-          </h4>
-        </div>
-
-        <!-- Footer About Text -->
-        <div class="col-lg-2">
-        </div>
-
       </div>
     </div>
   </footer>
-
-
-  <!-- Copyright Section -->
-  <section class="copyright py-4 text-center text-white">
-    <div class="container">
-      <small>Created with ♥ by Fiqus | COOBS 2020</small>
-    </div>
-  </section>
-
-  <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
-  <div class="scroll-to-top d-lg-none position-fixed ">
-    <a class="js-scroll-trigger d-block text-center text-white rounded" href="#landing-top">
-      <i class="fa fa-chevron-up"></i>
-    </a>
-  </div>
-
-  <!-- reCaptcha v3 -->
-  <script src="https://www.google.com/recaptcha/api.js?render=6LepzsgUAAAAAJTtaoDibT1Duf2CFQrI0RFl3srT"></script>
-  <script>
-    grecaptcha.ready();
-  </script>
-
 </body>
 
 </html>
