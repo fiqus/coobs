@@ -2,7 +2,7 @@
 * This example shows that you can:
 * - change the language on the fly.
 */
-var myDictionary = {
+var langDict = {
   en: {
     "signIn": "Sign in",
     "header-title-1": "COOBS:",
@@ -96,28 +96,33 @@ var myDictionary = {
     "errorInPostedData": "Se produjo un error con los datos. Por favor, verifica los datos ingresados."
   }
 }
-$.tr.dictionary(myDictionary);
-$(document).ready(function() {
-  var browserLanguage = navigator.language || navigator.userLanguage;
-  var language = browserLanguage ? browserLanguage.split("-")[0] : "en";
+$.tr.dictionary(langDict);
 
-  // change the language
-  $('#language').change(function() {
-    $.tr.language($(this).val());
-    var tr = $.tr.translator();
-    Object.keys(myDictionary["en"]).forEach((key) => {
-      $('#' + key).text(tr(key));
-    })
-    $("#coopBusinessName").attr('placeholder', tr("coopBusinessName"));
-    $("#firstName").attr('placeholder', tr("firstName"));
-    $("#lastName").attr('placeholder', tr("lastName"));
-    $("#email").attr('placeholder', tr("email"));
-    $("#password").attr('placeholder', tr("password"));
-    $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
+function setLang(langKey, langDesc) {
+  $.tr.language(langKey);
+
+  var tr = $.tr.translator();
+  Object.keys(langDict[langKey]).forEach((key) => {
+    $('#' + key).text(tr(key));
   });
 
-  var language = $.tr.language(language, true);
+  $('#language').html(langDesc);
+  $("#coopBusinessName").attr('placeholder', tr("coopBusinessName"));
+  $("#firstName").attr('placeholder', tr("firstName"));
+  $("#lastName").attr('placeholder', tr("lastName"));
+  $("#email").attr('placeholder', tr("email"));
+  $("#password").attr('placeholder', tr("password"));
+  $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
 
-  $('#language').val(language);
-  $('#language').change();
+
+}
+
+$(document).ready(function() {
+
+  // 'es' => default
+  setLang('es', 'Español');
+
+  $('.lang-option').click(function() {
+    setLang($(this).data('value'), $(this).html());
+  });
 });

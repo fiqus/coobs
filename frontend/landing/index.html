@@ -24,16 +24,18 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav my-2 my-lg-0">
           <li class="nav-item active">
             <a id="signIn" class="btn btn-sign-in ml-auto" href="app#/login"></a>
           </li>
           <li class="nav-item dropdown">
-
-            <select class="btn btn-lang ml-3" id="language">
-              <option value="es" selected="selected">Español</option>
-              <option value="en">English</option>
-            </select>
+            <a class="nav-link dropdown-toggle btn-lang" href="#" id="language" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item lang-option" data-value="es" href="#">Español</a>
+              <a class="dropdown-item lang-option" data-value="en" href="#">English</a>
+            </div>
           </li>
         </ul>
       </div>
@@ -170,5 +172,4 @@
     </div>
   </footer>
 </body>
-
 </html>

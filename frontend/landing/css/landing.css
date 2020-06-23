@@ -1,7 +1,13 @@
 .btn-lang {
     background-color: #171E3F;
-    color: white;
+    color: white !important;
     border-radius: 8px;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+#language::after {
+    margin-left: 10px;
 }
 
 .btn-sign-in {
@@ -121,4 +127,34 @@ masthead-subheading {
 .sigin-text {
   text-decoration: none;
   color: #171E3F;
+}
+
+.wave {
+  position: relative;
+  height: 70px;
+  width: 600px;
+}
+
+.wave:before {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 100% 50%;
+        width: 340px;
+    height: 80px;
+    background-color: white;
+    right: -5px;
+    top: 40px;
+}
+
+.wave:after {
+        content: "";
+        display: block;
+        position: absolute;
+        border-radius: 100% 50%;
+        width: 300px;
+    height: 70px;
+    background-color: #e0efe3;
+    left: 0;
+    top: 27px;
 }
