@@ -16,19 +16,51 @@
 <script>
 import VueApexCharts from "vue-apexcharts";
 
+const formatterTooltipValue = (val, obj) => {
+  // show the percentage instead of value
+  const sum = obj.w.globals.series.reduce((acc, col) => {
+    return acc + col[obj.dataPointIndex];
+  }, 0);
+  return `${((val/sum)*100).toFixed(1)}%`;
+}
+
 const commonsChartOptions = {
   colors: ["#e55763", "#f2aa76", "#ffffa8", "#9bcc78", "#b7e1f7", "#5348ce", "#7d3ba5"],
-  
   chart: {
     stacked: true,
+    stackType: '100%',
     height: 350,
     zoom: {
       enabled: false
     }
   },
-  dataLabels: {enabled: false},
   stroke: {curve: "straight"},
-
+  legend: {
+    position: 'bottom',
+    offsetX: 50
+  },
+  tooltip: {
+    x: {
+      show: false
+    },
+    y: {
+      formatter: (val, index) => formatterTooltipValue(val, index)
+    }
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: (val) => `${val.toFixed(1)}%`
+  },
+  responsive: [{
+    breakpoint: 480,
+    options: {
+      legend: {
+        position: 'bottom',
+        offsetX: -10,
+        offsetY: 0
+      }
+    }
+  }]
 };
 
 export default {

@@ -90,3 +90,7 @@ th.active .arrow {
 .bold {
   font-weight: bold;
 }
+
+#donut-chart .apexcharts-legend-series {
+  margin-top: 5px !important;
+}

@@ -43,10 +43,10 @@
       <div id="nodeToRenderAsPDF">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
           <h3 class="h5 mb-0 text-gray-800">
-            {{$t("odsBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: Number(period.actionsBudget)})}}
+            {{$t("sdgBalanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: formatNumber(Number(period.actionsBudget))})}}
           </h3>
         </div>
-        <balance-by-period-table groupedBy="ods" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
+        <balance-by-period-table groupedBy="sdg" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
           :period-summary="periodSummary">
         </balance-by-period-table>
 
@@ -54,7 +54,7 @@
           <thead>
             <tr class="row table-info h5">
               <th class="col-sm-10" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>
-              <th class="col-sm-2 align-right" scope="col">${{totalInvested}}</th>
+              <th class="col-sm-2 align-right" scope="col">${{formatNumber(totalInvested)}}</th>
             </tr>
           </thead>
         </table>
@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import {httpGet} from "../api-client";
-import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
+import {httpGet} from "../../api-client";
+import BalanceByPeriodTable from "../../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
-import Loader from "../components/loader-overlay.vue";
-import {formatToUIDate} from "../utils";
+import Loader from "../../components/loader-overlay.vue";
+import {formatToUIDate, parseNumber} from "../../utils";
 
 function print(period, translator, parent){
   const self = parent;
@@ -105,6 +105,9 @@ export default {
     format(date) {
       return formatToUIDate(date);
     },
+    formatNumber(number) {
+      return parseNumber(number, this.$i18n.locale());
+    },
     setErrorMsg(err){
       this.error = {
         exists: true,
@@ -118,38 +121,38 @@ export default {
     },
     showBalance(res){
       const {period, actions, allPeriods, totalInvested} = res.data;
+      this.allPeriods = allPeriods;
+      this.selectedValue = period.id;      
       if (!period || !actions || !actions.length) {
         this.error = {
           exists: true,
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
-        return;
-      }
-      this.allPeriods = allPeriods;
-      this.actionsByPeriod = actions.reduce((obj, action) => {
-        if (!action.public) {
+      } else {
+        this.period = period;
+        this.actionsByPeriod = actions.reduce((obj, action) => {
+          if (!action.public) {
+            return obj;
+          }
+          if (!Object.keys(obj).includes(action.objectiveNameKey)) {
+            obj[action.objectiveNameKey] = {
+              objectiveNameKey: action.objectiveNameKey,
+              actions: []
+            };
+          }
+          const {date, description, investedMoney, name} = action;
+          obj[action.objectiveNameKey].actions.push({date, description, investedMoney, name});
           return obj;
-        }
-        if (!Object.keys(obj).includes(action.sustainableDevelopmentGoals.toString())) {
-          obj[action.sustainableDevelopmentGoals] = {
-            objectiveNameKey: action.objectiveNameKey,
-            actions: []
-          };
-        }
-        const {date, description, investedMoney, name} = action;
-        obj[action.sustainableDevelopmentGoals].actions.push({date, description, investedMoney, name});
-        return obj;
-      }, {});
-      this.period = period;
-      this.selectedValue = period.id;
-      this.totalInvested = totalInvested;
+        }, {});
+        this.totalInvested = totalInvested;
+      }
       this.isLoading = false;
     },
     async onPeriodChange(){
       this.error.exists = false;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      return httpGet("/ods-balance", params)
+      return httpGet("/sdg-balance", params)
         .then((res) => {
           this.showBalance(res);
         })
@@ -157,9 +160,28 @@ export default {
           this.setErrorMsg(err);
         });
     }      
-  },    
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale();
+    }
+  },
+  watch: {
+    // we need to ask for ODS again with names translated to the new locale
+    locale(newLocale) {
+      this.isLoading = true;
+      const params = this.selectedValue ? {periodId: this.selectedValue} : {};
+      return httpGet("/sdg-balance", params)
+        .then((res) => {
+          this.showBalance(res);
+        })
+        .catch((err) => {
+          this.setErrorMsg(err);
+        });
+    }
+  },
   created() {
-    return httpGet("/ods-balance")
+    return httpGet("/sdg-balance")
       .then((res) => {
         this.showBalance(res);
       })

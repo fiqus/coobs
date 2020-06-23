@@ -17,18 +17,10 @@
 import VueApexCharts from "vue-apexcharts";
 
 const commonsChartOptions = {
-  plotOptions: {
-  },
-  
   colors: [  "#b7e1f7", "#5348ce", "#9bcc78", "#ffffa8",  "#e55763", "#f2aa76", "#7d3ba5"],
   chart: {
     height: 350,
-    stacked: true,
-    events: {
-      selection: function (chart, e) {
-        console.log(new Date(e.xaxis.min));
-      }
-    },
+    stacked: true
   },
   dataLabels: {
     enabled: true
@@ -43,14 +35,14 @@ const commonsChartOptions = {
       opacityTo: 0.8,
     }
   },  
-  /* legend: {
-    position: "bottom",
-    horizontalAlign: "left"
-  }, */
   xaxis: {
     type: "datetime",
   },
-
+  tooltip: {
+    x: {
+      show: false
+    }
+  }
 };
 
 export default {

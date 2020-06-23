@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 import requests
 import functools
 import time
-
+from django.utils.translation import gettext as _
 
 def t(dt):
     return time.mktime(dt.timetuple())
@@ -117,7 +117,7 @@ def get_actions_by_partner(partner_data):
 #MONTHLY HOURS
 def get_monthly_hours(action_data):
     actions_by_date = list(action_data.values('date', 'invested_hours') \
-                            .order_by())
+                            .order_by('date'))
 
     dates_list = [action['date'] for action in actions_by_date]
     categories = list(set(dates_list))
@@ -132,7 +132,7 @@ def get_monthly_hours(action_data):
         else:
             hours_by_date[action['date']] = action['hours']
 
-    result = {'name': 'all_principles', 'data': []}
+    result = {'name': _('Invested hours'), 'data': []}
     for date in hours_by_date.keys():
         result['data'].append(hours_by_date[date])
 
@@ -142,7 +142,7 @@ def get_monthly_hours(action_data):
 
 def get_monthly_investment_by_principle(action_data, date_from, principles):
     actions_amount_by_date = list(action_data.values('date', 'invested_money') \
-                                  .order_by())
+                                  .order_by('date'))
 
     dates_list = [action['date'] for action in actions_amount_by_date]
     categories = list(set(dates_list))
@@ -156,7 +156,7 @@ def get_monthly_investment_by_principle(action_data, date_from, principles):
         else:
             amounts_by_date[action['date']] = action['amount']
 
-    result = {'name': 'all_principles', 'data': []}
+    result = {'name': _('Invested money'), 'data': []}
     for date in amounts_by_date.keys():
         result['data'].append(amounts_by_date[date])
 
@@ -187,7 +187,7 @@ def get_monthly_actions_by_principle(action_data, date_from, principles):
 
     for action in actions_by_principles_by_month_list:
         index = months_labels.index(action['date'])
-        data[action['principle']][index] = action['count']
+        data[action['principle']][index] = action['count']*100 # we need to multiply by 100 because of an apexchart bug
     result = [{'name_key': principle, 'data': data[principle]} for principle in data]
 
     return {'labels': months_labels, 'result': result}

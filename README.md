@@ -54,6 +54,7 @@
 
         http://localhost:8000/api/
 
+
 ## Running Frontend
 
 1. Install node dependencies:
@@ -68,6 +69,7 @@
 
         http://localhost:8080/app
         http://localhost:8080/landing
+
 
 ## Frontend translations
 
@@ -87,6 +89,7 @@
 1. Try to find if translation does not already exist.
 
 2. Add new pair key/value in each translations file.
+
 
 ## Backend translations
 
@@ -125,3 +128,24 @@ The attribute name is a must for relations (ManyToMany, ForeignKeys, etc).
 3. Compile new translations
 
         python manage.py compilemessages
+
+
+## Generating new releases
+To create a release just follow this steps:
+
+1. Merge `master` into `production`
+
+        git checkout master
+        git pull
+        git checkout production
+        git pull
+        git merge --no-ff master
+        git push origin production
+        git checkout master
+
+2. Generate a new release [here](https://github.com/fiqus/coobs/releases/new) and make sure to select the **production** branch!  
+Write a brief release description and use a *senver* string for **tag** and **title** like: `vX.Y.Z`
+
+![Release to production](.github/release-production.png)
+
+3. Click the "Publish release" button and the [deploy action](.github/workflows/deploy.yml) will be triggered!

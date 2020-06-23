@@ -1,5 +1,6 @@
 import functools
 from datetime import datetime, date
+from .views_utils import *
 
 import requests
 from django.conf import settings
@@ -16,11 +17,13 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progress_data, get_all_principles_data, \
     get_actions_by_partner, get_monthly_hours, get_monthly_investment_by_principle, get_monthly_actions_by_principle,\
     get_all_principles_data_for_current_partner
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
+    SustainableDevelopmentGoal
 from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
-    ActionsByCoopSerializer, SustainableDevelopmentGoalSerializer
+    ActionsByCoopSerializer
 from django_filters import rest_framework as filters
+from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
@@ -45,24 +48,6 @@ class PrincipleView(viewsets.ModelViewSet):
     def get_queryset(self):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
-
-class SustainableDevelopmentGoalView(viewsets.ModelViewSet):
-    """
-    list:
-    Returns the list of SustainableDevelopmentGoal for the current cooperative.
-
-    create:
-    Creates a SustainableDevelopmentGoal for the current cooperative.
-
-    destroy:
-    Removes the selected SustainableDevelopmentGoal.
-    """            
-    serializer_class = SustainableDevelopmentGoalSerializer
-
-    def get_queryset(self):
-        return SustainableDevelopmentGoal.objects.all()
-
-
 class ActionFilter(filters.FilterSet):
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
     date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
@@ -74,10 +59,14 @@ class ActionFilter(filters.FilterSet):
         field_name="principles",
         queryset=Principle.objects.all()
     )
+    sustainable_development_goal = filters.ModelMultipleChoiceFilter(
+        field_name="sustainable_development_goals",
+        queryset=SustainableDevelopmentGoal.objects.all()
+    )
 
     class Meta:
         model = Action
-        fields = ['principle', 'date_from', 'date_to', 'partner']
+        fields = ['principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -106,9 +95,11 @@ class ActionView(viewsets.ModelViewSet):
     Removes the selected action.
     """    
     serializer_class = ActionSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = [filters.DjangoFilterBackend, OrderingFilter]
     filterset_class = ActionFilter
     pagination_class =  StandardResultsSetPagination
+    ordering_fields = ['date', 'name']
+    ordering = ['-date']
 
     def get_queryset(self):
         queryset = Action.objects.filter(cooperative=self.request.user.cooperative_id).order_by('-date')
@@ -130,10 +121,10 @@ class ActionView(viewsets.ModelViewSet):
             action_data.partners_involved.add(partner['id'])
 
         for principle in principles:
-            action_data.principles.add(principle)
+            action_data.principles.add(principle['id'])
 
         for goal in sustainable_development_goals:
-            action_data.sustainable_development_goals.add(goal)
+            action_data.sustainable_development_goals.add(goal['id'])
 
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
@@ -321,7 +312,7 @@ class PartnerView(viewsets.ModelViewSet):
         def send_email():
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
-                       'public_url': public_url}
+                       'public_url': public_url, 'email': partner.email}
             text_template = get_template('partner_created_email_template.txt')
             text_content = text_template.render(context)
             html_template = get_template('partner_created_email_template.html')
@@ -355,23 +346,6 @@ class PartnerView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-
-def get_current_period(all_periods):
-    """
-    #FIXME not working
-    get_current_period:
-    Returns the current period for a cooperative id based on today date.
-    """
-    today = datetime.today()
-    # Note that if there are two periods that overlap, it returns the last one.
-    current_periods = [period for period in all_periods if
-                        datetime.strptime(period['date_from'], '%Y-%m-%d') < today < datetime.strptime(
-                            period['date_to'], '%Y-%m-%d')]
-    current_period = current_periods[len(current_periods) - 1]
-    if (current_period):
-        return current_period
-    return None
-
 class DashboardView(viewsets.ViewSet):
     """
     list:
@@ -395,8 +369,6 @@ class DashboardView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -407,25 +379,24 @@ class DashboardView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to']).order_by('date')
+        date_from = period_data['date_from']
+        date_to = period_data['date_to']
+        action_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
         date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
-        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=period_data['date_from'],
-                                              action__date__lte=date).annotate(total=Count('username')).order_by()
+        partner_data = Partner.objects.filter(cooperative=cooperative_id, action__date__gte=date_from,
+                                              action__date__lte=date_to).annotate(total=Count('username')).order_by()
 
         actions_by_principles_data = Principle.objects.filter(cooperative=cooperative_id,
-                                                              action__date__gte=period_data['date_from'],
-                                                              action__date__lte=date).annotate(
+                                                              action__date__gte=date_from,
+                                                              action__date__lte=date_to).annotate(
             total=Count('id')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
@@ -437,16 +408,15 @@ class DashboardView(viewsets.ViewSet):
             'actions_by_partner': get_actions_by_partner(partner_data),
             'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
-                                                                              period_data['date_from'], principles),
+                                                                              date_from, principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,
-                                                                             datetime.strptime(period_data['date_from'],
-                                                                                               '%Y-%m-%d'), principles),
+                                                                             datetime.strptime(date_from, '%Y-%m-%d'), 
+                                                                             principles),
         }
 
         return Response(
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
-
 
 class BalanceView(viewsets.ViewSet):
     """
@@ -462,8 +432,6 @@ class BalanceView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -474,67 +442,14 @@ class BalanceView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
             
         action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
                                                  period_data['date_to']).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        principle_data = Principle.objects.filter(visible=True)
-        principle_serializer = PrincipleSerializer(principle_data, many=True)
-        principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
         actions = []
-        [[actions.append({**action, 'principle_name_key': principles[principle_id], 'principle': principle_id}) for
-          principle_id in action['principles']] for action in action_serializer.data]
-
-        total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
-                                                                      [action.invested_money for action in
-                                                                       list(action_data)])
-
-        return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
-                         'total_invested': total_invested})
-
-
-class ODSBalanceView(viewsets.ViewSet):
-    """
-    list:
-    Returns the ODS balance for the selected period {periodId as query param} and cooperative.
-    """
-
-    def list(self, request):
-        cooperative_id = request.user.cooperative_id
-        empty_response = {'period': [], 'actions': [], 'all_periods': []}
-
-        all_periods_data = Period.objects.filter(cooperative=cooperative_id)
-        all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
-        if not all_periods_serializer.data:
-            return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
-
-        period_id = request.query_params.get('periodId', None)
-        if period_id is not None:
-            period_data = next((period for period in all_periods_serializer.data if period['id'] == int(period_id)),
-                               None)
-        else:
-            period_data = get_current_period(all_periods_serializer.data)
-
-        if not period_data:
-            return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
-            
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to']).order_by('date')
-        action_serializer = ActionSerializer(action_data, many=True)
-
-        ods_data = SustainableDevelopmentGoal.objects.all()
-        ods_serializer = SustainableDevelopmentGoalSerializer(ods_data, many=True)
-        objectives = {objective['id']: objective['name_key'] for objective in list(ods_serializer.data)}
-        actions = []
-        [[actions.append({**action, 'objective_name_key': objectives[objective_id], 'objective': objective_id}) for
-          objective_id in action['sustainable_development_goals']] for action in action_serializer.data]
+        [[actions.append({**action, 'principle_name_key': action_principle['name_key'], 'principle': action_principle['id']}) for
+          action_principle in action['principles']] for action in action_serializer.data]
 
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in
@@ -557,6 +472,7 @@ class ActionsRankingView(viewsets.ViewSet):
         actions_by_coop_data = Action.objects.filter(date__gte=first_day_of_year, public=True,
                                                      principles__in=visible_principles_ids).values('cooperative',
                                                                                                    'cooperative__name',
+                                                                                                   'cooperative__business_name',
                                                                                                    'principles').annotate(
             actions_count=Count('principles')).order_by('cooperative')
         for action in actions_by_coop_data:
@@ -594,8 +510,6 @@ class PartnerStatsView(viewsets.ViewSet):
         all_periods_serializer = PeriodSerializer(all_periods_data, many=True)
         if not all_periods_serializer.data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
         period_id = request.query_params.get('periodId', None)
         if period_id is not None:
@@ -606,22 +520,20 @@ class PartnerStatsView(viewsets.ViewSet):
 
         if not period_data:
             return Response(empty_response)
-            #FIXME based on #122
-            # return Response("NO_PERIOD", status=status.HTTP_400_BAD_REQUEST)
 
-        action_data = Action.get_current_actions(cooperative_id, period_data['date_from'],
-                                                 period_data['date_to'], user_id).order_by('date')
+        date_from = period_data['date_from']
+        date_to = period_data['date_to']
+        action_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, period_data['date_from'], date, user_id).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
         actions_by_principles_data = Action.objects.filter(cooperative=cooperative_id, 
-                                    principles__visible=True, date__gte=period_data['date_from'],   
-                                    date__lte=date, partners_involved__in=[user_id]).values('principles').annotate(total=Count('principles')).order_by()
+                                    principles__visible=True, date__gte=date_from,   
+                                    date__lte=date_to, partners_involved__in=[user_id]).values('principles').annotate(total=Count('principles')).order_by()
 
         principles = {principle['id']: principle['name_key'] for principle in list(principle_serializer.data)}
 
@@ -631,10 +543,10 @@ class PartnerStatsView(viewsets.ViewSet):
             'progress_data': get_progress_data(action_data, done_actions_data, period_data, request.user),
             'monthly_hours_by_date': get_monthly_hours(done_actions_data),
             'monthly_investment_by_date': get_monthly_investment_by_principle(done_actions_data,
-                                                                              period_data['date_from'], principles),
+                                                                              date_from, principles),
             'monthly_actions_by_principle': get_monthly_actions_by_principle(done_actions_data,
-                                                                             datetime.strptime(period_data['date_from'],
-                                                                                               '%Y-%m-%d'), principles),
+                                                                             datetime.strptime(date_from, '%Y-%m-%d'), 
+                                                                             principles)
         }
 
         return Response(

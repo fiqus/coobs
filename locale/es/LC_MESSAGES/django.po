@@ -105,6 +105,9 @@ msgstr "Una de las personas asociadas te agregó a COOBS siendo parte de "
 msgid "Your password has been set to"
 msgstr "Tu contraseña fue seteada como"
 
+msgid "You have been registered with email"
+msgstr "Haz sido registrada/o con el email"
+
 #: api/templates/html_email_template.html:7
 msgid "Please change it as soon as possible."
 msgstr "Por favor cambiala lo más pronto posible."
@@ -162,3 +165,12 @@ msgstr "Las cooperativas trabajan en pro del desarrollo sostenible de sus comuni
 
 msgid "You must select a principle or a sustainable development goal."
 msgstr "Debe seleccionar un principio o un objetivo de desarrollo sustentable."
+
+msgid "This objective already exists, please modify the existing one."
+msgstr "Este objetivo ya existe, por favor, modifique el existente."
+
+msgid "Invested hours"
+msgstr "Horas invertidas"
+
+msgid "Invested money"
+msgstr "Dinero invertido"

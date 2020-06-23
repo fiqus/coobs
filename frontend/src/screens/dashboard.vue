@@ -56,7 +56,7 @@
             icon="currency"
             color-type="success">
             <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{totalInvested}}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{formatNumber(totalInvested)}}</div>
             </template>
           </smallcard-chart>
 
@@ -67,7 +67,7 @@
             <template v-slot:chart-content>
               <div class="row no-gutters align-items-center">
                 <div class="col-auto">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{promotionFundPercentage}}%</div>
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{formatNumber(promotionFundPercentage)}}%</div>
                 </div>
                 <div class="col">
                   <div class="progress progress-sm mr-2">
@@ -97,12 +97,7 @@
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
           </donut-chart>
 
-          <bars-chart
-            :label="$t('allPrinciples')"
-            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-          </bars-chart>
-
-          <div class="col-xl-4 col-lg-4">
+          <div class="col-xl-6 col-lg-4">
             <div class="card shadow mb-4">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
@@ -157,7 +152,7 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{progressData.investmentProgressData.budget}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{formatNumber(progressData.investmentProgressData.budget)}}</div>
                     </div>
                   </div>
                 </div>
@@ -199,6 +194,7 @@ import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
+import { parseNumber } from "../utils";
 
 
 function dateToUserTimeZone (date){
@@ -243,6 +239,9 @@ export default {
     }
   },
   methods: {
+    formatNumber(number) {
+      return parseNumber(number, this.$i18n.locale());
+    },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;
 
@@ -252,7 +251,7 @@ export default {
       this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
       this.doneActions = dashboardData.charts.cardsData.doneActions;
-      this.totalInvested = dashboardData.charts.cardsData.totalInvested ? (dashboardData.charts.cardsData.totalInvested).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
+      this.totalInvested = dashboardData.charts.cardsData.totalInvested;
 
       this.promotionFundPercentage = dashboardData.charts.cardsData.promotionFundPercentage;
       this.promotionFundStyle = `width: ${dashboardData.charts.cardsData.promotionFundPercentage}%`;
@@ -262,24 +261,15 @@ export default {
       this.actionsByPrincipleData = [{data: this.allPrinciplesData.series}];
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
-      /* if (dashboardData.charts.actionsByPartner === {}) {
-        this.showActionsByPartner = false;
-      } else {
-        this.actionsByPartnerData = dashboardData.charts.actionsByPartner.result;
-        this.actionsByPartnerLabels = {categories: dashboardData.charts.actionsByPartner.labels};
-      } */
-
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
-      //this.monthlyHoursByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyHoursByDate.labels} ;
 
       this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
-      //this.monthlyInvestmentByDateLabels = {type: "datetime", categories: dashboardData.charts.monthlyInvestmentByDate.labels} ;
       
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
       
       this.progressData = dashboardData.charts.progressData;
-      this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
+      this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget) : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      

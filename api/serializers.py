@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, SustainableDevelopmentGoal
+from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
+    SustainableDevelopmentGoal, SDGObjective
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django_rest_framework_camel_case.util import camelize
 from django.shortcuts import get_object_or_404
@@ -12,6 +13,7 @@ User = get_user_model()
 
 
 class PrincipleSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=Principle()._meta.get_field('id'))
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
     description = serializers.CharField()
@@ -41,20 +43,32 @@ class BlankableDecimalField(serializers.DecimalField):
 
 
 class SustainableDevelopmentGoalSerializer(serializers.ModelSerializer):
+    id = serializers.ModelField(model_field=SustainableDevelopmentGoal()._meta.get_field('id'))
     class Meta:
         model = SustainableDevelopmentGoal
         fields = "__all__"
 
 
+class SDGObjectiveSerializer(serializers.ModelSerializer):
+    cooperative_name = serializers.CharField(source='cooperative', read_only=True)
+    period_name = serializers.CharField(source='period', read_only=True)
+    sdg_name = serializers.CharField(source='sustainable_development_goal', read_only=True)
+    
+    class Meta:
+        model = SDGObjective
+        fields = "__all__"
+
 class ActionSerializer(serializers.ModelSerializer):
     principle_name_key = serializers.CharField(source='principle', read_only=True)
     partners_involved = PartnerInvolvedSerializer(many=True)
+    principles = PrincipleSerializer(many=True)
+    sustainable_development_goals = SustainableDevelopmentGoalSerializer(many=True)
     invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
     invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
 
     class Meta:
         model = Action
-        ordering = ['-name']
+        ordering = ['-date']
         fields = "__all__"
     
     def validate(self, data):
@@ -64,8 +78,6 @@ class ActionSerializer(serializers.ModelSerializer):
 
 
     def update(self, instance, validated_data):
-        instance.principles.set(validated_data.get('principles', instance.principles))
-        instance.sustainable_development_goals.set(validated_data.get('sustainable_development_goals', instance.sustainable_development_goals))
         instance.date = validated_data.get('date', instance.date)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
@@ -77,6 +89,16 @@ class ActionSerializer(serializers.ModelSerializer):
         for partner in validated_data.get('partners_involved'):
             partners_involved.append(partner.get('id'))
         instance.partners_involved.set(partners_involved)
+
+        principles = list()
+        for principle in validated_data.get('principles'):
+            principles.append(principle.get('id'))
+        instance.principles.set(principles)
+
+        sustainable_development_goals = list()
+        for goal in validated_data.get('sustainable_development_goals'):
+            sustainable_development_goals.append(goal.get('id'))
+        instance.sustainable_development_goals.set(sustainable_development_goals)
 
         instance.save()
         return instance
@@ -158,6 +180,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ActionsByCoopSerializer(serializers.Serializer):
     cooperative_id = serializers.IntegerField(source='cooperative')
     cooperative_name = serializers.CharField(source='cooperative__name', max_length=128)
+    cooperative_business_name = serializers.CharField(source='cooperative__business_name', max_length=128)
     principle_name_key = serializers.CharField()
     actions_count = serializers.IntegerField()
 

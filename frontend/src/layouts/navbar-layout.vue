@@ -7,11 +7,11 @@
       <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
         <!-- Sidebar - Brand -->
         <router-link class="sidebar-brand d-flex align-items-center justify-content-center" :to="{name: 'dashboard'}" >
-          <div v-if="toggled" class="sidebar-brand-icon rotate-n-15">
+          <div v-if="toggled" class="sidebar-brand-icon">
             <img src="images/bs.png" style="max-height: 45px;">
           </div>
           <div class="sidebar-brand-text mx-3">
-            <img src="images/coobs.png" style="max-height: 45px;">
+            <img src="images/coobs.png" style="height: 28px;">
           </div>
         </router-link>
 
@@ -38,12 +38,6 @@
           </router-link>
         </li>        
         <li class="nav-item">
-          <router-link class="nav-link collapsed" :to="{name: 'ods-balance'}">
-            <i class="fas fa-fw fa-globe-americas"></i>
-            <span>{{$t("odsBalance")}}</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'actions-ranking'}">
             <i class="fas fa-fw fa-th-list"></i>
             <span>{{$t("actionsRanking")}}</span>
@@ -64,12 +58,25 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <router-link class="collapse-item" :to="{name: 'partners-list'}"><i class="fas fa-user-friends"></i> {{$t("partners")}}</router-link>
               <router-link class="collapse-item" :to="{name: 'principles-list'}"><i class="fas fa-fw fa-map-signs"></i> {{$t("principles")}}</router-link>
-              <router-link class="collapse-item text-truncate" :to="{name: 'sustainable-development-goals'}"><i class="fas fa-fw fa-globe-americas"></i> {{$t("sustainableDevelopmentGoals")}}</router-link>
               <router-link class="collapse-item" :to="{name: 'periods-list'}"><i class="fas fa-fw fa-calendar"></i> {{$t("periods")}}</router-link>
               <router-link class="collapse-item " :to="{name: 'cooperative'}"><i class="fas fa-fw fa-edit"></i> {{$t("yourCoop")}}</router-link>
             </div>
           </div>
-        </li>        
+        </li>
+        <li v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive" class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSDGPages" aria-expanded="false" aria-controls="collapseSDGPages">
+            <i class="fas fa-fw fa-globe-americas"></i>
+            <span>{{$t("sustainableDevelopmentGoals")}}</span>
+          </a>
+          <div id="collapseSDGPages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar" style="">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <router-link class="collapse-item" :to="{name: 'sdg-balance'}"><i class="fas fa-fw fa-balance-scale"></i> {{$t("socialBalance")}}</router-link>
+              <router-link class="collapse-item text-truncate" :to="{name: 'sustainable-development-goals'}"><i class="fas fa-fw fa-table"></i> {{$t("descriptiveTable")}}</router-link>
+              <router-link class="collapse-item" :to="{name: 'sdg-objectives-list'}"><i class="fas fa-fw fa-bullseye"></i> {{$t("goals")}}</router-link>
+              <router-link class="collapse-item " :to="{name: 'sdg-monitoring'}"><i class="fas fa-fw fa-chart-bar"></i> {{$t("monitoring")}}</router-link> <!-- file-medical-alt -->
+            </div>
+          </div>
+        </li>
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>

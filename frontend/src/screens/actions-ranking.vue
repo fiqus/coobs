@@ -73,9 +73,9 @@
             acc[principle.nameKey] = 0;
             return acc;
           }, []);
-          return {"coopId": action.cooperativeId,"coopName": action.cooperativeName, actionsByPrinciple, "total": 0};
+          return {"coopId": action.cooperativeId,"coopName": action.cooperativeName || action.cooperativeBusinessName, actionsByPrinciple, "total": 0};
         }
-        debugger
+        
         const accumActionsByCoop = actions.reduce((acc, action) => {
           if (!acc[action.cooperativeId]) {
             acc[action.cooperativeId] = createCoopAcumObj(action);

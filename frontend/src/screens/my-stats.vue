@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-else-if="!isLoading">
       <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
@@ -58,7 +58,7 @@
             columns="col-xl-4"
             color-type="success">
             <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalHoursInvested}}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{formatNumber(totalHoursInvested)}}</div>
             </template>
           </smallcard-chart>
 
@@ -82,17 +82,7 @@
             :chart-data="localizeDonutChartLabels(allPrinciplesData)">
           </donut-chart>
 
-          <bars-chart
-            :label="$t('allPrinciples')"
-            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-            <template v-slot:tooltip>
-              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" :title="localizeTooltip()">
-                <icon id="allPrinciplesTooltip" class="fa fa-question-circle"></icon>
-              </span>
-            </template>
-          </bars-chart>
-
-          <div class="col-xl-4 col-lg-4">
+          <div class="col-xl-6 col-lg-4">
             <div class="card shadow mb-4">
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
@@ -147,8 +137,9 @@
                       </div>
                     </div>
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.investmentProgressData.partnerHoursGoal}}</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{formatNumber(progressData.investmentProgressData.partnerHoursGoal)}}</div>
                     </div>
+                    <small v-if='progressData.investmentProgressData.partnerHoursGoal==0' class="form-text text-muted font-italic ml-3">{{$t('zeroPartnerHoursGoal')}}</small>
                   </div>
                 </div>
               </div>
@@ -183,6 +174,7 @@ import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
+import {parseNumber} from "../utils";
 
 
 function dateToUserTimeZone (date){
@@ -214,6 +206,9 @@ export default {
     }
   },
   methods: {
+    formatNumber(number) {
+      return parseNumber(number, this.$i18n.locale());
+    },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;
       this.selectedValue = dashboardData.period.id;
@@ -256,9 +251,6 @@ export default {
         result.name = this.$t(result.nameKey);
         return result;
       }) : [];
-    },
-    localizeTooltip(){
-      return this.$t('allPrinciplesTooltip');
     },
     async onPeriodChange(){
       this.error.exists = false;

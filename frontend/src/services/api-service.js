@@ -25,6 +25,16 @@ export async function getSustainableDevelopmentGoal(goalId) {
   return response.data;
 }
 
+export async function getSDGObjective(sdgObjectiveId) {
+  const response = await httpGet(`/sdg-objectives/${sdgObjectiveId}`);
+  return response.data;
+}
+
+export async function getSDGMonitoringData(params) {
+  const response = await httpGet(`/sdg-monitoring/`, params);
+  return response.data;
+}
+
 export async function getPartners(){
   const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;
@@ -43,5 +53,10 @@ export async function getDashboard(params) {
 
 export async function getMyStats(params) {
   const response = await httpGet("/my-stats", params);
+  return response.data ? response.data : [];
+}
+
+export async function getPeriods(params) {
+  const response = await httpGet("/periods", params);
   return response.data ? response.data : [];
 }

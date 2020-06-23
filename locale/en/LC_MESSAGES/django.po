@@ -115,6 +115,9 @@ msgstr "One of your partners added you to COOBS being part of"
 msgid "Your password has been set to"
 msgstr "Your password has been set to"
 
+msgid "You have been registered with email"
+msgstr "You have been registered with email"
+
 #: api/templates/html_email_template.html:29
 #: api/templates/text_email_template.txt:4
 msgid "Please change it as soon as possible."
@@ -1356,3 +1359,12 @@ msgstr ""
 
 msgid "You must select a principle or a sustainable development goal."
 msgstr ""
+
+msgid "This objective already exists, please modify the existing one."
+msgstr "This objective already exists, please modify the existing one."
+
+msgid "Invested hours"
+msgstr "Invested hours"
+
+msgid "Invested money"
+msgstr "Invested money"

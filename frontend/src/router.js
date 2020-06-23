@@ -18,8 +18,11 @@ import ActionsRankingScreen from "./screens/actions-ranking.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
 import PartnersListScreen from "./screens/partners/list.vue";
 import PartnerEditScreen from "./screens/partners/edit.vue";
-import SustainableDevelopmentGoalsScreen from "./screens/sustainable-development-goals.vue";
-import ODSBalanceScreen from "./screens/ods-balance.vue";
+import SustainableDevelopmentGoalsScreen from "./screens/sdgs/sustainable-development-goals.vue";
+import SDGBalanceScreen from "./screens/sdgs/sdg-balance.vue";
+import SDGObjectivesListScreen from "./screens/sdgs/objectives/list.vue";
+import SDGObjectivesEditScreen from "./screens/sdgs/objectives/edit.vue";
+import SDGMonitoringScreen from "./screens/sdgs/sdg-monitoring.vue";
 
 import store from './store';
 
@@ -116,10 +119,25 @@ const routes = [
     component: SustainableDevelopmentGoalsScreen
   },
   {
-    name: "ods-balance",
-    path: "/ods-balance",
-    component: ODSBalanceScreen
+    name: "sdg-balance",
+    path: "/sdg-balance",
+    component: SDGBalanceScreen
   },  
+  {
+    name: "sdg-objectives-list",
+    path: "/sdg-objectives",
+    component: SDGObjectivesListScreen
+  },    
+  {
+    name: "sdg-objectives-edit",
+    path: "/sdg-objectives-edit/:sdgObjectiveId",
+    component: SDGObjectivesEditScreen
+  },    
+  {
+    name: "sdg-monitoring",
+    path: "/sdg-monitoring",
+    component: SDGMonitoringScreen
+  },
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }
 ];

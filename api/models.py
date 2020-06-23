@@ -19,6 +19,13 @@ class Cooperative(models.Model):
             'Unselect this instead of deleting accounts.'
         ),
     )
+    sustainable_development_goals_active = models.BooleanField(
+        _('sustainable development goals active'),
+        default=False,
+        help_text=_(
+            'Designates whether this cooperative will be allowed to see and use sustainable development goals.'
+        ),
+    )    
 
     class Meta:
         verbose_name = _('cooperative')
@@ -104,6 +111,22 @@ class Partner(AbstractUser):
     def __str__(self):
         return '%s - %s' % (self.email, self.cooperative)
 
+class SDGObjective(models.Model):
+    cooperative = models.ForeignKey(Cooperative, to_field='id', on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
+    period = models.ForeignKey(Period, to_field='id', on_delete=models.CASCADE, blank=False, null=False, verbose_name=_('period'))
+    sustainable_development_goal = models.ForeignKey(SustainableDevelopmentGoal, to_field='id', on_delete=models.CASCADE, blank=False, null=False, verbose_name=_('sustainable_development_goal'))
+    hours_to_reach = models.DecimalField(_('hours to invest'), max_digits=19, decimal_places=1, default=Decimal('0.0'), blank=True, null=True)
+    money_to_invest = models.DecimalField(_('money to invest'), max_digits=19, decimal_places=2, default=Decimal('0.00'), blank=True, null=True)
+    actions_to_perform = models.PositiveIntegerField(_('actions quantity to perform'), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('sdgObjective')
+        constraints = [
+            models.UniqueConstraint(fields=['cooperative', 'period', 'sustainable_development_goal'], name='unique_objective')
+        ]        
+
+    def __str__(self):
+        return '%s - %s' % (self.period.name, self.sustainable_development_goal.name)    
 
 class Action(models.Model):
     sustainable_development_goals = models.ManyToManyField(SustainableDevelopmentGoal, blank=True, verbose_name=_('sustainable_development_goals'))

@@ -33,11 +33,11 @@
             :label="$t('principle')"
             :default-value="$t('selectPrinciple')"
             :error="$v.action.principles.$error"
-            :error-message="$t('selectPrincipleOrODS')"/>
+            :error-message="$store.state.cooperative.sustainableDevelopmentGoalsActive ? $t('selectPrincipleOrODS'):$t('selectPrinciple')"/>
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row" v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive">
         <div class="col-12">
           <multi-select-form
             v-model="action.sustainableDevelopmentGoals"
@@ -134,7 +134,7 @@ import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
 import {required, minLength, minValue, requiredIf} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {principlesSelectedParser, sustainableDevelopmentGoalsSelectedParser, capitalizeFirstChar} from "../../utils";
+import {capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
@@ -167,6 +167,18 @@ export default {
         p.name = this.$t(p.nameKey, p.name);
         return p;
       });
+      if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
+        return api.getSustainableDevelopmentGoals()
+          .then((sustainableDevelopmentGoals) => {
+            this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
+            this.action.sustainableDevelopmentGoals = this.action.sustainableDevelopmentGoals.map((actionGoal) => {
+              const goal = sustainableDevelopmentGoals.find(({id}) => {
+                return id === actionGoal.id;
+              });
+              return goal;
+            });
+          })
+      }
     }
   },
   async created() {
@@ -188,17 +200,18 @@ export default {
     }, {});
     
     this.partnersList = parserPartners(partners);
-    this.sustainableDevelopmentGoals = sustainableDevelopmentGoals.map((g) => {
-      g.name = this.$t(g.name);
-      return g;
-    });
+    if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
+      this.sustainableDevelopmentGoals = sustainableDevelopmentGoals;
+    }
 
     const actionId = this.$route.params.actionId;
     if (!this.isNew) {
       this.action = await api.getAction(actionId);
+      this.action.principles = this.action.principles.map((p) => {
+        p.name = this.$t(p.nameKey, p.name);
+        return p;
+      });
       this.partnersInvolved = parserPartners(this.action.partnersInvolved);
-      this.action.principles = principlesSelectedParser(this.action.principles, this.principles);
-      this.action.sustainableDevelopmentGoals = sustainableDevelopmentGoalsSelectedParser(this.action.sustainableDevelopmentGoals, this.sustainableDevelopmentGoals);
     }
   },
   computed: {
@@ -231,12 +244,6 @@ export default {
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
         this.action.partnersInvolved = this.partnersInvolved;
-        this.action.principles = this.action.principles.map((principle) => {
-          return principle.id;
-        });
-        this.action.sustainableDevelopmentGoals = this.action.sustainableDevelopmentGoals.map((goal) => {
-          return goal.id;
-        });
         let promise = null;
         if (this.isNew) {
           promise = httpPost("actions/", this.action);
