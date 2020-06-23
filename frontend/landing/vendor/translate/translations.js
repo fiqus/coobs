@@ -5,7 +5,8 @@
 var myDictionary = {
   en: {
     "signIn": "Sign in",
-    "header-title": "Welcome to COOBS!",
+    "header-title-1": "COOBS:",
+    "header-title-2": "Cooperative Social Balance",
     "header-subtitle": "This is a tool that will help you to monitor all the actions of your social organization, guided by the cooperative principles and the sustainable development goals.",
     "section-metrics-title": "Metrics and monitoring",
     "section-metrics-subtitle": "The tool will provide you with the possibility of monitoring your social activity in real time, being able to measure the incidence of your actions.",
@@ -50,7 +51,8 @@ var myDictionary = {
   },
   es : {
     "signIn": "Inicie sesión",
-    "header-title": "COOBS: Cooperative Social Balance",
+    "header-title-1": "COOBS:",
+    "header-title-2": "Balance Social Cooperativo",
     "header-subtitle": "Una herramienta que le fecilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
     "section-metrics-title": "Métricas y seguimiento",
     "section-metrics-subtitle": "La herramienta la brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",

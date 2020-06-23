@@ -21,8 +21,8 @@
 
 .masthead .masthead-subheading {
   font-size: 1.25rem;
-  margin-top: 40px;
-  padding-right: 190px;
+  margin-top: 30px;
+  margin-bottom: 45px;
 }
 
 .masthead .masthead-avatar {
@@ -35,14 +35,12 @@
     padding-bottom: 6rem;
   }
   .masthead .masthead-heading {
-    font-size: 4.9rem;
-    line-height: 4.7rem;
-    font-weight: 910;
-    letter-spacing: 4px;
+    font-size: 4.0rem;
+    line-height: 3.9rem;
   }
   .masthead .masthead-subheading {
-    font-size: 1.5rem;
-    margin-top: 40px;
+    font-size: 1.3rem;
+    margin-top: 30px;
     padding-right: 190px;
   }
 }
@@ -56,7 +54,7 @@
 }
 
 masthead-subheading {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
 }
 
 .custom-green {
@@ -107,4 +105,20 @@ masthead-subheading {
 #signup {
   font-size: 54px;
   font-weight: 900;
+}
+
+.section-title {
+  font-size: 33px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.section-text  {
+  font-size: 18px;
+  color: #6c757d !important;
+}
+
+.sigin-text {
+  text-decoration: none;
+  color: #171E3F;
 }
