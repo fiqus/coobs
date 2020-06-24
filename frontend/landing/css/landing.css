@@ -1,3 +1,7 @@
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
 .btn-lang {
     background-color: #171E3F;
     color: white !important;
@@ -114,9 +118,10 @@ masthead-subheading {
 }
 
 .section-title {
-  font-size: 33px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 20px;
+  line-height: 48px;
 }
 
 .section-text  {
@@ -127,34 +132,4 @@ masthead-subheading {
 .sigin-text {
   text-decoration: none;
   color: #171E3F;
-}
-
-.wave {
-  position: relative;
-  height: 70px;
-  width: 600px;
-}
-
-.wave:before {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: 100% 50%;
-        width: 340px;
-    height: 80px;
-    background-color: white;
-    right: -5px;
-    top: 40px;
-}
-
-.wave:after {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: 100% 50%;
-        width: 300px;
-    height: 70px;
-    background-color: #e0efe3;
-    left: 0;
-    top: 27px;
 }

@@ -53,7 +53,7 @@ var langDict = {
     "signIn": "Inicie sesión",
     "header-title-1": "COOBS:",
     "header-title-2": "Balance Social Cooperativo",
-    "header-subtitle": "Una herramienta que le fecilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
+    "header-subtitle": "Una herramienta que le facilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
     "section-metrics-title": "Métricas y seguimiento",
     "section-metrics-subtitle": "La herramienta la brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
     "section-bs-title": "Balance social orgánico",
