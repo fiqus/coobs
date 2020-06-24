@@ -8,5 +8,5 @@ import './js/contact_me.js';
 import './js/freelancer.min.js';
 
 import './vendor/fontawesome-free/css/all.min.css';
-import './css/freelancer.min.css';
+import './css/landing.css';
 import './css/custom.css';

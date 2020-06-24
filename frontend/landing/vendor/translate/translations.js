@@ -2,12 +2,17 @@
 * This example shows that you can:
 * - change the language on the fly.
 */
-var myDictionary = {
+var langDict = {
   en: {
     "signIn": "Sign in",
-    "welcomeToCoobs": "Welcome to COOBS!",
-    "subtitle": "This is the best site around the world to manage your actions and build the cooperative balance.",
-    "joinUs": "Join us!",
+    "header-title-1": "COOBS:",
+    "header-title-2": "Cooperative Social Balance",
+    "header-subtitle": "This is a tool that will help you to monitor all the actions of your social organization, guided by the cooperative principles and the sustainable development goals.",
+    "section-metrics-title": "Metrics and monitoring",
+    "section-metrics-subtitle": "The tool will provide you with the possibility of monitoring your social activity in real time, being able to measure the incidence of your actions.",
+    "section-bs-title": "Organic Social Balance",
+    "section-bs-subtitle": "Coobs offers you the possibility to plan future actions to guide the performance of your social organization by following cooperative values.",
+    "signup": "Signup",
     "coopBusinessName": "Cooperative business name",
     "enterCoopName": "Please enter the cooperative business name.",
     "firstName": "First name",
@@ -34,7 +39,7 @@ var myDictionary = {
       their actions in relation to the fulfilment of their own essence or identity, i.e. 
       from the perspective of co-operative values and principles.`,
     "registerNow": "Register now!",
-    "aboutFiqusLabs": "Developed at FiqusLabs, a space where we create open source technology oriented to the community.",
+    "section-labs-text": "Developed at FiqusLabs, a space where we create community-oriented open source technology.",
     "firstImageTextTitle": "Load the actions that your cooperative performs",
     "firstImageTextDescription": "In COOBS you can load the actions that your cooperative makes related to each cooperative principle.",
     "secondImageTextTitle": "Watch all your cooperative activity",
@@ -46,9 +51,14 @@ var myDictionary = {
   },
   es : {
     "signIn": "Inicie sesión",
-    "welcomeToCoobs": "Bienvenido a COOBS!",
-    "subtitle": "Este es el mejor sitio del mundo para administrar sus acciones cooperativas y construir el balance de su organización.",
-    "joinUs": "Únete a nosotros!",
+    "header-title-1": "COOBS:",
+    "header-title-2": "Balance Social Cooperativo",
+    "header-subtitle": "Una herramienta que le fecilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
+    "section-metrics-title": "Métricas y seguimiento",
+    "section-metrics-subtitle": "La herramienta la brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
+    "section-bs-title": "Balance social orgánico",
+    "section-bs-subtitle": "Coobs brinda la posibilidad de planificar acciones futuras para guiar el desempeño social de su organización mediante objetivos basados en los valores cooperativos.",
+    "signup": "Registrarse",
     "coopBusinessName": "Razón social de la Cooperativa",
     "enterCoopName": "Ingrese la razón social de la Cooperativa.",
     "firstName": "Nombre",
@@ -75,7 +85,7 @@ var myDictionary = {
       interesados que se ven afectados por sus acciones en relación con el cumplimiento de su propia 
       esencia o identidad, es decir, desde la perspectiva de los valores y principios cooperativos.`,
     "registerNow": "Registrate ahora!",
-    "aboutFiqusLabs": "Desarrollado en FiqusLabs, un espacio donde creamos tecnología de código abierto orientada a la comunidad.",
+    "section-labs-text": "Desarrollado en FiqusLabs, un espacio donde creamos tecnología de código abierto orientada a la comunidad.",
     "firstImageTextTitle": "Cargue las acciones que su cooperativa realiza",
     "firstImageTextDescription": "En COOBS puede cargar las acciones que su cooperativa realiza relacionadas con cada principio cooperativo.",
     "secondImageTextTitle": "Vea toda su actividad cooperativa",
@@ -86,28 +96,33 @@ var myDictionary = {
     "errorInPostedData": "Se produjo un error con los datos. Por favor, verifica los datos ingresados."
   }
 }
-$.tr.dictionary(myDictionary);
-$(document).ready(function() {
-  var browserLanguage = navigator.language || navigator.userLanguage;
-  var language = browserLanguage ? browserLanguage.split("-")[0] : "en";
+$.tr.dictionary(langDict);
 
-  // change the language
-  $('#language').change(function() {
-    $.tr.language($(this).val());
-    var tr = $.tr.translator();
-    Object.keys(myDictionary["en"]).forEach((key) => {
-      $('#' + key).text(tr(key));
-    })
-    $("#coopBusinessName").attr('placeholder', tr("coopBusinessName"));
-    $("#firstName").attr('placeholder', tr("firstName"));
-    $("#lastName").attr('placeholder', tr("lastName"));
-    $("#email").attr('placeholder', tr("email"));
-    $("#password").attr('placeholder', tr("password"));
-    $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
+function setLang(langKey, langDesc) {
+  $.tr.language(langKey);
+
+  var tr = $.tr.translator();
+  Object.keys(langDict[langKey]).forEach((key) => {
+    $('#' + key).text(tr(key));
   });
 
-  var language = $.tr.language(language, true);
+  $('#language').html(langDesc);
+  $("#coopBusinessName").attr('placeholder', tr("coopBusinessName"));
+  $("#firstName").attr('placeholder', tr("firstName"));
+  $("#lastName").attr('placeholder', tr("lastName"));
+  $("#email").attr('placeholder', tr("email"));
+  $("#password").attr('placeholder', tr("password"));
+  $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
 
-  $('#language').val(language);
-  $('#language').change();
+
+}
+
+$(document).ready(function() {
+
+  // 'es' => default
+  setLang('es', 'Español');
+
+  $('.lang-option').click(function() {
+    setLang($(this).data('value'), $(this).html());
+  });
 });
