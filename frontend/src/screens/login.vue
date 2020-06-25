@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-xl-8 col-lg-10 col-md-7">
-      <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="sign-in o-hidden my-5">
         <div class="card-body p-0">
           <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">{{$t('loginTitle')}}</h1>
+                  <h1 class="h4 sign-in-text mb-5">{{$t('loginTitle')}}</h1>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
@@ -27,14 +27,14 @@
                     :error="$v.user.password.$error"
                     error-message="Ingrese un password válido">
                   </input-form>
-                  <button type="summary" class="btn btn-primary btn-user btn-block">{{$t("login")}}</button>
+                  <button type="summary" class="btn btn-user btn-block btn-sign-in">{{$t("login")}}</button>
                 </form>
                 <hr>
                 <div class="text-center">
-                  <a class="small" href="#">{{$t("forgotPassword")}}</a>
+                  <a class="small sign-in-bottom-text" href="#">{{$t("forgotPassword")}}</a>
                 </div>
                 <div class="text-center">
-                  <a class="small" href="landing#signup">{{$t("createAccount")}}</a>
+                  <a class="small sign-in-bottom-text" href="landing#signup">{{$t("createAccount")}}</a>
                 </div>
               </div>
             </div>

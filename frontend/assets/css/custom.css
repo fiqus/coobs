@@ -1,3 +1,9 @@
+@import url(https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap);
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif !important;
+}
+
 .min-height-150 {
   min-height: 150px;
 }
@@ -93,4 +99,37 @@ th.active .arrow {
 
 #donut-chart .apexcharts-legend-series {
   margin-top: 5px !important;
+}
+
+
+.sign-in {
+  border: solid 2px #171E3F;
+  border-radius: 47px;
+}
+
+.sign-in input {
+  border: solid 2px #171E3F;
+  border-radius: 10px !important;
+}
+
+.btn-sign-in {
+  background-color: #171E3F !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
+.sign-in-text {
+  color: #171E3F;
+  font-size: 40px !important;
+  font-weight: bold !important;
+}
+
+.sign-in-bottom-text, .sign-in-bottom-text:hover {
+  text-decoration: none;
+  color: #171E3F;
+  font-weight: bold;
+}
+
+.sign-in-bottom-text:hover {
+  font-weight: bold;
 }
