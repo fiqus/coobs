@@ -1,14 +1,15 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-xl-8 col-lg-10 col-md-7">
-      <div class="sign-in o-hidden my-5">
+      <div class="sign-in o-hidden mt-5">
         <div class="card-body p-0">
           <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 sign-in-text mb-5">{{$t('loginTitle')}}</h1>
+                  <h1 class="h4 sign-in-text">{{$t('loginTitle-1')}}</h1>
+                  <h1 class="h4 sign-in-text mb-5">{{$t('loginTitle-2')}}</h1>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
