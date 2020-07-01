@@ -75,11 +75,11 @@ const routes = [
     path: "/balance",
     component: BalanceScreen
   },  
-  {
-    name: "actions-ranking",
-    path: "/actions-ranking",
-    component: ActionsRankingScreen
-  },
+  // {
+  //   name: "actions-ranking",
+  //   path: "/actions-ranking",
+  //   component: ActionsRankingScreen
+  // },
   {
     name: "cooperative",
     path: "/cooperative",

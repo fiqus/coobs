@@ -37,12 +37,12 @@
             <span>{{$t("balance")}}</span>
           </router-link>
         </li>        
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'actions-ranking'}">
             <i class="fas fa-fw fa-th-list"></i>
             <span>{{$t("actionsRanking")}}</span>
           </router-link>
-        </li>
+        </li> -->
         <li class="nav-item">
           <router-link class="nav-link collapsed" class-active="active" :to="{name: 'my-stats'}" >
             <i class="fas fa-fw fa-signal"></i>
