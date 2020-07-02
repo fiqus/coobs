@@ -386,7 +386,7 @@ class DashboardView(viewsets.ViewSet):
         action_serializer = ActionSerializer(action_data, many=True)
 
         date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
@@ -525,8 +525,8 @@ class PartnerStatsView(viewsets.ViewSet):
         date_to = period_data['date_to']
         action_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
-
-        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
+        date = datetime.today()
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date, user_id).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)

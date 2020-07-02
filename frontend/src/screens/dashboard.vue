@@ -243,6 +243,7 @@ export default {
       return parseNumber(number, this.$i18n.locale());
     },
     showDashboardData(dashboardData){
+      this.isLoading = false;
       this.dashboardData = dashboardData;
 
       this.selectedValue = dashboardData.period.id;
@@ -272,8 +273,7 @@ export default {
       this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget) : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
-      this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
-      this.isLoading = false;
+      this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;
     },
     localizeDonutChartLabels({labels, series}){
       if (!labels) {

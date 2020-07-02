@@ -127,6 +127,7 @@ export default {
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
+        this.isLoading = false;
         return;
       }
       this.allPeriods = allPeriods;

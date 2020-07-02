@@ -172,7 +172,8 @@ def sum_series_numbers(item, serie):
 def get_monthly_actions_by_principle(action_data, date_from, principles):
     date = datetime.today()
 
-    actions_by_principle_and_month = list(action_data.annotate(m=Month('date'), y=Year('date')) \
+    actions_by_principle_and_month = list(action_data.filter(date__lte=date)\
+                                          .annotate(m=Month('date'), y=Year('date')) \
                                           .values('m', 'y', 'principles') \
                                           .annotate(total=Count('id')) \
                                           .order_by())
