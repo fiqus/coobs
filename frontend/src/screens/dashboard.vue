@@ -126,7 +126,7 @@
                   
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">0</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.actionsProgressData.actionsDone}}</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
@@ -144,7 +144,7 @@
 
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">$0.00</div>
+                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">${{formatNumber(totalInvested)}}</div>
                     </div>
                     <div class="col center-col">
                       <div class="progress progress-sm mr-2 progress-data">
