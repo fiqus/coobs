@@ -454,9 +454,11 @@ class BalanceView(viewsets.ViewSet):
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in
                                                                        list(action_data)])
-
+        totalHoursInvested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
+                                                                      [action.invested_hours for action in
+                                                                       list(action_data)])
         return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
-                         'total_invested': total_invested})
+                         'total_invested': total_invested, 'totalHoursInvested': totalHoursInvested})
 
 
 class ActionsRankingView(viewsets.ViewSet):
