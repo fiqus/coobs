@@ -385,7 +385,7 @@ class DashboardView(viewsets.ViewSet):
         action_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        date = datetime.today()
+        date = datetime.today() if str(datetime.today()) <= date_to and str(datetime.today()) >= date_from else date_to
         done_actions_data = Action.get_current_actions(cooperative_id, date_from, date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
@@ -525,7 +525,7 @@ class PartnerStatsView(viewsets.ViewSet):
         date_to = period_data['date_to']
         action_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
-        date = datetime.today()
+        date = datetime.today() if str(datetime.today()) <= date_to and str(datetime.today()) >= date_from else date_to
         done_actions_data = Action.get_current_actions(cooperative_id, date_from, date, user_id).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
