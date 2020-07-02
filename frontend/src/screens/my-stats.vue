@@ -1,4 +1,7 @@
 <template>
+  <div class="container">
+    <loader :loading='isLoading'/>
+
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
       <div class="col-sm-9">
         <h5 class="mb-0 text-gray-100">
@@ -20,7 +23,6 @@
       </div>
     </div>
     <div v-else-if="!isLoading">
-      <loader :loading='isLoading'/>
       <div>
         <!-- Page Heading -->
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -147,20 +149,21 @@
           </div>
         </div>
 
-      <line-chart
-        :title="monthlyHoursByDateLabel"
-        :columns-data="monthlyHoursByDateData"
-        :xaxis="monthlyHoursByDateLabels">
-      </line-chart>
+        <line-chart
+          :title="monthlyHoursByDateLabel"
+          :columns-data="monthlyHoursByDateData"
+          :xaxis="monthlyHoursByDateLabels">
+        </line-chart>
 
-      <!-- Content Row -->
-      <stacked-columns-chart
-        :title="allPrinciplesYearLabel"
-        :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
-        :xaxis="monthlyActionsByPrincipleLabels">
-      </stacked-columns-chart>
+        <!-- Content Row -->
+        <stacked-columns-chart
+          :title="allPrinciplesYearLabel"
+          :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
+          :xaxis="monthlyActionsByPrincipleLabels">
+        </stacked-columns-chart>
+      </div>
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
@@ -254,9 +257,11 @@ export default {
     },
     async onPeriodChange(){
       this.error.exists = false;
+      this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getMyStats(params);
       if (!dashboardData.actions.length) {
+        this.isLoading = false;
         this.error = {
           exists: true,
           backgroundClass: " bg-danger",
