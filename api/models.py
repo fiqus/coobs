@@ -153,3 +153,9 @@ class Action(models.Model):
             qs = qs.filter(partners_involved__in=[user_id])
         qs = qs.annotate(principles_num = Count('id'))
         return qs
+
+    @classmethod
+    def get_public_actions(cls, date_from, date_to):
+        qs = cls.objects.filter(principles__visible=True, date__gte=date_from, date__lte=date_to)
+        qs = qs.annotate(principles_num = Count('id'))
+        return qs

@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
-from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, MyTokenObtainPairView, DashboardView, BalanceView, ActionsRankingView, PartnerStatsView, SustainableDevelopmentGoalView, SDGBalanceView, SDGObjectiveView, SDGMonitoringView
+from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, \
+    MyTokenObtainPairView, DashboardView, BalanceView, ActionsRankingView, PartnerStatsView, \
+         SustainableDevelopmentGoalView, SDGBalanceView, SDGObjectiveView, SDGMonitoringView, PublicActionView
 from rest_framework_simplejwt.views import (
     TokenVerifyView,
     TokenRefreshView,
@@ -45,6 +47,7 @@ urlpatterns = [
     path('docs/', include_docs_urls(title='COOBS API', permission_classes=[], public=False)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/public-actions', PublicActionView.as_view(), name='public_actions'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify')
