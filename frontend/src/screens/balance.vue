@@ -93,7 +93,6 @@ function print(period, translator, parent){
       pdf.text(translator("page") + " " + i + " " + translator("of") + " " + totalPages, pdf.internal.pageSize.width/2-10, pdf.internal.pageSize.height - 5);
     } 
   }).save().then(() => {
-    collapseEveryElement();
     self.downloading = false;
   });
 }
