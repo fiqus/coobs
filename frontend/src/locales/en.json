@@ -195,5 +195,10 @@
   "yes": "Yes",
   "no": "No",
   "zeroPartnerHoursGoal": "You haven't configured your hours to invest goal.",
-  "noActionsRelatedToMonitor": "There are no actions related to this objective. Please add any related actions in order to monitor your goals."
+  "noActionsRelatedToMonitor": "There are no actions related to this objective. Please add any related actions in order to monitor your goals.",
+  "forgottenPassTitle": "Did you forget your login password?",
+  "forgottenPassDescription": "Complete your email and we will send you a link to reset your password.", 
+  "sendForgottenPassEmail": "Send password reset email",
+  "emailSentText-1": "Message sent!",
+  "emailSentText-2": "We've sent you a message so you can choose a new password. Remember to check your Spam folder."
 }

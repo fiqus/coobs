@@ -8,8 +8,14 @@
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 sign-in-text">{{$t('loginTitle-1')}}</h1>
-                  <h1 class="h4 sign-in-text mb-5">{{$t('loginTitle-2')}}</h1>
+                  <h1 class="h4 sign-in-text mb-4">{{$t('forgottenPassTitle')}}</h1>
+                  <p id="forgottenPasswordDescrition" class="mb-5">{{$t('forgottenPassDescription')}}</p>
+                  <div id="emailSent" hidden="hidden">
+                    <p class="mb-5">
+                      {{$t('emailSentText-1')}} <br/>
+                      {{$t('emailSentText-2')}}
+                    </p>
+                  </div>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
@@ -20,23 +26,8 @@
                     :error="$v.user.email.$error"
                     error-message="Ingrese un email válido">
                   </input-form>
-                  <input-form
-                    name="password"
-                    type="password"
-                    v-model="user.password"
-                    :placeholder="$t('password')"
-                    :error="$v.user.password.$error"
-                    error-message="Ingrese un password válido">
-                  </input-form>
-                  <button type="summary" class="btn btn-user btn-block btn-sign-in">{{$t("login")}}</button>
+                  <button type="summary" class="btn btn-user btn-block btn-sign-in">{{$t("sendForgottenPassEmail")}}</button>
                 </form>
-                <hr>
-                <div class="text-center">
-                  <a class="small sign-in-bottom-text" href="landing#forgotten-password">{{$t("forgotPassword")}}</a>
-                </div>
-                <div class="text-center">
-                  <a class="small sign-in-bottom-text" href="landing#signup">{{$t("createAccount")}}</a>
-                </div>
               </div>
             </div>
             <div class="col-lg-2"></div>
@@ -50,7 +41,7 @@
 <script>
 import InputForm from '../components/input-form.vue'
 import { required, email } from 'vuelidate/lib/validators';
-import {httpPost} from '../api-client';
+import {httpGet} from '../api-client';
 import swal from 'sweetalert';
 
 export default {
@@ -60,8 +51,7 @@ export default {
   data() {
     return {
       user: {
-        email: "",
-        password: ""
+        email: ""
       }
     }
   },
@@ -70,13 +60,11 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const body = {...this.user};
-        httpPost("/token/", body)
+        httpGet("/reset-password/", body)
           .then((res) => {
-            const {access, refresh} = res.data;
-            const tokenData = this.$jwt.decode(access);
-            this.$store.commit("setUser", {...tokenData.user, access, refresh});
-            this.$store.commit("setCooperative", tokenData.cooperative);
-            this.$router.push({name: "dashboard"});
+            const {sentEmailMsg} = res.data;
+            document.getElementById('forgottenPasswordDescrition').setAttribute('hidden', 'hidden');
+            document.getElementById('emailSent').removeAttribute('hidden');
           })
           .catch((err) => {
             swal(err.response.data.detail, {
@@ -91,9 +79,6 @@ export default {
       email: {
         required,
         email
-      },
-      password: {
-        required
       }
     }
   }

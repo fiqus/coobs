@@ -174,3 +174,6 @@ msgstr "Horas invertidas"
 
 msgid "Invested money"
 msgstr "Dinero invertido"
+
+msgid "Reset your password on COOBS"
+msgstr "Resetea tu contraseña en COOBS"

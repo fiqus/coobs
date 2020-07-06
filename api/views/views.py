@@ -10,7 +10,6 @@ from django.db.models import Count
 from django.template.loader import get_template
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, status, permissions, views
-from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -581,3 +580,31 @@ class PublicActionView(views.APIView):
                 'principles': principle_serializer.data,
                 'actions_by_principles_data': actions_by_principles_data
             })
+
+class ResetPasswordView(views.APIView):
+    def get(self, request):
+        email = request.query_params.get('email', None)
+        try:
+            partner_data = Partner.objects.get(email=email)
+        except Exception:
+            return Response("Partner with that email doesn't exist.", status=status.HTTP_400_BAD_REQUEST)
+
+        if not partner_data:
+            return Response("Partner with that email doesn't exist.", status=status.HTTP_400_BAD_REQUEST)
+
+        public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+        context = {'public_url': public_url}
+        text_template = get_template('reset_password_email_template.txt')
+        text_content = text_template.render(context)
+        html_template = get_template('reset_password_email_template.html')
+        html_content = html_template.render(context)
+        subject = _('Reset your password on COOBS!')
+        email = EmailMultiAlternatives(subject, text_content,
+                                        getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
+                                        [email])
+        email.content_subtype = "html"
+        email.attach_alternative(html_content, "text/html")
+        email.send()
+
+        return Response({'sent_email_msg': "OK"},
+                        status=status.HTTP_200_OK)

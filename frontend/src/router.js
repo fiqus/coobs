@@ -13,6 +13,7 @@ import PeriodsListScreen from "./screens/periods/list.vue";
 import PeriodEditScreen from "./screens/periods/edit.vue";
 import ProfileScreen from "./screens/profile/profile.vue";
 import SignupScreen from "./screens/signup.vue";
+import ForgottenPasswordScreen from "./screens/forgotten-password.vue";
 import BalanceScreen from "./screens/balance.vue";
 import ActionsRankingScreen from "./screens/actions-ranking.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
@@ -109,6 +110,12 @@ const routes = [
     props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
   },
   {
+    name: "forgotten-password",
+    path: "/forgotten-password",
+    meta: {layout: "login"},
+    component: ForgottenPasswordScreen
+  },
+  {
     name: "my-stats",
     path: "/my-stats",
     component: MyStatsScreen
@@ -146,7 +153,7 @@ const router = new VueRouter({
   routes
 });
 
-const publicScreens = ["login", "signup"];
+const publicScreens = ["login", "signup", "forgotten-password"];
 
 router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);

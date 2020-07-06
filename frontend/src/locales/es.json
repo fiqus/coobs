@@ -197,5 +197,10 @@
   "yes": "Si",
   "no": "No",
   "zeroPartnerHoursGoal": "No has configurado tu meta de horas para invertir.",
-  "noActionsRelatedToMonitor": "No hay acciones relacionadas a este objetivo. Por favor agregue alguna acción relacionada para poder monitorear sus objetivos."
+  "noActionsRelatedToMonitor": "No hay acciones relacionadas a este objetivo. Por favor agregue alguna acción relacionada para poder monitorear sus objetivos.",
+  "forgottenPassTitle": "Te olvidaste tu contraseña para iniciar sesión?",
+  "forgottenPassDescription": "Completa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
+  "sendForgottenPassEmail": "Enviar correo electrónico de restablecimiento de contraseña",
+  "emailSentText-1": "¡Mensaje enviado!",
+  "emailSentText-2": "Te hemos enviado un mensaje para que puedas elegir tu nueva contraseña. Recuerda revisar la carpeta de Spam."
 }
