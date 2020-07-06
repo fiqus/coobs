@@ -141,3 +141,10 @@ masthead-subheading {
 .sigin-text:hover {
   font-weight: bold;
 }
+
+.btn-register:hover {
+  background-color: #171E3F;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px !important;
+}
