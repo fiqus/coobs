@@ -93,8 +93,25 @@ function print(period, translator, parent){
       pdf.text(translator("page") + " " + i + " " + translator("of") + " " + totalPages, pdf.internal.pageSize.width/2-10, pdf.internal.pageSize.height - 5);
     } 
   }).save().then(() => {
+    collapseEveryElement();
     self.downloading = false;
   });
+}
+
+const uncollapseEveryElement = () => {
+  let elementsToUncollapse = $('#nodeToRenderAsPDF').find('tr.collapse');
+  elementsToUncollapse.push(...$('#nodeToRenderAsPDF').find('tbody.collapse'));
+  for (var i=0, len=elementsToUncollapse.length|0; i<len; i=i+1|0) {
+      elementsToUncollapse[i].classList.add('show');
+  }  
+}
+
+const collapseEveryElement = () => {
+  let elementsToUncollapse = $('#nodeToRenderAsPDF').find('tr.collapse');
+  elementsToUncollapse.push(...$('#nodeToRenderAsPDF').find('tbody.collapse'));
+  for (var i=0, len=elementsToUncollapse.length|0; i<len; i=i+1|0) {
+      elementsToUncollapse[i].classList.remove('show');
+  }  
 }
 
 export default {
@@ -118,6 +135,7 @@ export default {
     },
     download() {
       this.downloading = true;
+      uncollapseEveryElement();
       print(this.period, this.$t, this);
     },
     showBalance(res){
