@@ -105,14 +105,6 @@ const uncollapseEveryElement = () => {
   }  
 }
 
-const collapseEveryElement = () => {
-  let elementsToUncollapse = $('#nodeToRenderAsPDF').find('tr.collapse');
-  elementsToUncollapse.push(...$('#nodeToRenderAsPDF').find('tbody.collapse'));
-  for (var i=0, len=elementsToUncollapse.length|0; i<len; i=i+1|0) {
-      elementsToUncollapse[i].classList.remove('show');
-  }  
-}
-
 export default {
   components: {
     BalanceByPeriodTable,
