@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
 from rest_framework import routers
+from django.conf.urls import url
 from api.views import PrincipleView, ActionView, PeriodView, CooperativeView, PartnerView, \
     MyTokenObtainPairView, DashboardView, BalanceView, ActionsRankingView, PartnerStatsView, \
          SustainableDevelopmentGoalView, SDGBalanceView, SDGObjectiveView, SDGMonitoringView, \
-             PublicActionView, ResetPasswordView
+             PublicActionView
 from rest_framework_simplejwt.views import (
     TokenVerifyView,
     TokenRefreshView,
@@ -52,5 +53,5 @@ urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('api/reset-password/', ResetPasswordView.as_view(), name='reset_password')
+    url(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]

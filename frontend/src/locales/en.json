@@ -200,5 +200,8 @@
   "forgottenPassDescription": "Complete your email and we will send you a link to reset your password.", 
   "sendForgottenPassEmail": "Send password reset email",
   "emailSentText-1": "Message sent!",
-  "emailSentText-2": "We've sent you a message so you can choose a new password. Remember to check your Spam folder."
+  "emailSentText-2": "We've sent you a message so you can choose a new password. Remember to check your Spam folder.",
+  "changePassTitle": "Please insert a new password",
+  "passwordChanged-1": "Password changed!",
+  "passwordChanged-2": " Your password has been changed successfully"  
 }

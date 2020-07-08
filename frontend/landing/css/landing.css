@@ -110,7 +110,7 @@ masthead-subheading {
   font-weight: 500;
 }
 
-.btn-register {
+.btn-register, .btn-sign-in, .btn-change-pass {
   background-color: #171E3F;
   color: white;
   border-radius: 10px !important;
@@ -142,7 +142,7 @@ masthead-subheading {
   font-weight: bold;
 }
 
-.btn-register:hover {
+.btn-register:hover, .btn-sign-in:hover, .btn-change-pass:hover {
   background-color: #171E3F;
   color: white;
   font-weight: bold;

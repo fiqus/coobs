@@ -41,7 +41,7 @@
 <script>
 import InputForm from '../components/input-form.vue'
 import { required, email } from 'vuelidate/lib/validators';
-import {httpGet} from '../api-client';
+import {httpPost} from '../api-client';
 import swal from 'sweetalert';
 
 export default {
@@ -60,9 +60,13 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const body = {...this.user};
-        httpGet("/reset-password/", body)
+        var bodyFormData = new FormData();
+        bodyFormData.set('email', `${body.email}`);
+        //FIXME por alguna razón el proxy no funca
+        // httpPost("/api/password_reset/reset_password/", bodyFormData)
+        httpPost("http://localhost:8000/api/password_reset/reset_password/", bodyFormData)
           .then((res) => {
-            const {sentEmailMsg} = res.data;
+            const {status} = res.data;
             document.getElementById('forgottenPasswordDescrition').setAttribute('hidden', 'hidden');
             document.getElementById('emailSent').removeAttribute('hidden');
           })

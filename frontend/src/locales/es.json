@@ -202,5 +202,8 @@
   "forgottenPassDescription": "Completa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.",
   "sendForgottenPassEmail": "Enviar correo electrónico de restablecimiento de contraseña",
   "emailSentText-1": "¡Mensaje enviado!",
-  "emailSentText-2": "Te hemos enviado un mensaje para que puedas elegir tu nueva contraseña. Recuerda revisar la carpeta de Spam."
+  "emailSentText-2": "Te hemos enviado un mensaje para que puedas elegir tu nueva contraseña. Recuerda revisar la carpeta de Spam.",
+  "changePassTitle": "Por favor ingresa una nueva contraseña",
+  "passwordChanged-1": "Contraseña cambiada!",
+  "passwordChanged-2": " Tu contraseña ha sido modificada con éxito"
 }
