@@ -26,7 +26,7 @@
                     :error="$v.user.email.$error"
                     error-message="Ingrese un email válido">
                   </input-form>
-                  <button type="summary" class="btn btn-user btn-block btn-sign-in">{{$t("sendForgottenPassEmail")}}</button>
+                  <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("sendForgottenPassEmail")}}</button>
                 </form>
               </div>
             </div>
@@ -62,9 +62,7 @@ export default {
         const body = {...this.user};
         var bodyFormData = new FormData();
         bodyFormData.set('email', `${body.email}`);
-        //FIXME por alguna razón el proxy no funca
-        // httpPost("/api/password_reset/reset_password/", bodyFormData)
-        httpPost("http://localhost:8000/api/password_reset/reset_password/", bodyFormData)
+        httpPost("/password_reset/reset_password/", bodyFormData)
           .then((res) => {
             const {status} = res.data;
             document.getElementById('forgottenPasswordDescrition').setAttribute('hidden', 'hidden');

@@ -103,13 +103,13 @@ const routes = [
     meta: {layout: "login"},
     component: LoginScreen
   },
-  {
-    name: "signup",
-    path: "/signup",
-    meta: {layout: "login"},
-    component: SignupScreen,
-    props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
-  },
+  // {
+  //   name: "signup",
+  //   path: "/signup",
+  //   meta: {layout: "login"},
+  //   component: SignupScreen,
+  //   props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
+  // },
   {
     name: "forgotten-password",
     path: "/forgotten-password",
@@ -120,7 +120,8 @@ const routes = [
     name: "new-password",
     path: "/new-password",
     meta: {layout: "login"},
-    component: NewPasswordScreen
+    component: NewPasswordScreen,
+    props: (route) => ({token: route.query.token})
   },
   {
     name: "my-stats",

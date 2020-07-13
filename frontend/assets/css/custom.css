@@ -112,7 +112,7 @@ th.active .arrow {
   border-radius: 10px !important;
 }
 
-.btn-sign-in, .btn-change-pass {
+.btn-sign-in-dark, .btn-change-pass {
   background-color: #171E3F !important;
   color: white !important;
   border-radius: 10px !important;

@@ -34,7 +34,7 @@
                   <button id="changePasswordBtn" type="summary" class="btn btn-user btn-block btn-change-pass">{{$t("changePassword")}}</button>
                 </form>
                 <div class="text-center">
-                  <a type="summary" id="signInBtn" hidden="hidden" class="btn btn-user btn-block btn-sign-in" href="app#login">{{$t("login")}}</a>
+                  <a type="summary" id="signInBtn" hidden="hidden" class="btn btn-user btn-block btn-sign-in-dark" href="#/login">{{$t("login")}}</a>
                 </div>                
               </div>
             </div>
@@ -56,6 +56,12 @@ export default {
   components: {
     InputForm
   },
+  props:{
+    token: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       user: {
@@ -71,10 +77,8 @@ export default {
         const body = {...this.user};
         var bodyFormData = new FormData();
         bodyFormData.set('password', `${body.password}`);
-        bodyFormData.set('token', `${body.token}`);
-        //FIXME por alguna razón el proxy no funca
-        // httpPost("/api/password_reset/reset_password/", bodyFormData)
-        httpPost("http://localhost:8000/api/password_reset/confirm/", bodyFormData)
+        bodyFormData.set('token', `${this.token}`);
+        httpPost("/password_reset/confirm/", bodyFormData)
           .then((res) => {
             const {status} = res.data;
             document.getElementById('changePassTitle').setAttribute('hidden', 'hidden');

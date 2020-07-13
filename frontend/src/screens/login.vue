@@ -28,15 +28,15 @@
                     :error="$v.user.password.$error"
                     error-message="Ingrese un password válido">
                   </input-form>
-                  <button type="summary" class="btn btn-user btn-block btn-sign-in">{{$t("login")}}</button>
+                  <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("login")}}</button>
                 </form>
                 <hr>
                 <div class="text-center">
-                  <a class="small sign-in-bottom-text" href="landing#forgotten-password">{{$t("forgotPassword")}}</a>
+                  <a class="small sign-in-bottom-text" href="#/forgotten-password">{{$t("forgotPassword")}}</a>
                 </div>
-                <div class="text-center">
+                <!-- <div class="text-center">
                   <a class="small sign-in-bottom-text" href="landing#signup">{{$t("createAccount")}}</a>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="col-lg-2"></div>
