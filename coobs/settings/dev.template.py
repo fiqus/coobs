@@ -5,6 +5,8 @@ SECRET_KEY = 'change-me'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+WEB_PROTOCOL = "http"
+WEB_URL = "localhost:8080"
 
 DATABASES = {
     'default': {
