@@ -1,11 +1,13 @@
 <template>
-  <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-      <div class="col-sm-9">
-        <h5 class="mb-0 text-gray-100">
-          <i class="fas fa-exclamation-circle"></i>
-          {{$t(error.message, error.message)}}
-        </h5>
-      </div>
+  <div class="container">
+    <loader :loading='isLoading'/>
+    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+        <div class="col-sm-9">
+          <h5 class="mb-0 text-gray-100">
+            <i class="fas fa-exclamation-circle"></i>
+            {{$t(error.message, error.message)}}
+          </h5>
+        </div>
         <div v-if="allPeriods.length" class="col-sm-2 float-right ">
           <div class="dropdown no-arrow mx-3">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
@@ -18,167 +20,167 @@
             </a>
           </div>
         </div>
-    </div>
-    <div v-else>
-      <loader :loading='isLoading'/>
-      <div>
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <div class="dropdown no-arrow float-right">
-            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <label>{{$t('periods')}}</label>
-              <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                  {{period.name}}
-                </option>
-              </select>
-            </a>
+      </div>
+      <div v-else-if="!isLoading">
+        <div>
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="dropdown no-arrow float-right">
+              <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+                <label>{{$t('periods')}}</label>
+                <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+                  <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                    {{period.name}}
+                  </option>
+                </select>
+              </a>
+            </div>
+            <div class="col-9">
+              <small class="form-text text-muted font-italic ml-3">{{$t('dashboardHelp')}}</small>
+            </div>
           </div>
-          <div class="col-9">
-            <small class="form-text text-muted font-italic ml-3">{{$t('dashboardHelp')}}</small>
+
+          <!-- Content Row -->
+          <div class="row" >
+
+            <smallcard-chart
+              :label="$t('actionsDone')"
+              icon="calendar"
+              color-type="primary">
+              <template v-slot:chart-content>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{doneActions}}</div>
+              </template>
+            </smallcard-chart>
+
+            <smallcard-chart
+              :label="$t('investment')"
+              icon="currency"
+              color-type="success">
+              <template v-slot:chart-content>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{formatNumber(totalInvested)}}</div>
+              </template>
+            </smallcard-chart>
+
+            <smallcard-chart
+              :label="$t('promotionFund')"
+              icon="coins"
+              color-type="info">
+              <template v-slot:chart-content>
+                <div class="row no-gutters align-items-center">
+                  <div class="col-auto">
+                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{formatNumber(promotionFundPercentage)}}%</div>
+                  </div>
+                  <div class="col">
+                    <div class="progress progress-sm mr-2">
+                      <div class="progress-bar custom-green" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </smallcard-chart>
+
+            <smallcard-chart
+              :label="$t('pendingActions')"
+              icon="clipboard"
+              color-type="warning">
+              <template v-slot:chart-content>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingActions}}</div>
+              </template>
+            </smallcard-chart>
+
           </div>
-        </div>
 
-        <!-- Content Row -->
-        <div class="row" >
+          <!-- Content Row -->
+          <div class="row">
+            <!-- Principle Chart -->
+            <donut-chart
+              :label="$t('allPrinciples')"
+              :chart-data="localizeDonutChartLabels(allPrinciplesData)">
+            </donut-chart>
 
-          <smallcard-chart
-            :label="$t('actionsDone')"
-            icon="calendar"
-            color-type="primary">
-            <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">{{doneActions}}</div>
-            </template>
-          </smallcard-chart>
-
-          <smallcard-chart
-            :label="$t('investment')"
-            icon="currency"
-            color-type="success">
-            <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">$ {{formatNumber(totalInvested)}}</div>
-            </template>
-          </smallcard-chart>
-
-          <smallcard-chart
-            :label="$t('promotionFund')"
-            icon="coins"
-            color-type="info">
-            <template v-slot:chart-content>
-              <div class="row no-gutters align-items-center">
-                <div class="col-auto">
-                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{formatNumber(promotionFundPercentage)}}%</div>
+            <div class="col-xl-6 col-lg-4">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
                 </div>
-                <div class="col">
-                  <div class="progress progress-sm mr-2">
-                    <div class="progress-bar custom-green" role="progressbar" :style=promotionFundStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </smallcard-chart>
-
-          <smallcard-chart
-            :label="$t('pendingActions')"
-            icon="clipboard"
-            color-type="warning">
-            <template v-slot:chart-content>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">{{pendingActions}}</div>
-            </template>
-          </smallcard-chart>
-
-        </div>
-
-        <!-- Content Row -->
-        <div class="row">
-          <!-- Principle Chart -->
-          <donut-chart
-            :label="$t('allPrinciples')"
-            :chart-data="localizeDonutChartLabels(allPrinciplesData)">
-          </donut-chart>
-
-          <div class="col-xl-6 col-lg-4">
-            <div class="card shadow mb-4">
-              <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">{{$t("progress")}}</h6>
-              </div>
-              <div class="card-body first-col-db" >
-                <div class="">
-                  <!-- Period -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('periodProgress')}}</div>
-                  <div class="row no-gutters align-items-center">
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom | formatToUIDate}}</div>
-                    </div>
-                    <div class="col center-col">
-                      <div class="progress progress-sm mr-2 progress-data center">
-                        <div class="progress-bar custom-orange" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="card-body first-col-db" >
+                  <div class="">
+                    <!-- Period -->
+                    <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('periodProgress')}}</div>
+                    <div class="row no-gutters align-items-center">
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.periodProgressData.dateFrom | formatToUIDate}}</div>
+                      </div>
+                      <div class="col center-col">
+                        <div class="progress progress-sm mr-2 progress-data center">
+                          <div class="progress-bar custom-orange" role="progressbar" :style=periodProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo | formatToUIDate}}</div>
                       </div>
                     </div>
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.periodProgressData.dateTo | formatToUIDate}}</div>
-                    </div>
-                  </div>
-                  <hr>
+                    <hr>
 
-                  <!-- Actions -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('actionsProgress')}}</div>
-                  
-                  <div class="row no-gutters align-items-center">
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">0</div>
-                    </div>
-                    <div class="col center-col">
-                      <div class="progress progress-sm mr-2 progress-data">
-                        <div class="progress-bar custom-red" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <!-- Actions -->
+                    <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('actionsProgress')}}</div>
+                    
+                    <div class="row no-gutters align-items-center">
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.actionsProgressData.actionsDone}}</div>
+                      </div>
+                      <div class="col center-col">
+                        <div class="progress progress-sm mr-2 progress-data">
+                          <div class="progress-bar custom-red" role="progressbar" :style=actionsProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone + pendingActions}}</div>
                       </div>
                     </div>
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">{{progressData.actionsProgressData.actionsDone + pendingActions}}</div>
-                    </div>
-                  </div>
-                  <hr>
+                    <hr>
 
-                  <!-- Investment -->
-                  <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('investmentProgress')}}</div>
+                    <!-- Investment -->
+                    <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('investmentProgress')}}</div>
 
-                  <div class="row no-gutters align-items-center">
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">$0.00</div>
-                    </div>
-                    <div class="col center-col">
-                      <div class="progress progress-sm mr-2 progress-data">
-                        <div class="progress-bar custom-green" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="row no-gutters align-items-center">
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">${{formatNumber(totalInvested)}}</div>
                       </div>
-                    </div>
-                    <div class="col-3">
-                      <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{formatNumber(progressData.investmentProgressData.budget)}}</div>
+                      <div class="col center-col">
+                        <div class="progress progress-sm mr-2 progress-data">
+                          <div class="progress-bar custom-green" role="progressbar" :style=investmentProgressStyle aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                      </div>
+                      <div class="col-3">
+                        <div class="small mb-0 mr-2 font-weight-bold text-gray-800">${{formatNumber(progressData.investmentProgressData.budget)}}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <line-chart
-          :title="monthlyHoursByDateLabel"
-          :columns-data="monthlyHoursByDateData"
-          :xaxis="monthlyHoursByDateLabels">
-        </line-chart>
+          <line-chart
+            :title="monthlyHoursByDateLabel"
+            :columns-data="monthlyHoursByDateData"
+            :xaxis="monthlyHoursByDateLabels">
+          </line-chart>
 
-        <area-chart
-          :title="monthlyInvestmentByDateLabel"
-          :columns-data="monthlyInvestmentByDateData"
-          :xaxis="monthlyInvestmentByDateLabels">
-        </area-chart>
-        <!-- Content Row -->
-        <stacked-columns-chart
-          :title="allPrinciplesYearLabel"
-          :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
-          :xaxis="monthlyActionsByPrincipleLabels">
-        </stacked-columns-chart>
-    </div>  
+          <area-chart
+            :title="monthlyInvestmentByDateLabel"
+            :columns-data="monthlyInvestmentByDateData"
+            :xaxis="monthlyInvestmentByDateLabels">
+          </area-chart>
+          <!-- Content Row -->
+          <stacked-columns-chart
+            :title="allPrinciplesYearLabel"
+            :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
+            :xaxis="monthlyActionsByPrincipleLabels">
+          </stacked-columns-chart>
+      </div>  
+    </div>
   </div>
 </template>
 
@@ -247,6 +249,7 @@ export default {
 
       this.selectedValue = dashboardData.period.id;
       this.allPeriods = dashboardData.allPeriods;
+      this.isLoading = false;
 
       this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
@@ -272,8 +275,7 @@ export default {
       this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget) : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
-      this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
-      this.isLoading = false;
+      this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;
     },
     localizeDonutChartLabels({labels, series}){
       if (!labels) {
@@ -292,9 +294,11 @@ export default {
     },
     async onPeriodChange(){
       this.error.exists = false;
+      this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
       if (!dashboardData.actions.length) {
+        this.isLoading = false;
         this.error = {
           exists: true,
           backgroundClass: " bg-danger",

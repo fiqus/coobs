@@ -53,7 +53,8 @@
         <table class="table table-hover">
           <thead>
             <tr class="row table-info h5">
-              <th class="col-sm-10" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>
+              <th class="col-sm-8" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>
+              <th class="col-sm-2 align-right" scope="col">{{formatNumber(totalHoursInvested)}}</th>
               <th class="col-sm-2 align-right" scope="col">${{formatNumber(totalInvested)}}</th>
             </tr>
           </thead>
@@ -96,6 +97,14 @@ function print(period, translator, parent){
   });
 }
 
+const uncollapseEveryElement = () => {
+  let elementsToUncollapse = $('#nodeToRenderAsPDF').find('tr.collapse');
+  elementsToUncollapse.push(...$('#nodeToRenderAsPDF').find('tbody.collapse'));
+  for (var i=0, len=elementsToUncollapse.length|0; i<len; i=i+1|0) {
+      elementsToUncollapse[i].classList.add('show');
+  }  
+}
+
 export default {
   components: {
     BalanceByPeriodTable,
@@ -117,16 +126,18 @@ export default {
     },
     download() {
       this.downloading = true;
+      uncollapseEveryElement();
       print(this.period, this.$t, this);
     },
     showBalance(res){
-      const {period, actions, allPeriods, totalInvested} = res.data;
+      const {period, actions, allPeriods, totalInvested, totalHoursInvested} = res.data;
       if (!period || !actions || !actions.length) {
         this.error = {
           exists: true,
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
+        this.isLoading = false;
         return;
       }
       this.allPeriods = allPeriods;
@@ -140,23 +151,26 @@ export default {
             actions: []
           };
         }
-        const {date, description, investedMoney, name} = action;
-        obj[action.principle].actions.push({date, description, investedMoney, name});
+        const {date, description, investedMoney, investedHours, name} = action;
+        obj[action.principle].actions.push({date, description, investedMoney, investedHours, name});
         return obj;
       }, {});
       this.period = period;
       this.selectedValue = period.id;
+      this.totalHoursInvested = totalHoursInvested;
       this.totalInvested = totalInvested;
       this.isLoading = false;
     },
     async onPeriodChange(){
       this.error.exists = false;
+      this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       return httpGet("/balance", params)
         .then((res) => {
           this.showBalance(res);
         })
         .catch((err) => {
+          this.isLoading = false;
           this.setErrorMsg(err);
         });
     }      
@@ -167,6 +181,7 @@ export default {
         this.showBalance(res);
       })
       .catch((err) => {
+        this.isLoading = false;
         this.setErrorMsg(err);
       });
   },
@@ -174,6 +189,7 @@ export default {
     return {
       actionsByPeriod: {},
       totalInvested: 0,
+      totalHoursInvested: 0,
       period: {},
       error: {
         exists: false,
