@@ -11,7 +11,7 @@
             <img src="images/bs.png" style="max-height: 45px;">
           </div>
           <div class="sidebar-brand-text mx-3">
-            <img src="images/coobs.png" style="height: 28px;">
+            <img src="images/Logo_completo_negativo.png" style="height: 28px;">
           </div>
         </router-link>
 

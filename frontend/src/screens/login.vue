@@ -34,9 +34,9 @@
                 <div class="text-center">
                   <a class="small sign-in-bottom-text" href="#/forgotten-password">{{$t("forgotPassword")}}</a>
                 </div>
-                <!-- <div class="text-center">
-                  <a class="small sign-in-bottom-text" href="landing#signup">{{$t("createAccount")}}</a>
-                </div> -->
+                <div class="text-center">
+                  <a class="small sign-in-bottom-text" @click.prevent="signup()" href="#">{{$t("createAccount")}}</a>
+                </div>
               </div>
             </div>
             <div class="col-lg-2"></div>
@@ -84,7 +84,10 @@ export default {
             });
           });
       }
-    }
+    },
+    signup() {
+     window.location = window.location.origin + '/#section-signup';
+    },
   },
   validations: {
     user: {
