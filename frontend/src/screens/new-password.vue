@@ -16,21 +16,23 @@
                 </div>
                 <form id="changePassForm" v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
-                    name="password"
+                    :label="$t('newPassword')"
+                    name="new password"
                     type="password"
                     v-model="user.password"
-                    placeholder="Password..."
-                    :error="$v.user.password.$error"
-                    error-message="Ingrese un password válido">
+                    :error="$v.user.password && $v.user.password.$error"
+                    :error-message="passwordErrorMessage"
+                    :help-text="$t('goodPasswordHelpText')">
                   </input-form>
                   <input-form
-                    name="password"
+                    :label="$t('confirmPassword')"
+                    name="confirm password"
                     type="password"
                     v-model="user.repeatPassword"
-                    placeholder="Repeat..."
-                    :error="$v.user.repeatPassword.$error"
-                    error-message="Las passwords no coinciden">
+                    :error="$v.user.repeatPassword && $v.user.repeatPassword.$error"
+                    :error-message="$t('passwordNotMatch')">
                   </input-form>
+                  <error-form :error="error" />
                   <button id="changePasswordBtn" type="summary" class="btn btn-user btn-block btn-change-pass">{{$t("changePassword")}}</button>
                 </form>
                 <div class="text-center">
@@ -48,13 +50,15 @@
 
 <script>
 import InputForm from '../components/input-form.vue'
-import { required, email, sameAs } from 'vuelidate/lib/validators';
+import ErrorForm from "../components/error-form.vue";
+import { required, email, minLength, sameAs } from 'vuelidate/lib/validators';
 import {httpPost} from '../api-client';
 import swal from 'sweetalert';
 
 export default {
   components: {
-    InputForm
+    "input-form": InputForm,
+    "error-form": ErrorForm
   },
   props:{
     token: {
@@ -70,6 +74,20 @@ export default {
       }
     }
   },
+  computed: {
+    passwordErrorMessage() {
+      if (!this.$v.user.newPassword || !this.$v.user.newPassword.$error) {
+        return "";
+      }
+      if (!this.$v.user.newPassword.required) {
+        return this.$t("required");
+      }
+      if (!this.$v.user.newPassword.goodPassword) {
+        return this.$t("goodPasswordErrorMessage");
+      }
+      return "";
+    }
+  },  
   methods: {
     submit() {
       this.$v.$touch();
@@ -88,8 +106,10 @@ export default {
             document.getElementById('signInBtn').removeAttribute('hidden');
           })
           .catch((err) => {
-            swal(err.response.data.detail, {
-              icon: "error"
+            swal(err.response.data.detail.password[0], {
+              icon: "error",
+              buttons: false,
+              timer: 2000              
             });
           });
       }
@@ -98,7 +118,12 @@ export default {
   validations: {
     user: {
       password: {
-        required
+        required,
+        goodPassword: (password) => {
+          return minLength(password, 8) &&
+            /[a-zA-Z]/.test(password) &&
+            /[1-9]/.test(password);
+        }
       },
       repeatPassword: {
         sameAsPassword: sameAs('password')

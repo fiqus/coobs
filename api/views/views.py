@@ -31,8 +31,6 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from django.urls import reverse
 from django.dispatch import receiver
 
-
-
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
@@ -598,11 +596,13 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     :param kwargs:
     :return:
     """
+
     public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
     context = {
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
+        'public_url': public_url,
         'reset_password_url': "{}{}?token={}".format(public_url, '/app/#/new-password', reset_password_token.key)
     }
     email_html_message = render_to_string('reset_password_email_template.html', context)
@@ -614,5 +614,6 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
         [reset_password_token.user.email]
     )
+
     msg.attach_alternative(email_html_message, "text/html")
     msg.send()
