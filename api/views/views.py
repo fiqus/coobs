@@ -7,10 +7,9 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction, IntegrityError
 from django.db.models import Count
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, status, permissions, views
-from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -28,6 +27,11 @@ from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from datetime import datetime
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.urls import reverse
+from django.dispatch import receiver
+
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -581,3 +585,34 @@ class PublicActionView(views.APIView):
                 'principles': principle_serializer.data,
                 'actions_by_principles_data': actions_by_principles_data
             })
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    """
+    Handles password reset tokens
+    When a token is created, an e-mail needs to be sent to the user
+    :param sender: View Class that sent the signal
+    :param instance: View Instance that sent the signal
+    :param reset_password_token: Token Model Object
+    :param args:
+    :param kwargs:
+    :return:
+    """
+    public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+    context = {
+        'current_user': reset_password_token.user,
+        'username': reset_password_token.user.username,
+        'email': reset_password_token.user.email,
+        'reset_password_url': "{}{}?token={}".format(public_url, '/app/#/new-password', reset_password_token.key)
+    }
+    email_html_message = render_to_string('reset_password_email_template.html', context)
+    email_plaintext_message = render_to_string('reset_password_email_template.txt', context)
+
+    msg = EmailMultiAlternatives(
+        "Reset your password on COOBS!",
+        email_plaintext_message,
+        getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
+        [reset_password_token.user.email]
+    )
+    msg.attach_alternative(email_html_message, "text/html")
+    msg.send()

@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_rest_framework_camel_case',
+    'django_rest_passwordreset',
     'api',
 ]
 
@@ -116,3 +117,5 @@ SIMPLE_JWT = {
 }
 
 RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+
+DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 24 #hours

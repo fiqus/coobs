@@ -8,8 +8,14 @@
             <div class="col-lg-8">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 sign-in-text">{{$t('loginTitle-1')}}</h1>
-                  <h1 class="h4 sign-in-text mb-5">{{$t('loginTitle-2')}}</h1>
+                  <h1 class="h4 sign-in-text mb-4">{{$t('forgottenPassTitle')}}</h1>
+                  <p id="forgottenPasswordDescrition" class="mb-5">{{$t('forgottenPassDescription')}}</p>
+                  <div id="emailSent" hidden="hidden">
+                    <p class="mb-5">
+                      {{$t('emailSentText-1')}} <br/>
+                      {{$t('emailSentText-2')}}
+                    </p>
+                  </div>
                 </div>
                 <form v-on:submit.prevent="submit" class="user needs-validation" novalidate>
                   <input-form
@@ -20,23 +26,8 @@
                     :error="$v.user.email.$error"
                     error-message="Ingrese un email válido">
                   </input-form>
-                  <input-form
-                    name="password"
-                    type="password"
-                    v-model="user.password"
-                    :placeholder="$t('password')"
-                    :error="$v.user.password.$error"
-                    error-message="Ingrese un password válido">
-                  </input-form>
-                  <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("login")}}</button>
+                  <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("sendForgottenPassEmail")}}</button>
                 </form>
-                <hr>
-                <div class="text-center">
-                  <a class="small sign-in-bottom-text" href="#/forgotten-password">{{$t("forgotPassword")}}</a>
-                </div>
-                <div class="text-center">
-                  <a class="small sign-in-bottom-text" @click.prevent="signup()" href="#">{{$t("createAccount")}}</a>
-                </div>
               </div>
             </div>
             <div class="col-lg-2"></div>
@@ -60,8 +51,7 @@ export default {
   data() {
     return {
       user: {
-        email: "",
-        password: ""
+        email: ""
       }
     }
   },
@@ -70,13 +60,13 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const body = {...this.user};
-        httpPost("/token/", body)
+        var bodyFormData = new FormData();
+        bodyFormData.set('email', `${body.email}`);
+        httpPost("/password_reset/reset_password/", bodyFormData)
           .then((res) => {
-            const {access, refresh} = res.data;
-            const tokenData = this.$jwt.decode(access);
-            this.$store.commit("setUser", {...tokenData.user, access, refresh});
-            this.$store.commit("setCooperative", tokenData.cooperative);
-            this.$router.push({name: "dashboard"});
+            const {status} = res.data;
+            document.getElementById('forgottenPasswordDescrition').setAttribute('hidden', 'hidden');
+            document.getElementById('emailSent').removeAttribute('hidden');
           })
           .catch((err) => {
             swal(err.response.data.detail, {
@@ -84,19 +74,13 @@ export default {
             });
           });
       }
-    },
-    signup() {
-     window.location = window.location.origin + '/#section-signup';
-    },
+    }
   },
   validations: {
     user: {
       email: {
         required,
         email
-      },
-      password: {
-        required
       }
     }
   }
