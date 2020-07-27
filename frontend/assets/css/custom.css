@@ -140,3 +140,7 @@ th.active .arrow {
   font-weight: bold;
   border-radius: 10px !important;
 }
+
+.custom-container {
+  padding: 30px;
+}
