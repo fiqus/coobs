@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^20.0.0",
+    "@ckeditor/ckeditor5-vue": "^1.0.1",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "acorn": "^7.1.1",
     "acorn-globals": "^6.0.0",
