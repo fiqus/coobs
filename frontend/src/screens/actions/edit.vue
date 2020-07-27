@@ -15,14 +15,15 @@
         :error-message="$t('required')">
       </input-form>
 
-      <textarea-form
+      <!-- <textarea-form
         :label="$t('description')"
         name="description"
         type="text"
         v-model="action.description"
         :error="$v.action.description.$error"
         :error-message="$t('required')">
-      </textarea-form>
+      </textarea-form> -->
+      <ckeditor :editor="editor" v-model="action.description" :config="editorConfig"></ckeditor>
 
       <div class="form-row">
         <div class="col-12">
@@ -138,6 +139,8 @@ import {capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 function parserPartners(partners) {
   return partners.map(({id, firstName, lastName}) => {
@@ -153,7 +156,8 @@ export default {
     "datepicker-form": DatePickerForm,
     "bootstrap-toggle": BootstrapToggle,
     "multi-select-form": MultiSelectForm,
-    "error-form": ErrorForm
+    "error-form": ErrorForm,
+    "ckeditor": CKEditor.component
   },
   mixins: [errorHandlerMixin],
   watch: {
@@ -232,7 +236,12 @@ export default {
       partnersInvolved: [],
       partnersList: [],
       isNew,
-      title: isNew ? "createAction" : "editAction"
+      title: isNew ? "createAction" : "editAction",
+      editor: ClassicEditor,
+      editorData: '<p>Content of the editor.</p>',
+      editorConfig: {
+          // The configuration of the editor.
+      }      
     };
   },
   methods: {

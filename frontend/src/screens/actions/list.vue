@@ -18,10 +18,12 @@
           type="text">{{modalAction.actionData.name}}
         </span><br/>
         <label class="bold">{{$t('description')}}:</label>
-        <span name="description"
+        <div name="description" v-html="modalAction.actionData.description">
+        </div><br/>        
+        <!-- <span name="description"
           type="text">
           {{modalAction.actionData.description}}
-        </span><br/>
+        </span><br/> -->
         <label class="bold">{{$t('principles')}}:</label><br/>
         <span class="multiselect__tag" v-for="principle in modalAction.actionData.principles" v-bind:key="principle" 
           name="principles" type="text">
