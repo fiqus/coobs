@@ -144,3 +144,8 @@ th.active .arrow {
 .custom-container {
   padding: 30px;
 }
+
+td.actions {
+  min-width: 160px;
+  vertical-align: middle !important;
+}
