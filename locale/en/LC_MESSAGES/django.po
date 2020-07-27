@@ -1368,3 +1368,6 @@ msgstr "Invested hours"
 
 msgid "Invested money"
 msgstr "Invested money"
+
+msgid "Reset your password on COOBS"
+msgstr "Reset your password on COOBS"

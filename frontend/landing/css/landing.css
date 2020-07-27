@@ -14,10 +14,6 @@ body {
     margin-left: 10px;
 }
 
-.btn-sign-in {
-    color: #171E3F;
-    background-color: transparent;
-}
 
 .masthead {
   padding-top: calc(6rem + 74px);
@@ -110,7 +106,7 @@ masthead-subheading {
   font-weight: 500;
 }
 
-.btn-register {
+.btn-register, .btn-sign-in-dark, .btn-change-pass {
   background-color: #171E3F;
   color: white;
   border-radius: 10px !important;
@@ -142,7 +138,7 @@ masthead-subheading {
   font-weight: bold;
 }
 
-.btn-register:hover {
+.btn-register:hover, .btn-change-pass:hover {
   background-color: #171E3F;
   color: white;
   font-weight: bold;

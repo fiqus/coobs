@@ -112,7 +112,7 @@ th.active .arrow {
   border-radius: 10px !important;
 }
 
-.btn-sign-in {
+.btn-sign-in-dark, .btn-change-pass {
   background-color: #171E3F !important;
   color: white !important;
   border-radius: 10px !important;
@@ -132,4 +132,11 @@ th.active .arrow {
 
 .sign-in-bottom-text:hover {
   font-weight: bold;
+}
+
+.btn-change-pass:hover {
+  background-color: #171E3F;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px !important;
 }
