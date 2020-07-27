@@ -18,7 +18,7 @@
       <tr v-for="action in periodSummary.actions" :key="action.name" class="row">
         <td class="col-sm-2">{{action.date | formatToUIDate}}</td>
         <td class="col-sm-2">{{action.name}}</td>
-        <td class="col-sm-4">{{action.description}}</td>
+        <td class="col-sm-4" v-html="action.description"></td>
         <td class="col-sm-2" align="right">{{Number(action.investedHours)|| 0}}</td>
         <td class="col-sm-2" align="right">${{formatNumber(Number(action.investedMoney))}}</td>
       </tr>

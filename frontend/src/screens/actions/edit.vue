@@ -140,6 +140,7 @@ import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 function parserPartners(partners) {
   return partners.map(({id, firstName, lastName}) => {
@@ -155,7 +156,8 @@ export default {
     "datepicker-form": DatePickerForm,
     "bootstrap-toggle": BootstrapToggle,
     "multi-select-form": MultiSelectForm,
-    "error-form": ErrorForm
+    "error-form": ErrorForm,
+    "ckeditor": CKEditor.component
   },
   mixins: [errorHandlerMixin],
   watch: {
@@ -214,7 +216,6 @@ export default {
         return p;
       });
       this.partnersInvolved = parserPartners(this.action.partnersInvolved);
-      this.action.description = sanitizeHtml(this.action.description)
     }
   },
   computed: {
