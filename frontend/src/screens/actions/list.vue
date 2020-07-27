@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="custom-container">
     <div class="row">
       <h3 class="col-10">{{$t('actions')}}</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'action-edit', params: {actionId: 0}}">
@@ -18,10 +18,12 @@
           type="text">{{modalAction.actionData.name}}
         </span><br/>
         <label class="bold">{{$t('description')}}:</label>
-        <span name="description"
+        <div name="description" v-html="modalAction.actionData.description">
+        </div><br/>        
+        <!-- <span name="description"
           type="text">
           {{modalAction.actionData.description}}
-        </span><br/>
+        </span><br/> -->
         <label class="bold">{{$t('principles')}}:</label><br/>
         <span class="multiselect__tag" v-for="principle in modalAction.actionData.principles" v-bind:key="principle" 
           name="principles" type="text">
@@ -110,6 +112,15 @@ function parsePartners(partners) {
   return result;
 }
 
+const parsePrinciples = (translator, principles) => {
+  let result = "";
+  principles.forEach((principle) => {
+    const princripleName = translator(principle.nameKey);
+    result = result.concat(`<span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${princripleName}</span>`)
+  });
+  return result;
+}
+
 export default {
   components: {
     "simple-table": SimpleTable,
@@ -156,9 +167,9 @@ export default {
         {key: "date", value: "date", parser: (p) => formatToUIDate(p.date), sortEnabled: true},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50), sortEnabled: true},
         // {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
-        //{key: "principle", value: "principle", parser: (p) => formatText(this.$t(p.principleNameKey), 50)},
         {key: "public", value: "public", parser: (p) => parseBoolean(p.public)},
-        {key: "partnersInvolved", value: "partners", parser: (p) => parsePartners(p.partnersInvolved)},
+        {key: "principles", value: "principles", parser: (p) => parsePrinciples(this.$t, p.principles)},
+        // {key: "partnersInvolved", value: "partners", parser: (p) => parsePartners(p.partnersInvolved)},
       ],
       actions: [],
       pagination: {},

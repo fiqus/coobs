@@ -1,3 +1,7 @@
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
 .btn-lang {
     background-color: #171E3F;
     color: white !important;
@@ -10,10 +14,6 @@
     margin-left: 10px;
 }
 
-.btn-sign-in {
-    color: #171E3F;
-    background-color: transparent;
-}
 
 .masthead {
   padding-top: calc(6rem + 74px);
@@ -48,6 +48,10 @@
     font-size: 1.3rem;
     margin-top: 30px;
     padding-right: 190px;
+  }
+
+  #signup {
+    font-size: 54px;
   }
 }
 
@@ -102,21 +106,22 @@ masthead-subheading {
   font-weight: 500;
 }
 
-.btn-register {
+.btn-register, .btn-sign-in-dark, .btn-change-pass {
   background-color: #171E3F;
   color: white;
   border-radius: 10px !important;
 }
 
 #signup {
-  font-size: 54px;
+  font-size: 45px;
   font-weight: 900;
 }
 
 .section-title {
-  font-size: 33px;
+  font-size: 50px;
   font-weight: bold;
   margin-bottom: 20px;
+  line-height: 48px;
 }
 
 .section-text  {
@@ -124,37 +129,18 @@ masthead-subheading {
   color: #6c757d !important;
 }
 
-.sigin-text {
+.sigin-text, .sigin-text:hover {
   text-decoration: none;
   color: #171E3F;
 }
 
-.wave {
-  position: relative;
-  height: 70px;
-  width: 600px;
+.sigin-text:hover {
+  font-weight: bold;
 }
 
-.wave:before {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: 100% 50%;
-        width: 340px;
-    height: 80px;
-    background-color: white;
-    right: -5px;
-    top: 40px;
-}
-
-.wave:after {
-        content: "";
-        display: block;
-        position: absolute;
-        border-radius: 100% 50%;
-        width: 300px;
-    height: 70px;
-    background-color: #e0efe3;
-    left: 0;
-    top: 27px;
+.btn-register:hover, .btn-change-pass:hover {
+  background-color: #171E3F;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px !important;
 }

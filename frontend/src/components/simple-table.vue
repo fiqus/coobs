@@ -6,19 +6,19 @@
           <th :class="{'cursorPointer': header.sortEnabled}" v-for="header in headers" :key="header.key" @click="onSort(header.sortEnabled, header.key)">
             {{ $t(header.value, header.value) }}<span v-if="header.key == ordering.by" :class="{'arrow': header.sortEnabled, [sortDirClass]: header.sortEnabled}"/>
           </th>
-          <th></th>
+          <th>Acciones</th>
         </tr>
         <tr v-if="!ordering.enabled">
           <th v-for="header in headers" :key="header.key">
             {{ $t(header.value, header.value) }}
           </th>
-          <th></th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="elem in data" :key="elem.id">
           <td class="cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
-          <td>
+          <td class="actions">
             <button v-if="actions.edit && !elem.noActions" class="btn btn-primary" @click.stop="onEdit(elem)" :title="$t('edit')"><i class="fa fa-edit"></i></button>
             <!-- <button v-if="actions.delete && !elem.noActions && actions.showViewButton" class="btn btn-success" @click.stop="onQuickView(elem)" :title="$t('quickView')"><i class="fa fa-eye"></i></button> FIXME no idea why it depends on delete-->
             <button v-if="!elem.noActions && actions.showViewButton" class="btn btn-success" @click.stop="onQuickView(elem)" :title="$t('quickView')"><i class="fa fa-eye"></i></button>

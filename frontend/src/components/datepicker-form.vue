@@ -18,6 +18,7 @@
 
 <script>
 import Datepicker from "vuejs-datepicker";
+const today = new Date();
 
 export default {
   props: {
@@ -54,6 +55,12 @@ export default {
   },
   components: {
     "datepicker": Datepicker
+  },
+  data(){
+    this.$emit("input", this.value || today);
+    return {
+      value: this.value || today.toString()
+    }
   },
   computed: {
     inputClasses() {

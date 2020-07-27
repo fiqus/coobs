@@ -13,6 +13,8 @@ import PeriodsListScreen from "./screens/periods/list.vue";
 import PeriodEditScreen from "./screens/periods/edit.vue";
 import ProfileScreen from "./screens/profile/profile.vue";
 import SignupScreen from "./screens/signup.vue";
+import ForgottenPasswordScreen from "./screens/forgotten-password.vue";
+import NewPasswordScreen from "./screens/new-password.vue";
 import BalanceScreen from "./screens/balance.vue";
 import ActionsRankingScreen from "./screens/actions-ranking.vue";
 import CooperativeScreen from "./screens/cooperative.vue";
@@ -75,11 +77,11 @@ const routes = [
     path: "/balance",
     component: BalanceScreen
   },  
-  {
-    name: "actions-ranking",
-    path: "/actions-ranking",
-    component: ActionsRankingScreen
-  },
+  // {
+  //   name: "actions-ranking",
+  //   path: "/actions-ranking",
+  //   component: ActionsRankingScreen
+  // },
   {
     name: "cooperative",
     path: "/cooperative",
@@ -101,12 +103,25 @@ const routes = [
     meta: {layout: "login"},
     component: LoginScreen
   },
+  // {
+  //   name: "signup",
+  //   path: "/signup",
+  //   meta: {layout: "login"},
+  //   component: SignupScreen,
+  //   props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
+  // },
   {
-    name: "signup",
-    path: "/signup",
+    name: "forgotten-password",
+    path: "/forgotten-password",
     meta: {layout: "login"},
-    component: SignupScreen,
-    props: (route) => ({coopName: route.query.coopName, coopEmail: route.query.coopEmail})
+    component: ForgottenPasswordScreen
+  },
+  {
+    name: "new-password",
+    path: "/new-password",
+    meta: {layout: "login"},
+    component: NewPasswordScreen,
+    props: (route) => ({token: route.query.token})
   },
   {
     name: "my-stats",
@@ -146,7 +161,7 @@ const router = new VueRouter({
   routes
 });
 
-const publicScreens = ["login", "signup"];
+const publicScreens = ["login", "signup", "forgotten-password", "new-password"];
 
 router.beforeEach((to, from, next) => {
   const navToPrivateScreen = !publicScreens.includes(to.name);

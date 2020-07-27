@@ -17,8 +17,14 @@ $(function() {
         obj[elem.name] = elem.value;
         return obj;
       }, {});
-      const languageEl = document.getElementById("language");
-      const languageStr = languageEl.options[languageEl.selectedIndex].value;
+      const languageEl = document.getElementById("language").innerHTML;
+      const languageOptions = document.getElementsByClassName("lang-option");
+      let languageStr = "es";
+      for (let item of languageOptions) {
+        if (item.innerHTML === languageEl){
+          languageStr = item.getAttribute('data-value');
+        }
+      }
       data["language"] = languageStr;
       $this = $("#registerAccount");
       $this.prop("disabled", true); // Disable submit button until AJAX call is complete to prevent duplicate messages
@@ -90,7 +96,7 @@ $(function() {
               type: "POST",
               headers: {
                 "X-CSRFToken": getCookie("csrftoken"),
-                "Accept-Language": $('#language').val() || 'en'
+                "Accept-Language": languageStr || 'en'
               },
               data,
               cache: false,

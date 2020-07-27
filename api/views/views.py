@@ -7,10 +7,9 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction, IntegrityError
 from django.db.models import Count
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.utils.translation import gettext as _
-from rest_framework import viewsets, status, permissions
-from rest_framework.exceptions import ValidationError
+from rest_framework import viewsets, status, permissions, views
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -27,6 +26,10 @@ from rest_framework.filters import OrderingFilter
 from rest_framework.decorators import detail_route
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
+from datetime import datetime
+from django_rest_passwordreset.signals import reset_password_token_created
+from django.urls import reverse
+from django.dispatch import receiver
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -385,8 +388,8 @@ class DashboardView(viewsets.ViewSet):
         action_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
-        date = datetime.today()
-        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to).order_by('date')
+        date = datetime.today() if str(datetime.today()) <= date_to and str(datetime.today()) >= date_from else date_to
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
@@ -454,9 +457,11 @@ class BalanceView(viewsets.ViewSet):
         total_invested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
                                                                       [action.invested_money for action in
                                                                        list(action_data)])
-
+        totalHoursInvested = 0 if len(actions) == 0 else functools.reduce(lambda a, b: a + b,
+                                                                      [action.invested_hours for action in
+                                                                       list(action_data)])
         return Response({'period': period_data, 'actions': actions, 'all_periods': all_periods_serializer.data,
-                         'total_invested': total_invested})
+                         'total_invested': total_invested, 'totalHoursInvested': totalHoursInvested})
 
 
 class ActionsRankingView(viewsets.ViewSet):
@@ -525,8 +530,8 @@ class PartnerStatsView(viewsets.ViewSet):
         date_to = period_data['date_to']
         action_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
-
-        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date_to, user_id).order_by('date')
+        date = datetime.today() if str(datetime.today()) <= date_to and str(datetime.today()) >= date_from else date_to
+        done_actions_data = Action.get_current_actions(cooperative_id, date_from, date, user_id).order_by('date')
 
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
@@ -552,3 +557,63 @@ class PartnerStatsView(viewsets.ViewSet):
         return Response(
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
+
+class PublicActionView(views.APIView):
+    """
+    get:
+    Returns public actions for this year, all the principles and actions by principles.
+
+    """
+    permission_classes = []
+    serializer_class = ActionSerializer
+
+    def get(self, request):
+        starting_day_of_current_year = datetime.now().date().replace(month=1, day=1)
+        ending_day_of_current_year = datetime.now().date().replace(month=12, day=31)
+        action_data = Action.get_public_actions(starting_day_of_current_year, ending_day_of_current_year).order_by('date')
+        action_serializer = ActionSerializer(action_data, many=True)
+
+        principle_data = Principle.objects.filter(visible=True)
+        principle_serializer = PrincipleSerializer(principle_data, many=True)
+
+        actions_by_principles_data = Action.objects.filter(principles__visible=True).values('principles').annotate(total=Count('principles')).order_by()
+
+        return Response({
+                'actions': action_serializer.data, 
+                'principles': principle_serializer.data,
+                'actions_by_principles_data': actions_by_principles_data
+            })
+
+@receiver(reset_password_token_created)
+def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
+    """
+    Handles password reset tokens
+    When a token is created, an e-mail needs to be sent to the user
+    :param sender: View Class that sent the signal
+    :param instance: View Instance that sent the signal
+    :param reset_password_token: Token Model Object
+    :param args:
+    :param kwargs:
+    :return:
+    """
+
+    public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+    context = {
+        'current_user': reset_password_token.user,
+        'username': reset_password_token.user.username,
+        'email': reset_password_token.user.email,
+        'public_url': public_url,
+        'reset_password_url': "{}{}?token={}".format(public_url, '/app/#/new-password', reset_password_token.key)
+    }
+    email_html_message = render_to_string('reset_password_email_template.html', context)
+    email_plaintext_message = render_to_string('reset_password_email_template.txt', context)
+
+    msg = EmailMultiAlternatives(
+        "Reset your password on COOBS!",
+        email_plaintext_message,
+        getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
+        [reset_password_token.user.email]
+    )
+
+    msg.attach_alternative(email_html_message, "text/html")
+    msg.send()
