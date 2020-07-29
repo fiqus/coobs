@@ -280,6 +280,7 @@ export default {
         backgroundClass: " bg-danger",
         message: "notEnoughInfoForDashboard"
       };
+      this.isLoading = false;
     } else {
       this.showDashboardData(dashboardData);
     }
