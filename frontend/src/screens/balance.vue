@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="custom-container">
     <loader :loading='isLoading'/>
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
       <div class="col-sm-9">

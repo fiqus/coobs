@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="custom-container">
     <div class="row">
       <h3 class="col-10">{{$t("principles")}}</h3>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="custom-container">
     <div class="row">
       <h3 class="col-10">{{$t("sdgObjectives")}}</h3>
       <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'sdg-objectives-edit', params: {sdgObjectiveId: 0}}">
