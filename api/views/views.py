@@ -533,7 +533,7 @@ class PartnerStatsView(viewsets.ViewSet):
         date = datetime.today() if str(datetime.today()) <= date_to and str(datetime.today()) >= date_from else date_to
         done_actions_data = Action.get_current_actions(cooperative_id, date_from, date, user_id).order_by('date')
 
-        principle_data = Principle.objects.filter(visible=True)
+        principle_data = Principle.objects.filter(visible=True, cooperative=cooperative_id)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
         actions_by_principles_data = Action.objects.filter(cooperative=cooperative_id, 
