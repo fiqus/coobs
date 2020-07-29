@@ -85,8 +85,12 @@ export default {
                 });
             })
             .catch((err) => {
-              swal(err.response.data.detail, {
-                icon: "error"
+              swal({  
+                title: "Error",
+                text: err.response.data.detail.detail,
+                icon: "error",
+                button: "OK",
+                timer: 10000                
               });
             });
         }

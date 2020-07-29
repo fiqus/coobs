@@ -69,8 +69,12 @@ export default {
             document.getElementById('emailSent').removeAttribute('hidden');
           })
           .catch((err) => {
-            swal(err.response.data.detail, {
-              icon: "error"
+            swal({
+              title: "Error",
+              text: err.response.data.detail.email[0],
+              icon: "error",
+              button: "OK",
+              timer: 10000
             });
           });
       }
