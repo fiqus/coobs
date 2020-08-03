@@ -246,7 +246,6 @@ export default {
     },
     showDashboardData(dashboardData){
       this.dashboardData = dashboardData;
-
       this.selectedValue = dashboardData.period.id;
       this.allPeriods = dashboardData.allPeriods;
       this.isLoading = false;
@@ -317,6 +316,7 @@ export default {
         backgroundClass: " bg-danger",
         message: "notEnoughInfoForDashboard"
       };
+      this.isLoading = false;
     } else {
       this.showDashboardData(dashboardData);
     }

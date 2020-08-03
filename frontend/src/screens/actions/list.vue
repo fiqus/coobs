@@ -97,6 +97,8 @@ import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
+import DOMPurify from 'dompurify';
+import marked from 'marked';
 
 function parseBoolean(value) {
   const icon = value ? "check" : "times";
@@ -345,7 +347,8 @@ export default {
       ]).then(([principles, actionData, sustainableDevelopmentGoals]) => {
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
-        }); 
+        });
+        actionData.description = marked(DOMPurify.sanitize(actionData.description));
         this.modalAction = {actionData};
         $('#detailModal').modal()
       });

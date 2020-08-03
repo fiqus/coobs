@@ -29,6 +29,9 @@
 
 <script>
 import {parseNumber} from "../utils";
+import DOMPurify from 'dompurify';
+import marked from 'marked';
+
 export default {
   props: {
     periodSummary: {
@@ -36,6 +39,12 @@ export default {
       required: true
     },
     groupedBy: String
+  },
+  created(){
+    this.periodSummary.actions.map( action => {
+      action.description = marked(DOMPurify.sanitize(action.description));
+      return action;
+    })
   },
   methods: {
     formatNumber(number) {

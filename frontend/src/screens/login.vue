@@ -80,7 +80,9 @@ export default {
           })
           .catch((err) => {
             swal(err.response.data.detail, {
-              icon: "error"
+              icon: "error",
+              buttons: "OK",
+              timer: 2000  
             });
           });
       }

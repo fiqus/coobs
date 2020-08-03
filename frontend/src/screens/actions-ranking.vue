@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="custom-container">
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center justify-content-between p-3">
       <h5 class="mb-0 text-gray-100">
         <i class="fas fa-exclamation-circle"></i>
