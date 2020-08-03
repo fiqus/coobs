@@ -30,6 +30,8 @@ from datetime import datetime
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.urls import reverse
 from django.dispatch import receiver
+from markdownify import markdownify as md
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -129,8 +131,19 @@ class ActionView(viewsets.ModelViewSet):
         for goal in sustainable_development_goals:
             action_data.sustainable_development_goals.add(goal['id'])
 
+        action_data.description = md(action_data.description)
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
+
+    def perform_update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        self.request.data['description'] = md(self.request.data['description'])
+        serializer = self.get_serializer(instance, data=self.request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        result = serializer.save()
+        return Response("ACTION_UPDATED", status=status.HTTP_200_OK)
 
 
 class PeriodView(viewsets.ModelViewSet):

@@ -141,6 +141,9 @@ import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import marked from 'marked';
+import TurndownService from 'turndown';
+const turndownService = new TurndownService()
 
 function parserPartners(partners) {
   return partners.map(({id, firstName, lastName}) => {
@@ -216,6 +219,7 @@ export default {
         return p;
       });
       this.partnersInvolved = parserPartners(this.action.partnersInvolved);
+      this.action.description = marked(this.action.description);
     }
   },
   computed: {
@@ -253,6 +257,7 @@ export default {
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
         this.action.partnersInvolved = this.partnersInvolved;
+        this.action.description = turndownService.turndown(this.action.description);
         let promise = null;
         if (this.isNew) {
           promise = httpPost("actions/", this.action);
