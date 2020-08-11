@@ -74,7 +74,6 @@ export default {
     parseElem(header, elem) {
       if (header.parser) {
         try {
-          elem.description = marked(DOMPurify.sanitize(elem.description));
           return header.parser(elem) || "";
         } catch (err) {
           console.trace(`Can't parse the element for '${header.key}'!`, err);
