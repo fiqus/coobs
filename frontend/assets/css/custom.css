@@ -149,3 +149,13 @@ td.actions {
   min-width: 160px;
   vertical-align: middle !important;
 }
+
+.ck-editor {
+  position: relative;
+  margin-bottom: 18px;
+  margin-top: 18px;
+}
+
+.ck-editor__editable {
+  min-height: 200px;
+}
