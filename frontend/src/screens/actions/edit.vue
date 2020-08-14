@@ -135,13 +135,12 @@ import MultiSelectForm from "../../components/multi-select-form.vue";
 import swal from "sweetalert";
 import {required, minLength, minValue, requiredIf} from "vuelidate/lib/validators";
 import {httpPut, httpPost} from "../../api-client.js";
-import {capitalizeFirstChar} from "../../utils";
+import {sanitizeMarkdown, capitalizeFirstChar} from "../../utils";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CKEditor from '@ckeditor/ckeditor5-vue';
-import marked from 'marked';
 import TurndownService from 'turndown';
 const turndownService = new TurndownService()
 
@@ -219,7 +218,7 @@ export default {
         return p;
       });
       this.partnersInvolved = parserPartners(this.action.partnersInvolved);
-      this.action.description = marked(this.action.description);
+      this.action.description = sanitizeMarkdown(this.action.description);
     }
   },
   computed: {
@@ -257,6 +256,7 @@ export default {
       if (!this.$v.$invalid) {
         const actionId = this.$route.params.actionId;
         this.action.partnersInvolved = this.partnersInvolved;
+        // @FIXME [DMC] I think it makes no sense to sanitize here, let the server do it and just sanitize with JS at display/parse time
         this.action.description = turndownService.turndown(this.action.description);
         let promise = null;
         if (this.isNew) {
