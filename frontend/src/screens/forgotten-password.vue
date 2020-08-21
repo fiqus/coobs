@@ -9,8 +9,8 @@
               <div class="p-5">
                 <div class="text-center">
                   <h1 class="h4 sign-in-text mb-4">{{$t('forgottenPassTitle')}}</h1>
-                  <p id="forgottenPasswordDescrition" class="mb-5">{{$t('forgottenPassDescription')}}</p>
-                  <div id="emailSent" hidden="hidden">
+                  <p v-if="!resentSent" class="mb-5">{{$t('forgottenPassDescription')}}</p>
+                  <div v-if="resentSent">
                     <p class="mb-5">
                       {{$t('emailSentText-1')}} <br/>
                       {{$t('emailSentText-2')}}
@@ -24,7 +24,7 @@
                     v-model="user.email"
                     placeholder="Email"
                     :error="$v.user.email.$error"
-                    error-message="Ingrese un email válido">
+                    :error-message="$t('invalidEmail')">
                   </input-form>
                   <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("sendForgottenPassEmail")}}</button>
                 </form>
@@ -52,21 +52,18 @@ export default {
     return {
       user: {
         email: ""
-      }
+      },
+      resentSent: false
     }
   },
   methods: {
     submit() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        const body = {...this.user};
-        var bodyFormData = new FormData();
-        bodyFormData.set('email', `${body.email}`);
-        httpPost("/password_reset/reset_password/", bodyFormData)
-          .then((res) => {
-            const {status} = res.data;
-            document.getElementById('forgottenPasswordDescrition').setAttribute('hidden', 'hidden');
-            document.getElementById('emailSent').removeAttribute('hidden');
+        const data = {email: this.user.email};
+        httpPost("/password_reset/reset_password/", data, true)
+          .then(() => {
+            this.resentSent = true;
           })
           .catch((err) => {
             swal({
