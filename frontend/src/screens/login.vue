@@ -18,7 +18,7 @@
                     v-model="user.email"
                     placeholder="Email"
                     :error="$v.user.email.$error"
-                    error-message="Ingrese un email válido">
+                    :error-message="$t('invalidEmail')">
                   </input-form>
                   <input-form
                     name="password"
@@ -26,7 +26,7 @@
                     v-model="user.password"
                     :placeholder="$t('password')"
                     :error="$v.user.password.$error"
-                    error-message="Ingrese un password válido">
+                    :error-message="$t('required')">
                   </input-form>
                   <button type="summary" class="btn btn-user btn-block btn-sign-in-dark">{{$t("login")}}</button>
                 </form>
@@ -70,7 +70,7 @@ export default {
       this.$v.$touch();
       if (!this.$v.$invalid) {
         const body = {...this.user};
-        httpPost("/token/", body)
+        httpPost("/token/", body, true)
           .then((res) => {
             const {access, refresh} = res.data;
             const tokenData = this.$jwt.decode(access);
@@ -82,7 +82,7 @@ export default {
             swal(err.response.data.detail, {
               icon: "error",
               buttons: "OK",
-              timer: 2000  
+              timer: 2000
             });
           });
       }

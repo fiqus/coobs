@@ -204,5 +204,6 @@
   "emailSentText-2": "We've sent you a message so you can choose a new password. Remember to check your Spam folder.",
   "changePassTitle": "Please insert a new password",
   "passwordChanged-1": "Password changed!",
-  "passwordChanged-2": " Your password has been changed successfully"  
+  "passwordChanged-2": " Your password has been changed successfully",
+  "invalidEmail": "Invalid email"
 }

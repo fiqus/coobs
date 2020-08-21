@@ -49,43 +49,46 @@ axios.interceptors.response.use((response) => response,
   }
 );
 
-function _buildHeaders(defaultHeaders = {}) {
+function _buildHeaders(noAuth=false) {
   const user = store && store.state ? store.state.user : null;
   const storeLocale = store && store.state && store.state.i18n ? store.state.i18n.locale : '';
   const currentLocale = browserLocale().split("-")[0];
   const locale = storeLocale || currentLocale;
 
-  Object.assign(defaultHeaders, {"Accept-Language": locale || 'en'})
+  const headers = {"Accept-Language": locale || 'en'};
 
-  if (user && user.access) {
-    return Object.assign({}, defaultHeaders, {
+  if (!noAuth && user && user.access) {
+    return {
+      ...headers,
       "Authorization": `Bearer ${user.access}`
-    });
+    }
   }
 
-  return defaultHeaders;
+  return headers;
 }
 
 /* HTTP METHODS */
 
-export function httpGet(url, params = {}) {
-  return axios.get(url, {headers: _buildHeaders(), params});
+export function httpGet(url, params = {}, noAuth=false) {
+  return axios.get(url, {headers: _buildHeaders(noAuth), params});
 }
 
-export function httpPost(url, data) {
-  return axios.post(url, data, {headers: _buildHeaders()});
+export function httpPost(url, data, noAuth=false) {
+  const headers = _buildHeaders(noAuth);
+  console.log(headers);
+  return axios.post(url, data, {headers});
 }
 
-export function httpPut(url, data) {
-  return axios.put(url, data, {headers: _buildHeaders()});
+export function httpPut(url, data, noAuth=false) {
+  return axios.put(url, data, {headers: _buildHeaders(noAuth)});
 }
 
-export function httpPatch(url, data) {
-  return axios.patch(url, data, {headers: _buildHeaders()});
+export function httpPatch(url, data, noAuth=false) {
+  return axios.patch(url, data, {headers: _buildHeaders(noAuth)});
 }
 
-export function httpDelete(url) {
-  return axios.delete(url, {headers: _buildHeaders()});
+export function httpDelete(url, noAuth=false) {
+  return axios.delete(url, {headers: _buildHeaders(noAuth)});
 }
 
 /* END HTTP METHODS */
