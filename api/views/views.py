@@ -271,16 +271,11 @@ class CooperativeView(viewsets.ModelViewSet):
 
         transaction.on_commit(assign_coop_to_partner)
 
-        created_coop_success_msg = _("The cooperative %(businessName)s has been created for user %(firstName)s %(lastName)s with email %(email)s." % 
-                {"businessName": data['businessName'], 
-                "firstName": data['firstName'], 
-                "lastName": data['lastName'], 
-                "email": data['email']})
-
-
+        created_coop_success_msg = _(
+            "The cooperative %(businessName)s has been created for user %(firstName)s %(lastName)s with email %(email)s.") % {
+                "businessName": data['businessName'], "firstName": data['firstName'], "lastName": data['lastName'], "email": data['email']}
         account_needs_to_be_activated_msg = _(
             "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used.")
-        print(_(account_needs_to_be_activated_msg)) #FIXME translations are not working
 
         return Response({'created_coop_success_msg': created_coop_success_msg,
                          'account_needs_to_be_activated_msg': account_needs_to_be_activated_msg},

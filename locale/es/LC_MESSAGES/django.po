@@ -181,8 +181,8 @@ msgstr "Resetea tu contraseña en COOBS"
 #: api/views.py:153
 #, python-brace-format
 
-msgid "The cooperative %(businessName) has been created for user %(firstName) %(firstName) with email %(email)."
-msgstr "La cooperativa %(businessName) ha sido creada para el nombre de usuario/a %(firstName) %(firstName) con email %(email)."
+msgid "The cooperative %(businessName)s has been created for user %(firstName)s %(lastName)s with email %(email)s."
+msgstr "La cooperativa %(businessName)s ha sido creada para el nombre de usuario/a %(firstName)s %(lastName)s con email %(email)s."
 
 msgid "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used."
 msgstr "Necesita ser revisado y activado por la administración, recibirá un correo electrónico cuando su cooperativa esté activa y lista para ser utilizada."
