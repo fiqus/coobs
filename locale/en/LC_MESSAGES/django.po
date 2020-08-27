@@ -127,8 +127,8 @@ msgstr "Please change it as soon as possible."
 #: api/templates/text_email_template.txt:5
 #, fuzzy, python-format
 #| msgid " \"Enter to %(public_url)s and start using COOBS!\""
-msgid " Enter to %(public_url)s and start using COOBS!"
-msgstr " \"Enter to %(public_url)s and start using COOBS!\""
+msgid "Enter to %(public_url)s and start using COOBS!"
+msgstr "Enter to %(public_url)s and start using COOBS!"
 
 #: api/views.py:153
 #, python-brace-format
@@ -138,8 +138,8 @@ msgstr ""
 #: api/views.py:196
 #, fuzzy, python-brace-format
 #| msgid "Hello %(partner_name)! You have been added to COOBS!"
-msgid "Hello {0}, you have been added to COOBS!"
-msgstr "Hello %(partner_name), you have been added to COOBS!"
+msgid "Hello %(partner_name)s, you have been added to COOBS!"
+msgstr "Hello %(partner_name)s, you have been added to COOBS!"
 
 #: api/views.py:215
 msgid "Current logged in user can not delete it self."
@@ -1372,3 +1372,15 @@ msgstr "Reset your password on COOBS"
 
 msgid "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used."
 msgstr "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used."
+
+msgid "Your cooperative and user are being verified in order to enable them"
+msgstr "Your cooperative and user are being verified in order to enable them"
+
+msgid "You will be notified once everything is enabled"
+msgstr "You will be notified once everything is enabled"
+
+msgid "Created with ♥ by Fiqus"
+msgstr "Created with ♥ by Fiqus"
+
+msgid "Hello %(partner_name)s, your cooperative is been added to COOBS!"
+msgstr "Hello %(partner_name)s, your cooperative is been added to COOBS!"

@@ -114,14 +114,14 @@ msgstr "Por favor cambiala lo más pronto posible."
 
 #: api/templates/html_email_template.html:8
 #, python-format
-msgid " \"Enter to %(public_url)s and start using COOBS!\""
-msgstr " \"Entra en %(public_url)s y empieza a usar COOBS!\""
+msgid "Enter to %(public_url)s and start using COOBS!"
+msgstr "Entra en %(public_url)s y empieza a usar COOBS!"
 
 #: api/views.py:188
 #, fuzzy, python-brace-format
 #| msgid "Hello %(partner_name)! You have been added to COOBS!"
-msgid "Hello {0}, you have been added to COOBS!"
-msgstr "Hola %(partner_name), te han agregado a COOBS!"
+msgid "Hello %(partner_name)s, you have been added to COOBS!"
+msgstr "Hola %(partner_name)s, te han agregado a COOBS!"
 
 #: api/serializers.py:39
 msgid "The date from you entered is contained in another period."
@@ -186,3 +186,15 @@ msgstr "La cooperativa %(businessName)s ha sido creada para el nombre de usuario
 
 msgid "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used."
 msgstr "Necesita ser revisado y activado por la administración, recibirá un correo electrónico cuando su cooperativa esté activa y lista para ser utilizada."
+
+msgid "Your cooperative and user are being verified in order to enable them"
+msgstr "Su cooperativa y su usuario están siendo verificados con el fin de habilitarlos"
+
+msgid "You will be notified once everything is enabled"
+msgstr "Se le notificará una vez que todo esté habilitado"
+
+msgid "Created with ♥ by Fiqus"
+msgstr "Creado con ♥ por Fiqus"
+
+msgid "Hello %(partner_name)s, your cooperative is been added to COOBS!"
+msgstr "Hola %(partner_name)s, tu cooperativa está siendo agregada a COOBS!"

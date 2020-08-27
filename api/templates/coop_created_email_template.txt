@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% trans "You have been registered with email:" %}: {{email}}.
+{% trans "Your cooperative and user are being verified in order to enable them" %}.
+{% trans "You will be notified once everything is enabled" %}.
+
+{% blocktrans %}Enter to {{public_url}} and start using COOBS!{% endblocktrans %}
