@@ -342,8 +342,9 @@ class PartnerView(viewsets.ModelViewSet):
 
         def send_email():
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            logo_url = public_url + settings.STATIC_URL + "images/coobs.png"
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
-                       'public_url': public_url, 'email': partner.email}
+                       'public_url': public_url, 'email': partner.email, "logo_url": logo_url}
             text_template = get_template('partner_created_email_template.txt')
             text_content = text_template.render(context)
             html_template = get_template('partner_created_email_template.html')

@@ -1384,3 +1384,15 @@ msgstr "Created with ♥ by Fiqus"
 
 msgid "Hello %(partner_name)s, your cooperative is been added to COOBS!"
 msgstr "Hello %(partner_name)s, your cooperative is been added to COOBS!"
+
+msgid "Hello"
+msgstr "Hello"
+
+msgid "Enter to"
+msgstr "Enter to"
+
+msgid "and start using COOBS!"
+msgstr "and start using COOBS!"
+
+msgid "and set your new password"
+msgstr "and set your new password"

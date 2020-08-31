@@ -4,4 +4,4 @@
 {% trans "Your cooperative and user are being verified in order to enable them" %}.
 {% trans "You will be notified once everything is enabled" %}.
 
-{% blocktrans %}Enter to {{public_url}} and start using COOBS!{% endblocktrans %}
+{% trans "Enter to" %} {{public_url}} {% trans "and start using COOBS!" %}

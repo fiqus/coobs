@@ -3,14 +3,19 @@
 <html>
   <head>
     <style>
-      .horizontal-central-align{  
+      body {
+        font-family: 'IBM Plex Sans', sans-serif;
+      }
+
+      .horizontal-central-align{
+        text-align: center;
         margin: auto;
         width: 50%;
         padding: 10px;
       }
 
       .background-color{
-        background-color: white;
+        background-color: #F2F4F9;
       }
     </style>
   </head>
@@ -18,15 +23,16 @@
     <div class="background-color">
       <header>
         <div style="height: 100px;" class="horizontal-central-align">
-          <img src="{{public_url}}{% static 'images/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo">
+          <img src="https://coobs.io/images/coobs.png" style='width:70%; margin-top: 15px;' border="0" alt="coobs-logo">
+          <!-- <img src="{{public_url}}{% static 'images/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo"> -->
         </div>
       </header>
       <section class="horizontal-central-align">
-        <div>
+        <div class="horizontal-central-align">
           <p>{% trans "You have been registered with email" %}: {{email}} <br/></p>
           <p>{% trans "Your cooperative and user are being verified in order to enable them" %} <br/></p>
-          <p>{% trans "You will be notified once everything is enabled" %} <br/></p>
-          <br/><p>{% blocktrans %}Enter to {{public_url}} and start using COOBS!{% endblocktrans %}</p>
+          <p>{% trans "You will be notified once everything is enabled" %}. <br/></p>
+          <br/><p>{% trans "Enter to" %} {{public_url}} {% trans "and start using COOBS!" %}</p>
         </div>
       </section>
       <footer class="horizontal-central-align">
