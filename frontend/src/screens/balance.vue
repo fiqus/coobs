@@ -69,7 +69,7 @@ import {httpGet} from "../api-client";
 import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../components/loader-overlay.vue";
-import {formatToUIDate, parseNumber} from "../utils";
+import {sanitizeMarkdown, formatToUIDate, parseNumber} from "../utils";
 
 function print(period, translator, parent){
   const self = parent;
@@ -152,7 +152,7 @@ export default {
           };
         }
         const {date, description, investedMoney, investedHours, name} = action;
-        obj[action.principle].actions.push({date, description, investedMoney, investedHours, name});
+        obj[action.principle].actions.push({date, description: sanitizeMarkdown(description), investedMoney, investedHours, name});
         return obj;
       }, {});
       this.period = period;

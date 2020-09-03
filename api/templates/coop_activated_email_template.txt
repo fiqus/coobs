@@ -1,0 +1,4 @@
+{% load i18n %}
+
+{% trans "Your cooperative and user have been activated!" %}.
+{% trans "Enter to" %} {{public_url}} {% trans "and start using COOBS!" %}

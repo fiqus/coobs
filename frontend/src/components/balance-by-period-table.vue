@@ -28,9 +28,7 @@
 </template>
 
 <script>
-import {parseNumber} from "../utils";
-import DOMPurify from 'dompurify';
-import marked from 'marked';
+import {sanitizeMarkdown, parseNumber} from "../utils";
 
 export default {
   props: {
@@ -42,7 +40,7 @@ export default {
   },
   created(){
     this.periodSummary.actions.map( action => {
-      action.description = marked(DOMPurify.sanitize(action.description));
+      action.description = sanitizeMarkdown(action.description);
       return action;
     })
   },

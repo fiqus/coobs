@@ -1,3 +1,16 @@
+// https://portswigger.net/web-security/cross-site-scripting/cheat-sheet
+// https://github.com/cure53/DOMPurify
+import DOMPurify from "dompurify";
+import marked from "marked";
+
+export function sanitizeMarkdown(text) {
+  return sanitizeHtml(marked(text));
+}
+
+export function sanitizeHtml(text) {
+  return DOMPurify.sanitize(text);
+}
+
 export function formatText(text, limit) {
   return text.length > limit ? `${text.substring(0, (limit - 3))}..` : text;
 }

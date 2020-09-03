@@ -16,7 +16,7 @@
 
 <script>
   import SimpleTable from "../../components/simple-table.vue";
-  import {formatText} from "../../utils";
+  import {sanitizeHtml, formatText} from "../../utils";
   import {deletePrinciple} from "../../mock-data";
   import {httpGet} from "../../api-client.js";
   import swal from 'sweetalert';
@@ -43,7 +43,8 @@
       return {
         headers: [
           {key: "name", value:  "name", parser: (p) => formatText(this.$t(p.nameKey, p.name))},
-          {key: "description", value:  "description", parser: (p) => formatText(p.description, 50)},
+          // @TODO [DMC] Should we sanitize to display here?
+          {key: "description", value:  "description", parser: (p) => formatText(sanitizeHtml(p.description), 50)},
           {key: "visible", value:  "visible", parser: (p) => parseBoolean(p.visible)},
         ],
         principles: [],

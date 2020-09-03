@@ -15,7 +15,7 @@
       }
 
       .background-color{
-        background-color:#F2F4F9;
+        background-color: #F2F4F9;
       }
     </style>
   </head>
@@ -29,11 +29,10 @@
       </header>
       <section class="horizontal-central-align">
         <div class="horizontal-central-align">
-          <h3>{% trans "Hello" %} {{username}}!</h3>
-          <h3>{% trans "We got your request to change your password!" %}</h3>
-          <br/><p>{% trans "Enter to" %} {{reset_password_url}} {% trans "and set your new password" %}.</p><br/>
-          <p>{% trans "Just so you know: You have 24 hours to pick your password. After that, you'll have to ask for a new one." %}<br/></p>
-          <p>{% trans "Didn't ask for a new password? You can ignore this email." %}<br/></p>
+          <p>{% trans "You have been registered with email" %}: {{email}} <br/></p>
+          <p>{% trans "Your cooperative and user are being verified in order to enable them" %} <br/></p>
+          <p>{% trans "You will be notified once everything is enabled" %}. <br/></p>
+          <br/><p>{% trans "Enter to" %} {{public_url}} {% trans "and start using COOBS!" %}</p>
         </div>
       </section>
       <footer class="horizontal-central-align">

@@ -208,12 +208,27 @@ class CooperativeView(viewsets.ModelViewSet):
             setattr(partner_data, 'is_active', False)
             return partner_data
 
-        def send_email():
-            text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}. Remember to activate the cooperative and created user. After that send them an email to notify that te cooperative can be used.'
-            html_content = f'<div><h3>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h3><br/><p>Remember to activate the cooperative and created user. <br/>After that send them an email to notify that te cooperative can be used.</p></div>'
+        def send_email_to_admin():
+            text_content = f'The coop: {cooperative.business_name} with ID {cooperative.id} has been created. The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created. Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active". That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.'
+            html_content = f'<div><h3>The coop: {cooperative.business_name} with ID {cooperative.id} has been created.</h3><br/> The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created.<b<br/><p> Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active".<br/>That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.</p></div>'
             email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content,
                                            getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
                                            [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")])
+            email.content_subtype = "html"
+            email.attach_alternative(html_content, "text/html")
+            email.send()
+
+        def send_email_to_user():
+            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            context = {'public_url': public_url, 'email': partner.email}
+            text_template = get_template('coop_created_email_template.txt')
+            text_content = text_template.render(context)
+            html_template = get_template('coop_created_email_template.html')
+            html_content = html_template.render(context)
+            subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
+            email = EmailMultiAlternatives(subject, text_content,
+                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
+                                           [partner.email])
             email.content_subtype = "html"
             email.attach_alternative(html_content, "text/html")
             email.send()
@@ -263,7 +278,8 @@ class CooperativeView(viewsets.ModelViewSet):
             cooperative.save()
             partner.cooperative = cooperative
             partner.save()
-            send_email()
+            send_email_to_admin()
+            send_email_to_user()
         except Exception as errors:
             raise IntegrityError("Partner asked to be created but it FAILED.", errors)
             #FIXME this way it rollbacks the transaction, do we have a way to handle what we send to the client?
@@ -271,16 +287,11 @@ class CooperativeView(viewsets.ModelViewSet):
 
         transaction.on_commit(assign_coop_to_partner)
 
-        created_coop_success_msg = _("The cooperative %(businessName)s has been created for user %(firstName)s %(lastName)s with email %(email)s." % 
-                {"businessName": data['businessName'], 
-                "firstName": data['firstName'], 
-                "lastName": data['lastName'], 
-                "email": data['email']})
-
-
+        created_coop_success_msg = _(
+            "The cooperative %(businessName)s has been created for user %(firstName)s %(lastName)s with email %(email)s.") % {
+                "businessName": data['businessName'], "firstName": data['firstName'], "lastName": data['lastName'], "email": data['email']}
         account_needs_to_be_activated_msg = _(
             "It needs to be revisited and activated by an administrator, you'll receive an email when your cooperative is active and ready to be used.")
-        print(_(account_needs_to_be_activated_msg)) #FIXME translations are not working
 
         return Response({'created_coop_success_msg': created_coop_success_msg,
                          'account_needs_to_be_activated_msg': account_needs_to_be_activated_msg},
@@ -331,13 +342,14 @@ class PartnerView(viewsets.ModelViewSet):
 
         def send_email():
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            logo_url = public_url + settings.STATIC_URL + "images/coobs.png"
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
-                       'public_url': public_url, 'email': partner.email}
+                       'public_url': public_url, 'email': partner.email, "logo_url": logo_url}
             text_template = get_template('partner_created_email_template.txt')
             text_content = text_template.render(context)
             html_template = get_template('partner_created_email_template.html')
             html_content = html_template.render(context)
-            subject = _('Hello {0}, you have been added to COOBS!'.format(partner.first_name))
+            subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
             email = EmailMultiAlternatives(subject, text_content,
                                            getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
                                            [partner.email])
