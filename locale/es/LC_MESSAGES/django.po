@@ -208,3 +208,6 @@ msgstr "y comenzá a usar COOBS!"
 
 msgid "and set your new password"
 msgstr "y configurá tu nueva contraseña"
+
+msgid "Your cooperative and user have been activated!"
+msgstr "¡Su cooperativa y su usuarix han sido activados!"

@@ -209,8 +209,8 @@ class CooperativeView(viewsets.ModelViewSet):
             return partner_data
 
         def send_email_to_admin():
-            text_content = f'Verify the coop: {cooperative.business_name} with ID {cooperative.id}. Remember to activate the cooperative and created user. After that send them an email to notify that te cooperative can be used.'
-            html_content = f'<div><h3>Verify the coop: {cooperative.business_name} with ID {cooperative.id}</h3><br/><p>Remember to activate the cooperative and created user. <br/>After that send them an email to notify that te cooperative can be used.</p></div>'
+            text_content = f'The coop: {cooperative.business_name} with ID {cooperative.id} has been created. The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created. Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active". That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.'
+            html_content = f'<div><h3>The coop: {cooperative.business_name} with ID {cooperative.id} has been created.</h3><br/> The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created.<b<br/><p> Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active".<br/>That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.</p></div>'
             email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content,
                                            getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
                                            [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")])

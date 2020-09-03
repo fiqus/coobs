@@ -1,0 +1,41 @@
+{% load static %}
+{% load i18n %}
+<html>
+  <head>
+    <style>
+      body {
+        font-family: 'IBM Plex Sans', sans-serif;
+      }
+
+      .horizontal-central-align{
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+      }
+
+      .background-color{
+        background-color: #F2F4F9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-color">
+      <header>
+        <div style="height: 100px;" class="horizontal-central-align">
+          <img src="https://coobs.io/images/coobs.png" style='width:70%; margin-top: 15px;' border="0" alt="coobs-logo">
+          <!-- <img src="{{public_url}}{% static 'images/coobs.png' %}" style='width:30%;' border="0" alt="coobs-logo"> -->
+        </div>
+      </header>
+      <section class="horizontal-central-align">
+        <div class="horizontal-central-align">
+          <p>{% trans "Your cooperative and user have been activated!" %} <br/></p>
+          <br/><p>{% trans "Enter to" %} {{public_url}} {% trans "and start using COOBS!" %}</p>
+        </div>
+      </section>
+      <footer class="horizontal-central-align">
+        <small>{% trans "Created with ♥ by Fiqus" %} | COOBS 2020</small>
+      </footer>
+    </div>
+  </body>
+</html>
