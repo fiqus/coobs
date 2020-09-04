@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal
+from django.conf import settings
 
 User = get_user_model()
 
@@ -195,5 +196,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         user_data = PartnerSerializer(user).data
         token['user'] = camelize(user_data)
         token['cooperative'] = camelize(coop_data)
+        token['SDGEnabled'] = settings.SDG_ENABLED or False
 
         return token

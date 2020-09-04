@@ -4,6 +4,7 @@ export const actions = {
   logout({commit}) {
     commit("setUser", {});
     commit("setCooperative", {});
+    commit("setSDGEnabled", {});
     commit("setLang", "");
   },
   updateCooperative({commit}, cooperative) {

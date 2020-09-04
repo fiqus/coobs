@@ -5,6 +5,9 @@ export const mutations = {
   setCooperative(state, cooperative) {
     state.cooperative = cooperative;
   },
+  setSDGEnabled(state, SDGEnabled) {
+    state.SDGEnabled = SDGEnabled;
+  },
   setLang(state, lang) {
     state.lang = lang;
   }

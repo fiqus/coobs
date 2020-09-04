@@ -119,3 +119,5 @@ SIMPLE_JWT = {
 RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
 
 DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 24 #hours
+
+SDG_ENABLED = False
