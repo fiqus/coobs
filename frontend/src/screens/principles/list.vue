@@ -44,7 +44,7 @@
         headers: [
           {key: "name", value:  "name", parser: (p) => formatText(this.$t(p.nameKey, p.name))},
           // @TODO [DMC] Should we sanitize to display here?
-          {key: "description", value:  "description", parser: (p) => formatText(sanitizeHtml(p.description), 50)},
+          {key: "description", value:  "descriptionICA", parser: (p) => formatText(sanitizeHtml(p.description), 50)},
           {key: "visible", value:  "visible", parser: (p) => parseBoolean(p.visible)},
         ],
         principles: [],

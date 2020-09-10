@@ -59,6 +59,7 @@ class Principle(models.Model):
     visible = models.BooleanField(default=True)
     main_principle = models.ForeignKey(MainPrinciple, on_delete=models.CASCADE, null=True, verbose_name=_('main principle'))    
     cooperative = models.ForeignKey(Cooperative, on_delete=models.CASCADE, blank=False, null=True, verbose_name=_('cooperative'))
+    custom_description = models.TextField(_('custom description'), blank=True, null=True)
 
     class Meta:
         verbose_name = _('principle')

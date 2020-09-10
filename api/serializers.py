@@ -17,8 +17,9 @@ class PrincipleSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Principle()._meta.get_field('id'))
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
-    description = serializers.CharField()
+    description = serializers.CharField(read_only=True)
     description_key = serializers.CharField(source='main_principle.description_key', read_only=True)
+    custom_description = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Principle

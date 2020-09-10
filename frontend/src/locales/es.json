@@ -206,5 +206,9 @@
   "changePassTitle": "Por favor ingresa una nueva contraseña",
   "passwordChanged-1": "Contraseña cambiada!",
   "passwordChanged-2": " Tu contraseña ha sido modificada con éxito",
-  "invalidEmail": "Email inválido"
+  "invalidEmail": "Email inválido",
+  "descriptionICA": "Descripción ACI",
+  "custom_description": "Descripción",
+  "descriptionICAHelp": "Esta descripción ha sido votada por una asamblea de la ACI",
+  "descriptionPrincipleHelp": "Puedes personalizar esta descripción en base a tu cultura cooperativa"
 }

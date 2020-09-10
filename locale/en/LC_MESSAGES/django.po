@@ -1399,3 +1399,6 @@ msgstr "and set your new password"
 
 msgid "Your cooperative and user have been activated!"
 msgstr "Your cooperative and user have been activated!"
+
+msgid "custom description"
+msgstr "custom description"

@@ -5,24 +5,35 @@
         <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
       </div>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
+    <form v-on:submit.prevent="submit" class="col-lg-6">
+      <div class="form-row">
+        <label>{{$t('name')}}</label>
+      </div>
       <input-form
-        :label="$t('name')"
         name="name"
         type="text"
         :value="$t(principle.nameKey, principle.name)"
-        :disabled="true"
-        :error="$v.principle.name.$error"
-        error-message="Required">
+        :disabled="true">
       </input-form>
 
+      <div class="form-row">
+        <label>{{$t('descriptionICA')}}</label>
+        <div class="col-9">
+          <small class="form-text text-muted font-italic ml-3">{{$t('descriptionICAHelp')}}</small>
+        </div>
+        <div name="description" v-html="principle.description">
+      </div>
+      </div><br/>
+      <div class="form-row">
+        <label class="mr-3">{{$t('custom_description')}}</label>
+        <div class="col-9">
+          <small class="form-text text-muted font-italic ml-3">{{$t('descriptionPrincipleHelp')}}</small>
+        </div>
+      </div>
       <textarea-form
-        :label="$t('description')"
-        name="description"
+        name="custom_description"
         type="text"
-        v-model="principle.description"
-        :error="$v.principle.description.$error"
-        error-message="Required">
+        v-model="principle.customDescription">
       </textarea-form>
 
       <div class="form-row">
@@ -35,7 +46,7 @@
         </div>          
         <div class="col-9">
           <small class="form-text text-muted font-italic ml-3">{{$t('principleVisibilityHelp')}}</small>
-        </div>          
+        </div>
       </div>
 
       <error-form :error="error" />
@@ -52,7 +63,6 @@
 import InputForm from "../../components/input-form.vue";
 import TextareaForm from "../../components/textarea-form.vue";
 import BootstrapToggle from 'vue-bootstrap-toggle'
-import {required} from "vuelidate/lib/validators";
 import {httpGet, httpPut} from "../../api-client.js";
 import swal from 'sweetalert';
 import ErrorForm from "../../components/error-form.vue";
@@ -83,27 +93,18 @@ export default {
   },
   methods: {
     submit() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
-          .then(() => {
-            swal("The principle has been edited!", {
-              icon: "success",
-              buttons: false,
-              timer: 2000
-            });
-            this.$router.push({name: "principles-list"});
-          })
-          .catch((err) => {
-            this.handleError(err);
+      httpPut(`/principles/${this.$route.params.principleId}/`, this.principle)
+        .then(() => {
+          swal("The principle has been edited!", {
+            icon: "success",
+            buttons: false,
+            timer: 2000
           });
-      }
-    }
-  },
-  validations: {
-    principle: {
-      name: {required},
-      description: {required}
+          this.$router.push({name: "principles-list"});
+        })
+        .catch((err) => {
+          this.handleError(err);
+        });
     }
   }
 };

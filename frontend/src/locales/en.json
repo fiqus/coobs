@@ -205,5 +205,9 @@
   "changePassTitle": "Please insert a new password",
   "passwordChanged-1": "Password changed!",
   "passwordChanged-2": " Your password has been changed successfully",
-  "invalidEmail": "Invalid email"
+  "invalidEmail": "Invalid email",
+  "descriptionICA": "Description ICA",
+  "custom_description": "Description",
+  "descriptionICAHelp": "This description has being voted by an ACI assembly",
+  "descriptionPrincipleHelp": "You can customize this description based on your cooperative culture"
 }

@@ -211,3 +211,6 @@ msgstr "y configurá tu nueva contraseña"
 
 msgid "Your cooperative and user have been activated!"
 msgstr "¡Su cooperativa y su usuarix han sido activados!"
+
+msgid "custom description"
+msgstr "descripción personalizada"
