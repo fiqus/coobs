@@ -209,5 +209,6 @@
   "descriptionICA": "Description ICA",
   "custom_description": "Description",
   "descriptionICAHelp": "This description has being voted by an ACI assembly",
-  "descriptionPrincipleHelp": "You can customize this description based on your cooperative culture"
+  "descriptionPrincipleHelp": "You can customize this description based on your cooperative culture",
+  "principleDetail": "Principle Detail"
 }

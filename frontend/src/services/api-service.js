@@ -15,6 +15,12 @@ export async function getPrinciples(){
   return principlesResponse.data;
 }
 
+export async function getPrinciple(principleId) {
+  const response = await httpGet(`/principles/${principleId}`);
+  return response.data;
+}
+
+
 export async function getSustainableDevelopmentGoals(){
   const principlesResponse = await httpGet("/sustainable-development-goals/");
   return principlesResponse.data;

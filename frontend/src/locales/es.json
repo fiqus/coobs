@@ -210,5 +210,6 @@
   "descriptionICA": "Descripción ACI",
   "custom_description": "Descripción",
   "descriptionICAHelp": "Esta descripción ha sido votada por una asamblea de la ACI",
-  "descriptionPrincipleHelp": "Puedes personalizar esta descripción en base a tu cultura cooperativa"
+  "descriptionPrincipleHelp": "Puedes personalizar esta descripción en base a tu cultura cooperativa",
+  "principleDetail": "Detalle de Principio"
 }
