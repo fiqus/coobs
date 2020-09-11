@@ -176,6 +176,12 @@
 import swal from "sweetalert";
 import locales from "../locales/langs";
 
+$(document).click(function(e) {
+	if (!$(e.target).is('#collapsePages')) {
+    	$('.collapse').collapse('hide');	    
+    }
+});
+
 export default {
   computed: {
     userFullName() {
