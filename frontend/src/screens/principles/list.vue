@@ -64,7 +64,7 @@
         headers: [
           {key: "name", value:  "name", parser: (p) => formatText(this.$t(p.nameKey, p.name))},
           // @TODO [DMC] Should we sanitize to display here?
-          {key: "description", value:  "descriptionICA", parser: (p) => formatText(sanitizeHtml(p.description), 50)},
+          {key: "description", value:  "descriptionICA", parser: (p) => formatText(sanitizeHtml(this.$t(p.descriptionKey, p.description)), 50)},
           {key: "visible", value:  "visible", parser: (p) => parseBoolean(p.visible)},
         ],
         principles: [],
@@ -78,6 +78,7 @@
       },
       async onQuickView(principle) {
         const principleData = await api.getPrinciple(principle.id);
+        principleData.description = this.$t(principleData.descriptionKey);
         this.modalPrinciple = {principleData};
         $('#detailModal').modal()
       }
