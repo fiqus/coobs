@@ -25,6 +25,13 @@ class PrincipleSerializer(serializers.ModelSerializer):
         model = Principle
         fields = "__all__"
 
+    def update(self, instance, validated_data):
+        instance.custom_description = validated_data.get('custom_description', instance.custom_description)
+        instance.visible = validated_data.get('visible', instance.visible)
+
+        instance.save()
+        return instance        
+
 class PartnerInvolvedSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Partner()._meta.get_field('id'))
 
