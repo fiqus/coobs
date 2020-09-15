@@ -1,6 +1,5 @@
 <template>
   <div class="row justify-content-center">
-    <h3>Hola!!!</h3>
-    <iframe src='/help.html'></iframe>
+    <iframe src="/help" style="height: 1000px;border: none;width: 90%; margin-top: 100px;"></iframe>
   </div>
 </template>
