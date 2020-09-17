@@ -75,7 +75,6 @@ export function httpGet(url, params = {}, noAuth=false) {
 
 export function httpPost(url, data, noAuth=false) {
   const headers = _buildHeaders(noAuth);
-  console.log(headers);
   return axios.post(url, data, {headers});
 }
 

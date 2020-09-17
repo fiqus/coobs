@@ -76,6 +76,7 @@ export default {
             const tokenData = this.$jwt.decode(access);
             this.$store.commit("setUser", {...tokenData.user, access, refresh});
             this.$store.commit("setCooperative", tokenData.cooperative);
+            this.$store.commit("setSDGEnabled", tokenData.SDGEnabled);
             this.$router.push({name: "dashboard"});
           })
           .catch((err) => {

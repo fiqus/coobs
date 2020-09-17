@@ -6,13 +6,13 @@
           <th :class="{'cursorPointer': header.sortEnabled}" v-for="header in headers" :key="header.key" @click="onSort(header.sortEnabled, header.key)">
             {{ $t(header.value, header.value) }}<span v-if="header.key == ordering.by" :class="{'arrow': header.sortEnabled, [sortDirClass]: header.sortEnabled}"/>
           </th>
-          <th>Acciones</th>
+          <th>{{$t("actions")}}</th>
         </tr>
         <tr v-if="!ordering.enabled">
           <th v-for="header in headers" :key="header.key">
             {{ $t(header.value, header.value) }}
           </th>
-          <th>Acciones</th>
+          <th>{{$t("actions")}}</th>
         </tr>
       </thead>
       <tbody>

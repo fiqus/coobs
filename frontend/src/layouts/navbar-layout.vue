@@ -63,7 +63,7 @@
             </div>
           </div>
         </li>
-        <li v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive" class="nav-item">
+        <li v-if="$store.state.SDGEnabled && $store.state.cooperative.sustainableDevelopmentGoalsActive" class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSDGPages" aria-expanded="false" aria-controls="collapseSDGPages">
             <i class="fas fa-fw fa-globe-americas"></i>
             <span>{{$t("sustainableDevelopmentGoals")}}</span>
@@ -175,6 +175,12 @@
 <script>
 import swal from "sweetalert";
 import locales from "../locales/langs";
+
+$(document).click(function(e) {
+	if (!$(e.target).is('#collapsePages')) {
+    	$('.collapse').collapse('hide');	    
+    }
+});
 
 export default {
   computed: {

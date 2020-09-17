@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.utils.translation import ugettext_lazy as _
 from decimal import Decimal
+from django.conf import settings
 
 User = get_user_model()
 
@@ -16,12 +17,20 @@ class PrincipleSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Principle()._meta.get_field('id'))
     name = serializers.CharField(source='main_principle.name', read_only=True)
     name_key = serializers.CharField(source='main_principle.name_key', read_only=True)
-    description = serializers.CharField()
+    description = serializers.CharField(read_only=True)
     description_key = serializers.CharField(source='main_principle.description_key', read_only=True)
+    custom_description = serializers.CharField(allow_blank=True)
 
     class Meta:
         model = Principle
         fields = "__all__"
+
+    def update(self, instance, validated_data):
+        instance.custom_description = validated_data.get('custom_description', instance.custom_description)
+        instance.visible = validated_data.get('visible', instance.visible)
+
+        instance.save()
+        return instance        
 
 class PartnerInvolvedSerializer(serializers.ModelSerializer):
     id = serializers.ModelField(model_field=Partner()._meta.get_field('id'))
@@ -195,5 +204,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         user_data = PartnerSerializer(user).data
         token['user'] = camelize(user_data)
         token['cooperative'] = camelize(coop_data)
+        token['SDGEnabled'] = settings.SDG_ENABLED or False
 
         return token

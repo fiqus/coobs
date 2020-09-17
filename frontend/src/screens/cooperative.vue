@@ -30,7 +30,7 @@
         @input="onDateSelected">
       </datepicker-form>
 
-      <div class="form-row">
+      <div class="form-row" v-if="$store.state.SDGEnabled">
         <div class="col-1 py-1">
           <bootstrap-toggle class="form-control"
             v-model="cooperative.sustainableDevelopmentGoalsActive"

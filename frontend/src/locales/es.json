@@ -206,5 +206,17 @@
   "changePassTitle": "Por favor ingresa una nueva contraseña",
   "passwordChanged-1": "Contraseña cambiada!",
   "passwordChanged-2": " Tu contraseña ha sido modificada con éxito",
-  "invalidEmail": "Email inválido"
+  "invalidEmail": "Email inválido",
+  "descriptionICA": "Descripción ACI",
+  "custom_description": "Descripción",
+  "descriptionICAHelp": "Esta descripción ha sido votada por una asamblea de la ACI",
+  "descriptionPrincipleHelp": "Puedes personalizar esta descripción en base a tu cultura cooperativa",
+  "principleDetail": "Detalle de Principio",
+  "openAndVoluntaryDesc": "Las cooperativas son organizaciones voluntarias, abiertas a todas las personas que puedan utilizar sus servicios y que estén dispuestas a aceptar las responsabilidades de ser miembros, sin discriminación de género, social, racial, política o religiosa.",
+  "democraticControlDesc": "Las cooperativas son organizaciones democráticas controladas por sus miembros, que participan activamente en el establecimiento de sus políticas y en la toma de decisiones. Los hombres y mujeres que sirven como representantes elegidos son responsables ante los miembros. En las cooperativas primarias los miembros tienen igual derecho de voto (un miembro, un voto) y las cooperativas a otros niveles también se organizan de manera democrática.",
+  "economicParticipationDesc": "Los miembros contribuyen equitativamente y controlan democráticamente el capital de su cooperativa. Al menos parte de ese capital suele ser propiedad común de la cooperativa. Los miembros suelen recibir una compensación limitada, si la hay, sobre el capital suscrito como condición para ser miembro. Los miembros asignan los excedentes a alguno o todos los fines siguientes: desarrollar su cooperativa, posiblemente mediante la creación de reservas, parte de las cuales al menos serían indivisibles; beneficiar a los miembros en proporción a sus transacciones con la cooperativa; y apoyar otras actividades aprobadas por los miembros.",
+  "autonomyIndependenceDesc": "Las cooperativas son organizaciones autónomas de autoayuda controladas por sus miembros. Si celebran acuerdos con otras organizaciones, incluidos los gobiernos, u obtienen capital de fuentes externas, lo hacen en condiciones que aseguran el control democrático por parte de sus miembros y mantienen su autonomía cooperativa.",
+  "educationTrainingDesc": "Las cooperativas proporcionan educación y capacitación a sus miembros, representantes electos, gerentes y empleados para que puedan contribuir eficazmente al desarrollo de sus cooperativas. Informan al público en general - en particular a los jóvenes y a los líderes de opinión - sobre la naturaleza y los beneficios de la cooperación.",
+  "cooperationBetweenCoopsDesc": "Las cooperativas prestan un servicio más eficaz a sus miembros y fortalecen el movimiento cooperativo trabajando conjuntamente a través de estructuras locales, nacionales, regionales e internacionales.",
+  "commitmentToCommunityDesc": "Las cooperativas trabajan en pro del desarrollo sostenible de sus comunidades mediante políticas aprobadas por sus miembros."
 }
