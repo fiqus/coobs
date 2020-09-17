@@ -79,7 +79,7 @@
         </li>
         <li class="nav-item">
           <router-link class="nav-link collapsed" :to="{name: 'help'}">
-            <i class="fas fa-fw fa-th-list"></i>
+            <i class="fas fa-fw fa-question-circle"></i>
             <span>{{$t("help", "help")}}</span>
           </router-link>
         </li>
