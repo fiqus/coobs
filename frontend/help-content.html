@@ -1,135 +1,205 @@
-<!--<ul class="nav nav-tabs" id="myTab" role="tablist">-->
-  <!--<li class="nav-item">-->
-    <!--<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>-->
-  <!--</li>-->
-  <!--<li class="nav-item">-->
-    <!--<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>-->
-  <!--</li>-->
-  <!--<li class="nav-item">-->
-    <!--<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>-->
-  <!--</li>-->
-<!--</ul>-->
-<!--<div class="tab-content" id="myTabContent">-->
-  <!--<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>-->
-  <!--<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>-->
-  <!--<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>-->
-<!--</div>-->
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<!DOCTYPE html>
+<html lang="en">
 
-<link rel="shortcut icon" href="images/Logo_FavIcon_positivo_128px.svg" type="image/x-icon">
-<link rel="icon" href="images/Logo_FavIcon_positivo_128px.svg" type="image/x-icon">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Fiqus">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<ul>
-  <li>
-    <p><strong>1) Parametrización necesaria</strong></p>
-    <ul>
-      <li>
-        <p><strong>Dar de alta un período:</strong> Para comenzar a cargar acciones cooperativas basadas en principios, es necesario crear previamente un período. El período es una ventana de tiempo que indica el comienzo y fin del año de actividades de la cooperativa, el cual se encuentra definido generalmente por el balance celebrado anualmente.
-          Para administrar los períodos de la cooperativa es necesario ir a Configuración => Períodos. Allí se podrán dar de alta, modificar y dar de baja los períodos de nuestra organización. Al momento del alta y la edición de los períodos hay que tener en cuenta que los mismos no se pueden superponer. Además, al cargar un período es importante indicar un presupuesto monetario. Dicho presupuesto nos servirá para luego realizar un seguimiento de la ejecución del mismo a lo largo del año. La representación de dicho presupuesto puede variar, sin embargo, la idea original que dio lugar a dicho atributo dentro del período es el fondo de promoción cooperativa que tienen las cooperativas bajo la legislación Argentina.</p>
-        <img src="/help/help/periods.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-      <li>
-        <p><strong>Configurar datos de la cooperativa:</strong>: Allí podrás configurar datos como el nombre, la razón social y el inicio de actividades de la cooperativa. Para acceder es necesario ir a Configuración => Tu coope.</p>
-        <img src="/help/help/your_coop.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-      <li>
-        <p><strong>Dar de alta personas asociadas:</strong>: Coobs busca involucrar a todas las personas pertenecientes a la organización. La idea es que las personas que forman la cooperativa carguen las acciones que la organización lleva a cabo a lo largo del año en forma orgánica. Para ello previamente deben contar con un usuario. Es por esto que existe una sección específica para gestionar a las personas asociadas. Para ingresar a la sección es necesario ir a Configuración => Personas asociadas. Al crear a una persona asociada debemos indicar entre otras cosas una contraseña. Es importante solicitarle luego del primer ingreso que la modifique, de manera de que cuente con una contraseña segura. Luego de agregar una persona al equipo, la plataforma le enviará un mail avisando que fue agregada y ya estará habilitado su ingreso.</p>
-        <img src="/help/help/people.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-      <li>
-        <p><strong>Principios cooperativos:</strong>: Los principios cooperativos son principios que guían el accionar de las cooperativas. Todas las acciones que realizamos como organizaciones cooperativas deberían estar enmarcadas bajo dichos principios. Es por esto que los principios nos permiten agrupar las acciones que cargamos con el sistema. Cada acción puede referir a más de un principio. En el listado de los principios podremos observar su descripción, para tener un mayor entendimiento de en qué caso deberían ser usados y a qué tipo de acciones imputarlos. Una de las funcionalidades a destacar relacionadas a los principios, es que seguramente a nuestra cooperativa no le impactan de igual manera todos ellos, es por esto que los principios se pueden marcar como “no visibles” para que no aparezcan como principios a imputar en nuestras acciones. Al no estar visibles tampoco figuran en el panel de control. Esto se hace principalmente para facilitar la usabilidad de la carga de acciones y del seguimiento del panel de control, mostrando sólo aquellos principios que nos interesa medir como cooperativa.</p>
-        <img src="/help/help/principles.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>2) Carga y seguimiento de acciones pasadas y futuras</strong></p>
-    <ul>
-      <li>
-        <p><strong>Carga de acciones:</strong> Las acciones representan el objeto de medición principal de la herramienta. Ellas reflejan el trabajo concreto de nuestra organización e impactarán en los indicadores de los principios cooperativos relacionados. Para cargar las acciones es necesario ir, dentro del menú principal, a la opción “Acciones”. Allí contamos con varios filtros aplicables para facilitar la búsqueda de las mismas. Para comenzar con el proceso de carga es necesario ir a la opción de “Agregar” acción. Una vez dentro del formulario de acciones, podremos cargar un título que represente a la acción, una descripción de la misma y asignar los siguientes atributos:</p>
-        <ul>
-          <li>
-            <p><strong>Principio:</strong> Se puede seleccionar más de uno. Puede ser que una acción sea lo suficientemente abarcativa como para impactar en más de un principio.</p>
-          </li>
-          <li>
-            <p><strong>Personas asociadas:</strong> En caso de que deseemos mantener un seguimiento personal de las acciones realizadas, podremos asignar personas a las acciones.</p>
-          </li>
-          <li>
-            <p><strong>Fecha de inicio:</strong> Se puede indicar en qué fecha se llevó a cabo la acción. Si la acción llevó más de un día (como podría ser un evento), se indica únicamente la fecha de inicio del mismo. Además se pueden cargar acciones que ya sucedieron o acciones que van a suceder. La idea de cargar acciones que van a suceder es poder planificar la participación anual de nuestra cooperativa en lo referente a acciones cooperativas.</p>
-          </li>
-          <li>
-            <p><strong>Horas invertidas:</strong> Las acciones generalmente llevan consigo trabajo invertido. Este trabajo podemos medirlo en horas, de esta manera podremos mensurar la cantidad de esfuerzo que se le dedica a determinado tipo de acciones.</p>
-          </li>
-          <li>
-            <p><strong>Monto invertido:</strong> Además de las horas invertidas, podremos indicar si le dedicamos dinero a una acción. Esto es particularmente útil en los casos en que tengamos un presupuesto reservado para las acciones cooperativas, como podría ser el caso del fondo de promoción cooperativa. Cada acción que tenga un monto asignado, restará el importe del monto disponible de la cooperativa (o presupuesto) indicado en el período en cuestión. De esta manera podremos realizar un seguimiento del presupuesto anual reservado para las acciones sociales de nuestra organización.</p>
-          </li>
-          <li>
-            <p><strong>Atributo de pública o privada:</strong> Este estado nos permite indicar si le damos el permiso a la plataforma de compartir esa acción para el resto de las cooperativas o en secciones públicas, de manera de comunicar y visibilizar las acciones que nuestra cooperativa lleva a cabo. En caso de que no queramos que la acción tenga un estado de visibilidad pública, debemos seleccionar la opción “privada” y de esta manera solo nuestra cooperativa podrá ver esa acción.</p>
-          </li>
-        </ul>
-        <img src="/help/help/actions.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-      <li>
-        <p><strong>Seguimiento de acciones de la cooperativa:</strong> Una de las funcionalidades principales de la plataforma es la de seguimiento de acciones. El mismo se puede llevar a cabo en el panel de control que figura como dirección inicial del sitio y se puede volver a acceder al mismo eligiendo la opción “Panel” del menú principal. Allí podremos ver los siguiente indicadores:</p>
-        <ul>
-          <li>
-            <p>Selector de períodos: Se puede cambiar el período con el objetivo de poder realizar una comparación entre los diferentes años en que se utilizó la herramienta. Al elegir un período diferente, la plataforma mostrará el panel de control relacionado al período en cuestión. Por defecto se encontrará seleccionado el período actual.</p>
-          </li>
-          <li>
-            <p>Contador de acciones realizadas (pasadas) y acciones a realizar (futuras)</p>
-          </li>
-          <li>
-            <p>Monto total invertido en acciones</p>
-          </li>
-          <li>
-            <p>Porcentaje del monto total invertido respecto al presupuesto configurado inicialmente en el período seleccionado. Al seguir este indicador podremos observar cómo impactan los montos dedicados a las acciones cooperativas y en qué situación nos encontramos con respecto al presupuesto definido. Es importante aclarar que los montos de acciones futuras sí impactan en este cálculo, de manera que se puede realizar una planificación completa y así asegurarse de la ejecución presupuestaria dedicada a acciones.</p>
-          </li>
-          <li>
-            <p>Gráfico de torta de acciones: Acá se pueden ver las proporciones de las acciones en relación a los principios. Nos permite ver a qué principio le estamos dedicando más acciones. Otra manera de preguntarse lo mismo sería: ¿En qué principio está “más fuerte” mi organización?</p>
-          </li>
-          <li>
-            <p>Progreso: En este apartado veremos la misma información pero desde una perspectiva de avance</p>
-          </li>
-          <li>
-            <p>Período: Nos permite visualizar el nivel de avance que tiene el período actual: ¿Recién comienza? ¿Está por terminar?</p>
-          </li>
-          <li>
-            <p>Acciones: Nos permite visualizar una comparación entre las acciones pasadas y las futuras. Es decir, de todas las acciones cargadas, ¿Qué nivel de completitud tienen? ¿Hay más planificadas que las realizadas?</p>
-          </li>
-          <li>
-            <p>Cantidad del monto invertido respecto al monto total del presupuesto del período: Es un gráfico similar al del “Fondo de promoción”, con la diferencia que nos muestra los valores y no los porcentajes.</p>
-          </li>
-          <li>
-            <p>Horas invertidas por fecha: Para mostrar la carga de trabajo invertida en acciones.</p>
-          </li>
-          <li>
-            <p>Inversión por mes: Muestra el monto total invertido en acciones mes por mes.</p>
-          </li>
-          <li>
-            <p>Todos los principios: Muestra en un gráfico de barras, mes por mes, el porcentaje por mes de acciones relacionadas a principios. De esta manera podremos identificar a qué principio le dedicamos más acciones mensualmente a lo largo del período.</p>
-          </li>
-        </ul>
-        <img src="/help/help/panel.gif" style="width: 1000px; margin-left: 50px;">
-      </li>
-      <li>
-        <p><strong>Selección de acciones en las que participé:</strong> Si existen acciones cargadas en la plataforma en las que yo, como persona asociada a la cooperativa, aparezco como participante, entonces podré realizarles un seguimiento similar al que se puede realizar en el panel de control, pero con un filtro aplicado que me mostrará sólo aquellas en las que participé. Para ver mis estadísticas, se debe acceder a la opción “Mis estadísticas” presente en el menú principal. Una vez allí, veré solo las métricas de las acciones en las que participé.</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p><strong>3) Documento preliminar para armado de balance social</strong></p>
-    <ul>
-      <li>
-        <p><strong>Balance:</strong> Para ver el listado preliminar que servirá de aporte para el armado del balance social, se debe ir a la sección “Balance”, presente en el menú principal de la plataforma. Allí encontraremos todas las acciones listadas, cada una con su descripción y la cantidad de horas y el monto invertido. Las acciones se encuentran agrupadas por principio y cada principio se puede ampliar o contraer, de manera de tener una vista más limpia de las acciones presentes dentro de un principio.</p>
-      </li>
-      <li>
-        <p><strong>Descarga:</strong> El listado preliminar de acciones cooperativas puede ser descargado en formato PDF, al hacer click en el botón “Descargar”, presente en la pantalla de Balance.</p>
-      </li>
-      <li>
-        <p><strong>Selección de períodos:</strong> Existe un selector de períodos, similar al del panel de control, presente en la pantalla del balance. Al seleccionar un período diferente al seleccionado, la plataforma le mostrará el balance correspondiente al período elegido. El valor por defecto del selector es el período actual. Es importante mencionar que al cambiar el selector de períodos en esta pantalla, la información cambiará solo en esta pantalla y no en otras, es decir, no cambia el estado de la información del panel de control.</p>
-      </li>
-    </ul>
-    <img src="/help/help/balance.gif" style="width: 1000px; margin-left: 50px;">
-  </li>
-</ul>
+  <style>
+    h3 {
+      font-weight: bold;
+    }
+
+    .tab-pane {
+      padding:40px;
+    }
+
+    .help-step {
+      margin-bottom: 35px;
+    }
+
+    .help-img-container {
+      padding: 40px;
+    }
+
+    .help-img {
+      width: 100%;
+    }
+
+    .nav-link {
+      color: #171E3F;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="param-tab" data-toggle="tab" href="#param" role="tab" aria-controls="param" aria-selected="true">
+        Parametrización
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="actions-tab" data-toggle="tab" href="#actions" role="tab" aria-controls="actions" aria-selected="false">
+        Carga y seguimiento de acciones
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="balance-tab" data-toggle="tab" href="#balance" role="tab" aria-controls="balance" aria-selected="false">
+        Borrador de balance social
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="helpContent">
+    <div class="tab-pane fade show active" id="param" role="tabpanel" aria-labelledby="param-tab">
+      <div class="help-step">
+        <h3>Dar de alta un período</h3>
+        <p>
+          Para comenzar a cargar acciones cooperativas basadas en principios, es necesario crear previamente un período.
+          El período es una ventana de tiempo que indica el comienzo y fin del año de actividades de la cooperativa, el cual se encuentra definido generalmente por el balance celebrado anualmente.
+          Para administrar los períodos de la cooperativa es necesario ir a Configuración => Períodos.
+          Allí se podrán dar de alta, modificar y dar de baja los períodos de nuestra organización.
+          Al momento del alta y la edición de los períodos hay que tener en cuenta que los mismos no se pueden superponer.
+          Además, al cargar un período es importante indicar un presupuesto monetario. Dicho presupuesto nos servirá para luego realizar un seguimiento de la ejecución del mismo a lo largo del año.
+          La representación de dicho presupuesto puede variar, sin embargo, la idea original que dio lugar a dicho atributo dentro del período es el fondo de promoción cooperativa que tienen las cooperativas bajo la legislación Argentina.
+        </p>
+        <div class="help-img-container">
+          <img src="/help/help/periods.gif" class="help-img">
+        </div>
+      </div>
+      <div class="help-step">
+        <h3>Configurar datos de la cooperativa</h3>
+        <p>Allí podrás configurar datos como el nombre, la razón social y el inicio de actividades de la cooperativa.
+          Para acceder es necesario ir a Configuración => Tu coope.
+        </p>
+        <div class="help-img-container">
+          <img src="/help/help/your_coop.gif" class="help-img">
+        </div>
+      </div>
+      <div class="help-step">
+        <h3>Dar de alta personas asociadas</h3>
+        <p>Coobs busca involucrar a todas las personas pertenecientes a la organización.
+          La idea es que las personas que forman la cooperativa carguen las acciones que la organización lleva a cabo a lo largo del año en forma orgánica.
+          Para ello previamente deben contar con un usuario. Es por esto que existe una sección específica para gestionar a las personas asociadas.
+          Para ingresar a la sección es necesario ir a Configuración => Personas asociadas. Al crear a una persona asociada debemos indicar entre otras cosas una contraseña.
+          Es importante solicitarle luego del primer ingreso que la modifique, de manera de que cuente con una contraseña segura.
+          Luego de agregar una persona al equipo, la plataforma le enviará un mail avisando que fue agregada y ya estará habilitado su ingreso.
+        </p>
+        <div class="help-img-container">
+          <img src="/help/help/people.gif" class="help-img">
+        </div>
+      </div>
+      <div class="help-step">
+        <h3>Principios cooperativos</h3>
+        <p>Los principios cooperativos son principios que guían el accionar de las cooperativas.
+          Todas las acciones que realizamos como organizaciones cooperativas deberían estar enmarcadas bajo dichos principios.
+          Es por esto que los principios nos permiten agrupar las acciones que cargamos con el sistema. Cada acción puede referir a más de un principio.
+          En el listado de los principios podremos observar su descripción, para tener un mayor entendimiento de en qué caso deberían ser usados y a qué tipo de acciones imputarlos.
+          Una de las funcionalidades a destacar relacionadas a los principios, es que seguramente a nuestra cooperativa no le impactan de igual manera todos ellos, es por esto que los principios se pueden marcar como “no visibles” para que no aparezcan como principios a imputar en nuestras acciones. Al no estar visibles tampoco figuran en el panel de control.
+          Esto se hace principalmente para facilitar la usabilidad de la carga de acciones y del seguimiento del panel de control, mostrando sólo aquellos principios que nos interesa medir como cooperativa.
+        </p>
+        <div class="help-img-container">
+          <img src="/help/help/principles.gif" class="help-img">
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="actions" role="tabpanel" aria-labelledby="actions-tab">
+      <ul>
+        <li>
+          <p><strong>Carga de acciones:</strong> Las acciones representan el objeto de medición principal de la herramienta. Ellas reflejan el trabajo concreto de nuestra organización e impactarán en los indicadores de los principios cooperativos relacionados. Para cargar las acciones es necesario ir, dentro del menú principal, a la opción “Acciones”. Allí contamos con varios filtros aplicables para facilitar la búsqueda de las mismas. Para comenzar con el proceso de carga es necesario ir a la opción de “Agregar” acción. Una vez dentro del formulario de acciones, podremos cargar un título que represente a la acción, una descripción de la misma y asignar los siguientes atributos:</p>
+          <ul>
+            <li>
+              <p><strong>Principio:</strong> Se puede seleccionar más de uno. Puede ser que una acción sea lo suficientemente abarcativa como para impactar en más de un principio.</p>
+            </li>
+            <li>
+              <p><strong>Personas asociadas:</strong> En caso de que deseemos mantener un seguimiento personal de las acciones realizadas, podremos asignar personas a las acciones.</p>
+            </li>
+            <li>
+              <p><strong>Fecha de inicio:</strong> Se puede indicar en qué fecha se llevó a cabo la acción. Si la acción llevó más de un día (como podría ser un evento), se indica únicamente la fecha de inicio del mismo. Además se pueden cargar acciones que ya sucedieron o acciones que van a suceder. La idea de cargar acciones que van a suceder es poder planificar la participación anual de nuestra cooperativa en lo referente a acciones cooperativas.</p>
+            </li>
+            <li>
+              <p><strong>Horas invertidas:</strong> Las acciones generalmente llevan consigo trabajo invertido. Este trabajo podemos medirlo en horas, de esta manera podremos mensurar la cantidad de esfuerzo que se le dedica a determinado tipo de acciones.</p>
+            </li>
+            <li>
+              <p><strong>Monto invertido:</strong> Además de las horas invertidas, podremos indicar si le dedicamos dinero a una acción. Esto es particularmente útil en los casos en que tengamos un presupuesto reservado para las acciones cooperativas, como podría ser el caso del fondo de promoción cooperativa. Cada acción que tenga un monto asignado, restará el importe del monto disponible de la cooperativa (o presupuesto) indicado en el período en cuestión. De esta manera podremos realizar un seguimiento del presupuesto anual reservado para las acciones sociales de nuestra organización.</p>
+            </li>
+            <li>
+              <p><strong>Atributo de pública o privada:</strong> Este estado nos permite indicar si le damos el permiso a la plataforma de compartir esa acción para el resto de las cooperativas o en secciones públicas, de manera de comunicar y visibilizar las acciones que nuestra cooperativa lleva a cabo. En caso de que no queramos que la acción tenga un estado de visibilidad pública, debemos seleccionar la opción “privada” y de esta manera solo nuestra cooperativa podrá ver esa acción.</p>
+            </li>
+          </ul>
+          <img src="/help/help/actions.gif" class="help-img">
+        </li>
+        <li>
+          <p><strong>Seguimiento de acciones de la cooperativa:</strong> Una de las funcionalidades principales de la plataforma es la de seguimiento de acciones. El mismo se puede llevar a cabo en el panel de control que figura como dirección inicial del sitio y se puede volver a acceder al mismo eligiendo la opción “Panel” del menú principal. Allí podremos ver los siguiente indicadores:</p>
+          <ul>
+            <li>
+              <p>Selector de períodos: Se puede cambiar el período con el objetivo de poder realizar una comparación entre los diferentes años en que se utilizó la herramienta. Al elegir un período diferente, la plataforma mostrará el panel de control relacionado al período en cuestión. Por defecto se encontrará seleccionado el período actual.</p>
+            </li>
+            <li>
+              <p>Contador de acciones realizadas (pasadas) y acciones a realizar (futuras)</p>
+            </li>
+            <li>
+              <p>Monto total invertido en acciones</p>
+            </li>
+            <li>
+              <p>Porcentaje del monto total invertido respecto al presupuesto configurado inicialmente en el período seleccionado. Al seguir este indicador podremos observar cómo impactan los montos dedicados a las acciones cooperativas y en qué situación nos encontramos con respecto al presupuesto definido. Es importante aclarar que los montos de acciones futuras sí impactan en este cálculo, de manera que se puede realizar una planificación completa y así asegurarse de la ejecución presupuestaria dedicada a acciones.</p>
+            </li>
+            <li>
+              <p>Gráfico de torta de acciones: Acá se pueden ver las proporciones de las acciones en relación a los principios. Nos permite ver a qué principio le estamos dedicando más acciones. Otra manera de preguntarse lo mismo sería: ¿En qué principio está “más fuerte” mi organización?</p>
+            </li>
+            <li>
+              <p>Progreso: En este apartado veremos la misma información pero desde una perspectiva de avance</p>
+            </li>
+            <li>
+              <p>Período: Nos permite visualizar el nivel de avance que tiene el período actual: ¿Recién comienza? ¿Está por terminar?</p>
+            </li>
+            <li>
+              <p>Acciones: Nos permite visualizar una comparación entre las acciones pasadas y las futuras. Es decir, de todas las acciones cargadas, ¿Qué nivel de completitud tienen? ¿Hay más planificadas que las realizadas?</p>
+            </li>
+            <li>
+              <p>Cantidad del monto invertido respecto al monto total del presupuesto del período: Es un gráfico similar al del “Fondo de promoción”, con la diferencia que nos muestra los valores y no los porcentajes.</p>
+            </li>
+            <li>
+              <p>Horas invertidas por fecha: Para mostrar la carga de trabajo invertida en acciones.</p>
+            </li>
+            <li>
+              <p>Inversión por mes: Muestra el monto total invertido en acciones mes por mes.</p>
+            </li>
+            <li>
+              <p>Todos los principios: Muestra en un gráfico de barras, mes por mes, el porcentaje por mes de acciones relacionadas a principios. De esta manera podremos identificar a qué principio le dedicamos más acciones mensualmente a lo largo del período.</p>
+            </li>
+          </ul>
+          <img src="/help/help/panel.gif" class="help-img">
+        </li>
+        <li>
+          <p><strong>Selección de acciones en las que participé:</strong> Si existen acciones cargadas en la plataforma en las que yo, como persona asociada a la cooperativa, aparezco como participante, entonces podré realizarles un seguimiento similar al que se puede realizar en el panel de control, pero con un filtro aplicado que me mostrará sólo aquellas en las que participé. Para ver mis estadísticas, se debe acceder a la opción “Mis estadísticas” presente en el menú principal. Una vez allí, veré solo las métricas de las acciones en las que participé.</p>
+        </li>
+      </ul>
+    </div>
+    <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance-tab">
+      <ul>
+        <li>
+          <p><strong>Balance:</strong> Para ver el listado preliminar que servirá de aporte para el armado del balance social, se debe ir a la sección “Balance”, presente en el menú principal de la plataforma. Allí encontraremos todas las acciones listadas, cada una con su descripción y la cantidad de horas y el monto invertido. Las acciones se encuentran agrupadas por principio y cada principio se puede ampliar o contraer, de manera de tener una vista más limpia de las acciones presentes dentro de un principio.</p>
+        </li>
+        <li>
+          <p><strong>Descarga:</strong> El listado preliminar de acciones cooperativas puede ser descargado en formato PDF, al hacer click en el botón “Descargar”, presente en la pantalla de Balance.</p>
+        </li>
+        <li>
+          <p><strong>Selección de períodos:</strong> Existe un selector de períodos, similar al del panel de control, presente en la pantalla del balance. Al seleccionar un período diferente al seleccionado, la plataforma le mostrará el balance correspondiente al período elegido. El valor por defecto del selector es el período actual. Es importante mencionar que al cambiar el selector de períodos en esta pantalla, la información cambiará solo en esta pantalla y no en otras, es decir, no cambia el estado de la información del panel de control.</p>
+        </li>
+      </ul>
+      <img src="/help/help/balance.gif" class="help-img">
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>
