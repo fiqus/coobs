@@ -25,6 +25,7 @@ import SDGBalanceScreen from "./screens/sdgs/sdg-balance.vue";
 import SDGObjectivesListScreen from "./screens/sdgs/objectives/list.vue";
 import SDGObjectivesEditScreen from "./screens/sdgs/objectives/edit.vue";
 import SDGMonitoringScreen from "./screens/sdgs/sdg-monitoring.vue";
+import HelpScreen from "./screens/help.vue";
 
 import store from './store';
 
@@ -152,6 +153,11 @@ const routes = [
     name: "sdg-monitoring",
     path: "/sdg-monitoring",
     component: SDGMonitoringScreen
+  },
+  {
+    name: "help",
+    path: "/help",
+    component: HelpScreen
   },
   // otherwise redirect to dashboard
   { path: "*", redirect: "/" }

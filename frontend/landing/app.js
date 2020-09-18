@@ -10,3 +10,5 @@ import './js/freelancer.min.js';
 import './vendor/fontawesome-free/css/all.min.css';
 import './css/landing.css';
 import './css/custom.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
