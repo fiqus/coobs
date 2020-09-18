@@ -48,7 +48,8 @@ var langDict = {
     "thirdImageTextDescription": "Easily get your co-operative's social balance sheet for each period in which you have loaded your co-operative shares.",
     "errorTryLater": "There has been an error. Please try again later, if it persists contact the site adminsitrator.",
     "errorInPostedData": "There has been an error with data. Please, check your data.",
-    "fiqusLabsText": "Created with love by Fiqus | COOBS 2020"
+    "fiqusLabsText": "Created with love by Fiqus | COOBS 2020",
+    "help": "Help"
   },
   es : {
     "signIn": "Inicie sesión",
@@ -56,7 +57,7 @@ var langDict = {
     "header-title-2": "Balance Social Cooperativo",
     "header-subtitle": "Una herramienta que le facilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
     "section-metrics-title": "Métricas y seguimiento",
-    "section-metrics-subtitle": "La herramienta la brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
+    "section-metrics-subtitle": "La herramienta le brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
     "section-bs-title": "Balance social orgánico",
     "section-bs-subtitle": "Coobs brinda la posibilidad de planificar acciones futuras para guiar el desempeño social de su organización mediante objetivos basados en los valores cooperativos.",
     "signup": "Registrarse",
@@ -95,7 +96,8 @@ var langDict = {
     "thirdImageTextDescription": "Obtenga fácilmente el balance social de su cooperativa para cada período en el que haya cargado las acciones de su cooperativa.",
     "errorTryLater": "Se produjo un error. Por favor intente más tarde, si el problema persiste contacto al administrador del sitio.",
     "errorInPostedData": "Se produjo un error con los datos. Por favor, verifica los datos ingresados.",
-    "fiqusLabsText": "Creado con amor por Fiqus | COOBS 2020"
+    "fiqusLabsText": "Creado con amor por Fiqus | COOBS 2020",
+    "help": "Ayuda"
   }
 }
 $.tr.dictionary(langDict);

@@ -60,7 +60,13 @@ const appConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{ from: "static/", to: "./" }]),
+    new CopyWebpackPlugin([{ 
+      from: "static/", 
+      to: "./"
+      // globOptions: {
+      //   ignore: ['**/static/images/help/**']
+      // }
+    }]),
     new HtmlWebpackPlugin({
       template: "index.html",
       path: path.join(__dirname, "./dist/app"),
@@ -87,10 +93,49 @@ const landingConf = Object.assign({}, baseConf, {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new CopyWebpackPlugin([{ from: "static/", to: "./" }]),
+    new CopyWebpackPlugin([{ 
+      from: "static/", 
+      to: "./"
+      // globOptions: {
+      //   ignore: ['**/static/images/help/**']
+      // }
+    }]),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
       path: path.join(__dirname, "./dist/landing"),
+      filename: "index.html",
+      inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: "landing/help.html",
+      path: path.join(__dirname, "./dist/landing"),
+      filename: "help.html",
+      inject: true
+    })
+  ]
+});
+
+const helpConf = Object.assign({}, baseConf, {
+  name: "help",
+  entry: "./app.js",
+  output: {
+    path: path.join(__dirname, "./dist/help"),
+    filename: "help.bundle.js"
+  },
+  plugins: [
+    // new MiniCssExtractPlugin({
+    //   filename: '[name].css',
+    //   chunkFilename: '[id].css',
+    //   ignoreOrder: false,
+    // }),
+    // new webpack.ProvidePlugin({
+    //   $: "jquery",
+    //   jQuery: "jquery"
+    // }),
+    new CopyWebpackPlugin([{ from: "static/images", to: "./" }]),
+    new HtmlWebpackPlugin({
+      template: "help-content.html",
+      path: path.join(__dirname, "./dist/help"),
       filename: "index.html",
       inject: true
     })
@@ -98,5 +143,5 @@ const landingConf = Object.assign({}, baseConf, {
 });
 
 module.exports = {
-  appConf, landingConf
+  appConf, landingConf , helpConf
 };

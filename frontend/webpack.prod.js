@@ -1,5 +1,5 @@
 const merge = require('webpack-merge');
-const {appConf, landingConf} = require('./webpack.common.js');
+const {appConf, landingConf, helpConf} = require('./webpack.common.js');
 
 const prodConf = {
   mode: "production",
@@ -8,5 +8,6 @@ const prodConf = {
 
 module.exports = [
   merge(appConf, prodConf),
-  merge(landingConf, prodConf)
+  merge(landingConf, prodConf),
+  merge(helpConf, prodConf)
 ];
