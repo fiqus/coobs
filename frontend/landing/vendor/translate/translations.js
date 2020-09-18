@@ -48,7 +48,8 @@ var langDict = {
     "thirdImageTextDescription": "Easily get your co-operative's social balance sheet for each period in which you have loaded your co-operative shares.",
     "errorTryLater": "There has been an error. Please try again later, if it persists contact the site adminsitrator.",
     "errorInPostedData": "There has been an error with data. Please, check your data.",
-    "fiqusLabsText": "Created with love by Fiqus | COOBS 2020"
+    "fiqusLabsText": "Created with love by Fiqus | COOBS 2020",
+    "help": "Help"
   },
   es : {
     "signIn": "Inicie sesión",
@@ -95,7 +96,8 @@ var langDict = {
     "thirdImageTextDescription": "Obtenga fácilmente el balance social de su cooperativa para cada período en el que haya cargado las acciones de su cooperativa.",
     "errorTryLater": "Se produjo un error. Por favor intente más tarde, si el problema persiste contacto al administrador del sitio.",
     "errorInPostedData": "Se produjo un error con los datos. Por favor, verifica los datos ingresados.",
-    "fiqusLabsText": "Creado con amor por Fiqus | COOBS 2020"
+    "fiqusLabsText": "Creado con amor por Fiqus | COOBS 2020",
+    "help": "Ayuda"
   }
 }
 $.tr.dictionary(langDict);
