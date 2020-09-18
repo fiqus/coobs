@@ -57,7 +57,7 @@ var langDict = {
     "header-title-2": "Balance Social Cooperativo",
     "header-subtitle": "Una herramienta que le facilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
     "section-metrics-title": "Métricas y seguimiento",
-    "section-metrics-subtitle": "La herramienta la brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
+    "section-metrics-subtitle": "La herramienta le brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
     "section-bs-title": "Balance social orgánico",
     "section-bs-subtitle": "Coobs brinda la posibilidad de planificar acciones futuras para guiar el desempeño social de su organización mediante objetivos basados en los valores cooperativos.",
     "signup": "Registrarse",
