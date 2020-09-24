@@ -107,9 +107,9 @@ masthead-subheading {
   font-weight: 500;
 }
 
-.btn-register, .btn-sign-in-dark, .btn-change-pass {
-  background-color: #171E3F;
-  color: white;
+.btn-register-dark, .btn-change-pass {
+  background-color: #171E3F !important;
+  color: white !important;
   border-radius: 10px !important;
 }
 
@@ -139,9 +139,9 @@ masthead-subheading {
   font-weight: bold;
 }
 
-.btn-register:hover, .btn-change-pass:hover {
+.btn-register-dark:hover, .btn-change-pass:hover{
   background-color: #171E3F;
-  color: white;
+  color: white !important;
   font-weight: bold;
   border-radius: 10px !important;
 }
