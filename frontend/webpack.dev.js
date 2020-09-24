@@ -1,10 +1,11 @@
 const merge = require('webpack-merge');
-const {appConf, landingConf} = require('./webpack.common.js');
+const {appConf, landingConf, helpConf} = require('./webpack.common.js');
 
 const devConf = {
   mode: "development",
   devtool: "cheap-module-eval-source-map",
   devServer: {
+    contentBase: './dist',
     hot: true,
     watchOptions: {
       poll: true
@@ -22,5 +23,6 @@ const devConf = {
 
 module.exports = [
   merge(appConf, devConf),
-  merge(landingConf, devConf)
+  merge(landingConf, devConf),
+  merge(helpConf, devConf)
 ];

@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --optimize-minimize --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js",
     "start": "webpack-dev-server --progress --config webpack.dev.js",
     "serve": "serve dist"
   },

@@ -60,12 +60,9 @@ const appConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{ 
-      from: "static/", 
+    new CopyWebpackPlugin([{
+      from: "static/",
       to: "./"
-      // globOptions: {
-      //   ignore: ['**/static/images/help/**']
-      // }
     }]),
     new HtmlWebpackPlugin({
       template: "index.html",
@@ -93,12 +90,9 @@ const landingConf = Object.assign({}, baseConf, {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new CopyWebpackPlugin([{ 
-      from: "static/", 
+    new CopyWebpackPlugin([{
+      from: "static/",
       to: "./"
-      // globOptions: {
-      //   ignore: ['**/static/images/help/**']
-      // }
     }]),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
@@ -109,7 +103,7 @@ const landingConf = Object.assign({}, baseConf, {
     new HtmlWebpackPlugin({
       template: "landing/help.html",
       path: path.join(__dirname, "./dist/landing"),
-      filename: "help.html",
+      filename: "help",
       inject: true
     })
   ]
@@ -123,15 +117,6 @@ const helpConf = Object.assign({}, baseConf, {
     filename: "help.bundle.js"
   },
   plugins: [
-    // new MiniCssExtractPlugin({
-    //   filename: '[name].css',
-    //   chunkFilename: '[id].css',
-    //   ignoreOrder: false,
-    // }),
-    // new webpack.ProvidePlugin({
-    //   $: "jquery",
-    //   jQuery: "jquery"
-    // }),
     new CopyWebpackPlugin([{ from: "static/images", to: "./" }]),
     new HtmlWebpackPlugin({
       template: "help-content.html",

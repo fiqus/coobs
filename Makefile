@@ -4,6 +4,7 @@ server:
 	@python manage.py runserver
 
 frontend:
+	@cd frontend && npm run build-dev
 	@cd frontend && npm run start
 
 install-frontend:
