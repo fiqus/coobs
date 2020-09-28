@@ -101,6 +101,7 @@ class ActionSerializer(serializers.ModelSerializer):
 
         principles = list()
         for principle in validated_data.get('principles'):
+            principle.custom_description = principle.get('custom_description')
             principles.append(principle.get('id'))
         instance.principles.set(principles)
 
