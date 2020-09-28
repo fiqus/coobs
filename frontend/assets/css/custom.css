@@ -134,7 +134,7 @@ th.active .arrow {
   font-weight: bold;
 }
 
-.btn-change-pass:hover {
+.btn-change-pass:hover, .btn-sign-in-dark:hover  {
   background-color: #171E3F;
   color: white;
   font-weight: bold;

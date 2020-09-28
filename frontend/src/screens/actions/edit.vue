@@ -257,7 +257,7 @@ export default {
         const actionId = this.$route.params.actionId;
         this.action.partnersInvolved = this.partnersInvolved;
         // @FIXME [DMC] I think it makes no sense to sanitize here, let the server do it and just sanitize with JS at display/parse time
-        this.action.description = turndownService.turndown(this.action.description);
+        this.action.description = this.action.description ? turndownService.turndown(this.action.description) : "";
         let promise = null;
         if (this.isNew) {
           promise = httpPost("actions/", this.action);
@@ -284,7 +284,6 @@ export default {
     action: {
       date: {required},
       name: {required},
-      description: {required},
       principles: {
         requiredIf: requiredIf((v) => {
           return !required(v.sustainableDevelopmentGoals);
