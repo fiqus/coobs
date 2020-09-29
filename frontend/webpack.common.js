@@ -103,7 +103,7 @@ const landingConf = Object.assign({}, baseConf, {
     new HtmlWebpackPlugin({
       template: "landing/help.html",
       path: path.join(__dirname, "./dist/landing"),
-      filename: "help",
+      filename: "help.html",
       inject: true
     })
   ]
