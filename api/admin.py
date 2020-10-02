@@ -33,6 +33,7 @@ def send_email_activated_user_and_coop(partner):
 class PartnerAdmin(admin.ModelAdmin):
     list_display = ['email', 'first_name', 'last_name', 'cooperative', 'is_active']
     actions = ['make_active']
+    list_filter = ['cooperative', 'is_active']
 
     def make_active(self, request, queryset):
       if len(queryset)>1:
@@ -61,9 +62,20 @@ class PartnerAdmin(admin.ModelAdmin):
           ) % updated, messages.SUCCESS)
     make_active.short_description = "Mark selected user as Active (just one)"
 
+class ActionAdmin(admin.ModelAdmin):
+    list_display = ['date', 'cooperative', 'name', 'invested_money', 'invested_hours', 'public']
+    list_filter = ['cooperative', 'date']
 
-admin.site.register(Principle)
-admin.site.register(Action)
+class CooperativeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'business_name', 'starting_date', 'is_active']
+    list_filter = ['name', 'is_active']
+
+class PrincipleAdmin(admin.ModelAdmin):
+    list_display = ['main_principle', 'cooperative', 'visible']
+    list_filter = ['cooperative', 'visible']
+
+admin.site.register(Principle, PrincipleAdmin)
+admin.site.register(Action, ActionAdmin)
 admin.site.register(Period)
-admin.site.register(Cooperative)
+admin.site.register(Cooperative, CooperativeAdmin)
 admin.site.register(Partner, PartnerAdmin)
