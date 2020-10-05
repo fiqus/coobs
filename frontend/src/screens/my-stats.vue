@@ -216,6 +216,7 @@ export default {
       this.dashboardData = dashboardData;
       this.selectedValue = dashboardData.period.id;
       this.allPeriods = dashboardData.allPeriods;
+      this.isLoading = false;
 
       this.pendingActions = dashboardData.charts.cardsData.pendingActions;
 
@@ -238,7 +239,6 @@ export default {
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
       this.actionsProgressStyle = `width: ${this.progressData.actionsProgressData.actionsProgress}%`;
       this.investmentProgressStyle = `width: ${this.progressData.investmentProgressData.investmentProgress}%`;      
-      this.isLoading = false;
     },
     localizeDonutChartLabels({labels, series}){
       if (!labels) {

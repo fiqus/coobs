@@ -602,6 +602,8 @@ class PublicActionView(views.APIView):
         action_data = Action.get_public_actions(starting_day_of_current_year, ending_day_of_current_year).order_by('date')
         action_serializer = ActionSerializer(action_data, many=True)
 
+        cooperative_data = Cooperative.objects.filter(is_active=True)
+        coopearive_serializer = CooperativeSerializer(cooperative_data, many=True)
         principle_data = Principle.objects.filter(visible=True)
         principle_serializer = PrincipleSerializer(principle_data, many=True)
 
@@ -610,7 +612,8 @@ class PublicActionView(views.APIView):
         return Response({
                 'actions': action_serializer.data, 
                 'principles': principle_serializer.data,
-                'actions_by_principles_data': actions_by_principles_data
+                'actions_by_principles_data': actions_by_principles_data,
+                'cooperatives': coopearive_serializer.data
             })
 
 @receiver(reset_password_token_created)

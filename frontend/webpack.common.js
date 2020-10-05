@@ -61,8 +61,13 @@ const appConf = Object.assign({}, baseConf, {
     }),
     new VueLoaderPlugin(),
     new CopyWebpackPlugin([{
-      from: "static/",
-      to: "./"
+      // from path static ignore 'help' directory and copy **/* to /dist/app
+      context: path.resolve(__dirname, 'static'),
+      from: "**/*",
+      to: "./",
+      globOptions: {
+        ignore: ['**/help/**'],
+      },
     }]),
     new HtmlWebpackPlugin({
       template: "index.html",
@@ -91,8 +96,13 @@ const landingConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new CopyWebpackPlugin([{
-      from: "static/",
-      to: "./"
+      // from path static ignore 'help' directory and copy **/* to /dist/landing
+      from: "**/*",
+      context: path.resolve(__dirname, 'static'),
+      to: "./",
+      globOptions: {
+        ignore: ['**/help/**'],
+      },
     }]),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
@@ -117,7 +127,12 @@ const helpConf = Object.assign({}, baseConf, {
     filename: "help.bundle.js"
   },
   plugins: [
-    new CopyWebpackPlugin([{ from: "static/images", to: "./" }]),
+    new CopyWebpackPlugin([{
+      // from path static/images copy all content inside 'help' directory to /dist/help/images
+      from: "**/*",
+      context: path.resolve(__dirname, 'static/images', 'help'),
+      to: "./images"
+    }]),
     new HtmlWebpackPlugin({
       template: "help-content.html",
       path: path.join(__dirname, "./dist/help"),
