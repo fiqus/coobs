@@ -7,7 +7,7 @@
       <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
         <!-- Sidebar - Brand -->
         <router-link class="sidebar-brand d-flex align-items-center justify-content-center" :to="{name: 'dashboard'}" >
-          <div v-if="toggled" class="sidebar-brand-icon">
+          <div class="sidebar-brand-icon" :class="{'d-md-none': !toggled, 'd-none d-md-inline-block': toggled}">
             <img src="images/bs.png" style="max-height: 45px;">
           </div>
           <div class="sidebar-brand-text mx-3">
@@ -98,11 +98,14 @@
 
           <!-- Topbar -->
           <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-            <h1 class="display-5">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
+            <h1 class="text-truncate d-none d-md-inline-block">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
             <!-- Sidebar Toggle (Topbar) -->
-            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" @click="toggled = !toggled">
               <i class="fa fa-bars"></i>
             </button>
+
+            <!-- Show smaller coop name and at right in mobile -->
+            <h4 class="text-truncate d-md-none">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h4>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
