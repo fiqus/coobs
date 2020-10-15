@@ -1,98 +1,102 @@
 <template>
-<div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{$t("profile")}}</h1>
+  <div class="container">
+    <div class="row justify-content-center p-sm-5">
+      <div class="col-lg-8">
+        <div class="text-left">
+          <h1 class="h4 text-gray-900 mb-4">{{$t("profile")}}</h1>
+        </div>
       </div>
+
+      <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <input-form
+              :label="$t('firstName')"
+              name="first name"
+              type="text"
+              v-model="partner.firstName"
+              :error="$v.partner.firstName.$error"
+              error-message="Required">
+            </input-form>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input-form
+              :label="$t('lastName')"
+              name="last name"
+              type="text"
+              v-model="partner.lastName"
+              :error="$v.partner.lastName.$error"
+              error-message="Required">
+            </input-form>
+          </div>
+        </div>
+
+        <input-form
+          label="Email"
+          name="email"
+          type="text"
+          v-model="partner.email"
+          :error="$v.partner.email.$error"
+          error-message="Required">
+        </input-form>
+
+        <div class="form-group row">
+          <div class="col-12 col-sm-3">
+            <input-form
+              class="mb-0"
+              :label="$t('hoursToInvest')"
+              name="hours"
+              type="number"
+              v-model="partner.hoursToInvest"
+              :error="$v.partner.hoursToInvest.$error"
+              :error-message="$t('positiveNumber')">
+            </input-form>
+          </div>
+          <div class="col-12 col-sm-9 mt-sm-4  mb-sm-0">
+            <small class="form-text text-muted font-italic">{{$t('hoursToInvestHelp')}}</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-12">
+            <button type="button" class="btn btn-light border mb-3 text-gray-600" @click="changingPassword = !changingPassword">{{$t('changePassword')}}</button>
+          </div>
+        </div>
+
+        <transition name="fade">
+          <div class="row" v-if="changingPassword">
+            <div class="col-12 col-sm-6">
+              <input-form
+                :label="$t('newPassword')"
+                name="new password"
+                type="password"
+                v-model="partner.newPassword"
+                :error="$v.partner.newPassword && $v.partner.newPassword.$error"
+                :error-message="passwordErrorMessage"
+                :help-text="$t('goodPasswordHelpText')">
+              </input-form>
+            </div>
+            <div class="col-12 col-sm-6">
+              <input-form
+                :label="$t('confirmPassword')"
+                name="confirm password"
+                type="password"
+                v-model="partner.confirmPassword"
+                :error="$v.partner.confirmPassword && $v.partner.confirmPassword.$error"
+                :error-message="$t('passwordNotMatch')">
+              </input-form>
+            </div>
+          </div>
+        </transition>
+
+        <error-form :error="error" />
+
+        <div class="d-flex flex-column flex-sm-row mb-3">
+          <button type="button" class="btn btn-secondary mb-3 mb-sm-0" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+          <button type="submit" class="btn btn-success ml-0 ml-sm-3"><i class="fa fa-save"></i> {{$t("save")}}</button>
+        </div>
+      </form>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
-      <div class="form-row">
-        <div class="col-6">
-          <input-form
-            :label="$t('firstName')"
-            name="first name"
-            type="text"
-            v-model="partner.firstName"
-            :error="$v.partner.firstName.$error"
-            error-message="Required">
-          </input-form>
-        </div>
-        <div class="col-6">
-          <input-form
-            :label="$t('lastName')"
-            name="last name"
-            type="text"
-            v-model="partner.lastName"
-            :error="$v.partner.lastName.$error"
-            error-message="Required">
-          </input-form>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-12">
-          <input-form
-            label="Email"
-            name="email"
-            type="text"
-            v-model="partner.email"
-            :error="$v.partner.email.$error"
-            error-message="Required">
-          </input-form>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-6">
-          <input-form
-            :label="$t('hoursToInvest')"
-            name="hours"
-            type="number"
-            v-model="partner.hoursToInvest"
-            :error="$v.partner.hoursToInvest.$error"
-            :error-message="$t('positiveNumber')">
-          </input-form>
-        </div>
-        <div class="col-6 py-4">
-          <small class="form-text text-muted font-italic ml-3">{{$t('hoursToInvestHelp')}}</small>
-        </div>
-      </div>      
-      <div class="form-row">
-        <div class="col-12">
-          <button type="button" class="btn btn-light mb-3 text-gray-600" @click="changingPassword = !changingPassword">{{$t('changePassword')}}</button>
-        </div>
-      </div>
-      <transition name="fade">
-        <div class="form-row" v-if="changingPassword">
-          <div class="col-6">
-            <input-form
-              :label="$t('newPassword')"
-              name="new password"
-              type="password"
-              v-model="partner.newPassword"
-              :error="$v.partner.newPassword && $v.partner.newPassword.$error"
-              :error-message="passwordErrorMessage"
-              :help-text="$t('goodPasswordHelpText')">
-            </input-form>
-          </div>
-          <div class="col-6">
-            <input-form
-              :label="$t('confirmPassword')"
-              name="confirm password"
-              type="password"
-              v-model="partner.confirmPassword"
-              :error="$v.partner.confirmPassword && $v.partner.confirmPassword.$error"
-              :error-message="$t('passwordNotMatch')">
-            </input-form>
-          </div>
-        </div>
-      </transition>
-
-      <error-form :error="error" />
-
-      <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
-			</div>
-    </form>
   </div>
 </template>
 

@@ -8,6 +8,7 @@
       :typeable="typeable"
       :disabled-dates="disabledDates"
       :use-utc="true"
+      calendar-class="date-picker-width"
       @selected="onDateSelected">
     </datepicker>
     <div v-if="error" class="invalid-feedback" :style="errorDivStyle">

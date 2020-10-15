@@ -1,69 +1,72 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+  <div class="container">
+    <div class="row justify-content-center p-sm-5">
+      <div class="col-lg-8">
+        <div class="text-left">
+          <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+        </div>
       </div>
+
+      <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
+        <input-form
+          :label="$t('name')"
+          name="name"
+          type="text"
+          v-model="period.name"
+          :error="$v.period.name.$error"
+          :error-message="$t('required')">
+        </input-form>
+
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <datepicker-form
+              :label="$t('from')"
+              name="from"
+              format="dd/MM/yyyy"
+              v-model="from"
+              :error="$v.from.$error"
+              :error-message="$t('required')"
+              @input="onDateSelected('from', $event)">
+            </datepicker-form>
+          </div>
+          <div class="col-12 col-sm-6">
+            <datepicker-form
+              :label="$t('to')"
+              name="to"
+              format="dd/MM/yyyy"
+              v-model="to"
+              :disabled-dates="disabledDates"
+              :error="$v.to.$error"
+              :error-message="$t('required')"
+              @input="onDateSelected('to', $event)">
+            </datepicker-form>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-sm-4">
+            <input-form
+              :label="$t('budget')"
+              name="money"
+              type="number"
+              v-model="period.actionsBudget"
+              :error="$v.period.actionsBudget.$error"
+              :error-message="budgetErrorMsg">
+            </input-form>
+          </div>
+          <div class="col-12 col-sm-8 pt-sm-4 mb-4 mb-sm-0">
+            <small class="form-text text-muted font-italic">{{$t('budgetHelp')}}</small>
+          </div>
+        </div>
+
+        <error-form :error="error" />
+
+        <div class="d-flex flex-column flex-sm-row mb-3">
+          <button type="button" class="btn btn-secondary mb-3 mb-sm-0" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
+          <button type="submit" class="btn btn-success ml-0 ml-sm-3"><i class="fa fa-save"></i> {{$t("save")}}</button>
+        </div>
+      </form>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
-      <input-form
-        :label="$t('name')"
-        name="name"
-        type="text"
-        v-model="period.name"
-        :error="$v.period.name.$error"
-        :error-message="$t('required')">
-      </input-form>
-
-      <div class="form-row">
-        <div class="col-6">
-          <datepicker-form
-            :label="$t('from')"
-            name="from"
-            format="dd/MM/yyyy"
-            v-model="from"
-            :error="$v.from.$error"
-            :error-message="$t('required')"
-            @input="onDateSelected('from', $event)">
-          </datepicker-form>
-        </div>
-        <div class="col-6">
-          <datepicker-form
-            :label="$t('to')"
-            name="to"
-            format="dd/MM/yyyy"
-            v-model="to"
-            :disabled-dates="disabledDates"
-            :error="$v.to.$error"
-            :error-message="$t('required')"
-            @input="onDateSelected('to', $event)">
-          </datepicker-form>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="col-4">
-          <input-form
-            :label="$t('budget')"
-            name="money"
-            type="number"
-            v-model="period.actionsBudget"
-            :error="$v.period.actionsBudget.$error"
-            :error-message="budgetErrorMsg">
-          </input-form>
-        </div>
-        <div class="col-8 py-4">
-          <small class="form-text text-muted font-italic ml-3">{{$t('budgetHelp')}}</small>
-        </div>
-      </div>
-
-      <error-form :error="error" />
-
-      <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
-			</div>
-    </form>
   </div>
 </template>
 
