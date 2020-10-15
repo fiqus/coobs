@@ -1,8 +1,8 @@
 <template>
   <div class="custom-container">
-    <div class="row">
-      <h3 class="col-10">{{$t("partners")}}</h3>
-      <router-link class="col-2 btn btn-primary mb-3" :to="{name: 'partner-edit', params: {partnerId: 0}}">
+    <div class="row px-3 mb-3">
+      <h3 class="col-md-10 col-sm-9 px-0">{{$t("partners")}}</h3>
+      <router-link class="col-md-2 col-sm-3 btn btn-primary" :to="{name: 'partner-edit', params: {partnerId: 0}}">
         {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>

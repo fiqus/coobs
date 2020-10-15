@@ -13,12 +13,12 @@
 
     <error-form :error="errorFilter" @clean="cleanError()"/>
 
-    <div class="mb-3">
-      <button type="submit" class="btn btn-warning">
+    <div class="d-flex flex-column flex-sm-row mb-3">
+      <button type="submit" class="btn btn-warning mb-3 mb-sm-0">
         <i class="fa fa-filter"></i>
         {{$t("apply")}}
       </button>
-      <button type="button" class="btn btn-secondary" @click.stop="cleanFilters()">
+      <button type="button" class="btn btn-secondary ml-0 ml-sm-3" @click.stop="cleanFilters()">
         <i class="fa fa-eraser"></i>
         {{$t("clean")}}
       </button>

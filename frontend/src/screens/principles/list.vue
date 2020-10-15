@@ -1,7 +1,7 @@
 <template>
   <div class="custom-container">
-    <div class="row">
-      <h3 class="col-10">{{$t("principles")}}</h3>
+    <div class="row px-3 mb-3">
+      <h3 class="col-sm-12 px-0">{{$t("principles")}}</h3>
     </div>
     <loader :loading='isLoading'/>
     <detail-modal 
