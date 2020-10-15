@@ -24,19 +24,15 @@
       <div v-else-if="!isLoading">
         <div>
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <div class="dropdown no-arrow float-right">
-              <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-                <label>{{$t('periods')}}</label>
-                <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-                  <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                    {{period.name}}
-                  </option>
-                </select>
-              </a>
-            </div>
-            <div class="col-9">
-              <small class="form-text text-muted font-italic ml-3">{{$t('dashboardHelp')}}</small>
+          <div class="row">
+            <select-form
+              class="col-12 col-sm-3"
+              v-model="selectedValue"
+              :options="allPeriods"
+              :label="$t('periods')">
+            </select-form>
+            <div class="col-12 col-sm-9 mt-sm-5">
+              <small class="form-text text-muted font-italic mb-3 mb-sm-0">{{$t('dashboardHelp')}}</small>
             </div>
           </div>
 
@@ -185,6 +181,7 @@
 </template>
 
 <script>
+import SelectForm from "../components/select-form.vue";
 import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
@@ -212,7 +209,8 @@ export default {
     "columns-chart": ColumnsChart,
     "area-chart": AreaChart,
     "line-chart": LineChart,
-    "loader": Loader
+    "loader": Loader,
+    "select-form": SelectForm,
   },
   computed: {
     allPrinciplesYearLabel() {

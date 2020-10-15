@@ -148,7 +148,7 @@
           <!-- End of Topbar -->
 
           <!-- Begin Page Content -->
-          <div class="container-fluid">
+          <div>
             <!-- In this slot will be the screen content of this layout -->
             <slot name="page-content"></slot>
           </div>
