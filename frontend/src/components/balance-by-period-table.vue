@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <table class="table table-hover">
     <thead>
-      <tr class="row thead-light cursorPointer" @click="expanded = !expanded">
+      <tr class="row thead-light cursorPointer" @click.stop="expanded = !expanded">
         <th v-if="groupedBy === 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.objectiveNameKey, periodSummary.objectiveNameKey)}}</th>
         <th v-if="groupedBy !== 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
       </tr>
