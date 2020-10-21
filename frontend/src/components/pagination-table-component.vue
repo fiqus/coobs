@@ -1,24 +1,20 @@
 <template>
-  <div v-if="pagination && dataLength" class="row">
-    <div class="col-sm-12 col-md-5">
-      <div class="" role="status" aria-live="polite">
-        {{paginationMessage}}
-      </div>
+  <div v-if="pagination && dataLength" class="d-sm-flex justify-content-sm-between align-items-sm-center">
+    <div class="" role="status" aria-live="polite">
+      {{paginationMessage}}
     </div>
-    <div class="col-sm-12 col-md-7">
-      <div class=" paging_simple_numbers">
-        <ul class="justify-content-end pagination">
-          <li class="paginate_button page-item previous" :class="{'disabled': !pagination.previous}">
-            <button class="page-link" @click="goPrevious()">{{$t('previous')}}</button>
-          </li>
-          <li v-for="pageNumber in pagination.numPages" :key="pageNumber" class="paginate_button page-item " :class="{'active': pageNumber === pagination.page}">
-            <button class="page-link" @click="goToPage(pageNumber)">{{pageNumber}}</button>
-          </li>
-          <li class="paginate_button page-item next" :class="{'disabled': !pagination.next}">
-            <button class="page-link" @click="goNext()">{{$t('next')}}</button>
-          </li>
-        </ul>
-      </div>
+    <div class=" paging_simple_numbers mt-3 mt-sm-0">
+      <ul class="justify-content-start justify-content-sm-end pagination my-sm-auto">
+        <li class="paginate_button page-item previous" :class="{'disabled': !pagination.previous}">
+          <button class="page-link" @click="goPrevious()">{{$t('previous')}}</button>
+        </li>
+        <li v-for="pageNumber in pagination.numPages" :key="pageNumber" class="paginate_button page-item " :class="{'active': pageNumber === pagination.page}">
+          <button class="page-link" @click="goToPage(pageNumber)">{{pageNumber}}</button>
+        </li>
+        <li class="paginate_button page-item next" :class="{'disabled': !pagination.next}">
+          <button class="page-link" @click="goNext()">{{$t('next')}}</button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>

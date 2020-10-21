@@ -1,124 +1,122 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+  <div class="container">
+    <div class="row justify-content-center p-sm-5">
+      <div class="col-lg-8">
+        <div class="text-left">
+          <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+        </div>
       </div>
+
+      <form v-on:submit.prevent="submit" class="col-lg-8 needs-validation" novalidate>
+        <input-form
+          :label="$t('name')"
+          name="name"
+          type="text"
+          v-model="action.name"
+          :error="$v.action.name.$error"
+          :error-message="$t('required')">
+        </input-form>
+
+        <div class="form-group">
+          <ckeditor
+            :editor="editor"
+            v-model="action.description"
+            :config="editorConfig">
+          </ckeditor>
+        </div>
+
+        <multi-select-form
+          v-model="action.principles"
+          :options="principles"
+          :placeholder="$t('selectPrinciple')"
+          :label="$t('principle')"
+          :default-value="$t('selectPrinciple')"
+          :error="$v.action.principles.$error"
+          :error-message="$store.state.cooperative.sustainableDevelopmentGoalsActive ? $t('selectPrincipleOrODS'):$t('selectPrinciple')">
+        </multi-select-form>
+
+        <multi-select-form
+          v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive"
+          v-model="action.sustainableDevelopmentGoals"
+          :options="sustainableDevelopmentGoals"
+          :placeholder="$t('selectSustainableDevelopmentGoals')"
+          :label="$t('sustainableDevelopmentGoals')"
+          :default-value="sustainableDevelopmentGoals"
+          :error="$v.action.sustainableDevelopmentGoals.$error"
+          :error-message="$t('selectPrincipleOrODS')">
+        </multi-select-form>
+
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <multi-select-form
+              :label="$t('partners')"
+              :placeholder="$t('selectPartners')"
+              v-model="partnersInvolved"
+              :options="partnersList"/>
+          </div>
+          <div class="col-12 col-sm-6">
+            <datepicker-form
+              :label="$t('startingDate')"
+              name="date"
+              format="dd/MM/yyyy"
+              v-model="action.date"
+              :error="$v.action.date.$error"
+              :error-message="$t('required')"
+              @input="onDateSelected">
+            </datepicker-form>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <input-form
+              :label="$t('investedHours')"
+              name="hours"
+              type="number"
+              v-model="action.investedHours"
+              :error="$v.action.investedHours.$error"
+              :error-message="$t('positiveNumber')">
+            </input-form>
+          </div>
+          <div class="col-12 col-sm-6">
+            <input-form
+              :label="$t('investedMoney')"
+              name="money"
+              type="number"
+              v-model="action.investedMoney"
+              :error="$v.action.investedMoney.$error"
+              :error-message="$t('positiveNumber')">
+            </input-form>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 col-sm-3 py-1">
+            <bootstrap-toggle class="form-control"
+              v-model="action.public"
+              data-toggle="toggle"
+              :options="{on: $t('public'), off: $t('private'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+              :disabled="false" />
+          </div>
+          <div class="col-12 col-sm-9 col-md-9">
+            <small class="form-text text-muted font-italic">{{$t('actionVisibilityHelp')}}</small>
+          </div>
+        </div>
+
+        <error-form :error="error" />
+
+        <div class="d-flex flex-column flex-sm-row mb-3">
+          <button type="button" class="btn btn-secondary mb-3 mb-sm-0" @click.stop="$router.go(-1)">
+            <i class="fa fa-arrow-left"></i>
+            {{$t("cancel")}}
+          </button>
+          <button type="submit" class="btn btn-success ml-0 ml-sm-3">
+            <i class="fa fa-save"></i>
+            {{$t("save")}}
+          </button>
+        </div>
+      </form>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-6 needs-validation" novalidate>
-      <input-form
-        :label="$t('name')"
-        name="name"
-        type="text"
-        v-model="action.name"
-        :error="$v.action.name.$error"
-        :error-message="$t('required')">
-      </input-form>
-
-      <!-- <textarea-form
-        :label="$t('description')"
-        name="description"
-        type="text"
-        v-model="action.description"
-        :error="$v.action.description.$error"
-        :error-message="$t('required')">
-      </textarea-form> -->
-      <ckeditor :editor="editor" v-model="action.description" :config="editorConfig"></ckeditor>
-
-      <div class="form-row">
-        <div class="col-12">
-          <multi-select-form
-            v-model="action.principles"
-            :options="principles"
-            :placeholder="$t('selectPrinciple')"
-            :label="$t('principle')"
-            :default-value="$t('selectPrinciple')"
-            :error="$v.action.principles.$error"
-            :error-message="$store.state.cooperative.sustainableDevelopmentGoalsActive ? $t('selectPrincipleOrODS'):$t('selectPrinciple')"/>
-        </div>
-      </div>
-
-      <div class="form-row" v-if="$store.state.cooperative.sustainableDevelopmentGoalsActive">
-        <div class="col-12">
-          <multi-select-form
-            v-model="action.sustainableDevelopmentGoals"
-            :options="sustainableDevelopmentGoals"
-            :placeholder="$t('selectSustainableDevelopmentGoals')"
-            :label="$t('sustainableDevelopmentGoals')"
-            :default-value="sustainableDevelopmentGoals"
-            :error="$v.action.sustainableDevelopmentGoals.$error"
-            :error-message="$t('selectPrincipleOrODS')"/>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="col-6">
-          <multi-select-form
-            :label="$t('partners')"
-            :placeholder="$t('selectPartners')"
-            v-model="partnersInvolved"
-            :options="partnersList"/>
-        </div>
-        <div class="col-6">
-          <datepicker-form
-            :label="$t('startingDate')"
-            name="date"
-            format="dd/MM/yyyy"
-            v-model="action.date"
-            :error="$v.action.date.$error"
-            :error-message="$t('required')"
-            @input="onDateSelected">
-          </datepicker-form>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-6">
-          <input-form
-            :label="$t('investedHours')"
-            name="hours"
-            type="number"
-            v-model="action.investedHours"
-            :error="$v.action.investedHours.$error"
-            :error-message="$t('positiveNumber')">
-          </input-form>
-        </div>
-        <div class="col-6">
-          <input-form
-            :label="$t('investedMoney')"
-            name="money"
-            type="number"
-            v-model="action.investedMoney"
-            :error="$v.action.investedMoney.$error"
-            :error-message="$t('positiveNumber')">
-          </input-form>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="col-3 py-1">
-          <bootstrap-toggle class="form-control"
-            v-model="action.public"
-            data-toggle="toggle"
-            :options="{on: $t('public'), off: $t('private'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
-            :disabled="false" />
-        </div>
-        <div class="col-9">
-          <small class="form-text text-muted font-italic ml-3">{{$t('actionVisibilityHelp')}}</small>
-        </div>
-      </div>
-      
-      <error-form :error="error" />
-
-      <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)">
-          <i class="fa fa-arrow-left"></i> 
-          {{$t("cancel")}}
-        </button>
-				<button type="submit" class="btn btn-success">
-          <i class="fa fa-save"></i>
-          {{$t("save")}}
-        </button>
-			</div>
-    </form>
   </div>
 </template>
 

@@ -1,61 +1,67 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-lg-7">
-      <div class="text-left">
-        <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+  <div class="container">
+    <div class="row justify-content-center p-sm-5">
+      <div class="col-lg-8">
+        <div class="text-left">
+          <h1 class="h4 text-gray-900 mb-4">{{$t(title, title)}}</h1>
+        </div>
       </div>
+
+      <form v-on:submit.prevent="submit" class="col-lg-8">
+        <input-form
+          :label="$t('name')"
+          name="name"
+          type="text"
+          :value="$t(principle.nameKey, principle.name)"
+          :disabled="true">
+        </input-form>
+
+        <div class="form-group row">
+          <label class="col-12 col-sm-3 mb-0 mb-sm-2">{{$t('descriptionICA')}}</label>
+          <div class="col-12 col-sm-9 mb-2 mb-sm-0">
+            <small class="form-text text-muted font-italic">{{$t('descriptionICAHelp')}}</small>
+          </div>
+          <div class="col-12" name="description" v-html="principle.description"></div>
+        </div>
+
+        <div class="row">
+          <label class="col-12 col-sm-3 mb-0 mb-sm-2">{{$t('custom_description')}}</label>
+          <div class="col-12 col-sm-9 mb-2 mb-sm-0">
+            <small class="form-text text-muted font-italic">{{$t('descriptionPrincipleHelp')}}</small>
+          </div>
+          <textarea-form
+            class="col-12"
+            name="custom_description"
+            type="text"
+            v-model="principle.customDescription">
+          </textarea-form>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-12 col-sm-3 py-1">
+            <bootstrap-toggle class="form-control"
+              v-model="principle.visible"
+              data-toggle="toggle"
+              :options="{on: $t('visible'), off: $t('hide'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
+              :disabled="false" />
+          </div>
+          <div class="col-12 col-sm-9 col-md-9">
+            <small class="form-text text-muted font-italic">{{$t('principleVisibilityHelp')}}</small>
+          </div>
+        </div>
+
+        <error-form :error="error" />
+
+        <div class="d-flex flex-column flex-sm-row mb-3">
+          <button type="button" class="btn btn-secondary mb-3 mb-sm-0" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left">
+            </i> {{$t("cancel")}}
+          </button>
+          <button type="submit" class="btn btn-success ml-0 ml-sm-3">
+            <i class="fa fa-save"></i> {{$t("save")}}
+          </button>
+        </div>
+      </form>
     </div>
-    <form v-on:submit.prevent="submit" class="col-lg-6">
-      <div class="form-row">
-        <label>{{$t('name')}}</label>
-      </div>
-      <input-form
-        name="name"
-        type="text"
-        :value="$t(principle.nameKey, principle.name)"
-        :disabled="true">
-      </input-form>
-
-      <div class="form-row">
-        <label>{{$t('descriptionICA')}}</label>
-        <div class="col-9">
-          <small class="form-text text-muted font-italic ml-3">{{$t('descriptionICAHelp')}}</small>
-        </div>
-        <div name="description" v-html="principle.description">
-      </div>
-      </div><br/>
-      <div class="form-row">
-        <label class="mr-3">{{$t('custom_description')}}</label>
-        <div class="col-9">
-          <small class="form-text text-muted font-italic ml-3">{{$t('descriptionPrincipleHelp')}}</small>
-        </div>
-      </div>
-      <textarea-form
-        name="custom_description"
-        type="text"
-        v-model="principle.customDescription">
-      </textarea-form>
-
-      <div class="form-row">
-        <div class="col-3 py-1">
-          <bootstrap-toggle class="form-control"
-            v-model="principle.visible"
-            data-toggle="toggle"
-            :options="{on: $t('visible'), off: $t('hide'), onstyle: 'success', offstyle: 'danger', size: 'normal'}"
-            :disabled="false" />
-        </div>          
-        <div class="col-9">
-          <small class="form-text text-muted font-italic ml-3">{{$t('principleVisibilityHelp')}}</small>
-        </div>
-      </div>
-
-      <error-form :error="error" />
-
-      <div>
-				<button type="button" class="btn btn-secondary" @click.stop="$router.go(-1)"><i class="fa fa-arrow-left"></i> {{$t("cancel")}}</button>
-				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> {{$t("save")}}</button>
-			</div>
-    </form>
   </div>
 </template>
 

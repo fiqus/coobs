@@ -2,17 +2,17 @@
   <div class="custom-container">
     <loader :loading='isLoading'/>
     <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-        <div class="col-sm-9">
+        <div class="col-sm-9 mb-2 mb-sm-0">
           <h5 class="mb-0 text-gray-100">
             <i class="fas fa-exclamation-circle"></i>
             {{$t(error.message, error.message)}}
           </h5>
         </div>
-        <div v-if="allPeriods.length" class="col-sm-2 float-right ">
-          <div class="dropdown no-arrow mx-3">
+        <div v-if="allPeriods.length" class="col-sm-2">
+          <div class="dropdown no-arrow mx-sm-3">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
               <label class="text-gray-100">{{$t('periods')}}</label>
-              <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+              <select id="period-select" class="ml-sm-2 mr-sm-5 d-lg-inline text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
                 <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                   {{period.name}}
                 </option>
@@ -24,19 +24,19 @@
       <div v-else-if="!isLoading">
         <div>
           <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <div class="dropdown no-arrow float-right">
-              <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-                <label>{{$t('periods')}}</label>
-                <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+          <div class="form-group row">
+            <div class="col-12 col-sm-3 dropdown no-arrow d-flex align-items-center">
+              <label class="mr-2">{{$t('periods')}}</label>
+              <a class="w-100 dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+                <select id="period-select" class="text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
                   <option v-for="period in allPeriods" :key="period.id" :value="period.id">
                     {{period.name}}
                   </option>
                 </select>
               </a>
             </div>
-            <div class="col-9">
-              <small class="form-text text-muted font-italic ml-3">{{$t('dashboardHelp')}}</small>
+            <div class="col-12 col-sm-9 d-flex align-items-center">
+              <small class="form-text text-muted font-italic">{{$t('dashboardHelp')}}</small>
             </div>
           </div>
 
@@ -185,6 +185,7 @@
 </template>
 
 <script>
+import SelectForm from "../components/select-form.vue";
 import SmallCardChart from "../components/smallcard-chart.vue";
 import StackedColumndsChart from "../components/stacked-columns-chart.vue";
 import DonutChart from "../components/donut-chart.vue";
@@ -212,7 +213,8 @@ export default {
     "columns-chart": ColumnsChart,
     "area-chart": AreaChart,
     "line-chart": LineChart,
-    "loader": Loader
+    "loader": Loader,
+    "select-form": SelectForm,
   },
   computed: {
     allPrinciplesYearLabel() {

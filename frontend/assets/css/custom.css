@@ -159,3 +159,12 @@ td.actions {
 .ck-editor__editable {
   min-height: 200px;
 }
+
+@media (max-width: 320px) {
+  /* date picker has a fixed width of 300px
+  for extra small screen size should be same as input width*/
+  .date-picker-width {
+    width: unset !important;
+  }
+
+}

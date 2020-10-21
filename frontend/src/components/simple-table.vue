@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div class="table-responsive">
     <table class="table table-striped">
       <thead>
         <tr v-if="ordering.enabled">
-          <th :class="{'cursorPointer': header.sortEnabled}" v-for="header in headers" :key="header.key" @click="onSort(header.sortEnabled, header.key)">
-            {{ $t(header.value, header.value) }}<span v-if="header.key == ordering.by" :class="{'arrow': header.sortEnabled, [sortDirClass]: header.sortEnabled}"/>
+          <th class="text-truncate" :class="{'cursorPointer': header.sortEnabled, 'd-flex align-items-center': header.key == ordering.by && header.sortEnabled}" v-for="header in headers" :key="header.key" @click="onSort(header.sortEnabled, header.key)">
+            {{ $t(header.value, header.value) }}
+            <span v-if="header.key == ordering.by" :class="{'arrow': header.sortEnabled, [sortDirClass]: header.sortEnabled}"/>
           </th>
           <th>{{$t("actions")}}</th>
         </tr>
         <tr v-if="!ordering.enabled">
-          <th v-for="header in headers" :key="header.key">
+          <th class="text-truncate" v-for="header in headers" :key="header.key">
             {{ $t(header.value, header.value) }}
           </th>
           <th>{{$t("actions")}}</th>
@@ -17,7 +18,7 @@
       </thead>
       <tbody>
         <tr v-for="elem in data" :key="elem.id">
-          <td class="cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
+          <td class="text-truncate cursor-pointer" v-for="header in headers" :key="header.key" v-html="parseElem(header, elem)"></td>
           <td class="actions">
             <button v-if="actions.edit && !elem.noActions" class="btn btn-primary" @click.stop="onEdit(elem)" :title="$t('edit')"><i class="fa fa-edit"></i></button>
             <!-- <button v-if="actions.delete && !elem.noActions && actions.showViewButton" class="btn btn-success" @click.stop="onQuickView(elem)" :title="$t('quickView')"><i class="fa fa-eye"></i></button> FIXME no idea why it depends on delete-->

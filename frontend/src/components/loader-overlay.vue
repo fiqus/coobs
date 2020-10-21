@@ -1,17 +1,16 @@
 <template>
-    <div :class="[loading?'overlay':'']">
-      <h1 class="loading-text" v-bind:style="loading? '': 'display:none;'">{{$t('loading')}}</h1>
-      <!-- <slot/> -->
-      <div class="lds-roller" v-bind:style="loading?'left:40%;':'display:none;'">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>      
+    <div v-if="loading" class="overlay d-flex justify-content-center align-items-center flex-column flex-sm-row ">
+        <div class="lds-roller">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <h1 class="loading-text">{{ $t('loading') }}</h1>
     </div>
 </template>
 
@@ -27,53 +26,21 @@
 
 <style scoped>
   .overlay{
-    width: 100%; 
-    height:100%; 
-    position:absolute; 
+    width: 100%;
+    height:100%;
+    position:absolute;
     top:0;
     left: 0;
     z-index: 1;
     background-color: rgba(0,0,0,0.5);
   }
+
   .loading-text{
-    color:white; 
-    position: fixed;
-    top: 50%; 
-    left: 46%;
+    color:white;
     z-index: 2;
   }
 
-  /* .loading-text:after {
-    content: ' .';
-    animation: dots 1s steps(5, end) infinite;
-  }
-
-  @keyframes dots {
-    0%, 20% {
-      color: rgb(53, 182, 201);
-      text-shadow:
-        .25em 0 0 rgb(53, 182, 201),
-        .5em 0 0 rgb(53, 182, 201);}
-    40% {
-      color: white;
-      text-shadow:
-        .25em 0 0 rgb(53, 182, 201),
-        .5em 0 0 rgb(53, 182, 201);}
-    60% {
-      text-shadow:
-        .25em 0 0 white,
-        .5em 0 0 rgb(53, 182, 201);}
-    80%, 100% {
-      text-shadow:
-        .25em 0 0 white,
-        .5em 0 0 white}
-  }   */
-
   .lds-roller {
-    position: fixed;
-    top: 48%; 
-    left: 40%;
-    display: inline-block;
     width: 80px;
     height: 80px;
     z-index: 2;
@@ -156,5 +123,5 @@
     100% {
       transform: rotate(360deg);
     }
-  }  
+  }
 </style>
