@@ -82,7 +82,7 @@
       @goPrevious="goPrevious"
       @goToPage="goToPage">
     </pagination-table-component>
-    <div v-if="actions.length == 0">
+    <missing-data-empty-state v-if="actions.length">
       <missing-data-empty-state
         :hasPeriod="periods.length"
         :hasActions="actions.length"
