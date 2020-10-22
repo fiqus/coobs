@@ -14,7 +14,7 @@
                 </div>
                 <div v-else class="row justify-content-center">
                     <h1 class="h4 text-center mb-3">Aún no se ha creado ninguna acción para el período seleccionado</h1>
-                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.push({path: '/action-edit/0'})">
+                    <router-link class="btn btn-primary mb-3 mb-sm-0" :to="{name: 'action-edit', params: {actionId: 0}}">
                         Crear una acción
                     </button>
                 </div>
