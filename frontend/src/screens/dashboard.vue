@@ -22,12 +22,12 @@
             </div>
           </div>
       </div>
-      <missing-data-empty-state
-        :hasPeriod="existsCurrentPeriod"
-        :hasActions="currentPeriodHasActions"
-      />
-    </div>    
-    <div v-else-if="!isLoading">
+    </div>
+    <missing-data-empty-state v-if="!existsCurrentPeriod || !currentPeriodHasActions"
+      :hasPeriod="existsCurrentPeriod"
+      :hasActions="currentPeriodHasActions"
+    />    
+    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
         <div>
           <!-- Page Heading -->
           <div class="form-group row">
@@ -306,9 +306,9 @@ export default {
       this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
       if (!dashboardData.actions.length) {
-        this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
-        this.currentPeriodHasActions = dashboardData.actions.length;
         this.isLoading = false;
         this.error = {
           exists: true,
@@ -322,14 +322,14 @@ export default {
   },
   async created() {
     const dashboardData = await api.getDashboard();
+    this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+    this.currentPeriodHasActions = dashboardData.actions.length;
     if (!dashboardData.actions.length) {
       this.error = {
         exists: true,
         backgroundClass: " bg-danger",
         message: "notEnoughInfoForDashboard"
       };
-      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
-      this.currentPeriodHasActions = dashboardData.actions.length;
       this.isLoading = false;
     } else {
       this.showDashboardData(dashboardData);

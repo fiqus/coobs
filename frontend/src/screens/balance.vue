@@ -22,12 +22,12 @@
           </div>
         </div>
       </div>
-      <missing-data-empty-state
-        :hasPeriod="existsCurrentPeriod"
-        :hasActions="currentPeriodHasActions"
-      />
     </div>
-    <div v-else-if="!isLoading">
+    <missing-data-empty-state v-if="!existsCurrentPeriod || !currentPeriodHasActions"
+      :hasPeriod="existsCurrentPeriod"
+      :hasActions="currentPeriodHasActions"
+    />
+    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
       <div class="float-right ml-5 col-sm-2" v-if="downloading">
         <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
           <b-spinner small type="grow"></b-spinner>
@@ -139,14 +139,14 @@ export default {
     },
     showBalance(res){
       const {period, actions, allPeriods, totalInvested, totalHoursInvested} = res.data;
+      this.existsCurrentPeriod = period && (typeof period !== "object" ? period.length : period !== undefined);
+      this.currentPeriodHasActions = actions && actions.length;      
       if (!period || !actions || !actions.length) {
         this.error = {
           exists: true,
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
-        this.existsCurrentPeriod = period.length !== 0 && period !== undefined;
-        this.currentPeriodHasActions = actions && actions.length !== 0;
         this.isLoading = false;
         return;
       }
