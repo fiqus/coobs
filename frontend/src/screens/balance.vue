@@ -1,13 +1,14 @@
 <template>
   <div class="custom-container">
     <loader :loading='isLoading'/>
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-      <div class="col-sm-9">
-        <h5 class="mb-0 text-gray-100">
-          <i class="fas fa-exclamation-circle"></i>
-          {{$t(error.message, error.message)}}
-        </h5>
-      </div>
+    <div v-if="error.exists">
+      <div :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+        <div class="col-sm-9">
+          <h5 class="mb-0 text-gray-100">
+            <i class="fas fa-exclamation-circle"></i>
+            {{$t(error.message, error.message)}}
+          </h5>
+        </div>
         <div v-if="allPeriods.length" class="col-sm-2 float-right ">
           <div class="dropdown no-arrow mx-3">
             <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
@@ -20,6 +21,11 @@
             </a>
           </div>
         </div>
+      </div>
+      <missing-data-empty-state
+        :hasPeriod="existsCurrentPeriod"
+        :hasActions="currentPeriodHasActions"
+      />
     </div>
     <div v-else-if="!isLoading">
       <div class="float-right ml-5 col-sm-2" v-if="downloading">
@@ -70,6 +76,7 @@ import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../components/loader-overlay.vue";
 import {sanitizeMarkdown, formatToUIDate, parseNumber} from "../utils";
+import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 
 function print(period, translator, parent){
   const self = parent;
@@ -108,7 +115,8 @@ const uncollapseEveryElement = () => {
 export default {
   components: {
     BalanceByPeriodTable,
-    "loader": Loader
+    "loader": Loader,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   methods: {
     format(date) {
@@ -137,6 +145,8 @@ export default {
           backgroundClass: " bg-warning",
           message: "notEnoughInfoForBalance"
         };
+        this.existsCurrentPeriod = period.length !== 0 && period !== undefined;
+        this.currentPeriodHasActions = actions && actions.length !== 0;
         this.isLoading = false;
         return;
       }
@@ -199,7 +209,9 @@ export default {
       allPeriods: [],
       selectedValue: [],
       downloading: false,
-      isLoading: true
+      isLoading: true,
+      existsCurrentPeriod: false,
+      currentPeriodHasActions: false,
     };
   }
 };

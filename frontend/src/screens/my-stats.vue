@@ -2,25 +2,31 @@
   <div class="custom-container">
     <loader :loading='isLoading'/>
 
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-      <div class="col-sm-9">
-        <h5 class="mb-0 text-gray-100">
-          <i class="fas fa-exclamation-circle"></i>
-          {{$t(error.message, error.message)}}
-        </h5>
-      </div>
-      <div v-if="allPeriods.length" class="col-sm-2 float-right ">
-        <div class="dropdown no-arrow float-right mx-3">
-          <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-            <label class="text-gray-100">{{$t('periods')}}</label>
-            <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-              <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                {{period.name}}
-              </option>
-            </select>
-          </a>
+    <div v-if="error.exists">
+      <div :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+        <div class="col-sm-9">
+          <h5 class="mb-0 text-gray-100">
+            <i class="fas fa-exclamation-circle"></i>
+            {{$t(error.message, error.message)}}
+          </h5>
+        </div>
+        <div v-if="allPeriods.length" class="col-sm-2 float-right ">
+          <div class="dropdown no-arrow float-right mx-3">
+            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+              <label class="text-gray-100">{{$t('periods')}}</label>
+              <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                  {{period.name}}
+                </option>
+              </select>
+            </a>
+          </div>
         </div>
       </div>
+      <missing-data-empty-state
+        :hasPeriod="existsCurrentPeriod"
+        :hasActions="currentPeriodHasActions"
+      />      
     </div>
     <div v-else-if="!isLoading">
       <div>
@@ -178,6 +184,7 @@ import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
 import {parseNumber} from "../utils";
+import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 
 
 function dateToUserTimeZone (date){
@@ -192,7 +199,8 @@ export default {
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
     "line-chart": LineChart,
-    "loader": Loader
+    "loader": Loader,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -261,6 +269,8 @@ export default {
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getMyStats(params);
       if (!dashboardData.actions.length) {
+        this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+        this.currentPeriodHasActions = dashboardData.actions.length;
         this.isLoading = false;
         this.error = {
           exists: true,
@@ -280,6 +290,8 @@ export default {
         backgroundClass: " bg-danger",
         message: "notEnoughInfoForDashboard"
       };
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
       this.isLoading = false;
     } else {
       this.showDashboardData(dashboardData);
@@ -310,7 +322,9 @@ export default {
         message: ""
       },
       isLoading: true,
-      dashboardData: {}
+      dashboardData: {},
+      existsCurrentPeriod: false,
+      currentPeriodHasActions: false,      
     };
   }
 };

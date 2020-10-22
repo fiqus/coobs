@@ -1,27 +1,33 @@
 <template>
   <div class="custom-container">
     <loader :loading='isLoading'/>
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-        <div class="col-sm-9 mb-2 mb-sm-0">
-          <h5 class="mb-0 text-gray-100">
-            <i class="fas fa-exclamation-circle"></i>
-            {{$t(error.message, error.message)}}
-          </h5>
-        </div>
-        <div v-if="allPeriods.length" class="col-sm-2">
-          <div class="dropdown no-arrow mx-sm-3">
-            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <label class="text-gray-100">{{$t('periods')}}</label>
-              <select id="period-select" class="ml-sm-2 mr-sm-5 d-lg-inline text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
-                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                  {{period.name}}
-                </option>
-              </select>
-            </a>
+    <div v-if="error.exists">
+      <div :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
+          <div class="col-sm-9 mb-2 mb-sm-0">
+            <h5 class="mb-0 text-gray-100">
+              <i class="fas fa-exclamation-circle"></i>
+              {{$t(error.message, error.message)}}
+            </h5>
           </div>
-        </div>
+          <div v-if="allPeriods.length" class="col-sm-2">
+            <div class="dropdown no-arrow mx-sm-3">
+              <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+                <label class="text-gray-100">{{$t('periods')}}</label>
+                <select id="period-select" class="ml-sm-2 mr-sm-5 d-lg-inline text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
+                  <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+                    {{period.name}}
+                  </option>
+                </select>
+              </a>
+            </div>
+          </div>
       </div>
-      <div v-else-if="!isLoading">
+      <missing-data-empty-state
+        :hasPeriod="existsCurrentPeriod"
+        :hasActions="currentPeriodHasActions"
+      />
+    </div>    
+    <div v-else-if="!isLoading">
         <div>
           <!-- Page Heading -->
           <div class="form-group row">
@@ -195,6 +201,7 @@ import LineChart from "../components/line-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
+import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 import moment from "moment";
 import _ from "lodash";
 import { parseNumber } from "../utils";
@@ -215,6 +222,7 @@ export default {
     "line-chart": LineChart,
     "loader": Loader,
     "select-form": SelectForm,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -299,6 +307,8 @@ export default {
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
       if (!dashboardData.actions.length) {
+        this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+        this.currentPeriodHasActions = dashboardData.actions.length;
         this.isLoading = false;
         this.error = {
           exists: true,
@@ -318,6 +328,8 @@ export default {
         backgroundClass: " bg-danger",
         message: "notEnoughInfoForDashboard"
       };
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
       this.isLoading = false;
     } else {
       this.showDashboardData(dashboardData);
@@ -350,6 +362,8 @@ export default {
       },      
       //showActionsByPartner: true,
       isLoading: true,
+      existsCurrentPeriod: false,
+      currentPeriodHasActions: false,
       dashboardData: {}
     };
   }

@@ -6,13 +6,13 @@
                 <img src="images/Ilustracion_COOBS_home_01.png" class="w-100 img-fluid mb-3">
                 <div v-if="!hasPeriod" class="row justify-content-center">
                     <h1 class="h4 text-center mb-3">Aún no se ha creado ningun período</h1>
-                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.go(-1)">
+                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.push({path: '/period-edit/0'})">
                         Crear un período
                     </button>
                 </div>
                 <div v-else class="row justify-content-center">
                     <h1 class="h4 text-center mb-3">Aún no se ha creado ninguna acción para el período seleccionado</h1>
-                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.go(-1)">
+                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.push({path: '/action-edit/0'})">
                         Crear una acción
                     </button>
                 </div>

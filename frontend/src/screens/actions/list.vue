@@ -63,7 +63,7 @@
 
     <error-form :error="error"></error-form>
 
-    <simple-table
+    <simple-table v-if="actions.length"
         :headers="headers"
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
@@ -74,14 +74,20 @@
         @onDelete="onDelete"
         @onQuickView="onQuickView"
         @onSort=onSort>
-      </simple-table>
-      <pagination-table-component
-        :dataLength="actions.length"
-        :pagination="pagination"
-        @goNext="goNext"
-        @goPrevious="goPrevious"
-        @goToPage="goToPage">
-      </pagination-table-component>
+    </simple-table>
+    <pagination-table-component v-if="actions.length"
+      :dataLength="actions.length"
+      :pagination="pagination"
+      @goNext="goNext"
+      @goPrevious="goPrevious"
+      @goToPage="goToPage">
+    </pagination-table-component>
+    <div v-if="actions.length == 0">
+      <missing-data-empty-state
+        :hasPeriod="periods.length"
+        :hasActions="actions.length"
+      />
+    </div>
   </div>
 </template>
 
@@ -97,6 +103,7 @@ import swal from "sweetalert";
 import * as api from "./../../services/api-service";
 import ErrorForm from "../../components/error-form.vue";
 import errorHandlerMixin from "./../../mixins/error-handler";
+import MissingDataEmptyState from "../../components/missing-data-empty-state.vue";
 
 function parseBoolean(value) {
   const icon = value ? "check" : "times";
@@ -128,7 +135,8 @@ export default {
     "error-form": ErrorForm,
     "filters-table-component": FiltersTable,
     "pagination-table-component": PaginationTable,
-    "detail-modal": DetailModal
+    "detail-modal": DetailModal,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   mixins: [errorHandlerMixin],
   created() {
@@ -184,7 +192,7 @@ export default {
       orderingParams: {},
       isLoading: true,
       emptyMsg: this.$t('emptyActionMsg'),
-      modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}}
+      modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}},
     };
   },
   methods: {
