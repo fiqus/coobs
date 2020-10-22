@@ -6,7 +6,9 @@
                 <img src="images/Ilustracion_COOBS_home_01.png" class="w-100 img-fluid mb-3">
                 <div v-if="!hasPeriod" class="row justify-content-center">
                     <h1 class="h4 text-center mb-3">Aún no se ha creado ningun período</h1>
-                    <button type="button" class="btn btn-primary mb-3 mb-sm-0" @click.stop="$router.push({path: '/period-edit/0'})">
+                    <router-link class="btn btn-primary mb-3 mb-sm-0" :to="{name: 'period-edit', params: {periodId: 0}}">
+                        Crear un período
+                    </router-link>
                         Crear un período
                     </button>
                 </div>
