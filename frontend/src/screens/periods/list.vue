@@ -17,7 +17,7 @@
       @onDelete="onDelete">
     </simple-table>
     <div v-if="periods.length == 0">
-      <missing-data-empty-state
+      <missing-data-empty-state v-if="!periods.length"
         :hasPeriod="periods.length"
         :hasActions="true"
       />
@@ -95,4 +95,3 @@ export default {
   }
 };
 </script>
-
