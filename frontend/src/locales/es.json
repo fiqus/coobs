@@ -51,7 +51,7 @@
   "actionCreatedMsg": "La acción se ha creado!",
   "actionEditedMsg": "La acción se ha modificado!",
   "deletedActionMsg": "Se ha borrado la accion !",
-  "emptyActionMsg": "Aun no hay acciones!",
+  "emptyActionMsg": "Aún no se ha creado ninguna acción!",
   "emptyActionMsgForCurrentPeriod": "Aún no se ha creado ninguna acción para el período seleccionado!",
   "addNew": "Agregar",
   "required": "Obligatorio",

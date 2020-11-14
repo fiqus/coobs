@@ -1,40 +1,19 @@
 <template>
   <div class="custom-container">
     <loader :loading='isLoading'/>
-    <div v-if="error.exists">
-      <div :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-        <div class="col-sm-9">
-          <h5 class="mb-0 text-gray-100">
-            <i class="fas fa-exclamation-circle"></i>
-            {{$t(error.message, error.message)}}
-          </h5>
-        </div>
-        <div v-if="allPeriods.length" class="col-sm-2 float-right ">
-          <div class="dropdown no-arrow mx-3">
-            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <label class="text-gray-100">{{$t('periods')}}</label>
-              <select class="period-select ml-2 mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                  {{period.name}}
-                </option>
-              </select>
-            </a>
-          </div>
-        </div>
-      </div>
+
+    <div v-if="error.exists" :class="error.backgroundClass" class="p-3">
+      <h5 class="mb-0 text-gray-100">
+        <i class="fas fa-exclamation-circle"></i>
+        {{$t(error.message, error.message)}}
+      </h5>
     </div>
-    <missing-data-empty-state v-if="!existsCurrentPeriod || !currentPeriodHasActions"
-      :hasPeriod="existsCurrentPeriod"
-      :hasActions="currentPeriodHasActions"
-    />
-    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
-      <div class="float-right ml-5 col-sm-2" v-if="downloading">
-        <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")' disabled="true">{{$t("downloading")}}...
-          <b-spinner small type="grow"></b-spinner>
+    <div v-else-if="!isLoading && existsCurrentPeriod">
+      <div class="float-right ml-5 col-sm-2">
+        <button type="button" class="btn btn-primary my-n1" v-on:click="download" :disabled="downloading || !currentPeriodHasActions">
+          {{downloading ? `${$t("downloading")}...` : $t("downloadBalance")}}
+          <b-spinner v-if="downloading" small type="grow"></b-spinner>
         </button>
-      </div>
-      <div class="float-right ml-5 col-sm-2" v-else>
-        <button type="button" class="btn btn-primary my-n1" v-on:click="download" :title='$t("downloadBalance")'>{{$t("downloadBalance")}}</button>
       </div>
       <div class="dropdown no-arrow float-right mx-3 col-sm-2">
         <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
@@ -46,12 +25,19 @@
           </select>
         </a>
       </div>
+      <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
+        <h3 class="h5 mb-0 text-gray-800">
+          {{$t("balanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: formatNumber(Number(period.actionsBudget))})}}
+        </h3>
+      </div>
+    </div>
+
+    <missing-data-empty-state v-if="!error.exists && !isLoading && (!existsCurrentPeriod || !currentPeriodHasActions)"
+      :hasPeriod="existsCurrentPeriod"
+      :hasActions="currentPeriodHasActions">
+    </missing-data-empty-state>
+    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
       <div id="nodeToRenderAsPDF">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4 col-sm-7">
-          <h3 class="h5 mb-0 text-gray-800">
-            {{$t("balanceSubtitle", {period: period.name, from: format(period.dateFrom), to: format(period.dateTo), budget: formatNumber(Number(period.actionsBudget))})}}
-          </h3>
-        </div>
         <balance-by-period-table groupedBy="principle" v-for="(periodSummary, idx) in actionsByPeriod" :key="idx"
           :period-summary="periodSummary">
         </balance-by-period-table>
@@ -122,7 +108,7 @@ export default {
     format(date) {
       return formatToUIDate(date);
     },
-    formatNumber(number) {      
+    formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
     },
     setErrorMsg(err){
@@ -139,17 +125,8 @@ export default {
     },
     showBalance(res){
       const {period, actions, allPeriods, totalInvested, totalHoursInvested} = res.data;
-      this.existsCurrentPeriod = period && (typeof period !== "object" ? period.length : period !== undefined);
-      this.currentPeriodHasActions = actions && actions.length;      
-      if (!period || !actions || !actions.length) {
-        this.error = {
-          exists: true,
-          backgroundClass: " bg-warning",
-          message: "notEnoughInfoForBalance"
-        };
-        this.isLoading = false;
-        return;
-      }
+      this.existsCurrentPeriod = period.id || period.length;
+      this.currentPeriodHasActions = actions && actions.length;
       this.allPeriods = allPeriods;
       this.actionsByPeriod = actions.reduce((obj, action) => {
         if (!action.public) {
@@ -183,8 +160,8 @@ export default {
           this.isLoading = false;
           this.setErrorMsg(err);
         });
-    }      
-  },    
+    }
+  },
   created() {
     return httpGet("/balance")
       .then((res) => {

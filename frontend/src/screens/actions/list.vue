@@ -2,15 +2,19 @@
   <div class="custom-container">
     <div class="row px-3 mb-3">
       <h3 class="col-md-10 col-sm-9 px-0">{{$t('actions')}}</h3>
-      <router-link class="col-md-2 col-sm-3 btn btn-primary" :to="{name: 'action-edit', params: {actionId: 0}}">
+      <router-link v-if="actions.length || periods.length" class="col-md-2 col-sm-3 btn btn-primary" :to="{name: 'action-edit', params: {actionId: 0}}">
         {{$t("addNew")}}
         <i class="fa fa-plus"></i>
       </router-link>
+      <button v-else :disabled="true" class="col-md-2 col-sm-3 btn btn-primary">
+        {{$t("addNew")}}
+        <i class="fa fa-plus"></i>
+      </button>
     </div>
 
     <loader :loading='isLoading'/>
-    
-    <detail-modal 
+
+    <detail-modal
       :title="$t('actionDetail')">
       <template v-slot:modal-body>
         <label class="bold">{{$t('name')}}:</label>
@@ -19,7 +23,7 @@
         </span><br/>
         <label class="bold">{{$t('description')}}:</label>
         <div name="description" v-html="modalAction.actionData.description">
-        </div><br/>        
+        </div><br/>
         <!-- <span name="description"
           type="text">
           {{modalAction.actionData.description}}
@@ -67,7 +71,7 @@
         :headers="headers"
         :data="actions"
         :actions="{edit: true, delete: true, showViewButton: true}"
-        :empty-state-msg="emptyMsg"
+        :empty-state-msg="$t('emptyActionMsg')"
         :pagination="pagination"
         :ordering="ordering"
         @onEdit="onEdit"
@@ -82,9 +86,10 @@
       @goPrevious="goPrevious"
       @goToPage="goToPage">
     </pagination-table-component>
-    <missing-data-empty-state v-if="actions.length"
+    <missing-data-empty-state v-if="!actions.length"
         :hasPeriod="periods.length"
         :hasActions="actions.length"
+        :noActionsMessage="periods.length && !actions.length ? $t('emptyActionMsg') : ''"
       />
   </div>
 </template>
@@ -189,7 +194,6 @@ export default {
       filterParams: {},
       orderingParams: {},
       isLoading: true,
-      emptyMsg: this.$t('emptyActionMsg'),
       modalAction: {actionData:{}, principles: {}, sustainableDevelopmentGoals:{}},
     };
   },
@@ -297,9 +301,6 @@ export default {
             this.actions = res.data.results;
             const {next, previous, count, page, numPages, pageSize} = res.data;
             this.pagination = {next, previous, count, page, numPages, pageSize};
-            if (!this.actions.length) {
-              this.emptyMsg = this.$t('noActionsResults');
-            }
             this.isLoading = false;
           })
           .catch((err) => {
