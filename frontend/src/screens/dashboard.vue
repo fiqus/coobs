@@ -1,45 +1,36 @@
 <template>
   <div class="custom-container">
     <loader :loading='isLoading'/>
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-        <div class="col-sm-9 mb-2 mb-sm-0">
-          <h5 class="mb-0 text-gray-100">
-            <i class="fas fa-exclamation-circle"></i>
-            {{$t(error.message, error.message)}}
-          </h5>
-        </div>
-        <div v-if="allPeriods.length" class="col-sm-2">
-          <div class="dropdown no-arrow mx-sm-3">
-            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <label class="text-gray-100">{{$t('periods')}}</label>
-              <select id="period-select" class="ml-sm-2 mr-sm-5 d-lg-inline text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
-                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                  {{period.name}}
-                </option>
-              </select>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div v-else-if="!isLoading">
-        <div>
-          <!-- Page Heading -->
-          <div class="form-group row">
-            <div class="col-12 col-sm-3 dropdown no-arrow d-flex align-items-center">
-              <label class="mr-2">{{$t('periods')}}</label>
-              <a class="w-100 dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-                <select id="period-select" class="text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
-                  <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                    {{period.name}}
-                  </option>
-                </select>
-              </a>
-            </div>
-            <div class="col-12 col-sm-9 d-flex align-items-center">
-              <small class="form-text text-muted font-italic">{{$t('dashboardHelp')}}</small>
-            </div>
-          </div>
 
+    <div v-if="error.exists" :class="error.backgroundClass" class="p-3">
+      <h5 class="mb-0 text-gray-100">
+        <i class="fas fa-exclamation-circle"></i>
+        {{$t(error.message, error.message)}}
+      </h5>
+    </div>
+    <!-- Page Heading -->
+    <div v-else-if="!isLoading && existsCurrentPeriod" class="form-group row">
+      <div class="col-12 col-sm-3 dropdown no-arrow d-flex align-items-center">
+        <label class="mr-2">{{$t('periods')}}</label>
+        <a class="w-100 dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+          <select id="period-select" class="text-gray-600 small form-control" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+              {{period.name}}
+            </option>
+          </select>
+        </a>
+      </div>
+      <div class="col-12 col-sm-9 d-flex align-items-center">
+        <small class="form-text text-muted font-italic">{{$t('dashboardHelp')}}</small>
+      </div>
+    </div>
+
+    <missing-data-empty-state v-if="!error.exists && !isLoading && (!existsCurrentPeriod || !currentPeriodHasActions)"
+      :hasPeriod="existsCurrentPeriod"
+      :hasActions="currentPeriodHasActions">
+    </missing-data-empty-state>
+    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
+        <div>
           <!-- Content Row -->
           <div class="row" >
 
@@ -124,7 +115,7 @@
 
                     <!-- Actions -->
                     <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('actionsProgress')}}</div>
-                    
+
                     <div class="row no-gutters align-items-center">
                       <div class="col-3">
                         <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.actionsProgressData.actionsDone}}</div>
@@ -179,7 +170,7 @@
             :columns-data="localizeLabels(monthlyActionsByPrincipleData)"
             :xaxis="monthlyActionsByPrincipleLabels">
           </stacked-columns-chart>
-      </div>  
+      </div>
     </div>
   </div>
 </template>
@@ -195,6 +186,7 @@ import LineChart from "../components/line-chart.vue";
 import AreaChart from "../components/area-chart.vue";
 import * as api from "./../services/api-service";
 import Loader from "../components/loader-overlay.vue";
+import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 import moment from "moment";
 import _ from "lodash";
 import { parseNumber } from "../utils";
@@ -215,6 +207,7 @@ export default {
     "line-chart": LineChart,
     "loader": Loader,
     "select-form": SelectForm,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -232,7 +225,7 @@ export default {
     monthlyHoursByDateLabels(){
       const labels = _.get(this.dashboardData, "charts.monthlyHoursByDate.labels", []);
       const newLabels = labels.map(dateToUserTimeZone);
-      
+
       return {type: "datetime", categories: newLabels, labels: {format: 'dd-MM-yy'}};
     },
     monthlyInvestmentByDateLabels(){
@@ -268,10 +261,10 @@ export default {
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
 
       this.monthlyInvestmentByDateData = dashboardData.charts.monthlyInvestmentByDate.result;
-      
+
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
-      
+
       this.progressData = dashboardData.charts.progressData;
       this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget) : 0;
       this.periodProgressStyle = `width: ${this.progressData.periodProgressData.periodProgress}%`;
@@ -284,7 +277,7 @@ export default {
       }
       const localizedLabels = labels.map((label) =>{
         return this.$t(label);
-      });  
+      });
       return {labels: localizedLabels, series};
     },
     localizeLabels(results) {
@@ -298,29 +291,24 @@ export default {
       this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
       const dashboardData = await api.getDashboard(params);
-      if (!dashboardData.actions.length) {
-        this.isLoading = false;
-        this.error = {
-          exists: true,
-          backgroundClass: " bg-danger",
-          message: "notEnoughInfoForDashboard"
-        };
-      } else {
-        this.showDashboardData(dashboardData);
-      }
-    }    
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
+      this.showDashboardData(dashboardData);
+    }
   },
   async created() {
-    const dashboardData = await api.getDashboard();
-    if (!dashboardData.actions.length) {
+    try {
+      const dashboardData = await api.getDashboard();
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
+      this.showDashboardData(dashboardData);
+    } catch(err) {
       this.error = {
         exists: true,
         backgroundClass: " bg-danger",
-        message: "notEnoughInfoForDashboard"
+        message: err.response.data.detail
       };
       this.isLoading = false;
-    } else {
-      this.showDashboardData(dashboardData);
     }
   },
   data() {
@@ -347,9 +335,11 @@ export default {
         exists: false,
         backgroundClass: " bg-danger",
         message: ""
-      },      
+      },
       //showActionsByPartner: true,
       isLoading: true,
+      existsCurrentPeriod: false,
+      currentPeriodHasActions: false,
       dashboardData: {}
     };
   }

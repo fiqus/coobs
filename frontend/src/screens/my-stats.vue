@@ -2,45 +2,35 @@
   <div class="custom-container">
     <loader :loading='isLoading'/>
 
-    <div v-if="error.exists" :class="error.backgroundClass" class="d-sm-flex align-items-center p-3">
-      <div class="col-sm-9">
-        <h5 class="mb-0 text-gray-100">
-          <i class="fas fa-exclamation-circle"></i>
-          {{$t(error.message, error.message)}}
-        </h5>
+    <div v-if="error.exists" :class="error.backgroundClass" class="p-3">
+      <h5 class="mb-0 text-gray-100">
+        <i class="fas fa-exclamation-circle"></i>
+        {{$t(error.message, error.message)}}
+      </h5>
+    </div>
+    <!-- Page Heading -->
+    <div v-else-if="!isLoading && existsCurrentPeriod" class="d-sm-flex align-items-center justify-content-between mb-4">
+      <div class="dropdown no-arrow float-right">
+        <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
+          <label>{{$t('periods')}}</label>
+          <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
+            <option v-for="period in allPeriods" :key="period.id" :value="period.id">
+              {{period.name}}
+            </option>
+          </select>
+        </a>
       </div>
-      <div v-if="allPeriods.length" class="col-sm-2 float-right ">
-        <div class="dropdown no-arrow float-right mx-3">
-          <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-            <label class="text-gray-100">{{$t('periods')}}</label>
-            <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-              <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                {{period.name}}
-              </option>
-            </select>
-          </a>
-        </div>
+      <div class="col-9">
+        <small class="form-text text-muted font-italic ml-3">{{$t('myStatsHelp')}}</small>
       </div>
     </div>
-    <div v-else-if="!isLoading">
-      <div>
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <div class="dropdown no-arrow float-right">
-            <a class="dropdown-toggle my-n2" role="button" aria-haspopup="true" aria-expanded="false">
-              <label>{{$t('periods')}}</label>
-              <select id="period-select" class="ml-2 mr-5 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-on:change="onPeriodChange()" v-model="selectedValue">
-                <option v-for="period in allPeriods" :key="period.id" :value="period.id">
-                  {{period.name}}
-                </option>
-              </select>
-            </a>
-          </div>
-          <div class="col-9">
-            <small class="form-text text-muted font-italic ml-3">{{$t('myStatsHelp')}}</small>
-          </div>
-        </div>
 
+    <missing-data-empty-state v-if="!error.exists && !isLoading && (!existsCurrentPeriod || !currentPeriodHasActions)"
+      :hasPeriod="existsCurrentPeriod"
+      :hasActions="currentPeriodHasActions">
+    </missing-data-empty-state>
+    <div v-else-if="!isLoading && existsCurrentPeriod && currentPeriodHasActions">
+      <div>
         <!-- Content Row -->
         <div class="row" >
 
@@ -110,7 +100,7 @@
 
                   <!-- Actions -->
                   <div class="text-xs font-weight-bold text-uppercase mb-2" :class="labelClass">{{$t('actionsProgress')}}</div>
-                  
+
                   <div class="row no-gutters align-items-center">
                     <div class="col-3">
                       <div class="small mb-0 mr-2 font-weight-bold text-gray-800 align-right">{{progressData.actionsProgressData.actionsDone}}</div>
@@ -178,6 +168,7 @@ import Loader from "../components/loader-overlay.vue";
 import moment from "moment";
 import _ from "lodash";
 import {parseNumber} from "../utils";
+import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 
 
 function dateToUserTimeZone (date){
@@ -192,7 +183,8 @@ export default {
     "bars-chart": BarsChart,
     "columns-chart": ColumnsChart,
     "line-chart": LineChart,
-    "loader": Loader
+    "loader": Loader,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   computed: {
     allPrinciplesYearLabel() {
@@ -204,7 +196,7 @@ export default {
     monthlyHoursByDateLabels(){
       const labels = _.get(this.dashboardData, "charts.monthlyHoursByDate.labels", []);
       const newLabels = labels.map(dateToUserTimeZone);
-      
+
       return {type: "datetime", categories: newLabels};
     }
   },
@@ -229,10 +221,10 @@ export default {
       this.actionsByPrincipleLabels = this.allPrinciplesData.labels;
 
       this.monthlyHoursByDateData = dashboardData.charts.monthlyHoursByDate.result;
-      
+
       this.monthlyActionsByPrincipleData = dashboardData.charts.monthlyActionsByPrinciple.result;
       this.monthlyActionsByPrincipleLabels = {categories: dashboardData.charts.monthlyActionsByPrinciple.labels} ;
-      
+
       this.progressData = dashboardData.charts.progressData;
       // FIXME #137 we could show hours invested against hours expected to use in cooperativistic activities
       this.progressData.investmentProgressData.budget = this.progressData.periodProgressData !== undefined ? parseInt(dashboardData.charts.progressData.investmentProgressData.budget).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,") : 0;
@@ -246,7 +238,7 @@ export default {
       }
       const localizedLabels = labels.map((label) =>{
         return this.$t(label);
-      });  
+      });
       return {labels: localizedLabels, series};
     },
     localizeLabels(results) {
@@ -259,30 +251,34 @@ export default {
       this.error.exists = false;
       this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      const dashboardData = await api.getMyStats(params);
-      if (!dashboardData.actions.length) {
-        this.isLoading = false;
+      try {
+        const dashboardData = await api.getMyStats(params);
+        this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+        this.currentPeriodHasActions = dashboardData.actions.length;
+        this.showDashboardData(dashboardData);
+      } catch(err) {
         this.error = {
           exists: true,
           backgroundClass: " bg-danger",
-          message: "notEnoughInfoForDashboard"
+          message: err.response.data.detail
         };
-      } else {
-        this.showDashboardData(dashboardData);
+        this.isLoading = false;
       }
-    }    
+    }
   },
   async created() {
-    const dashboardData = await api.getMyStats();
-    if (!dashboardData.actions.length) {
+    try {
+      const dashboardData = await api.getMyStats();
+      this.existsCurrentPeriod = dashboardData.period.id || dashboardData.period.length;
+      this.currentPeriodHasActions = dashboardData.actions.length;
+      this.showDashboardData(dashboardData);
+    } catch(err) {
       this.error = {
         exists: true,
         backgroundClass: " bg-danger",
-        message: "notEnoughInfoForDashboard"
+        message: err.response.data.detail
       };
       this.isLoading = false;
-    } else {
-      this.showDashboardData(dashboardData);
     }
   },
   toggleTooltip(){
@@ -310,7 +306,9 @@ export default {
         message: ""
       },
       isLoading: true,
-      dashboardData: {}
+      dashboardData: {},
+      existsCurrentPeriod: false,
+      currentPeriodHasActions: false,
     };
   }
 };

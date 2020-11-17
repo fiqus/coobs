@@ -8,7 +8,7 @@
       </router-link>
     </div>
     <loader :loading='isLoading'/>
-    <simple-table
+    <simple-table v-if="periods.length"
       :headers="headers"
       :data="periods"
       :actions="{edit: true, delete: true, showViewButton: false}"
@@ -16,6 +16,10 @@
       @onEdit="onEdit"
       @onDelete="onDelete">
     </simple-table>
+    <missing-data-empty-state v-if="!periods.length"
+      :hasPeriod="periods.length"
+      :hasActions="true"
+    />
   </div>
 </template>
 
@@ -25,6 +29,7 @@ import {formatText, formatToUIDate} from "../../utils";
 import {httpGet, httpDelete} from "../../api-client.js";
 import swal from "sweetalert";
 import Loader from "../../components/loader-overlay.vue";
+import MissingDataEmptyState from "../../components/missing-data-empty-state.vue";
 
 
 function parseBoolean(value) {
@@ -34,7 +39,8 @@ function parseBoolean(value) {
 export default {
   components: {
     "simple-table": SimpleTable,
-    "loader": Loader
+    "loader": Loader,
+    "missing-data-empty-state": MissingDataEmptyState,
   },
   created() {
     httpGet("/periods")
@@ -52,7 +58,7 @@ export default {
         {key: "actionsBudget", value: "budget", parser: (p) => parseBoolean(p.actionsBudget)},
       ],
       periods: [],
-      isLoading: true
+      isLoading: true,
     };
   },
   methods: {
@@ -87,4 +93,3 @@ export default {
   }
 };
 </script>
-
