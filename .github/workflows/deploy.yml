@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Set RELEASE_TAG env
-        run: echo ::set-env name=RELEASE_TAG::$(echo ${GITHUB_REF:10})
+        run: echo "RELEASE_TAG=${GITHUB_REF:10}" >> $GITHUB_ENV
 
       - name: Dispatch release
         uses: peter-evans/repository-dispatch@v1

@@ -1,11 +1,10 @@
-.PHONY: server frontend install-frontend install-requirements migration reset-db test
+.PHONY: server frontend install-frontend install-requirements migration clean reset-db test
 
 server:
 	@python manage.py runserver
 
 frontend:
-	@cd frontend && npm run build-dev
-	@cd frontend && npm run start
+	@cd frontend && npm run build-dev && npm run start
 
 install-frontend:
 	@cd frontend && npm install
@@ -16,6 +15,9 @@ install-requirements:
 
 migration:
 	@python manage.py migrate
+
+clean:
+	@rm -rf frontend/dist frontend/node_modules frontend/landing/node_modules
 
 reset-db:
 	@sudo -iu postgres bash -c "psql -c 'DROP DATABASE IF EXISTS coobs;'"
