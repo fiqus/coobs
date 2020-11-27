@@ -209,29 +209,26 @@ class CooperativeView(viewsets.ModelViewSet):
             return partner_data
 
         def send_email_to_admin():
+            subject = 'A new cooperative wants to join COOBS!'
             text_content = f'The coop: {cooperative.business_name} with ID {cooperative.id} has been created. The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created. Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active". That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.'
             html_content = f'<div><h3>The coop: {cooperative.business_name} with ID {cooperative.id} has been created.</h3><br/> The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created.<b<br/><p> Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active".<br/>That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.</p></div>'
-            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)
+
 
         def send_email_to_user():
+            subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
+
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             context = {'public_url': public_url, 'email': partner.email}
             text_template = get_template('coop_created_email_template.txt')
             text_content = text_template.render(context)
             html_template = get_template('coop_created_email_template.html')
             html_content = html_template.render(context)
-            subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
-            email = EmailMultiAlternatives(subject, text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [partner.email])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [partner.email]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)
 
         def assign_principles_to_coop():
             main_principles = MainPrinciple.objects.all()
@@ -341,6 +338,8 @@ class PartnerView(viewsets.ModelViewSet):
         partner = set_partner_data()
 
         def send_email():
+            subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
+
             public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             logo_url = public_url + settings.STATIC_URL + "images/coobs.png"
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
@@ -349,13 +348,9 @@ class PartnerView(viewsets.ModelViewSet):
             text_content = text_template.render(context)
             html_template = get_template('partner_created_email_template.html')
             html_content = html_template.render(context)
-            subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
-            email = EmailMultiAlternatives(subject, text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [partner.email])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [partner.email]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)            
 
         try:
             partner.save()
