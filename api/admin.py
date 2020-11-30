@@ -16,7 +16,7 @@ def make_coop_active(self, request, cooperative):
 
 
 def send_email_activated_user_and_coop(partner):
-  public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+  public_url = f"{settings.WEB_PROTOCOL}://{settings.WEB_URL}"
   context = {'public_url': public_url, 'email': partner.email}
   text_template = get_template('coop_activated_email_template.txt')
   text_content = text_template.render(context)

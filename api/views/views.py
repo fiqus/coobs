@@ -32,6 +32,7 @@ from django.urls import reverse
 from django.dispatch import receiver
 from markdownify import markdownify as md
 
+public_url = f"{settings.WEB_PROTOCOL}://{settings.WEB_URL}"
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -220,7 +221,6 @@ class CooperativeView(viewsets.ModelViewSet):
         def send_email_to_user():
             subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
 
-            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             context = {'public_url': public_url, 'email': partner.email}
             text_template = get_template('coop_created_email_template.txt')
             text_content = text_template.render(context)
@@ -340,7 +340,6 @@ class PartnerView(viewsets.ModelViewSet):
         def send_email():
             subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
 
-            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
             logo_url = public_url + settings.STATIC_URL + "images/coobs.png"
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
                        'public_url': public_url, 'email': partner.email, "logo_url": logo_url}
@@ -624,13 +623,12 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     :return:
     """
 
-    public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
     context = {
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
         'public_url': public_url,
-        'reset_password_url': "{}{}?token={}".format(public_url, '/app/#/new-password', reset_password_token.key)
+        'reset_password_url': f"{public_url}{'/app/#/new-password'}?token={reset_password_token.key}"
     }
     email_html_message = render_to_string('reset_password_email_template.html', context)
     email_plaintext_message = render_to_string('reset_password_email_template.txt', context)
