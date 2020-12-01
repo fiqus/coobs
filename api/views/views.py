@@ -3,6 +3,7 @@ from datetime import datetime, date
 from .views_utils import *
 
 import requests
+from django.http import Http404
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction, IntegrityError
@@ -313,6 +314,12 @@ class PartnerView(viewsets.ModelViewSet):
         queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
+    def get_object(self, pk):
+        try:
+            return Partner.objects.get(pk=pk)
+        except Partner.DoesNotExist:
+            raise Http404
+
     @transaction.atomic
     def create(self, request):
         data = request.data
@@ -362,11 +369,13 @@ class PartnerView(viewsets.ModelViewSet):
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
-        partner = self.get_object()
+        partner = self.get_object(self.kwargs.get("pk", None))
+        if not partner:
+            partner = self.get_object()
+        partner_serializer = PartnerSerializer(data=partner)
 
         if partner.id == request.user.id:
-            return Response(data={'detail': _("Current logged in user can not delete it self.")},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(_("Current logged in user can not delete it self."), status=status.HTTP_404_NOT_FOUND)
 
         self.perform_destroy(partner)
         return Response(status=status.HTTP_204_NO_CONTENT)
