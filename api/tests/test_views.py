@@ -1,12 +1,14 @@
 import requests
 import json
 import unittest
+import random
+from datetime import datetime, date
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APIClient
 from django.urls import reverse
 from django.test import TestCase
-from api.models import Cooperative, Partner, Principle, Action
+from api.models import Cooperative, Partner, MainPrinciple, Principle, Action
 from api.serializers import CooperativeSerializer, ActionSerializer
 from api.views import CooperativeView, PartnerView, views_utils
 from unittest.mock import patch
@@ -114,7 +116,7 @@ class PartnerTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
     
     def test_valid_delete_partner_successfull(self):
-        response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.muffin.pk}))
+        response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.casper.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
     
     def test_invalid_delete_partner_unsuccessfull(self):
@@ -136,8 +138,19 @@ class ActionTest(TestCase):
     list_url = reverse('Action-list')
 
     @classmethod
+    def create_main_principles(cls):
+        main_principles = []
+        for i in [0, 1 , 2]:
+            main_principles.append(MainPrinciple.objects.create(name=f"main pple {i}", description=f"main principle {i}"))
+        return main_principles
+
+    @classmethod
     def setUpTestData(cls):
         cls.coop = Cooperative.objects.create(name="coop", business_name="testing coop", is_active=True)
+        cls.main_principles = cls.create_main_principles()
+        cls.principles = []
+        for main_pple in cls.main_principles:
+         cls.principles.append(Principle.objects.create(cooperative=cls.coop, main_principle=main_pple, description=f"principle {main_pple.id}", custom_description=f"principle {main_pple.id}"))
         #FIXME por qué NO puedo mover el resto de setUp acá?
 
     def setUp(self):
@@ -158,10 +171,34 @@ class ActionTest(TestCase):
         response = self.client.get(reverse('Action-detail', kwargs={"pk": self.action.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "test action")
+    
+    def test_invalid_create_action_unsuccessfull(self):
+        action_to_create = {'name': 'invalid action', 'cooperative': self.coop.id, 'partners_involved': [], 'principles': [], 'sustainable_development_goals': []}
+        response = self.client.post(self.list_url, 
+                                    data=json.dumps(action_to_create), 
+                                    content_type="application/json")        
+        created_action = Action.objects.filter(name=action_to_create["name"])
+        self.assertFalse(created_action.exists())
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    
+    def test_valid_create_action_successfull(self):
+        action_to_create = {'name': 'valid action',
+                            'cooperative': self.coop.id, 'partners_involved': [], 
+                            'principles': [{'id': self.principles[0].id, 'custom_description': 'custom description'}],
+                            'sustainable_development_goals': []}
+        response = self.client.post(self.list_url, 
+                                    data=json.dumps(action_to_create), 
+                                    content_type="application/json")
+        created_action = Action.objects.filter(name=action_to_create["name"])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(created_action.exists())
+        created_action = created_action[0]
+        self.assertEqual(created_action.cooperative.id, self.coop.id)
+        self.assertEqual(created_action.principles.all()[0].id, self.principles[0].id)
 
-    #TODO testear crear una accion
-    #TODO testear todo con un usuario que no es parte de la cooperativa que quiere modificar
-    # def test_update_action(self):
+    #TODO def test_update_action(self):
         # response = self.client.put(reverse('actions-detail', kwars={"pk": 1}), { lo que cambió})
         # self.assertEqual(response.status_code, status.HTTP_200_OK)
         # self.assertEqual(json.loads(response.content), {"id": 1, "name": "actionName"})
+    
+    #TODO testear todo con un usuario que no es parte de la cooperativa que quiere modificar
