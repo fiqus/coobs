@@ -23,10 +23,12 @@ reset-db:
 	@sudo -iu postgres bash -c "psql -c 'DROP DATABASE IF EXISTS coobs;'"
 	@sudo -iu postgres bash -c "psql -c 'CREATE DATABASE coobs;'"
 	@sudo -iu postgres bash -c "psql -c 'GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;'"
+	@sudo -iu postgres bash -c "psql -c 'ALTER USER coobs CREATEDB;'"
 	@echo "\033[0;32mDB reset done! => Running migrations.."
 	@$(MAKE) -s migration
 	@echo "\033[0;32mMigrations done! => Creating superuser.."
 	@python manage.py createsuperuser
 
 test:
-	@echo "\033[0;31m@TODO Add some tests!\033[0m"
+	@echo "\033[0;31mRunning tests!\033[0m"
+	@python manage.py test

@@ -1,4 +1,6 @@
+from django.conf import settings
 from datetime import datetime
+from django.core.mail import EmailMultiAlternatives
 
 def get_current_period(all_periods):
     """
@@ -15,3 +17,11 @@ def get_current_period(all_periods):
     if (current_period):
         return current_period
     return None
+
+def create_and_send_email(subject, text_content, html_content, destination_emails):
+    email = EmailMultiAlternatives(subject, text_content,
+                                    getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
+                                    destination_emails)    
+    email.content_subtype = "html"
+    email.attach_alternative(html_content, "text/html")
+    email.send()
