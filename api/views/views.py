@@ -374,7 +374,7 @@ class PartnerView(viewsets.ModelViewSet):
             partner = self.get_object()
         partner_serializer = PartnerSerializer(data=partner)
 
-        if partner.id == request.user.id:
+        if partner.id == request.user.id or partner.cooperative.id != request.user.cooperative.id:
             return Response(_("Current logged in user can not delete itself."), status=status.HTTP_404_NOT_FOUND)
 
         self.perform_destroy(partner)

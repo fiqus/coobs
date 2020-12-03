@@ -77,17 +77,20 @@ class PartnerTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.coop = Cooperative.objects.create(business_name='cooperative', name="coop")
+        cls.coop1 = Cooperative.objects.create(business_name='cooperative 1', name="coop 1")
+        cls.coop2 = Cooperative.objects.create(business_name='cooperative 2', name="coop 2")
         #FIXME por qué NO puedo mover el resto de setUp acá?
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user("test_user@mail.com", "password")
-        self.user.cooperative = self.coop
-        self.client.force_authenticate(self.user)
-        self.casper = Partner.objects.create(username='Casper', email="casper@mail.com")
-        self.muffin = Partner.objects.create(username='Muffy', email="muffy@mail.com")
-
+        self.user_coop1 = get_user_model().objects.create_user("test_user_coop1@mail.com", "password1")
+        self.user_coop2 = get_user_model().objects.create_user("test_user_coop2@mail.com", "password2")
+        self.user_coop1.cooperative = self.coop1
+        self.user_coop2.cooperative = self.coop2
+        self.client.force_authenticate(self.user_coop1)
+        self.casper = Partner.objects.create(username='Casper', email="casper@mail.com", cooperative=self.coop1)
+        self.muffin = Partner.objects.create(username='Muffy', email="muffy@mail.com", cooperative=self.coop2)
+    
     def test_valid_create_partner_successfull(self):
         user_to_create = {'email': 'user@email.com', 'username': "user", 'password': 'test_pass2020', 'confirm_password': 'test_pass2020'}
         response = self.client.post(self.list_url, 
@@ -98,9 +101,9 @@ class PartnerTest(TestCase):
         self.assertTrue(created_partner.exists())
         created_partner = created_partner[0]
         self.assertTrue(created_partner.is_active)
-        self.assertEqual(created_partner.cooperative.id, self.coop.id)
+        self.assertEqual(created_partner.cooperative.id, self.coop1.id)
         #TODO chequear que le mandó un mail al usuario creado
-
+    
     def test_invalid_create_partner_unsuccessfull(self):
         user_to_create = {'email': 'user@email.com', 'username': "user", 'password': 'test_pass', 'confirm_password': 'test_pas'}
         response = self.client.post(self.list_url, 
@@ -109,21 +112,22 @@ class PartnerTest(TestCase):
         created_partner = Partner.objects.filter(email=user_to_create["email"])
         self.assertFalse(created_partner.exists())
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
+    
     def test_valid_delete_partner_successfull(self):
         response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.muffin.pk}))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
+    
     def test_invalid_delete_partner_unsuccessfull(self):
         response = self.client.delete(reverse(self.detail_view, kwargs={'pk': 30}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
+    
     def test_delete_same_partner_as_logged_in_unsuccessfull(self):
-        response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.user.pk}))
+        response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.user_coop1.pk}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
     
-    #TODO testear que un user no puede borrar users de otra coope, funcionalidad NO desarrollada
-    # https://github.com/fiqus/coobs/issues/282
+    def test_delete_partner_from_other_coop_unsuccessfull(self):
+        response = self.client.delete(reverse(self.detail_view, kwargs={'pk': self.muffin.pk}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class ActionTest(TestCase):
