@@ -30,4 +30,5 @@ reset-db:
 	@python manage.py createsuperuser
 
 test:
-	@echo "\033[0;31m@TODO Add some tests!\033[0m"
+	@echo "\033[0;31mRunning tests!\033[0m"
+	@python manage.py test
