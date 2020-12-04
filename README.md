@@ -149,3 +149,7 @@ Write a brief release description and use a *senver* string for **tag** and **ti
 ![Release to production](.github/release-production.png)
 
 3. Click the "Publish release" button and the [deploy action](.github/workflows/deploy.yml) will be triggered!
+
+## Running tests
+
+Just run `make test` and there you go!

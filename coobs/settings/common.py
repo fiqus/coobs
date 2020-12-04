@@ -3,6 +3,8 @@ from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+DEBUG = False
+
 gettext = lambda s: s
 LANGUAGES = (
     ('es', gettext('Español')),
@@ -36,6 +38,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'coobs.urls'
+
+ALLOWED_HOSTS = ['*']
+WEB_PROTOCOL = "http"
+WEB_URL = ""
 
 TEMPLATES = [
     {
@@ -117,6 +123,12 @@ SIMPLE_JWT = {
 }
 
 RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
+RECAPTCHA_SECRET_KEY = ''
+
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = ''
+EMAIL_FROM_ACCOUNT = ''
+EMAIL_TO_ADMIN = ''
 
 DJANGO_REST_MULTITOKENAUTH_RESET_TOKEN_EXPIRY_TIME = 24 #hours
 

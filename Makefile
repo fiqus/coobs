@@ -30,5 +30,5 @@ reset-db:
 	@python manage.py createsuperuser
 
 test:
-	@echo "\033[0;31mRunning tests!\033[0m"
-	@python manage.py test
+	@echo "\033[0;33mRunning tests!\033[0m"
+	@DJANGO_SETTINGS_MODULE=coobs.settings.test python manage.py test

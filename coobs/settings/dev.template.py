@@ -15,7 +15,7 @@ DATABASES = {
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
-        'PORT': '',
+        'PORT': ''
     },
 }
 
@@ -23,5 +23,3 @@ EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_FROM_ACCOUNT = ''
 EMAIL_TO_ADMIN = ''
-
-RECAPTCHA_SECRET_KEY = ''
