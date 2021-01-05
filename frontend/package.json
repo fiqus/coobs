@@ -19,7 +19,7 @@
     "acorn": "^7.1.1",
     "acorn-globals": "^6.0.0",
     "apexcharts": "^3.18.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "browser-locale": "^1.0.3",
     "dompurify": "^2.0.12",
     "file-loader": "^6.0.0",
