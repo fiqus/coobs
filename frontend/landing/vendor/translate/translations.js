@@ -121,12 +121,9 @@ function setLang(langKey, langDesc) {
 
 }
 
-$(document).ready(function() {
-
-  // 'es' => default
+$(function() {
   setLang('es', 'Español');
-
-  $('.lang-option').click(function() {
+  $('.lang-option').on('click', function() {
     setLang($(this).data('value'), $(this).html());
   });
 });

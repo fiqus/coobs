@@ -7,11 +7,6 @@ const devConf = {
   devServer: {
     contentBase: './dist',
     hot: true,
-    historyApiFallback: {
-      rewrites: [
-        { from: /^\/landing\/help/, to: '/landing/help.html' }
-      ]
-    },
     watchOptions: {
       poll: true
     },

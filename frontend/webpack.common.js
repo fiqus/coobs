@@ -109,24 +109,29 @@ const landingConf = Object.assign({}, baseConf, {
       path: path.join(__dirname, "./dist/landing"),
       filename: "index.html",
       inject: true
-    }),
-    new HtmlWebpackPlugin({
-      template: "landing/help.html",
-      path: path.join(__dirname, "./dist/landing"),
-      filename: "help.html",
-      inject: true
     })
   ]
 });
 
 const helpConf = Object.assign({}, baseConf, {
   name: "help",
-  entry: "./app.js",
+  //entry: "./app.js",
+  entry: "./help/app.js",
   output: {
     path: path.join(__dirname, "./dist/help"),
     filename: "help.bundle.js"
   },
   plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      publicPath: '/help/', // @TODO Doesn't seem to work!!!!
+      ignoreOrder: false
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
     new CopyWebpackPlugin([{
       // from path static/images copy all content inside 'help' directory to /dist/help/images
       from: "**/*",
@@ -134,7 +139,7 @@ const helpConf = Object.assign({}, baseConf, {
       to: "./images"
     }]),
     new HtmlWebpackPlugin({
-      template: "help-content.html",
+      template: "help/index.html",
       path: path.join(__dirname, "./dist/help"),
       filename: "index.html",
       inject: true

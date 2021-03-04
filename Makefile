@@ -1,10 +1,13 @@
-.PHONY: server frontend install-frontend install-requirements migration clean reset-db test
+.PHONY: server backend frontend install-frontend install-requirements migration clean reset-db test
 
-server:
+server: backend
+backend:
 	@python manage.py runserver
 
 frontend:
 	@cd frontend && npm run build-dev && npm run start
+serve:
+	@cd frontend && npm run build && npm run serve
 
 install-frontend:
 	@cd frontend && npm install

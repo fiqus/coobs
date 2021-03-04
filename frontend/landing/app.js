@@ -5,7 +5,7 @@ import './vendor/translate/jquery.tr.js';
 import './vendor/translate/translations.js';
 import './js/jqBootstrapValidation.js';
 import './js/contact_me.js';
-import './js/freelancer.min.js';
+//import './js/freelancer.min.js'; // @TODO Maybe remove? Seems unused!
 
 import './vendor/fontawesome-free/css/all.min.css';
 import './css/landing.css';
