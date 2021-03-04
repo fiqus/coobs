@@ -64,10 +64,7 @@ const appConf = Object.assign({}, baseConf, {
       // from path static ignore 'help' directory and copy **/* to /dist/app
       context: path.resolve(__dirname, 'static'),
       from: "**/*",
-      to: "./",
-      globOptions: {
-        ignore: ['**/help/**'],
-      },
+      to: "./"
     }]),
     new HtmlWebpackPlugin({
       template: "index.html",
@@ -99,10 +96,7 @@ const landingConf = Object.assign({}, baseConf, {
       // from path static ignore 'help' directory and copy **/* to /dist/landing
       from: "**/*",
       context: path.resolve(__dirname, 'static'),
-      to: "./",
-      globOptions: {
-        ignore: ['**/help/**'],
-      },
+      to: "./"
     }]),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
@@ -115,7 +109,6 @@ const landingConf = Object.assign({}, baseConf, {
 
 const helpConf = Object.assign({}, baseConf, {
   name: "help",
-  //entry: "./app.js",
   entry: "./help/app.js",
   output: {
     path: path.join(__dirname, "./dist/help"),
@@ -133,9 +126,13 @@ const helpConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new CopyWebpackPlugin([{
-      // from path static/images copy all content inside 'help' directory to /dist/help/images
+      context: path.resolve(__dirname, 'help', 'images'),
       from: "**/*",
-      context: path.resolve(__dirname, 'static/images', 'help'),
+      to: "./images/screens"
+    }]),
+    new CopyWebpackPlugin([{
+      context: path.resolve(__dirname, 'static', 'images'),
+      from: "**/*",
       to: "./images"
     }]),
     new HtmlWebpackPlugin({
