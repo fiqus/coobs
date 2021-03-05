@@ -1,0 +1,43 @@
+.help-content-container {
+  width: 90%;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.help-content-container h1 {
+  margin-bottom: 10px;
+}
+.help-content-container h1, h3 {
+  font-weight: bold;
+}
+
+.help-content-container .help-header {
+  padding: 30px;
+}
+
+.help-content-container .help-tabs {
+  padding-left: 30px;
+}
+.help-content-container .help-tabs .nav-link {
+  color: #171E3F;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.help-content-container .tab-pane {
+  padding:40px;
+}
+
+.help-content-container .help-step {
+  margin-bottom: 35px;
+}
+.help-content-container .help-step-desc {
+  padding-left: 10px;
+}
+
+.help-content-container .help-img-container {
+  padding: 40px;
+}
+.help-content-container .help-img {
+  width: 100%;
+}

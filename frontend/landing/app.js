@@ -10,5 +10,6 @@ import './js/contact_me.js';
 import './vendor/fontawesome-free/css/all.min.css';
 import './css/landing.css';
 import './css/custom.css';
+import "../assets/css/help.css"
 
 import 'bootstrap/dist/css/bootstrap.min.css';
