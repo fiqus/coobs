@@ -1,6 +1,17 @@
 <template>
-  <div class="row justify-content-center help-content-container">
-    <!-- @TODO Change the iframe to an ajax request! -->
-    <iframe src="/help/" scrolling="no" onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';" style="border: none;width: 90%;"></iframe>
-  </div>
+  <div class="help-inapp help-content-container" v-html="loadAndShowHelp()"></div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      lang: this.$store.state.lang || this.$i18n.locale(),
+      loadAndShowHelp() {
+        const axios = require("axios").create({headers: {}});
+        axios.get("/help/"+this.lang+".html")
+          .then((res) => $(".help-content-container").html(res.data));
+      }
+    }
+  }
+}
+</script>

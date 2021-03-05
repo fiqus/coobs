@@ -1,13 +1,19 @@
 .help-content-container {
   width: 90%;
   margin: auto;
+}
+.help-landing.help-content-container {
   margin-top: 100px;
+}
+.help-inapp.help-content-container {
+  background-color: white;
 }
 
 .help-content-container h1 {
   margin-bottom: 10px;
 }
-.help-content-container h1, h3 {
+.help-content-container h1,
+.help-content-container h3 {
   font-weight: bold;
 }
 

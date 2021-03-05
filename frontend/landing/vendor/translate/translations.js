@@ -120,7 +120,14 @@ function setLang(langKey, langDesc) {
   $("#password").attr('placeholder', tr("password"));
   $("#repeatPassword").attr('placeholder', tr("repeatPassword"));
 
+  setHelpContent(langKey);
+}
 
+function setHelpContent(langKey) {
+  const container = $(".help-content-container");
+  if (container.length) {
+    $.get("/help/"+langKey+".html", (data) => container.html(data));
+  }
 }
 
 $(function() {

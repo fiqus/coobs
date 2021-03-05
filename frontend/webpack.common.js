@@ -140,6 +140,18 @@ const helpConf = Object.assign({}, baseConf, {
       path: path.join(__dirname, "./dist/help"),
       filename: "index.html",
       inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: "help/es.html",
+      path: path.join(__dirname, "./dist/help"),
+      filename: "es.html",
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: "help/en.html",
+      path: path.join(__dirname, "./dist/help"),
+      filename: "en.html",
+      inject: false
     })
   ]
 });
