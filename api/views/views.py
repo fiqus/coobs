@@ -133,7 +133,7 @@ class ActionView(viewsets.ModelViewSet):
         for goal in sustainable_development_goals:
             action_data.sustainable_development_goals.add(goal['id'])
 
-        action_data.description = md(action_data.description)
+        action_data.description = md(action_data.description) if action_data.description else None
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
 
