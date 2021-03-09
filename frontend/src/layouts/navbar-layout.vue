@@ -111,7 +111,7 @@
             <ul class="navbar-nav ml-auto">
 
               <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="inputGroupSelect01" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <select class="mr-2 d-none d-lg-inline text-gray-600 small form-control form-control-sm" v-model="currentLanguage">
                     <option v-for="locale in Object.keys(locales)" :key="locale" :value="locale">
                       {{locales[locale]}}
