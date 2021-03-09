@@ -17,11 +17,9 @@ const baseConf = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development',
-            }
+            options: {}
           },
-          "css-loader",
+          "css-loader"
         ]
       },
       {
@@ -50,6 +48,7 @@ const appConf = Object.assign({}, baseConf, {
     filename: "app.bundle.js"
   },
   plugins: [
+    new webpack.DefinePlugin({process: {env: {'NODE_ENV': process.env.NODE_ENV}}}), // Ugly fix for vuelidate
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
@@ -60,12 +59,11 @@ const appConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{
-      // from path static ignore 'help' directory and copy **/* to /dist/app
+    new CopyWebpackPlugin({patterns: [{
       context: path.resolve(__dirname, 'static'),
       from: "**/*",
       to: "./"
-    }]),
+    }]}),
     new HtmlWebpackPlugin({
       template: "index.html",
       path: path.join(__dirname, "./dist/app"),
@@ -92,12 +90,11 @@ const landingConf = Object.assign({}, baseConf, {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new CopyWebpackPlugin([{
-      // from path static ignore 'help' directory and copy **/* to /dist/landing
+    new CopyWebpackPlugin({patterns: [{
       from: "**/*",
       context: path.resolve(__dirname, 'static'),
       to: "./"
-    }]),
+    }]}),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
       path: path.join(__dirname, "./dist/landing"),
@@ -118,23 +115,22 @@ const helpConf = Object.assign({}, baseConf, {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
-      publicPath: '/help/', // @TODO Doesn't seem to work!!!!
       ignoreOrder: false
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery"
     }),
-    new CopyWebpackPlugin([{
+    new CopyWebpackPlugin({patterns: [{
       context: path.resolve(__dirname, 'help', 'images'),
       from: "**/*",
       to: "./images/screens"
-    }]),
-    new CopyWebpackPlugin([{
+    }]}),
+    new CopyWebpackPlugin({patterns: [{
       context: path.resolve(__dirname, 'static', 'images'),
       from: "**/*",
       to: "./images"
-    }]),
+    }]}),
     new HtmlWebpackPlugin({
       template: "help/index.html",
       path: path.join(__dirname, "./dist/help"),

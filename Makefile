@@ -6,8 +6,6 @@ backend:
 
 frontend:
 	@cd frontend && npm run build-dev && npm run start
-serve:
-	@cd frontend && npm run build && npm run serve
 
 install-frontend:
 	@cd frontend && npm install

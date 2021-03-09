@@ -1,9 +1,12 @@
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const {appConf, landingConf, helpConf} = require('./webpack.common.js');
 
 const prodConf = {
   mode: "production",
-  devtool: "source-map"
+  devtool: "source-map",
+  optimization: {
+    minimize: true
+  }
 }
 
 module.exports = [

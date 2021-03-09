@@ -65,10 +65,11 @@
         
         make frontend
 
-3. App core and landing page should be accesible on:
+3. App core, landing and help pages should be accesible at:
 
-        http://localhost:8080/app
-        http://localhost:8080/landing
+        http://localhost:8080/app/
+        http://localhost:8080/landing/
+        http://localhost:8080/help/
 
 
 ## Frontend translations
