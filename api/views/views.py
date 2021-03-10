@@ -24,7 +24,7 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from datetime import datetime
@@ -133,7 +133,7 @@ class ActionView(viewsets.ModelViewSet):
         for goal in sustainable_development_goals:
             action_data.sustainable_development_goals.add(goal['id'])
 
-        action_data.description = md(action_data.description)
+        action_data.description = md(action_data.description) if action_data.description else None
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
 

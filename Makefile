@@ -1,6 +1,7 @@
-.PHONY: server frontend install-frontend install-requirements migration clean reset-db test
+.PHONY: server backend frontend install-frontend install-requirements migration clean reset-db test
 
-server:
+server: backend
+backend:
 	@python manage.py runserver
 
 frontend:
@@ -18,6 +19,8 @@ migration:
 
 clean:
 	@rm -rf frontend/dist frontend/node_modules frontend/landing/node_modules
+	@find . -type f -name '*.pyc' -delete
+	@find . -type d -name '__pycache__' -delete
 
 reset-db:
 	@sudo -iu postgres bash -c "psql -c 'DROP DATABASE IF EXISTS coobs;'"

@@ -18,7 +18,6 @@ __pycache__/
 .vscode
 /venv
 frontend/dist/
-frontend/images/
 /coobs/bin/
 /coobs/include/
 /coobs/lib/
