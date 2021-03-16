@@ -2,7 +2,14 @@
   <form v-on:submit.prevent="submitFilters">
     <div class="row">
       <div class="col-sm" v-for="(filter, idx) in filters" :key="idx">
-        <select-form
+        <input-form v-if="filter.type === 'text'"
+          v-model="filter.value"
+          type="text"
+          :name="filter.key"
+          :placeholder="$t(filter.placeholder, filter.placeholder)"
+          :label="$t(filter.label, filter.label)">
+        </input-form>
+        <select-form v-else
           v-model="filter.value"
           :options="filter.options"
           :placeholder="filter.key"
@@ -28,6 +35,7 @@
 
 <script>
   import {required} from "vuelidate/lib/validators";
+  import InputForm from "./input-form.vue";
   import SelectForm from "./select-form.vue";
   import ErrorForm from "./error-form.vue";
   import errorHandlerMixin from "./../mixins/error-handler";
@@ -40,6 +48,7 @@
       }
     },
     components: {
+      "input-form": InputForm,
       "select-form": SelectForm,
       "error-form": ErrorForm
     },

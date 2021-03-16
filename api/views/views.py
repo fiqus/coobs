@@ -7,7 +7,7 @@ from django.http import Http404
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction, IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.template.loader import get_template, render_to_string
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, status, permissions, views
@@ -56,6 +56,7 @@ class PrincipleView(viewsets.ModelViewSet):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
 class ActionFilter(filters.FilterSet):
+    contents = filters.CharFilter(label="contents", method="filter_by_contents")
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
     date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
     partner = filters.ModelMultipleChoiceFilter(
@@ -73,7 +74,10 @@ class ActionFilter(filters.FilterSet):
 
     class Meta:
         model = Action
-        fields = ['principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
+        fields = ['name', 'description', 'principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
+    
+    def filter_by_contents(self, queryset, name, value):
+        return queryset.filter(Q(name__icontains=value)|Q(description__icontains=value))
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -89,6 +93,7 @@ class StandardResultsSetPagination(PageNumberPagination):
             'page_size': self.page.paginator.per_page,
             'results': data
         })
+
 
 class ActionView(viewsets.ModelViewSet):
     """
@@ -453,6 +458,7 @@ class DashboardView(viewsets.ViewSet):
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
 
+
 class BalanceView(viewsets.ViewSet):
     """
     list:
@@ -589,6 +595,7 @@ class PartnerStatsView(viewsets.ViewSet):
         return Response(
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
+
 
 class PublicActionView(views.APIView):
     """

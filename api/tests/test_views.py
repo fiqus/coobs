@@ -167,6 +167,22 @@ class ActionTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), len(serializer.data))
 
+    def test_retrieve_actions_list_with_filter_contents(self):
+        Action.objects.create(name="find my name", description="find my description", cooperative=self.coop)
+        Action.objects.create(name="don't find me", description="don't find me", cooperative=self.coop)
+        response = self.client.get(f"{self.list_url}?contents=my%20name")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        response = self.client.get(f"{self.list_url}?contents=my%20description")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        response = self.client.get(f"{self.list_url}?contents=my")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        response = self.client.get(f"{self.list_url}?contents=me")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 2)
+
     def test_retrieve_action(self):
         response = self.client.get(reverse('Action-detail', kwargs={"pk": self.action.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)

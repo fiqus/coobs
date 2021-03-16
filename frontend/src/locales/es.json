@@ -220,5 +220,6 @@
   "educationTrainingDesc": "Las cooperativas proporcionan educación y capacitación a sus miembros, representantes electos, gerentes y empleados para que puedan contribuir eficazmente al desarrollo de sus cooperativas. Informan al público en general - en particular a los jóvenes y a los líderes de opinión - sobre la naturaleza y los beneficios de la cooperación.",
   "cooperationBetweenCoopsDesc": "Las cooperativas prestan un servicio más eficaz a sus miembros y fortalecen el movimiento cooperativo trabajando conjuntamente a través de estructuras locales, nacionales, regionales e internacionales.",
   "commitmentToCommunityDesc": "Las cooperativas trabajan en pro del desarrollo sostenible de sus comunidades mediante políticas aprobadas por sus miembros.",
-  "help": "Ayuda"
+  "help": "Ayuda",
+  "filterActionContents": "Nombre o descripción"
 }
