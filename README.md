@@ -65,10 +65,11 @@
         
         make frontend
 
-3. App core and landing page should be accesible on:
+3. App core, landing and help pages should be accesible at:
 
-        http://localhost:8080/app
-        http://localhost:8080/landing
+        http://localhost:8080/app/
+        http://localhost:8080/landing/
+        http://localhost:8080/help/
 
 
 ## Frontend translations
@@ -149,3 +150,7 @@ Write a brief release description and use a *senver* string for **tag** and **ti
 ![Release to production](.github/release-production.png)
 
 3. Click the "Publish release" button and the [deploy action](.github/workflows/deploy.yml) will be triggered!
+
+## Running tests
+
+Just run `make test` and there you go!

@@ -33,7 +33,7 @@
             <a id="signIn" class="btn btn-sign-in ml-auto" href="/app/#/login"></a>
           </li>
           <li class="nav-item active">
-            <a id="help" class="btn btn-sign-in ml-auto" href="/landing/help"></a>
+            <a id="home" class="btn btn-sign-in ml-auto" href="/">Home</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle btn-lang" href="#" id="language" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -47,7 +47,9 @@
       </div>
     </div>
   </nav>
-  <iframe src="/help" scrolling="no" onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';" style="border: none;width: 90%; margin-top: 100px;"></iframe>
+  <div class="help-landing help-content-container">
+    <p id="helpLoading"/>
+  </div>
   <footer class="footer text-center bg-custom-green">
     <div class="container">
       <div class="row">
@@ -57,6 +59,5 @@
       </div>
     </div>
   </footer>
-  <script src="https://www.google.com/recaptcha/api.js?render=6LepzsgUAAAAAJTtaoDibT1Duf2CFQrI0RFl3srT"></script>
 </body>
 </html>

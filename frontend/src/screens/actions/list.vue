@@ -201,6 +201,12 @@ export default {
     loadFilters() {
       const filters = [
         {
+          key: "contents",
+          value: "",
+          type: "text",
+          placeholder: "filterActionContents"
+        },
+        {
           key: "principle",
           value: null,
           options: []
@@ -214,8 +220,7 @@ export default {
           key: "partner",
           value: null,
           options: []
-        },
-        
+        }
       ];
       if (this.$store.state.cooperative.sustainableDevelopmentGoalsActive) {
         filters.push({
@@ -345,11 +350,12 @@ export default {
       return this.getActions("/actions", fetchParams);
     },
     onQuickView(action) {
-      Promise.all([
-        api.getPrinciples(),
-        api.getAction(action.id),
-        api.getSustainableDevelopmentGoals()
-      ]).then(([principles, actionData, sustainableDevelopmentGoals]) => {
+      // Promise.all([
+      //   api.getPrinciples(),
+      //   api.getAction(action.id),
+      //   api.getSustainableDevelopmentGoals()
+      // ]).then(([principles, actionData, sustainableDevelopmentGoals]) => {
+      api.getAction(action.id).then((actionData) => {
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         });

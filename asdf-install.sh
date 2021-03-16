@@ -53,8 +53,9 @@ sudo -iu postgres bash -c "psql -c \"CREATE USER coobs WITH PASSWORD 'coobspass'
 sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET client_encoding TO 'utf8';\""
 sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET default_transaction_isolation TO 'read committed';\""
 sudo -iu postgres bash -c "psql -c \"ALTER ROLE coobs SET timezone TO 'UTC';\""
+sudo -iu postgres bash -c "psql -c \"ALTER USER coobs CREATEDB;\""
 
-# @TODO Configure db parameters at coobs/settings.py
+# @TODO Configure db parameters at coobs/settings/dev.py
 
 # Create the DB, run migrations and create django superuser
 make reset-db

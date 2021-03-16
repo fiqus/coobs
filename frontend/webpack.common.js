@@ -17,11 +17,9 @@ const baseConf = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: process.env.NODE_ENV === 'development',
-            }
+            options: {}
           },
-          "css-loader",
+          "css-loader"
         ]
       },
       {
@@ -50,6 +48,7 @@ const appConf = Object.assign({}, baseConf, {
     filename: "app.bundle.js"
   },
   plugins: [
+    new webpack.DefinePlugin({process: {env: {'NODE_ENV': process.env.NODE_ENV}}}), // Ugly fix for vuelidate
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
@@ -60,15 +59,11 @@ const appConf = Object.assign({}, baseConf, {
       jQuery: "jquery"
     }),
     new VueLoaderPlugin(),
-    new CopyWebpackPlugin([{
-      // from path static ignore 'help' directory and copy **/* to /dist/app
+    new CopyWebpackPlugin({patterns: [{
       context: path.resolve(__dirname, 'static'),
       from: "**/*",
-      to: "./",
-      globOptions: {
-        ignore: ['**/help/**'],
-      },
-    }]),
+      to: "./"
+    }]}),
     new HtmlWebpackPlugin({
       template: "index.html",
       path: path.join(__dirname, "./dist/app"),
@@ -95,25 +90,15 @@ const landingConf = Object.assign({}, baseConf, {
       $: "jquery",
       jQuery: "jquery"
     }),
-    new CopyWebpackPlugin([{
-      // from path static ignore 'help' directory and copy **/* to /dist/landing
+    new CopyWebpackPlugin({patterns: [{
       from: "**/*",
       context: path.resolve(__dirname, 'static'),
-      to: "./",
-      globOptions: {
-        ignore: ['**/help/**'],
-      },
-    }]),
+      to: "./"
+    }]}),
     new HtmlWebpackPlugin({
       template: "landing/index.html",
       path: path.join(__dirname, "./dist/landing"),
       filename: "index.html",
-      inject: true
-    }),
-    new HtmlWebpackPlugin({
-      template: "landing/help.html",
-      path: path.join(__dirname, "./dist/landing"),
-      filename: "help.html",
       inject: true
     })
   ]
@@ -121,23 +106,48 @@ const landingConf = Object.assign({}, baseConf, {
 
 const helpConf = Object.assign({}, baseConf, {
   name: "help",
-  entry: "./app.js",
+  entry: "./help/app.js",
   output: {
     path: path.join(__dirname, "./dist/help"),
     filename: "help.bundle.js"
   },
   plugins: [
-    new CopyWebpackPlugin([{
-      // from path static/images copy all content inside 'help' directory to /dist/help/images
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
+    new CopyWebpackPlugin({patterns: [{
+      context: path.resolve(__dirname, 'help', 'images'),
       from: "**/*",
-      context: path.resolve(__dirname, 'static/images', 'help'),
+      to: "./images/screens"
+    }]}),
+    new CopyWebpackPlugin({patterns: [{
+      context: path.resolve(__dirname, 'static', 'images'),
+      from: "**/*",
       to: "./images"
-    }]),
+    }]}),
     new HtmlWebpackPlugin({
-      template: "help-content.html",
+      template: "help/index.html",
       path: path.join(__dirname, "./dist/help"),
       filename: "index.html",
       inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: "help/es.html",
+      path: path.join(__dirname, "./dist/help"),
+      filename: "es.html",
+      inject: false
+    }),
+    new HtmlWebpackPlugin({
+      template: "help/en.html",
+      path: path.join(__dirname, "./dist/help"),
+      filename: "en.html",
+      inject: false
     })
   ]
 });

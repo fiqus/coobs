@@ -24,8 +24,8 @@ class Command(BaseCommand):
             coop = Cooperative.objects.get(pk=options['coop_id'])
 
             for n in range(options['quantity']):
-                action = Action(date=datetime.date.today(), name="Action {}".format(n),
-                                description="Action {} description".format(n), invested_money=random.choice(investments),
+                action = Action(date=datetime.date.today(), name=f"Action {n}",
+                                description=f"Action {n} description", invested_money=random.choice(investments),
                                 cooperative=coop, public=True)
                 action.save()
                 associated_principles = []
@@ -55,4 +55,4 @@ class Command(BaseCommand):
                     action.save()
 
         except Cooperative.DoesNotExist:
-            raise CommandError("Ups! The cooperative with id {} does not exist".format(options['coop_id']))
+            raise CommandError(f"Ups! The cooperative with id {options['coop_id']} does not exist")

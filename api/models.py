@@ -77,6 +77,7 @@ class Period(models.Model):
 
     class Meta:
         verbose_name = _('period')
+        ordering = ['date_from']
 
     def __str__(self):
         return self.name
@@ -108,6 +109,7 @@ class Partner(AbstractUser):
 
     class Meta:
         verbose_name = _('partner')
+        ordering = ['first_name', 'last_name']
 
     def __str__(self):
         return '%s - %s' % (self.email, self.cooperative)

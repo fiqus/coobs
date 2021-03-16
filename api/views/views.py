@@ -3,10 +3,11 @@ from datetime import datetime, date
 from .views_utils import *
 
 import requests
+from django.http import Http404
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db import transaction, IntegrityError
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.template.loader import get_template, render_to_string
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, status, permissions, views
@@ -23,7 +24,7 @@ from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSeriali
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from datetime import datetime
@@ -32,6 +33,7 @@ from django.urls import reverse
 from django.dispatch import receiver
 from markdownify import markdownify as md
 
+public_url = f"{settings.WEB_PROTOCOL}://{settings.WEB_URL}"
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
@@ -54,6 +56,7 @@ class PrincipleView(viewsets.ModelViewSet):
         return Principle.objects.filter(cooperative=self.request.user.cooperative_id)
 
 class ActionFilter(filters.FilterSet):
+    contents = filters.CharFilter(label="contents", method="filter_by_contents")
     date_from = filters.DateFilter(field_name="date", lookup_expr='gte')
     date_to = filters.DateFilter(field_name="date", lookup_expr='lte')
     partner = filters.ModelMultipleChoiceFilter(
@@ -71,7 +74,10 @@ class ActionFilter(filters.FilterSet):
 
     class Meta:
         model = Action
-        fields = ['principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
+        fields = ['name', 'description', 'principle', 'date_from', 'date_to', 'partner', 'sustainable_development_goal']
+    
+    def filter_by_contents(self, queryset, name, value):
+        return queryset.filter(Q(name__icontains=value)|Q(description__icontains=value))
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -87,6 +93,7 @@ class StandardResultsSetPagination(PageNumberPagination):
             'page_size': self.page.paginator.per_page,
             'results': data
         })
+
 
 class ActionView(viewsets.ModelViewSet):
     """
@@ -131,7 +138,7 @@ class ActionView(viewsets.ModelViewSet):
         for goal in sustainable_development_goals:
             action_data.sustainable_development_goals.add(goal['id'])
 
-        action_data.description = md(action_data.description)
+        action_data.description = md(action_data.description) if action_data.description else None
         action_data.save()
         return Response("ACTION_CREATED", status=status.HTTP_200_OK)
 
@@ -209,29 +216,25 @@ class CooperativeView(viewsets.ModelViewSet):
             return partner_data
 
         def send_email_to_admin():
+            subject = 'A new cooperative wants to join COOBS!'
             text_content = f'The coop: {cooperative.business_name} with ID {cooperative.id} has been created. The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created. Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active". That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.'
             html_content = f'<div><h3>The coop: {cooperative.business_name} with ID {cooperative.id} has been created.</h3><br/> The partner with email: {partner.email} and name: {partner.first_name} {partner.last_name} has been created.<b<br/><p> Please go to the admin site and activate the created user by selecting it and choosing the "Mark selected user as Active".<br/>That action will enable the cooperative associated and send an email to notify the user that the cooperative can be used.</p></div>'
-            email = EmailMultiAlternatives('A new cooperative wants to join COOBS!', text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [getattr(settings, "EMAIL_TO_ADMIN", "test@console.com")]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)
+
 
         def send_email_to_user():
-            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
+
             context = {'public_url': public_url, 'email': partner.email}
             text_template = get_template('coop_created_email_template.txt')
             text_content = text_template.render(context)
             html_template = get_template('coop_created_email_template.html')
             html_content = html_template.render(context)
-            subject = _('Hello %(partner_name)s, your cooperative is been added to COOBS!') % {"partner_name": partner.first_name}
-            email = EmailMultiAlternatives(subject, text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [partner.email])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [partner.email]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)
 
         def assign_principles_to_coop():
             main_principles = MainPrinciple.objects.all()
@@ -316,6 +319,12 @@ class PartnerView(viewsets.ModelViewSet):
         queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
+    def get_object(self, pk):
+        try:
+            return Partner.objects.get(pk=pk)
+        except Partner.DoesNotExist:
+            raise Http404
+
     @transaction.atomic
     def create(self, request):
         data = request.data
@@ -341,7 +350,8 @@ class PartnerView(viewsets.ModelViewSet):
         partner = set_partner_data()
 
         def send_email():
-            public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
+            subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
+
             logo_url = public_url + settings.STATIC_URL + "images/coobs.png"
             context = {'cooperative': CooperativeSerializer(cooperative).data, 'password': password,
                        'public_url': public_url, 'email': partner.email, "logo_url": logo_url}
@@ -349,13 +359,9 @@ class PartnerView(viewsets.ModelViewSet):
             text_content = text_template.render(context)
             html_template = get_template('partner_created_email_template.html')
             html_content = html_template.render(context)
-            subject = _('Hello %(partner_name)s, you have been added to COOBS!') % {"partner_name": partner.first_name}
-            email = EmailMultiAlternatives(subject, text_content,
-                                           getattr(settings, "EMAIL_FROM_ACCOUNT", "test@console.com"),
-                                           [partner.email])
-            email.content_subtype = "html"
-            email.attach_alternative(html_content, "text/html")
-            email.send()
+            destination_emails = [partner.email]
+
+            create_and_send_email(subject, text_content, html_content, destination_emails)            
 
         try:
             partner.save()
@@ -368,11 +374,13 @@ class PartnerView(viewsets.ModelViewSet):
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
-        partner = self.get_object()
+        partner = self.get_object(self.kwargs.get("pk", None))
+        if not partner:
+            partner = self.get_object()
+        partner_serializer = PartnerSerializer(data=partner)
 
-        if partner.id == request.user.id:
-            return Response(data={'detail': _("Current logged in user can not delete it self.")},
-                            status=status.HTTP_400_BAD_REQUEST)
+        if partner.id == request.user.id or partner.cooperative.id != request.user.cooperative.id:
+            return Response(_("Current logged in user can not delete itself."), status=status.HTTP_404_NOT_FOUND)
 
         self.perform_destroy(partner)
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -449,6 +457,7 @@ class DashboardView(viewsets.ViewSet):
         return Response(
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
+
 
 class BalanceView(viewsets.ViewSet):
     """
@@ -587,6 +596,7 @@ class PartnerStatsView(viewsets.ViewSet):
             {'period': period_data, 'actions': action_serializer.data, 'principles': principle_serializer.data,
              'charts': charts, 'all_periods': all_periods_serializer.data})
 
+
 class PublicActionView(views.APIView):
     """
     get:
@@ -629,13 +639,12 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     :return:
     """
 
-    public_url = "{}://{}".format(settings.WEB_PROTOCOL, settings.WEB_URL)
     context = {
         'current_user': reset_password_token.user,
         'username': reset_password_token.user.username,
         'email': reset_password_token.user.email,
         'public_url': public_url,
-        'reset_password_url': "{}{}?token={}".format(public_url, '/app/#/new-password', reset_password_token.key)
+        'reset_password_url': f"{public_url}{'/app/#/new-password'}?token={reset_password_token.key}"
     }
     email_html_message = render_to_string('reset_password_email_template.html', context)
     email_plaintext_message = render_to_string('reset_password_email_template.txt', context)
