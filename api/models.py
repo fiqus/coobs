@@ -158,7 +158,7 @@ class Action(models.Model):
         return qs
 
     @classmethod
-    def get_public_actions(cls, date_from, date_to):
-        qs = cls.objects.filter(principles__visible=True, date__gte=date_from, date__lte=date_to)
-        qs = qs.annotate(principles_num = Count('id'))
-        return qs
+    def get_public_actions(cls, more=0, limit=20):
+        offset = more * limit
+        limit = offset + limit
+        return cls.objects.filter(public=True).order_by('-date')[offset:limit]
