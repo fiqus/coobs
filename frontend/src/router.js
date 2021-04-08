@@ -7,6 +7,7 @@ import MyStatsScreen from "./screens/my-stats.vue";
 import LoginScreen from "./screens/login.vue";
 import ActionsListScreen from "./screens/actions/list.vue";
 import ActionsEditScreen from "./screens/actions/edit.vue";
+import PublicActionsFeedScreen from "./screens/actions/public-feed.vue";
 import PrinciplesListScreen from "./screens/principles/list.vue";
 import PrincipleEditScreen from "./screens/principles/edit.vue";
 import PeriodsListScreen from "./screens/periods/list.vue";
@@ -56,6 +57,11 @@ const routes = [
     name: "action-edit",
     path: "/action-edit/:actionId",
     component: ActionsEditScreen
+  },
+  {
+    name: "public-actions-feed",
+    path: "/public-actions-feed",
+    component: PublicActionsFeedScreen
   },
   {
     name: "principles-list",

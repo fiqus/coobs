@@ -221,5 +221,6 @@
   "cooperationBetweenCoopsDesc": "Las cooperativas prestan un servicio más eficaz a sus miembros y fortalecen el movimiento cooperativo trabajando conjuntamente a través de estructuras locales, nacionales, regionales e internacionales.",
   "commitmentToCommunityDesc": "Las cooperativas trabajan en pro del desarrollo sostenible de sus comunidades mediante políticas aprobadas por sus miembros.",
   "help": "Ayuda",
-  "filterActionContents": "Nombre o descripción"
+  "filterActionContents": "Nombre o descripción",
+  "publicActionsFeed": "Feed de Acciones Públicas"
 }

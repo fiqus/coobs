@@ -83,6 +83,12 @@
             <span>{{$t("help", "help")}}</span>
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link collapsed" :to="{name: 'public-actions-feed'}">
+            <i class="fas fa-fw fa-bullhorn"></i>
+            <span>{{$t("publicActionsFeed")}}</span>
+          </router-link>
+        </li>
         <!-- Sidebar Toggler (Sidebar) -->
         <div class="text-center d-none d-md-inline">
           <button class="rounded-circle border-0" id="sidebarToggle" @click="toggled = !toggled"></button>

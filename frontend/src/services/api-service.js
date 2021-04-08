@@ -1,5 +1,10 @@
 import {httpGet} from "../api-client";
 
+export async function getPublicActions() {
+  const response = await httpGet("/public-actions");
+  return response.data ? response.data : {};
+}
+
 export async function getActions() {
   const response = await httpGet("/actions");
   return response.data ? response.data : [];

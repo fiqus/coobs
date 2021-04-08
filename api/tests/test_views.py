@@ -155,9 +155,9 @@ class ActionTest(TestCase):
             cls.principles.append(Principle.objects.create(cooperative=cls.coop, main_principle=main_pple, description=f"principle {main_pple.id}", custom_description=f"principle {main_pple.id}"))
         #FIXME por qué NO puedo mover el resto de setUp acá?
 
-    def create_action(self, name, description=None, public=True, date=datetime.today()):
+    def create_action(self, name, description=None, public=True, date=datetime.today(), coop=None):
         return Action.objects.create(
-            cooperative=self.coop,
+            cooperative=coop if coop != None else self.coop,
             name=name,
             description=description,
             public=public,

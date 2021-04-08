@@ -161,4 +161,5 @@ class Action(models.Model):
     def get_public_actions(cls, more=0, limit=20):
         offset = more * limit
         limit = offset + limit
+        # @TODO Add cooperative ID+name!
         return cls.objects.filter(public=True).order_by('-date')[offset:limit]
