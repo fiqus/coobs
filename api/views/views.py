@@ -607,9 +607,11 @@ class PublicActionView(views.APIView):
     def get(self, request):
         try:
             more = int(request.GET.get("more", 0))
+            limit = int(request.GET.get("limit", 10))
         except ValueError:
             more = 0
-        action_data = Action.get_public_actions(more)
+            limit = 10
+        action_data = Action.get_public_actions(more, limit)
         return Response({
             'actions': ActionSerializer(action_data, many=True).data
         })

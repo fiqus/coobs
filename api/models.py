@@ -158,8 +158,8 @@ class Action(models.Model):
         return qs
 
     @classmethod
-    def get_public_actions(cls, more=0, limit=20):
-        offset = more * limit
-        limit = offset + limit
-        # @TODO Add cooperative ID+name!
-        return cls.objects.filter(public=True).order_by('-date')[offset:limit]
+    def get_public_actions(cls, more=0, limit=10):
+        start = more * limit
+        end = start + limit
+        query = cls.objects.filter(public=True).select_related('cooperative').order_by('-date', '-id')
+        return query[start:end]

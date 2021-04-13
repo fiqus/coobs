@@ -50,56 +50,46 @@
       </template>
     </detail-modal>
 
-    <simple-table v-if="actions.length"
+    <div v-if="!isLoading && !actions.length">{{$t('emptyData')}}</div>
+    <infinite-scroll
         :headers="headers"
-        :data="actions"
-        :actions="{edit: false, delete: false, showViewButton: true}"
-        :empty-state-msg="$t('emptyActionMsg')"
-        :pagination="pagination"
-        :ordering="ordering"
-        @onQuickView="onQuickView">
-    </simple-table>
-    <div v-if="!actions.length">{{$t('emptyActionMsg')}}</div>
+        :elements="actions"
+        :noMoreDataMsg="$t('noMoreData')"
+        @onGetMore="onGetMore"
+        @onViewDetail="onViewDetail">
+    </infinite-scroll>
   </div>
 </template>
 
 <script>
-import SimpleTable from "../../components/simple-table.vue";
+import InfiniteScroll from "../../components/infinite-scroll.vue";
 import DetailModal from "../../components/detail-modal.vue";
 import Loader from "../../components/loader-overlay.vue";
 import {sanitizeMarkdown, formatText, capitalizeFirstChar, formatToUIDate, parseNumber} from "../../utils";
 import * as api from "./../../services/api-service";
-import MissingDataEmptyState from "../../components/missing-data-empty-state.vue";
 
 const parsePrinciples = (translator, principles) => {
   let result = "";
   principles.forEach((principle) => {
     const princripleName = translator(principle.nameKey);
-    result = result.concat(`<span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${princripleName}</span>`)
+    result = result.concat(`<div><span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${princripleName}</span></div>`)
   });
   return result;
 }
 
 export default {
   components: {
-    "simple-table": SimpleTable,
+    "infinite-scroll": InfiniteScroll,
     "loader": Loader,
-    "detail-modal": DetailModal,
-    "missing-data-empty-state": MissingDataEmptyState
-  },
-  created() {
-    return api.getPublicActions().then((data) => {
-      this.actions = data.actions;
-      this.isLoading = false;
-    });
+    "detail-modal": DetailModal
   },
   data() {
     return {
       headers: [
-        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date), sortEnabled: false},
-        {key: "cooperative", value: "cooperative", parser: (p) => capitalizeFirstChar("TODO!"/*p.cooperative.name*/), sortEnabled: false},
-        {key: "name", value: "name", parser: (p) => formatText(p.name, 50), sortEnabled: false},
-        // {key: "description", value: "description", parser: (p) => formatText(p.description, 50)},
+        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
+        {key: "cooperative", value: "cooperative", parser: (p) => capitalizeFirstChar(p.cooperativeName)},
+        {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
+        {key: "description", value: "description", parser: (p) => formatText(p.description||"", 100)},
         {key: "principles", value: "principles", parser: (p) => parsePrinciples(this.$t, p.principles)}
       ],
       actions: [],
@@ -108,15 +98,23 @@ export default {
     };
   },
   methods: {
-    formatNumber(number){
+    formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
     },
-    onQuickView(action) {
-      api.getAction(action.id).then((actionData) => {
+    onGetMore({more, done}) {
+      const limit = 2;
+      //this.isLoading = true;
+      return api.getPublicActions(more, limit).then((data) => {
+        this.isLoading = false;
+        return done(data.actions);
+      });
+    },
+    onViewDetail(action) {
+      return api.getAction(action.id).then((actionData) => {
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         });
-        actionData.description = sanitizeMarkdown(actionData.description);
+        actionData.description = sanitizeMarkdown(actionData.description||"");
         this.modalAction = {actionData};
         $('#detailModal').modal()
       });
