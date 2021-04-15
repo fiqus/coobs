@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive">
+  <div class="table-responsive infinite-scroll">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -17,9 +17,12 @@
           </td>
         </tr>
       </tbody>
-      <tfoot v-if="noMoreData && noMoreDataMsg">
+      <tfoot>
         <tr>
-          <td :colspan="headers.length + (actions.hideViewDetailButton?0:1)">{{noMoreDataMsg}}</td>
+          <td :colspan="headers.length + (actions.hideViewDetailButton?0:1)">
+            <div v-if="noMoreData && noMoreDataMsg" class="bold">{{noMoreDataMsg}}</div>
+            <div v-else>{{$t("scrollMoreData")}}</div>
+          </td>
         </tr>
       </tfoot>
     </table>
@@ -52,15 +55,18 @@ export default {
   data() {
     return {
       count: 0,
+      loading: false,
       noMoreData: false
     };
   },
   mounted() {
     window.addEventListener("scroll", this.onScroll);
+    window.addEventListener("wheel", this.onScroll);
     this.$emit("onGetMore", {more: this.count, done: this.onAddMore});
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("wheel", this.onScroll);
   },
   methods: {
     parseElem(header, elem) {
@@ -74,17 +80,33 @@ export default {
       return elem[header.key] || "";
     },
     onAddMore(elements) {
-      this.elements.push(...elements);
-      this.count++;
+      this.removeTimeout();
+      if (elements && elements.length) {
+        this.elements.push(...elements);
+        this.count++;
+      } else {
+        this.noMoreData = true;
+      }
     },
-    onScroll() {
+    onScroll(ev) {
+      const scrollOrWheel = ev.deltaY === undefined || ev.deltaY > 0;
       const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-      if (bottomOfWindow) {
+      if (bottomOfWindow && scrollOrWheel && !this.noMoreData && !this.loading) {
+        this.setTimeout(5000);
         this.$emit("onGetMore", {more: this.count, done: this.onAddMore});
       }
     },
     onViewDetail(elem) {
       this.$emit("onViewDetail", elem);
+    },
+    setTimeout(delay) {
+      this.loading = setTimeout(() => this.removeTimeout(), delay);
+    },
+    removeTimeout() {
+      if (this.loading) {
+        clearTimeout(this.loading);
+      }
+      this.loading = false;
     }
   }
 };

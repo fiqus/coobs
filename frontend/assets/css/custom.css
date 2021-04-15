@@ -68,6 +68,15 @@ th.active .arrow {
   opacity: 1;
 }
 
+.text-truncate-wrap {
+  white-space: normal;
+}
+
+.infinite-scroll table tfoot td {
+  font-style: italic;
+  font-size: smaller;
+}
+
 .arrow {
   display: inline-block;
   vertical-align: middle;
