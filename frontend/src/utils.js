@@ -4,19 +4,19 @@ import DOMPurify from "dompurify";
 import marked from "marked";
 
 export function sanitizeMarkdown(text) {
-  return sanitizeHtml(marked(text));
+  return text ? sanitizeHtml(marked(text)) : "";
 }
 
 export function sanitizeHtml(text) {
-  return DOMPurify.sanitize(text);
+  return text ? DOMPurify.sanitize(text) : "";
 }
 
 export function formatText(text, limit) {
-  return text.length > limit ? `${text.substring(0, (limit - 3))}..` : text;
+  return (text||"").length > limit ? `${text.substring(0, (limit - 3))}..` : text;
 }
 
 export function capitalizeFirstChar(s) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
 export function parseNumber(number, locale) {

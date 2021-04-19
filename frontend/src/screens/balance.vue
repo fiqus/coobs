@@ -57,14 +57,14 @@
 </template>
 
 <script>
-import {httpGet} from "../api-client";
+import * as api from "../services/api-service";
 import BalanceByPeriodTable from "../components/balance-by-period-table.vue";
 import html2pdf from "html2pdf.js";
 import Loader from "../components/loader-overlay.vue";
 import {sanitizeMarkdown, formatToUIDate, parseNumber} from "../utils";
 import MissingDataEmptyState from "../components/missing-data-empty-state.vue";
 
-function print(period, translator, parent){
+function print(period, translator, parent) {
   const self = parent;
   const html = $("#nodeToRenderAsPDF")[0];
   const opt = {
@@ -111,19 +111,23 @@ export default {
     formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
     },
-    setErrorMsg(err){
-      this.error = {
-        exists: true,
-        backgroundClass: " bg-danger",
-        message: err.response.data.detail
-      };
+    setErrorMsg(err) {
+      if (err && err.response && err.response.data && err.response.data.detail) {
+        this.error = {
+          exists: true,
+          backgroundClass: " bg-danger",
+          message: err.response.data.detail
+        };
+      } else {
+        console.error(err);
+      }
     },
     download() {
       this.downloading = true;
       uncollapseEveryElement();
       print(this.period, this.$t, this);
     },
-    showBalance(res){
+    showBalance(res) {
       const {period, actions, allPeriods, totalInvested, totalHoursInvested} = res.data;
       this.existsCurrentPeriod = period.id || period.length;
       this.currentPeriodHasActions = actions && actions.length;
@@ -148,11 +152,11 @@ export default {
       this.totalInvested = totalInvested;
       this.isLoading = false;
     },
-    async onPeriodChange(){
+    async onPeriodChange() {
       this.error.exists = false;
       this.isLoading = true;
       const params = this.selectedValue ? {periodId: this.selectedValue} : {};
-      return httpGet("/balance", params)
+      return api.getBalance(params)
         .then((res) => {
           this.showBalance(res);
         })
@@ -163,7 +167,7 @@ export default {
     }
   },
   created() {
-    return httpGet("/balance")
+    return api.getBalance()
       .then((res) => {
         this.showBalance(res);
       })
