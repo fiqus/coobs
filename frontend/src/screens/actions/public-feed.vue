@@ -89,7 +89,7 @@ export default {
         {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
         {key: "cooperative", value: "cooperative", parser: (p) => capitalizeFirstChar(p.cooperativeName)},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
-        {key: "description", value: "description", parser: (p) => formatText(p.description||"", 100)},
+        //{key: "description", value: "description", parser: (p) => formatText(sanitizeMarkdown(p.description||""), 100)},
         {key: "principles", value: "principles", parser: (p) => parsePrinciples(this.$t, p.principles)}
       ],
       actions: [],
@@ -103,7 +103,7 @@ export default {
     },
     onGetMore({more, done}) {
       const limit = 2;
-      //this.isLoading = true;
+      //this.isLoading = true; // Disabled because the visual effect is annoying!
       return api.getPublicActions(more, limit).then((data) => {
         this.isLoading = false;
         return done(data.actions);
