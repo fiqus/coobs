@@ -5,6 +5,7 @@ import './vendor/translate/jquery.tr.js';
 import './vendor/translate/translations.js';
 import './js/jqBootstrapValidation.js';
 import './js/contact_me.js';
+import './js/public-actions.js';
 
 import './vendor/fontawesome-free/css/all.min.css';
 import './css/landing.css';

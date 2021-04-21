@@ -100,6 +100,12 @@ const landingConf = Object.assign({}, baseConf, {
       path: path.join(__dirname, "./dist/landing"),
       filename: "index.html",
       inject: true
+    }),
+    new HtmlWebpackPlugin({
+      template: "landing/public-actions.html",
+      path: path.join(__dirname, "./dist/landing"),
+      filename: "public-actions/index.html",
+      inject: true
     })
   ]
 });

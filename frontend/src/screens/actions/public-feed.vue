@@ -102,7 +102,7 @@ export default {
       return parseNumber(number, this.$i18n.locale());
     },
     onGetMore({more, done}) {
-      const limit = 2;
+      const limit = 10;
       //this.isLoading = true; // Disabled because the visual effect is annoying!
       return api.getPublicActions(more, limit).then((data) => {
         this.isLoading = false;

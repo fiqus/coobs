@@ -13,23 +13,39 @@
   }
 }
 
-.rotate-n-15{
+.rotate-n-15 {
   -webkit-transform:rotate(-15deg);
   transform:rotate(-15deg)
 }
 
-.form-control-user{
+.form-control-user {
   font-size:.8rem;
   border-radius:10rem;
   padding:1.5rem 1rem
 }
 
-.btn-user{
+.btn-user {
   font-size:.8rem;
   border-radius:10rem;
   padding:.75rem 1rem
 }
 
-.mb-45,.my-45{
+.mb-45,.my-45 {
   margin-bottom:2rem!important
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.hidden {
+  display: none;
+}
+
+section.public-actions {
+
 }
