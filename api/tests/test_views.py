@@ -197,6 +197,7 @@ class ActionTest(TestCase):
         self.assertEqual(len(response.data['results']), 2)
     
     def test_retrieve_public_actions_list(self):
+        self.client.force_authenticate(None)
         for idx in range(1, 101):
             date = datetime.today().date() - timedelta(days=idx)
             self.create_action(name="Action {}!".format(idx), public=idx % 2 == 0, date=date)

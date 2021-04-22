@@ -49,7 +49,7 @@ urlpatterns = [
     path('docs/', include_docs_urls(title='COOBS API', permission_classes=[], public=False)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/public-actions', PublicActionView.as_view(), name='public_actions'),
+    path('api/public-actions/', PublicActionView.as_view(), name='public_actions'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),

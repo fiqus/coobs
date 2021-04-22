@@ -599,6 +599,9 @@ class PartnerStatsView(viewsets.ViewSet):
 
 
 class PublicActionView(views.APIView):
+    # It's a public endpoint!
+    permission_classes = []
+
     """
     get:
     Returns public actions for this year, all the principles and actions by principles.

@@ -62,7 +62,7 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.onScroll);
     window.addEventListener("wheel", this.onScroll);
-    this.$emit("onGetMore", {more: this.count, done: this.onAddMore});
+    this.getMore();
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.onScroll);
@@ -79,6 +79,10 @@ export default {
       }
       return elem[header.key] || "";
     },
+    getMore() {
+      this.setTimeout(5000);
+      this.$emit("onGetMore", {more: this.count, done: this.onAddMore});
+    },
     onAddMore(elements) {
       this.removeTimeout();
       if (elements && elements.length) {
@@ -92,8 +96,7 @@ export default {
       const scrollOrWheel = ev.deltaY === undefined || ev.deltaY > 0;
       const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
       if (bottomOfWindow && scrollOrWheel && !this.noMoreData && !this.loading) {
-        this.setTimeout(5000);
-        this.$emit("onGetMore", {more: this.count, done: this.onAddMore});
+        this.getMore();
       }
     },
     onViewDetail(elem) {
