@@ -42,15 +42,25 @@ $(() => {
 
   function appendAction(action) {
     console.error(action);
-    const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);//.eq(0);
+    const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
     $(".public-action-date", tpl).html(action.date); // @TODO Parse date
     $(".public-action-coop", tpl).html(action.cooperativeName);
     $(".public-action-name", tpl).html(action.name);
     $(".public-action-desc", tpl).html(action.description); // @TODO Parse markdown/html
-    $(".public-action-principles", tpl).html("-"); // @TODO Parse principles
+    $(".public-action-principles", tpl).html(parsePrinciples(action.principles)); // @TODO Parse principles
     $(".public-action-actions button", tpl).data("id", action.id);
     $("#public-actions-table tbody").append(tpl);
-    console.error(tpl);
+  }
+
+  // @TODO Add translations and styles
+  function parsePrinciples(principles) {
+    const translator = $.tr.translator();
+    let result = "";
+    principles.forEach((principle) => {
+      const princripleName = translator(principle.nameKey);
+      result = result.concat(`<div><span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${princripleName}</span></div>`)
+    });
+    return result;
   }
 
   window.viewActionDetail = (el) => {
@@ -76,7 +86,10 @@ $(() => {
       fetchActions();
     }
   }
-  window.addEventListener("scroll", onScroll);
-  window.addEventListener("wheel", onScroll);
-  fetchActions(); // Initial fetch call
+
+  if ($("section.public-actions")[0]) {
+    window.addEventListener("scroll", onScroll);
+    window.addEventListener("wheel", onScroll);
+    fetchActions(); // Initial fetch call
+  }
 });
