@@ -238,6 +238,18 @@ class ActionTest(TestCase):
         self.assertEqual(response.data["actions"][0]["name"], "Action 82!")
         self.assertEqual(response.data["actions"][9]["name"], "Action 100!")
 
+    def test_retrieve_public_action_details(self):
+        self.client.force_authenticate(None)
+        public = self.create_action(name="test action PUBLIC", public=True)
+        private = self.create_action(name="test action PRIVATE", public=False)
+        response = self.client.get(reverse('public_action_detail', kwargs={"id": public.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["action"]["id"], public.pk)
+        self.assertEqual(response.data["action"]["name"], "test action PUBLIC")
+        response = self.client.get(reverse('public_action_detail', kwargs={"id": private.pk}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, "PUBLIC_ACTION_NOT_FOUND")
+
     def test_retrieve_action(self):
         action = self.create_action(name="test action")
         response = self.client.get(reverse('Action-detail', kwargs={"pk": action.pk}))

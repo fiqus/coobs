@@ -8,6 +8,11 @@ export async function getPublicActions(more, limit) {
   return response.data ? response.data : {};
 }
 
+export async function getPublicAction(id) {
+  const response = await httpGet(`/public-actions/${id}`);
+  return response.data ? response.data : {};
+}
+
 export async function getActions() {
   const response = await httpGet("/actions");
   return response.data ? response.data : [];

@@ -67,6 +67,7 @@ class SDGObjectiveSerializer(serializers.ModelSerializer):
         model = SDGObjective
         fields = "__all__"
 
+
 class ActionSerializer(serializers.ModelSerializer):
     cooperative_name = serializers.CharField(source='cooperative', read_only=True)
     principle_name_key = serializers.CharField(source='principle', read_only=True)

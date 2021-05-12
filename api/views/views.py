@@ -604,20 +604,34 @@ class PublicActionView(views.APIView):
 
     """
     get:
-    Returns public actions for this year, all the principles and actions by principles.
-
+    Returns public actions from all cooperatives for unauthenticated users.
+    If no action ID is given (to return its details), it will return a list following the parameters `more` and `limit`.
     """
 
-    def get(self, request):
+    def get(self, request, id=0):
+        if id > 0:
+            return self._get_public_action_details(id)
+        return self._get_public_actions(request)
+    
+    def _get_public_action_details(self, id):
+        try:
+            action = Action.get_public_action(id)
+            return Response({
+                'action': ActionSerializer(action, many=False).data
+            })
+        except:
+            return Response("PUBLIC_ACTION_NOT_FOUND", status=status.HTTP_404_NOT_FOUND)
+    
+    def _get_public_actions(self, request):
         try:
             more = int(request.GET.get("more", 0))
             limit = int(request.GET.get("limit", 10))
         except ValueError:
             more = 0
             limit = 10
-        action_data = Action.get_public_actions(more, limit)
+        actions = Action.get_public_actions(more, limit)
         return Response({
-            'actions': ActionSerializer(action_data, many=True).data
+            'actions': ActionSerializer(actions, many=True).data
         })
 
 @receiver(reset_password_token_created)

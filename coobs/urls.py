@@ -50,6 +50,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/public-actions/', PublicActionView.as_view(), name='public_actions'),
+    path('api/public-actions/<int:id>', PublicActionView.as_view(), name='public_action_detail'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
