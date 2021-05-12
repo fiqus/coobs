@@ -41,7 +41,6 @@ $(() => {
   }
 
   function appendAction(action) {
-    console.error(action);
     const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
     $(".public-action-date", tpl).html(action.date); // @TODO Parse date
     $(".public-action-coop", tpl).html(action.cooperativeName);
@@ -52,22 +51,33 @@ $(() => {
     $("#public-actions-table tbody").append(tpl);
   }
 
-  // @TODO Add translations and styles
   function parsePrinciples(principles) {
     const translator = $.tr.translator();
     let result = "";
     principles.forEach((principle) => {
       const princripleName = translator(principle.nameKey);
-      result = result.concat(`<div><span class="multiselect__tag" style="padding: 4px 6px 4px 6px !important;">${princripleName}</span></div>`)
+      result = result.concat(`<div><span class="multiselect__tag langkey-${principle.nameKey}">${princripleName}</span></div>`)
     });
     return result;
   }
 
   window.viewActionDetail = (el) => {
-    // @TODO Complete this!
     const id = $(el).data("id");
-    console.error("SHOW DETAILS FOR ACTION: "+id);
+    $.ajax({
+      url: `${scheme}://${hostname}/api/public-actions/${id}`,
+      type: "GET",
+      headers: {},
+      data: {},
+      cache: true,
+      success: (data) => data && data.action ? openActionModal(data.action) : null,
+      error: onError
+    });
   };
+
+  function openActionModal(action) {
+    // @TODO Complete this!
+    console.error("ACTION DETAILS:"+JSON.stringify(action));
+  }
 
   function setupTimeout(delay) {
     loading = setTimeout(removeTimeout, delay);

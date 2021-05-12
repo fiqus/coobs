@@ -49,3 +49,21 @@
 section.public-actions {
 
 }
+section.public-actions .multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 6px 4px 6px !important;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+section.public-actions td.public-action-actions {
+  vertical-align: middle !important;
+}

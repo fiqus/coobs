@@ -126,7 +126,11 @@ var langDict = {
     "helpLoading": "Cargando contenido de la ayuda.."
   }
 }
-$.tr.dictionary(langDict);
+
+$(() => {
+  // Load and merge additional translations
+  $.tr.dictionary($.extend(true, langDict, $.tr.langdata));
+});
 
 function setLang(langKey, langDesc) {
   $.tr.language(langKey);
@@ -134,6 +138,7 @@ function setLang(langKey, langDesc) {
   var tr = $.tr.translator();
   Object.keys(langDict[langKey]).forEach((key) => {
     $('#' + key).text(tr(key));
+    $('.langkey-' + key).text(tr(key));
   });
 
   $('#language').html(langDesc);

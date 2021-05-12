@@ -7,6 +7,9 @@ import './js/jqBootstrapValidation.js';
 import './js/contact_me.js';
 import './js/public-actions.js';
 
+import {loadLocalMessage} from "../src/i18n";
+$.tr.langdata = {en: loadLocalMessage("en"), es: loadLocalMessage("es")};
+
 import './vendor/fontawesome-free/css/all.min.css';
 import './css/landing.css';
 import './css/custom.css';
