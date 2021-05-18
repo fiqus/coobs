@@ -7,6 +7,10 @@
     <detail-modal
       :title="$t('actionDetail')">
       <template v-slot:modal-body>
+        <label class="bold">{{$t('cooperative')}}:</label>
+        <span name="cooperativeName"
+          type="text">{{modalAction.actionData.cooperativeName}}
+        </span><br/>
         <label class="bold">{{$t('name')}}:</label>
         <span name="name"
           type="text">{{modalAction.actionData.name}}
@@ -14,10 +18,6 @@
         <label class="bold">{{$t('description')}}:</label>
         <div name="description" v-html="modalAction.actionData.description">
         </div><br/>
-        <!-- <span name="description"
-          type="text">
-          {{modalAction.actionData.description}}
-        </span><br/> -->
         <label class="bold">{{$t('principles')}}:</label><br/>
         <span class="multiselect__tag" v-for="principle in modalAction.actionData.principles" v-bind:key="principle" 
           name="principles" type="text">
@@ -27,7 +27,7 @@
           <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
           <span class="multiselect__tag" v-for="goal in modalAction.actionData.sustainableDevelopmentGoals" v-bind:key="goal" 
             name="sustainableDevelopmentGoals" type="text">
-            {{$t(goal.name)}}
+            {{$t(goal.nameKey, goal.name)}}
           </span><br/>
         </div>
         <label class="bold">{{$t('partners')}}:</label><br/>

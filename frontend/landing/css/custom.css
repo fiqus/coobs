@@ -46,10 +46,7 @@
   display: none;
 }
 
-section.public-actions {
-
-}
-section.public-actions .multiselect__tag {
+.multiselect__tag {
   position: relative;
   display: inline-block;
   padding: 4px 6px 4px 6px !important;
@@ -63,6 +60,10 @@ section.public-actions .multiselect__tag {
   overflow: hidden;
   max-width: 100%;
   text-overflow: ellipsis;
+}
+
+section.public-actions {
+
 }
 section.public-actions td.public-action-actions {
   vertical-align: middle !important;

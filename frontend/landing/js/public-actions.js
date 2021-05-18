@@ -45,8 +45,7 @@ $(() => {
     $(".public-action-date", tpl).html(action.date); // @TODO Parse date
     $(".public-action-coop", tpl).html(action.cooperativeName);
     $(".public-action-name", tpl).html(action.name);
-    $(".public-action-desc", tpl).html(action.description); // @TODO Parse markdown/html
-    $(".public-action-principles", tpl).html(parsePrinciples(action.principles)); // @TODO Parse principles
+    $(".public-action-principles", tpl).html(parsePrinciples(action.principles));
     $(".public-action-actions button", tpl).data("id", action.id);
     $("#public-actions-table tbody").append(tpl);
   }
@@ -57,6 +56,25 @@ $(() => {
     principles.forEach((principle) => {
       const princripleName = translator(principle.nameKey);
       result = result.concat(`<div><span class="multiselect__tag langkey-${principle.nameKey}">${princripleName}</span></div>`)
+    });
+    return result;
+  }
+
+  function parseSustainableDevelopmentGoals(goals) {
+    const translator = $.tr.translator();
+    let result = "";
+    goals.forEach((goal) => {
+      const goalName = translator(goal.nameKey, goal.name);
+      result = result.concat(`<div><span class="multiselect__tag langkey-${goal.nameKey}">${goalName}</span></div>`)
+    });
+    return result;
+  }
+
+  function parsePartners(partners) {
+    let result = "";
+    partners.forEach((partner) => {
+      const name = partner.firstName +" "+ partner.lastName;
+      result = result.concat(`<span class="multiselect__tag">${name}</span>`)
     });
     return result;
   }
@@ -75,8 +93,36 @@ $(() => {
   };
 
   function openActionModal(action) {
-    // @TODO Complete this!
-    console.error("ACTION DETAILS:"+JSON.stringify(action));
+    console.log("ACTION DETAILS:", action);
+    const body = $("#detailModal .modal-body");
+
+    $("[name=cooperativeName]", body).html(action.cooperativeName);
+    $("[name=name]", body).html(action.name);
+    $("[name=description]", body).html(action.description); // @TODO Parse markdown/html
+    $("[name=startingDate]", body).html(action.date); // @TODO Parse date
+    $("[name=investedHours]", body).html(action.investedHours); // @TODO Format number
+    $("[name=investedMoney]", body).html("$"+action.investedMoney); // @TODO Format number
+    $("[name=principles]", body).html(parsePrinciples(action.principles));
+    action.sustainableDevelopmentGoals.push({nameKey: "qualityEducation"}); // @TODO REMOVE THIS TEST VALUE!
+    if ((action.sustainableDevelopmentGoals||[]).length === 0) {
+      $(".sustainableDevelopmentGoals", body).hide();
+    } else {
+      $(".sustainableDevelopmentGoals", body).show();
+      $("[name=sustainableDevelopmentGoals]", body).html(parseSustainableDevelopmentGoals(action.sustainableDevelopmentGoals));
+    }
+    if ((action.partnersInvolved||[]).length === 0) {
+      $(".partnersInvolved", body).hide();
+    } else {
+      $(".partnersInvolved", body).show();
+      $("[name=partners]", body).html(parsePartners(action.partnersInvolved));
+    }
+
+    $.magnificPopup.open({
+      items: {
+        src: ".modal-dialog",
+        type: "inline"
+      }
+    });
   }
 
   function setupTimeout(delay) {

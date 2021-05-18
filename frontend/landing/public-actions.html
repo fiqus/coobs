@@ -73,18 +73,43 @@
     </svg>
   </div>
 
-  <section class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalTitle" aria-hidden="true">
+  <section class="modal fade mfp-hide" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="action-details-modal-title"></h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+          <button type="button" class="mfp-close" data-dismiss="modal" aria-label="Close">
+            <span class="mfp-close" aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal" id="action-details-modal-close"></button>
+        <div class="modal-body">
+          <label class="bold"><span class="langkey-cooperative"></span>:</label>
+          <span name="cooperativeName" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-name"></span>:</label>
+          <span name="name" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-description"></span>:</label>
+          <div name="description" type="text"></div>
+          <br/>
+          <label class="bold"><span class="langkey-principles"></span>:</label>
+          <div name="principles" type="text"></div>
+          <div class="sustainableDevelopmentGoals">
+            <label class="bold"><span class="langkey-sustainableDevelopmentGoals"></span>:</label>
+            <div name="sustainableDevelopmentGoals" type="text"></div>
+          </div>
+          <div class="partnersInvolved">
+            <label class="bold"><span class="langkey-partners"></span>:</label>
+            <div name="partners" type="text"></div>
+          </div>
+          <label class="bold"><span class="langkey-startingDate"></span>:</label>
+          <span name="startingDate" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-investedHours"></span>:</label>
+          <span name="investedHours" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-investedMoney"></span>:</label>
+          <span name="investedMoney" type="text"></span>
         </div>
       </div>
     </div>
@@ -99,7 +124,6 @@
               <th class="text-truncate" id="public-actions-table-th-date"></th>
               <th class="text-truncate" id="public-actions-table-th-coop"></th>
               <th class="text-truncate" id="public-actions-table-th-name"></th>
-              <!--th class="text-truncate" id="public-actions-table-th-desc"></th-->
               <th class="text-truncate" id="public-actions-table-th-principles"></th>
               <th></th>
             </tr>
@@ -109,7 +133,6 @@
               <td class="text-truncate-wrap public-action-date"></td>
               <td class="text-truncate-wrap public-action-coop"></td>
               <td class="text-truncate-wrap public-action-name"></td>
-              <!--td class="text-truncate-wrap public-action-desc"></td-->
               <td class="text-truncate-wrap public-action-principles"></td>
               <td class="public-action-actions">
                 <button class="btn btn-success" onclick="viewActionDetail(this)" data-id=""><i class="fa fa-eye"></i></button>
