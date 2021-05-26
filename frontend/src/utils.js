@@ -23,21 +23,17 @@ export function parseNumber(number, locale) {
   return Intl.NumberFormat(locale || "es").format(number);
 }
 
-// format YYYY-MM-DD to DD/MM/YYY
-export function formatToUIDate(dateString) {
-  // TODO should we use assert to check the format?
+export function formatToUIDate(dateString, locale) {
   if (!dateString) {
     return;
   }
-  const dateParts = dateString.split("-");
-  if (!dateParts.length) {
-    return `Error formatting ${dateString}`;
-  }
-  const invalidYear = !dateParts[0] || dateParts[0].length !== 4,
-    invalidMonth = !dateParts[1] || dateParts[1].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 12),
-    invalidDate = !dateParts[2] || dateParts[2].length !== 2 || !(dateParts[1] >= 1 && dateParts[1] <= 31);
-  if (invalidYear || invalidMonth || invalidDate) {
-    return `Error formatting ${dateString}`;
-  }
-  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+  const opts = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    //timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  };
+  const dateObj = new Date((new Date(dateString)).getTime() + new Date().getTimezoneOffset()*60000);
+  return Intl.DateTimeFormat(locale || "es", opts).format(dateObj);
 }

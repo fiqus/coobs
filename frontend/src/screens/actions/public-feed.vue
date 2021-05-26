@@ -37,7 +37,7 @@
         </span><br/>
         <label class="bold">{{$t('startingDate')}}:</label>
         <span name="startingDate"
-          type="text">{{modalAction.actionData.date | formatToUIDate}}
+          type="text">{{formatDate(modalAction.actionData.date)}}
         </span><br/>
         <label class="bold">{{$t('investedHours')}}:</label>
         <span name="investedHours"
@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       headers: [
-        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
+        {key: "date", value: "date", parser: (p) => this.formatDate(p.date)},
         {key: "cooperative", value: "cooperative", parser: (p) => capitalizeFirstChar(p.cooperativeName)},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
         //{key: "description", value: "description", parser: (p) => formatText(sanitizeMarkdown(p.description||""), 100)},
@@ -100,6 +100,9 @@ export default {
   methods: {
     formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
+    },
+    formatDate(date) {
+      return formatToUIDate(date, this.$i18n.locale());
     },
     onGetMore({more, done}) {
       const limit = 10;

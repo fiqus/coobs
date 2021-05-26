@@ -6,7 +6,7 @@ $(() => {
       : { scheme: "http"
         , hostname: "localhost:8000" };
 
-  const limit = 2; // @TODO Change it to 10!
+  const limit = 10;
   let more = 0;
   let loading = false;
   let noMoreData = false;
@@ -42,7 +42,7 @@ $(() => {
 
   function appendAction(action) {
     const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
-    $(".public-action-date", tpl).html(action.date); // @TODO Parse date
+    $(".public-action-date", tpl).html(action.date); // @TODO Format date (but need to support on language change)
     $(".public-action-coop", tpl).html(action.cooperativeName);
     $(".public-action-name", tpl).html(action.name);
     $(".public-action-principles", tpl).html(parsePrinciples(action.principles));
@@ -73,10 +73,18 @@ $(() => {
   function parsePartners(partners) {
     let result = "";
     partners.forEach((partner) => {
-      const name = partner.firstName +" "+ partner.lastName;
+      const name = $.utils.capitalizeFirstChar(partner.firstName) +" "+ $.utils.capitalizeFirstChar(partner.lastName);
       result = result.concat(`<span class="multiselect__tag">${name}</span>`)
     });
     return result;
+  }
+
+  function formatNumber(number) {
+    return $.utils.parseNumber(number, $.tr.language());
+  }
+
+  function formatDate(date) {
+    return $.utils.formatToUIDate(date, $.tr.language());
   }
 
   window.viewActionDetail = (el) => {
@@ -93,15 +101,14 @@ $(() => {
   };
 
   function openActionModal(action) {
-    console.log("ACTION DETAILS:", action);
     const body = $("#detailModal .modal-body");
 
     $("[name=cooperativeName]", body).html(action.cooperativeName);
     $("[name=name]", body).html(action.name);
-    $("[name=description]", body).html(action.description); // @TODO Parse markdown/html
-    $("[name=startingDate]", body).html(action.date); // @TODO Parse date
-    $("[name=investedHours]", body).html(action.investedHours); // @TODO Format number
-    $("[name=investedMoney]", body).html("$"+action.investedMoney); // @TODO Format number
+    $("[name=description]", body).html($.utils.sanitizeMarkdown(action.description||""));
+    $("[name=startingDate]", body).html(formatDate(action.date));
+    $("[name=investedHours]", body).html(formatNumber(action.investedHours));
+    $("[name=investedMoney]", body).html("$"+formatNumber(action.investedMoney));
     $("[name=principles]", body).html(parsePrinciples(action.principles));
     action.sustainableDevelopmentGoals.push({nameKey: "qualityEducation"}); // @TODO REMOVE THIS TEST VALUE!
     if ((action.sustainableDevelopmentGoals||[]).length === 0) {
