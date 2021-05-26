@@ -48,7 +48,7 @@ const appConf = Object.assign({}, baseConf, {
     filename: "app.bundle.js"
   },
   plugins: [
-    new webpack.DefinePlugin({process: {env: {'NODE_ENV': process.env.NODE_ENV}}}), // Ugly fix for vuelidate
+    new webpack.DefinePlugin({process: {env: {'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}}}), // Ugly fix for `"production" !== production`
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
@@ -81,6 +81,7 @@ const landingConf = Object.assign({}, baseConf, {
     filename: "landing.bundle.js"
   },
   plugins: [
+    new webpack.DefinePlugin({process: {env: {'NODE_ENV': JSON.stringify(process.env.NODE_ENV)}}}), // Ugly fix for `"production" !== production`
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
