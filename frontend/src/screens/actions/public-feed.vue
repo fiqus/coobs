@@ -30,11 +30,6 @@
             {{$t(goal.nameKey, goal.name)}}
           </span><br/>
         </div>
-        <label class="bold">{{$t('partners')}}:</label><br/>
-        <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
-          name="partners" type="text">
-          {{partner}}
-        </span><br/>
         <label class="bold">{{$t('startingDate')}}:</label>
         <span name="startingDate"
           type="text">{{formatDate(modalAction.actionData.date)}}
@@ -113,13 +108,14 @@ export default {
       });
     },
     onViewDetail(action) {
-      return api.getAction(action.id).then((actionData) => {
-        actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
-          return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
-        });
+      return api.getPublicAction(action.id).then((data) => {
+        if (!(data && data.action)) {
+          return;
+        }
+        const actionData = data.action;
         actionData.description = sanitizeMarkdown(actionData.description||"");
         this.modalAction = {actionData};
-        $('#detailModal').modal()
+        $('#detailModal').modal();
       });
     }
   }

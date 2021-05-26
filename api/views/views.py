@@ -19,7 +19,7 @@ from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progres
     get_all_principles_data_for_current_partner
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
     SustainableDevelopmentGoal
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
+from api.serializers import PrincipleSerializer, ActionSerializer, PublicActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
@@ -617,7 +617,7 @@ class PublicActionView(views.APIView):
         try:
             action = Action.get_public_action(id)
             return Response({
-                'action': ActionSerializer(action, many=False).data
+                'action': PublicActionSerializer(action, many=False).data
             })
         except:
             return Response("PUBLIC_ACTION_NOT_FOUND", status=status.HTTP_404_NOT_FOUND)
@@ -631,7 +631,7 @@ class PublicActionView(views.APIView):
             limit = 10
         actions = Action.get_public_actions(more, limit)
         return Response({
-            'actions': ActionSerializer(actions, many=True).data
+            'actions': PublicActionSerializer(actions, many=True).data
         })
 
 @receiver(reset_password_token_created)

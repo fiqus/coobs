@@ -43,7 +43,7 @@ $(() => {
   function appendAction(action) {
     const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
     $(".public-action-date", tpl).html(action.date); // @TODO Format date (but need to support on language change)
-    $(".public-action-coop", tpl).html(action.cooperativeName);
+    $(".public-action-coop", tpl).html($.utils.capitalizeFirstChar(action.cooperativeName));
     $(".public-action-name", tpl).html(action.name);
     $(".public-action-principles", tpl).html(parsePrinciples(action.principles));
     $(".public-action-actions button", tpl).data("id", action.id);
@@ -66,15 +66,6 @@ $(() => {
     goals.forEach((goal) => {
       const goalName = translator(goal.nameKey, goal.name);
       result = result.concat(`<div><span class="multiselect__tag langkey-${goal.nameKey}">${goalName}</span></div>`)
-    });
-    return result;
-  }
-
-  function parsePartners(partners) {
-    let result = "";
-    partners.forEach((partner) => {
-      const name = $.utils.capitalizeFirstChar(partner.firstName) +" "+ $.utils.capitalizeFirstChar(partner.lastName);
-      result = result.concat(`<span class="multiselect__tag">${name}</span>`)
     });
     return result;
   }
@@ -110,18 +101,11 @@ $(() => {
     $("[name=investedHours]", body).html(formatNumber(action.investedHours));
     $("[name=investedMoney]", body).html("$"+formatNumber(action.investedMoney));
     $("[name=principles]", body).html(parsePrinciples(action.principles));
-    action.sustainableDevelopmentGoals.push({nameKey: "qualityEducation"}); // @TODO REMOVE THIS TEST VALUE!
     if ((action.sustainableDevelopmentGoals||[]).length === 0) {
       $(".sustainableDevelopmentGoals", body).hide();
     } else {
       $(".sustainableDevelopmentGoals", body).show();
       $("[name=sustainableDevelopmentGoals]", body).html(parseSustainableDevelopmentGoals(action.sustainableDevelopmentGoals));
-    }
-    if ((action.partnersInvolved||[]).length === 0) {
-      $(".partnersInvolved", body).hide();
-    } else {
-      $(".partnersInvolved", body).show();
-      $("[name=partners]", body).html(parsePartners(action.partnersInvolved));
     }
 
     $.magnificPopup.open({
