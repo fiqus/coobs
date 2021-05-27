@@ -7,6 +7,10 @@
     <detail-modal
       :title="$t('actionDetail')">
       <template v-slot:modal-body>
+        <label class="bold">{{$t('cooperative')}}:</label>
+        <span name="cooperativeName"
+          type="text">{{modalAction.actionData.cooperativeName}}
+        </span><br/>
         <label class="bold">{{$t('name')}}:</label>
         <span name="name"
           type="text">{{modalAction.actionData.name}}
@@ -14,10 +18,6 @@
         <label class="bold">{{$t('description')}}:</label>
         <div name="description" v-html="modalAction.actionData.description">
         </div><br/>
-        <!-- <span name="description"
-          type="text">
-          {{modalAction.actionData.description}}
-        </span><br/> -->
         <label class="bold">{{$t('principles')}}:</label><br/>
         <span class="multiselect__tag" v-for="principle in modalAction.actionData.principles" v-bind:key="principle" 
           name="principles" type="text">
@@ -27,17 +27,12 @@
           <label class="bold">{{$t('sustainableDevelopmentGoals')}}:</label><br/>
           <span class="multiselect__tag" v-for="goal in modalAction.actionData.sustainableDevelopmentGoals" v-bind:key="goal" 
             name="sustainableDevelopmentGoals" type="text">
-            {{$t(goal.name)}}
+            {{$t(goal.nameKey, goal.name)}}
           </span><br/>
         </div>
-        <label class="bold">{{$t('partners')}}:</label><br/>
-        <span class="multiselect__tag" v-for="partner in modalAction.actionData.partnersSelected" v-bind:key="partner" 
-          name="partners" type="text">
-          {{partner}}
-        </span><br/>
         <label class="bold">{{$t('startingDate')}}:</label>
         <span name="startingDate"
-          type="text">{{modalAction.actionData.date | formatToUIDate}}
+          type="text">{{formatDate(modalAction.actionData.date)}}
         </span><br/>
         <label class="bold">{{$t('investedHours')}}:</label>
         <span name="investedHours"
@@ -86,7 +81,7 @@ export default {
   data() {
     return {
       headers: [
-        {key: "date", value: "date", parser: (p) => formatToUIDate(p.date)},
+        {key: "date", value: "date", parser: (p) => this.formatDate(p.date)},
         {key: "cooperative", value: "cooperative", parser: (p) => capitalizeFirstChar(p.cooperativeName)},
         {key: "name", value: "name", parser: (p) => formatText(p.name, 50)},
         //{key: "description", value: "description", parser: (p) => formatText(sanitizeMarkdown(p.description||""), 100)},
@@ -101,8 +96,11 @@ export default {
     formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
     },
+    formatDate(date) {
+      return formatToUIDate(date, this.$i18n.locale());
+    },
     onGetMore({more, done}) {
-      const limit = 2;
+      const limit = 10;
       //this.isLoading = true; // Disabled because the visual effect is annoying!
       return api.getPublicActions(more, limit).then((data) => {
         this.isLoading = false;
@@ -110,13 +108,14 @@ export default {
       });
     },
     onViewDetail(action) {
-      return api.getAction(action.id).then((actionData) => {
-        actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
-          return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
-        });
+      return api.getPublicAction(action.id).then((data) => {
+        if (!(data && data.action)) {
+          return;
+        }
+        const actionData = data.action;
         actionData.description = sanitizeMarkdown(actionData.description||"");
         this.modalAction = {actionData};
-        $('#detailModal').modal()
+        $('#detailModal').modal();
       });
     }
   }

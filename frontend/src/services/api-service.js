@@ -1,10 +1,15 @@
 import {httpGet} from "../api-client";
 
 export async function getPublicActions(more, limit) {
-  const response = await httpGet("/public-actions", {
+  const response = await httpGet("/public-actions/", {
     more: more || 0,
     limit: limit || 10
   });
+  return response.data ? response.data : {};
+}
+
+export async function getPublicAction(id) {
+  const response = await httpGet(`/public-actions/${id}`);
   return response.data ? response.data : {};
 }
 

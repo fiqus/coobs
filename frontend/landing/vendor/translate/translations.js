@@ -8,6 +8,18 @@ var langDict = {
     "header-title-1": "COOBS:",
     "header-title-2": "Cooperative Social Balance",
     "header-subtitle": "This is a tool that will help you to monitor all the actions of your social organization, guided by the cooperative principles and the sustainable development goals.",
+    "public-actions-button": "Look the cooperativism in action!",
+    "public-actions-header-title": "Cooperative Actions",
+    "public-actions-header-subtitle": "This is a public actions list that COOBS cooperatives are carrying out!",
+    "public-actions-table-th-date": "Date",
+    "public-actions-table-th-coop": "Cooperative",
+    "public-actions-table-th-name": "Name",
+    "public-actions-table-th-desc": "Description",
+    "public-actions-table-th-principles": "Principles",
+    "public-actions-scroll-more": "Scroll down to display more elements",
+    "public-actions-no-more": "No more elements to display!",
+    "action-details-modal-title": "Action Details",
+    "action-details-modal-close": "Close",
     "section-metrics-title": "Metrics and monitoring",
     "section-metrics-subtitle": "The tool will provide you with the possibility of monitoring your social activity in real time, being able to measure the incidence of your actions.",
     "section-bs-title": "Organic Social Balance",
@@ -57,6 +69,18 @@ var langDict = {
     "header-title-1": "COOBS:",
     "header-title-2": "Balance Social Cooperativo",
     "header-subtitle": "Una herramienta que le facilitará realizar el seguimiento de las acciones de su organización social, guiadas por los principios cooperativos y los objetivos de desarrollo sustentable.",
+    "public-actions-button": "Mirá el cooperativismo en acción!",
+    "public-actions-header-title": "Acciones Cooperativas",
+    "public-actions-header-subtitle": "Este es un listado público de acciones que realizan las cooperativas que forman parte de COOBS!",
+    "public-actions-table-th-date": "Fecha",
+    "public-actions-table-th-coop": "Cooperativa",
+    "public-actions-table-th-name": "Nombre",
+    "public-actions-table-th-desc": "Descripción",
+    "public-actions-table-th-principles": "Principios",
+    "public-actions-scroll-more": "Desplace hacia abajo para mostrar más elementos",
+    "public-actions-no-more": "No hay más elementos para mostrar!",
+    "action-details-modal-title": "Detalle de la Acción",
+    "action-details-modal-close": "Cerrar",
     "section-metrics-title": "Métricas y seguimiento",
     "section-metrics-subtitle": "La herramienta le brindará la posibilidad de realizar un seguimiento de su actividad social en tiempo real, puediendo medir la incidencia de sus acciones.",
     "section-bs-title": "Balance social orgánico",
@@ -102,7 +126,11 @@ var langDict = {
     "helpLoading": "Cargando contenido de la ayuda.."
   }
 }
-$.tr.dictionary(langDict);
+
+$(() => {
+  // Load and merge additional translations
+  $.tr.dictionary($.extend(true, langDict, $.tr.langdata));
+});
 
 function setLang(langKey, langDesc) {
   $.tr.language(langKey);
@@ -110,6 +138,7 @@ function setLang(langKey, langDesc) {
   var tr = $.tr.translator();
   Object.keys(langDict[langKey]).forEach((key) => {
     $('#' + key).text(tr(key));
+    $('.langkey-' + key).text(tr(key));
   });
 
   $('#language').html(langDesc);

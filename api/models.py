@@ -163,3 +163,7 @@ class Action(models.Model):
         end = start + limit
         query = cls.objects.filter(public=True).select_related('cooperative').order_by('-date', '-id')
         return query[start:end]
+
+    @classmethod
+    def get_public_action(cls, id):
+        return cls.objects.filter(pk=id, public=True).select_related('cooperative')[0]

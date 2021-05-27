@@ -67,6 +67,7 @@ class SDGObjectiveSerializer(serializers.ModelSerializer):
         model = SDGObjective
         fields = "__all__"
 
+
 class ActionSerializer(serializers.ModelSerializer):
     cooperative_name = serializers.CharField(source='cooperative', read_only=True)
     principle_name_key = serializers.CharField(source='principle', read_only=True)
@@ -113,6 +114,19 @@ class ActionSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+class PublicActionSerializer(serializers.ModelSerializer):
+    cooperative_name = serializers.CharField(source='cooperative', read_only=True)
+    principle_name_key = serializers.CharField(source='principle', read_only=True)
+    principles = PrincipleSerializer(many=True)
+    sustainable_development_goals = SustainableDevelopmentGoalSerializer(many=True)
+    invested_money = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
+    invested_hours = BlankableDecimalField(max_digits=19, decimal_places=2, required=False)
+
+    class Meta:
+        model = Action
+        ordering = ['-date']
+        exclude = ['partners_involved']
 
 
 class PeriodSerializer(serializers.ModelSerializer):
