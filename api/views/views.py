@@ -319,12 +319,6 @@ class PartnerView(viewsets.ModelViewSet):
         queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
-    def get_object(self, pk):
-        try:
-            return Partner.objects.get(pk=pk)
-        except Partner.DoesNotExist:
-            raise Http404
-
     @transaction.atomic
     def create(self, request):
         data = request.data
@@ -374,11 +368,7 @@ class PartnerView(viewsets.ModelViewSet):
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
-        partner = self.get_object(self.kwargs.get("pk", None))
-        if not partner:
-            partner = self.get_object()
-        partner_serializer = PartnerSerializer(data=partner)
-
+        partner = self.get_object()
         if partner.id == request.user.id or partner.cooperative.id != request.user.cooperative.id:
             return Response(_("Current logged in user can not delete itself."), status=status.HTTP_404_NOT_FOUND)
 
