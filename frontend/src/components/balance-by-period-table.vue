@@ -6,7 +6,7 @@
         <th v-if="groupedBy === 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.objectiveNameKey, periodSummary.objectiveNameKey)}}</th>
         <th v-if="groupedBy !== 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
       </tr>
-      <tr :class="['collapse-'+periodSummary.principleNameKey]" class="row">
+      <tr :class="['collapse-'+periodSummary.principleNameKey]" class="row collapsable">
         <th class="col-sm-2" scope="col">{{$t("date")}}</th>
         <th class="col-sm-2" scope="col">{{$t("action")}}</th>
         <th class="col-sm-4" scope="col">{{$t("description")}}</th>
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="action in periodSummary.actions" :key="action.name" :class="['collapse-'+periodSummary.principleNameKey]" class="row">
+      <tr v-for="action in periodSummary.actions" :key="action.name" :class="['collapse-'+periodSummary.principleNameKey]" class="row collapsable">
         <td class="col-sm-2">{{action.date | formatToUIDate}}</td>
         <td class="col-sm-2">{{action.name}}</td>
         <td class="col-sm-4" v-html="action.description"></td>

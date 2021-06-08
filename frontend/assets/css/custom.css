@@ -169,11 +169,49 @@ td.actions {
   min-height: 200px;
 }
 
+.balance-container blockquote, .balance-container pre {
+  border: none;
+  border-left: 2px solid #b7b9cc;
+  padding-left: 1em;
+}
+
+@media print {
+  #wrapper #content-wrapper {
+    background-color: white !important;
+  }
+
+  .balance-container blockquote, .balance-container pre {
+    border: none;
+    border-left: 2px solid #b7b9cc;
+    padding-left: 1em;
+    page-break-inside: avoid;
+  }
+
+  .balance-container * {
+    color: black !important;
+    page-break-inside: auto !important;
+  }
+
+  .balance-container .balance-subtitle {
+    display: block !important;
+    max-width: none !important;
+  }
+
+  /*
+  .balance-container table {
+    page-break-inside: auto;
+  }
+  .balance-container table tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  */
+}
+
 @media (max-width: 320px) {
   /* date picker has a fixed width of 300px
   for extra small screen size should be same as input width*/
   .date-picker-width {
     width: unset !important;
   }
-
 }
