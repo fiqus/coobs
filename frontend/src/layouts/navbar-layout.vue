@@ -4,7 +4,7 @@
     <div id="wrapper">
 
       <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
+      <ul class="navbar-nav bg-gradient-info sidebar sidebar-dark accordion d-print-none" :class="{'toggled': toggled}" data-toggle="collapse" id="accordionSidebar">
         <!-- Sidebar - Brand -->
         <router-link class="sidebar-brand d-flex align-items-center justify-content-center" :to="{name: 'dashboard'}" >
           <div class="sidebar-brand-icon" :class="{'d-md-none': !toggled, 'd-none d-md-inline-block': toggled}">
@@ -103,7 +103,7 @@
         <div id="content">
 
           <!-- Topbar -->
-          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow d-print-none">
             <h1 class="text-truncate d-none d-md-inline-block">{{$store.state.cooperative.name || $store.state.cooperative.businessName}}</h1>
             <!-- Sidebar Toggle (Topbar) -->
             <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3" @click="toggled = !toggled">
@@ -164,7 +164,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <footer class="sticky-footer bg-white">
+        <footer class="sticky-footer bg-white d-print-none">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>{{$t("createdByFiqus")}} | COOBS 2021</span>

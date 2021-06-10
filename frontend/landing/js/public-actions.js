@@ -128,7 +128,7 @@ $(() => {
 
   function onScroll(ev) {
     const scrollOrWheel = ev.deltaY === undefined || ev.deltaY > 0;
-    const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
+    const bottomOfWindow = document.documentElement.scrollTop + window.innerHeight > document.documentElement.offsetHeight - 5;
     if (bottomOfWindow && scrollOrWheel && !noMoreData && !loading) {
       fetchActions();
     }
