@@ -51,7 +51,7 @@
           :period-summary="periodSummary">
         </balance-by-period-table>
 
-        <table class="table table-hover">
+        <table class="table table-hover principles-total">
           <thead>
             <tr class="row table-info h5">
               <th class="col-sm-10" scope="colgroup" colspan="4">{{$t("totalInvested")}}</th>

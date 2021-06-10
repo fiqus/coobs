@@ -180,6 +180,37 @@ td.actions {
     background-color: white !important;
   }
 
+  .principle-table thead th {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .principle-table .principle-header-openAndVoluntary th {
+    background-color: rgb(125, 59, 165, 0.2) !important;
+  }
+  .principle-table .principle-header-democraticControl th {
+    background-color: rgb(83, 72, 206, 0.2) !important;
+  }
+  .principle-table .principle-header-economicParticipation th {
+    background-color: rgb(183, 225, 247, 0.2) !important;
+  }
+  .principle-table .principle-header-commitmentToCommunity th {
+    background-color: rgb(155, 204, 120, 0.2) !important;
+  }
+  .principle-table .principle-header-autonomyIndependence th {
+    background-color: rgb(229, 87, 99, 0.2) !important;
+  }
+  .principle-table .principle-header-educationTraining th {
+    background-color: rgb(242, 170, 118, 0.2) !important;
+  }
+  .principle-table .principle-header-cooperationBetweenCoops th {
+    background-color: rgb(255, 255, 168, 0.2) !important;
+  }
+
+  table.principles-total thead th {
+    border-color: #e3e6f0;
+  }
+
   .balance-container blockquote, .balance-container pre {
     border: none;
     border-left: 2px solid #b7b9cc;

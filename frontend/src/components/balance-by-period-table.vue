@@ -1,8 +1,8 @@
 <template>
 <div class="container-fluid">
-  <table class="table table-hover">
+  <table class="table table-hover principle-table">
     <thead class="cursorPointer" @click.stop="toggle(periodSummary.principleNameKey)">
-      <tr class="row thead-light">
+      <tr class="row thead-light" :class="['principle-header-'+periodSummary.principleNameKey]">
         <th v-if="groupedBy === 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.objectiveNameKey, periodSummary.objectiveNameKey)}}</th>
         <th v-if="groupedBy !== 'sdg'" class="col-sm-12" scope="colgroup" colspan="4">{{$t(periodSummary.principleNameKey, periodSummary.principleNameKey)}}</th>
       </tr>
