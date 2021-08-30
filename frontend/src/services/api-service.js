@@ -1,5 +1,18 @@
 import {httpGet} from "../api-client";
 
+export async function getPublicActions(more, limit) {
+  const response = await httpGet("/public-actions/", {
+    more: more || 0,
+    limit: limit || 10
+  });
+  return response.data ? response.data : {};
+}
+
+export async function getPublicAction(id) {
+  const response = await httpGet(`/public-actions/${id}`);
+  return response.data ? response.data : {};
+}
+
 export async function getActions() {
   const response = await httpGet("/actions");
   return response.data ? response.data : [];
@@ -10,7 +23,7 @@ export async function getAction(actionId) {
   return response.data;
 }
 
-export async function getPrinciples(){
+export async function getPrinciples() {
   const principlesResponse = await httpGet("/principles/");
   return principlesResponse.data;
 }
@@ -21,7 +34,7 @@ export async function getPrinciple(principleId) {
 }
 
 
-export async function getSustainableDevelopmentGoals(){
+export async function getSustainableDevelopmentGoals() {
   const principlesResponse = await httpGet("/sustainable-development-goals/");
   return principlesResponse.data;
 }
@@ -41,13 +54,13 @@ export async function getSDGMonitoringData(params) {
   return response.data;
 }
 
-export async function getPartners(){
+export async function getPartners() {
   const partnersResponse = await httpGet("/partners");
   return partnersResponse.data;
 }
 
 
-export async function getPartner(partnerId){
+export async function getPartner(partnerId) {
   const partnerResponse = await httpGet(`/partners/${partnerId}`);
   return partnerResponse.data;
 }
@@ -55,6 +68,10 @@ export async function getPartner(partnerId){
 export async function getDashboard(params) {
   const response = await httpGet("/dashboard", params);
   return response.data ? response.data : [];
+}
+
+export async function getBalance(params) {
+  return httpGet("/balance", params);
 }
 
 export async function getMyStats(params) {

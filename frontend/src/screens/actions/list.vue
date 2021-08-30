@@ -231,7 +231,7 @@ export default {
       }
       return filters;
     },
-    formatNumber(number){
+    formatNumber(number) {
       return parseNumber(number, this.$i18n.locale());
     },
     principlesFilter(principles) {
@@ -359,7 +359,7 @@ export default {
         actionData.partnersSelected = actionData.partnersInvolved.map((partner) => {
           return `${capitalizeFirstChar(partner.firstName)} ${capitalizeFirstChar(partner.lastName)}`
         });
-        actionData.description = sanitizeMarkdown(actionData.description);
+        actionData.description = sanitizeMarkdown(actionData.description||"");
         this.modalAction = {actionData};
         $('#detailModal').modal()
       });

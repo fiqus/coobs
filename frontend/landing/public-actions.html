@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6DM4VRWC2T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-6DM4VRWC2T');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Fiqus">
+
+  <title>COOBS</title>
+
+  <!-- Custom fonts for this theme -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="../images/Logo_FavIcon_positivo_128px.svg" type="image/x-icon">
+  <link rel="icon" href="../images/Logo_FavIcon_positivo_128px.svg" type="image/x-icon">  
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white" id="navbar-top">
+    <div class="container-fluid p-4">
+      <a href="/"><img class="navbar-brand js-scroll-trigger mr-auto" src="../images/coobs.png" style="height: 40px;width: 190px;"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+          <li class="nav-item active">
+            <a id="signIn" class="btn btn-sign-in ml-auto" href="/app/#/login"></a>
+          </li>
+          <li class="nav-item active">
+            <a id="home" class="btn btn-sign-in ml-auto" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle btn-lang" href="#" id="language" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item lang-option" data-value="es" href="#">Español</a>
+              <a class="dropdown-item lang-option" data-value="en" href="#">English</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="masthead bg-grey">
+    <div class="container d-flex align-items-center flex-column">
+      <div class="row">
+        <div class="col-md-7">
+          <h1 id="public-actions-header-title" class="masthead-heading custom-green"></h1>
+          <p id="public-actions-header-subtitle" class="masthead-subheading"></p>
+        </div>
+        <div class="col-md-5">
+          <img src="../images/Ilustracion_COOBS_home_01.png" class="w-100 img-fluid">
+        </div>
+      </div>
+    </div>
+  </header>
+  <div style="height: 150px; overflow: hidden;">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+      <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z" style="stroke: none;fill: #f2f4f9;"></path>
+    </svg>
+  </div>
+
+  <section class="modal fade mfp-hide" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="action-details-modal-title"></h5>
+          <button type="button" class="mfp-close" data-dismiss="modal" aria-label="Close">
+            <span class="mfp-close" aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label class="bold"><span class="langkey-cooperative"></span>:</label>
+          <span name="cooperativeName" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-name"></span>:</label>
+          <span name="name" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-description"></span>:</label>
+          <div name="description" type="text"></div>
+          <br/>
+          <label class="bold"><span class="langkey-principles"></span>:</label>
+          <div name="principles" type="text"></div>
+          <div class="sustainableDevelopmentGoals">
+            <label class="bold"><span class="langkey-sustainableDevelopmentGoals"></span>:</label>
+            <div name="sustainableDevelopmentGoals" type="text"></div>
+          </div>
+          <label class="bold"><span class="langkey-startingDate"></span>:</label>
+          <span name="startingDate" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-investedHours"></span>:</label>
+          <span name="investedHours" type="text"></span>
+          <br/>
+          <label class="bold"><span class="langkey-investedMoney"></span>:</label>
+          <span name="investedMoney" type="text"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-actions pt-3 pb-5">
+    <div class="container">
+      <div class="row table-responsive infinite-scroll">
+        <table class="table table-striped" id="public-actions-table">
+          <thead>
+            <tr>
+              <th class="text-truncate" id="public-actions-table-th-date"></th>
+              <th class="text-truncate" id="public-actions-table-th-coop"></th>
+              <th class="text-truncate" id="public-actions-table-th-name"></th>
+              <th class="text-truncate" id="public-actions-table-th-principles"></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="hidden action-tpl">
+              <td class="text-truncate-wrap public-action-date"></td>
+              <td class="text-truncate-wrap public-action-coop"></td>
+              <td class="text-truncate-wrap public-action-name"></td>
+              <td class="text-truncate-wrap public-action-principles"></td>
+              <td class="public-action-actions">
+                <button class="btn btn-success" onclick="viewActionDetail(this)" data-id=""><i class="fa fa-eye"></i></button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6" class="italic">
+                <div id="public-actions-scroll-more"></div>
+                <div id="public-actions-no-more" class="bold hidden"></div>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </section>
+  <div class="rotated" style="height: 100px; overflow: hidden; transform: rotate(180deg)">
+    <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
+      <path d="M0.00,92.27 C216.83,192.92 304.30,8.39 500.00,109.03 L500.00,0.00 L0.00,0.00 Z" style="stroke: none;fill: #f2f4f9;"></path>
+    </svg>
+  </div>
+
+  <footer class="footer text-center bg-custom-green">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 pt-3">
+            <p id="fiqusLabsText"/>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

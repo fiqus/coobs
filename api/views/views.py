@@ -19,7 +19,7 @@ from api.dashboard_charts.charts_data_helpers import get_cards_data, get_progres
     get_all_principles_data_for_current_partner
 from api.models import Principle, Action, Period, Cooperative, Partner, MainPrinciple, \
     SustainableDevelopmentGoal
-from api.serializers import PrincipleSerializer, ActionSerializer, PeriodSerializer, CooperativeSerializer, \
+from api.serializers import PrincipleSerializer, ActionSerializer, PublicActionSerializer, PeriodSerializer, CooperativeSerializer, \
     PartnerSerializer, MyTokenObtainPairSerializer, ChangePasswordSerializer, MainPrincipleSerializer, \
     ActionsByCoopSerializer
 from django_filters import rest_framework as filters
@@ -319,12 +319,6 @@ class PartnerView(viewsets.ModelViewSet):
         queryset = Partner.objects.filter(cooperative=self.request.user.cooperative_id)
         return queryset
 
-    def get_object(self, pk):
-        try:
-            return Partner.objects.get(pk=pk)
-        except Partner.DoesNotExist:
-            raise Http404
-
     @transaction.atomic
     def create(self, request):
         data = request.data
@@ -374,11 +368,7 @@ class PartnerView(viewsets.ModelViewSet):
         return Response('Partner asked to be created', status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
-        partner = self.get_object(self.kwargs.get("pk", None))
-        if not partner:
-            partner = self.get_object()
-        partner_serializer = PartnerSerializer(data=partner)
-
+        partner = self.get_object()
         if partner.id == request.user.id or partner.cooperative.id != request.user.cooperative.id:
             return Response(_("Current logged in user can not delete itself."), status=status.HTTP_404_NOT_FOUND)
 
@@ -502,6 +492,7 @@ class BalanceView(viewsets.ViewSet):
                          'total_invested': total_invested, 'totalHoursInvested': totalHoursInvested})
 
 
+# @TODO This view might be removed if we don't plan to display an actions ranking in the future.
 class ActionsRankingView(viewsets.ViewSet):
     """
     list:
@@ -598,33 +589,40 @@ class PartnerStatsView(viewsets.ViewSet):
 
 
 class PublicActionView(views.APIView):
+    # It's a public endpoint!
+    permission_classes = []
+
     """
     get:
-    Returns public actions for this year, all the principles and actions by principles.
-
+    Returns public actions from all cooperatives for unauthenticated users.
+    If no action ID is given (to return its details), it will return a list following the parameters `more` and `limit`.
     """
-    permission_classes = []
-    serializer_class = ActionSerializer
 
-    def get(self, request):
-        starting_day_of_current_year = datetime.now().date().replace(month=1, day=1)
-        ending_day_of_current_year = datetime.now().date().replace(month=12, day=31)
-        action_data = Action.get_public_actions(starting_day_of_current_year, ending_day_of_current_year).order_by('date')
-        action_serializer = ActionSerializer(action_data, many=True)
-
-        cooperative_data = Cooperative.objects.filter(is_active=True)
-        coopearive_serializer = CooperativeSerializer(cooperative_data, many=True)
-        principle_data = Principle.objects.filter(visible=True)
-        principle_serializer = PrincipleSerializer(principle_data, many=True)
-
-        actions_by_principles_data = Action.objects.filter(principles__visible=True).values('principles').annotate(total=Count('principles')).order_by()
-
-        return Response({
-                'actions': action_serializer.data, 
-                'principles': principle_serializer.data,
-                'actions_by_principles_data': actions_by_principles_data,
-                'cooperatives': coopearive_serializer.data
+    def get(self, request, id=0):
+        if id > 0:
+            return self._get_public_action_details(id)
+        return self._get_public_actions(request)
+    
+    def _get_public_action_details(self, id):
+        try:
+            action = Action.get_public_action(id)
+            return Response({
+                'action': PublicActionSerializer(action, many=False).data
             })
+        except:
+            return Response("PUBLIC_ACTION_NOT_FOUND", status=status.HTTP_404_NOT_FOUND)
+    
+    def _get_public_actions(self, request):
+        try:
+            more = int(request.GET.get("more", 0))
+            limit = int(request.GET.get("limit", 10))
+        except ValueError:
+            more = 0
+            limit = 10
+        actions = Action.get_public_actions(more, limit)
+        return Response({
+            'actions': PublicActionSerializer(actions, many=True).data
+        })
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):

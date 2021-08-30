@@ -17,9 +17,9 @@ import {formatToUIDate} from './utils';
 
 import "../node_modules/@fortawesome/fontawesome-free/css/all.css"
 import "../assets/css/fonts.css"
+import "../assets/css/sb-admin-2.min.css"
 import "../assets/css/custom.css"
 import "../assets/css/help.css"
-import "../assets/css/sb-admin-2.min.css"
 import "jquery"
 import "../assets/js/bootstrap.bundle.min.js"
 import "../assets/js/jquery.easing.min.js"

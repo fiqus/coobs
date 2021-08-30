@@ -13,23 +13,58 @@
   }
 }
 
-.rotate-n-15{
+.rotate-n-15 {
   -webkit-transform:rotate(-15deg);
   transform:rotate(-15deg)
 }
 
-.form-control-user{
+.form-control-user {
   font-size:.8rem;
   border-radius:10rem;
   padding:1.5rem 1rem
 }
 
-.btn-user{
+.btn-user {
   font-size:.8rem;
   border-radius:10rem;
   padding:.75rem 1rem
 }
 
-.mb-45,.my-45{
+.mb-45,.my-45 {
   margin-bottom:2rem!important
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.hidden {
+  display: none;
+}
+
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 6px 4px 6px !important;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+section.public-actions {
+
+}
+section.public-actions td.public-action-actions {
+  vertical-align: middle !important;
 }

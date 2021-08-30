@@ -158,7 +158,12 @@ class Action(models.Model):
         return qs
 
     @classmethod
-    def get_public_actions(cls, date_from, date_to):
-        qs = cls.objects.filter(principles__visible=True, date__gte=date_from, date__lte=date_to)
-        qs = qs.annotate(principles_num = Count('id'))
-        return qs
+    def get_public_actions(cls, more=0, limit=10):
+        start = more * limit
+        end = start + limit
+        query = cls.objects.filter(public=True).select_related('cooperative').order_by('-date', '-id')
+        return query[start:end]
+
+    @classmethod
+    def get_public_action(cls, id):
+        return cls.objects.filter(pk=id, public=True).select_related('cooperative')[0]

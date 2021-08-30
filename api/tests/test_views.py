@@ -2,7 +2,7 @@ import requests
 import json
 import unittest
 import random
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APIClient
@@ -72,6 +72,7 @@ class CooperativeTest(TestCase):
         response = self.client.post(self.list_url, invalid_payload)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+
 class PartnerTest(TestCase):
     """ Test module for partners """
     list_url = reverse('Partner-list')
@@ -136,6 +137,7 @@ class ActionTest(TestCase):
     """ Test module for actions """
 
     list_url = reverse('Action-list')
+    public_actions_url = reverse('public_actions')
 
     @classmethod
     def create_main_principles(cls):
@@ -150,26 +152,37 @@ class ActionTest(TestCase):
         cls.main_principles = cls.create_main_principles()
         cls.principles = []
         for main_pple in cls.main_principles:
-         cls.principles.append(Principle.objects.create(cooperative=cls.coop, main_principle=main_pple, description=f"principle {main_pple.id}", custom_description=f"principle {main_pple.id}"))
+            cls.principles.append(Principle.objects.create(cooperative=cls.coop, main_principle=main_pple, description=f"principle {main_pple.id}", custom_description=f"principle {main_pple.id}"))
         #FIXME por qué NO puedo mover el resto de setUp acá?
+
+    def create_action(self, name, description=None, public=True, date=datetime.today(), coop=None):
+        return Action.objects.create(
+            cooperative=coop if coop != None else self.coop,
+            name=name,
+            description=description,
+            public=public,
+            date=date
+        )
 
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user("test_user@mail.com", "password")
         self.user.cooperative = self.coop
         self.client.force_authenticate(self.user)
-        self.action = Action.objects.create(name="test action", cooperative=self.coop)
 
     def test_retrieve_actions_list(self):
+        self.create_action(name="action 1")
+        self.create_action(name="action 2")
         response = self.client.get(self.list_url)
         actions = Action.objects.all()
         serializer = ActionSerializer(actions, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), len(serializer.data))
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(len(serializer.data), 2)
 
     def test_retrieve_actions_list_with_filter_contents(self):
-        Action.objects.create(name="find my name", description="find my description", cooperative=self.coop)
-        Action.objects.create(name="don't find me", description="don't find me", cooperative=self.coop)
+        self.create_action(name="find my name", description="find my description")
+        self.create_action(name="don't find me", description="don't find me")
         response = self.client.get(f"{self.list_url}?contents=my%20name")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
@@ -182,9 +195,64 @@ class ActionTest(TestCase):
         response = self.client.get(f"{self.list_url}?contents=me")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 2)
+    
+    def test_retrieve_public_actions_list(self):
+        self.client.force_authenticate(None)
+        for idx in range(1, 101):
+            date = datetime.today().date() - timedelta(days=idx)
+            self.create_action(name="Action {}!".format(idx), public=idx % 2 == 0, date=date)
+
+        response = self.client.get(self.public_actions_url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 10)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 2!")
+        self.assertEqual(response.data["actions"][9]["name"], "Action 20!")
+
+        response = self.client.get(f"{self.public_actions_url}?more=wrong&limit=wrong!")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 10)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 2!")
+        self.assertEqual(response.data["actions"][9]["name"], "Action 20!")
+
+        response = self.client.get(f"{self.public_actions_url}?more=0&limit=5")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 5)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 2!")
+        self.assertEqual(response.data["actions"][4]["name"], "Action 10!")
+
+        response = self.client.get(f"{self.public_actions_url}?more=1&limit=5")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 5)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 12!")
+        self.assertEqual(response.data["actions"][4]["name"], "Action 20!")
+
+        response = self.client.get(f"{self.public_actions_url}?more=1&limit=20")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 20)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 42!")
+        self.assertEqual(response.data["actions"][19]["name"], "Action 80!")
+
+        response = self.client.get(f"{self.public_actions_url}?more=2&limit=20")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["actions"]), 10)
+        self.assertEqual(response.data["actions"][0]["name"], "Action 82!")
+        self.assertEqual(response.data["actions"][9]["name"], "Action 100!")
+
+    def test_retrieve_public_action_details(self):
+        self.client.force_authenticate(None)
+        public = self.create_action(name="test action PUBLIC", public=True)
+        private = self.create_action(name="test action PRIVATE", public=False)
+        response = self.client.get(reverse('public_action_detail', kwargs={"id": public.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["action"]["id"], public.pk)
+        self.assertEqual(response.data["action"]["name"], "test action PUBLIC")
+        response = self.client.get(reverse('public_action_detail', kwargs={"id": private.pk}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.data, "PUBLIC_ACTION_NOT_FOUND")
 
     def test_retrieve_action(self):
-        response = self.client.get(reverse('Action-detail', kwargs={"pk": self.action.pk}))
+        action = self.create_action(name="test action")
+        response = self.client.get(reverse('Action-detail', kwargs={"pk": action.pk}))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["name"], "test action")
     
