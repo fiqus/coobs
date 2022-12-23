@@ -41,13 +41,13 @@ $(() => {
   }
 
   function appendAction(action) {
-    const tpl = $("#public-actions-table tr.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
+    const tpl = $("#public-actions-cards div.action-tpl").clone().removeClass(["action-tpl", "hidden"]);
     $(".public-action-date", tpl).html(action.date); // @TODO Format date (but need to support on language change)
     $(".public-action-coop", tpl).html($.utils.capitalizeFirstChar(action.cooperativeName));
     $(".public-action-name", tpl).html(action.name);
     $(".public-action-principles", tpl).html(parsePrinciples(action.principles));
-    $(".public-action-actions button", tpl).data("id", action.id);
-    $("#public-actions-table tbody").append(tpl);
+    $(".card-link", tpl).data("id", action.id);
+    $("#all-cards").append(tpl);
   }
 
   function parsePrinciples(principles) {

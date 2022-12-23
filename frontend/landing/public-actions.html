@@ -57,12 +57,12 @@
   <header class="masthead bg-grey">
     <div class="container d-flex align-items-center flex-column">
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-5 public-actions-header-container">
           <h1 id="public-actions-header-title" class="masthead-heading custom-green"></h1>
           <p id="public-actions-header-subtitle" class="masthead-subheading"></p>
         </div>
-        <div class="col-md-5">
-          <img src="../images/Ilustracion_COOBS_home_01.png" class="w-100 img-fluid">
+        <div class="col-md-7">
+          <img src="../images/Ilustracion_COOBS_home_01.png" class="img-fluid">
         </div>
       </div>
     </div>
@@ -113,37 +113,50 @@
 
   <section class="public-actions pt-3 pb-5">
     <div class="container">
-      <div class="row table-responsive infinite-scroll">
-        <table class="table table-striped" id="public-actions-table">
-          <thead>
-            <tr>
-              <th class="text-truncate" id="public-actions-table-th-date"></th>
-              <th class="text-truncate" id="public-actions-table-th-coop"></th>
-              <th class="text-truncate" id="public-actions-table-th-name"></th>
-              <th class="text-truncate" id="public-actions-table-th-principles"></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hidden action-tpl">
-              <td class="text-truncate-wrap public-action-date"></td>
-              <td class="text-truncate-wrap public-action-coop"></td>
-              <td class="text-truncate-wrap public-action-name"></td>
-              <td class="text-truncate-wrap public-action-principles"></td>
-              <td class="public-action-actions">
-                <button class="btn btn-success" onclick="viewActionDetail(this)" data-id=""><i class="fa fa-eye"></i></button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6" class="italic">
-                <div id="public-actions-scroll-more"></div>
-                <div id="public-actions-no-more" class="bold hidden"></div>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+      <div id="public-actions-cards" class="row infinite-scroll">
+        <div id="all-cards">
+          <div class="card hidden action-tpl">
+            <div class="card-body">
+              <h5 class="card-title text-truncate-wrap public-action-coop"></h5>
+              <h6 class="card-subtitle mb-2 text-muted text-truncate-wrap public-action-date"></h6>
+              <p class="card-text text-truncate-wrap public-action-name"></p>
+              <p class="card-footer-custom public-action-principles"></p>
+              <a href="#" class="card-link" onclick="viewActionDetail(this)" data-id="">Ver más</a>
+            </div>
+          </div>
+          <!-- <table class="table table-striped" id="public-actions-table">
+            <thead>
+              <tr>
+                <th class="text-truncate" id="public-actions-table-th-date"></th>
+                <th class="text-truncate" id="public-actions-table-th-coop"></th>
+                <th class="text-truncate" id="public-actions-table-th-name"></th>
+                <th class="text-truncate" id="public-actions-table-th-principles"></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hidden action-tpl">
+                <td class="text-truncate-wrap public-action-date"></td>
+                <td class="text-truncate-wrap public-action-coop"></td>
+                <td class="text-truncate-wrap public-action-name"></td>
+                <td class="text-truncate-wrap public-action-principles"></td>
+                <td class="public-action-actions">
+                  <button class="btn btn-success" onclick="viewActionDetail(this)" data-id=""><i class="fa fa-eye"></i></button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6" class="italic">
+                  <div id="public-actions-scroll-more"></div>
+                  <div id="public-actions-no-more" class="bold hidden"></div>
+                </td>
+              </tr>
+            </tfoot>
+          </table> -->
+        </div>
+        <div id="public-actions-scroll-more"></div>
+        <div id="public-actions-no-more" class="bold hidden"></div>
       </div>
     </div>
   </section>
