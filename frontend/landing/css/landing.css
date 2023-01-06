@@ -18,18 +18,19 @@ body {
 
 .masthead {
   padding-top: calc(6rem + 74px);
-  padding-bottom: 6rem;
 }
 
 .masthead .masthead-heading {
-  font-size: 2.75rem;
+  font-size: 60px;
   line-height: 2.75rem;
+  text-align: center;
 }
 
 .masthead .masthead-subheading {
   font-size: 1.25rem;
   margin-top: 30px;
   margin-bottom: 45px;
+  text-align: center;
 }
 
 .masthead .masthead-avatar {
@@ -39,20 +40,29 @@ body {
 @media (min-width: 992px) {
   .masthead {
     padding-top: calc(6rem + 104px);
-    padding-bottom: 6rem;
   }
+
   .masthead .masthead-heading {
-    font-size: 4.0rem;
+    font-size: 60px;
     line-height: 3.9rem;
   }
+
   .masthead .masthead-subheading {
     font-size: 1.3rem;
     margin-top: 30px;
-    padding-right: 190px;
   }
 
   #signup {
     font-size: 54px;
+  }
+
+  .coobs-video {
+    height: 562px !important;
+    width: 1000px !important;
+  }
+
+  .masthead-heading {
+    margin-top: 30px;
   }
 }
 
@@ -69,15 +79,21 @@ masthead-subheading {
 }
 
 .custom-green {
-  color: #00E546;
+  color: #00D334;
 }
 
 .bg-custom-green {
-  background-color: #00D337;
+  background-color: #00D334;
 }
 
 .custom-blue {
-  color: #00C3FF;
+  color: #00C3FF !important;
+}
+
+.btn-custom-blue {
+  color: #FFFFFF !important;
+  background-color: #04c5ee !important;
+  font-weight: bold !important;
 }
 
 .custom-orange {
@@ -144,4 +160,59 @@ masthead-subheading {
   color: white !important;
   font-weight: bold;
   border-radius: 10px !important;
+}
+
+.coobs-video {
+  height: 315px;
+  width: 560px;
+}
+
+.video-container {
+  padding-top: 12px;
+}
+
+.masthead-heading {
+  margin-top: 30px;
+}
+
+.public-actions-header-container {
+  padding-top: 40px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#public-actions-scroll-more {
+  width: 100%;
+  text-align: center;
+  font-weight: normal;
+  margin-top: 55px;
+}
+
+#public-actions-no-more {
+  width: 100%;
+  text-align: center;
+  font-weight: normal;
+  margin-top: 55px;
+}
+
+.card {
+  width: 25rem !important;
+  flex-direction: row !important;
+  margin: 20px !important;
+  min-height: 260px !important;
+}
+
+#all-cards {
+  display: flex;
+}
+
+.card-footer-custom {
+  padding-top: .75rem;
+}
+
+.card-link {
+  position: absolute;
+  bottom: 20px;
 }
