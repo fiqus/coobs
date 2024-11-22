@@ -2,6 +2,7 @@
 
 server: backend
 backend:
+	@docker-compose up -d
 	@python manage.py runserver
 
 frontend:
@@ -23,10 +24,12 @@ clean:
 	@find . -type d -name '__pycache__' -delete
 
 reset-db:
-	@sudo -iu postgres bash -c "psql -c 'DROP DATABASE IF EXISTS coobs;'"
-	@sudo -iu postgres bash -c "psql -c 'CREATE DATABASE coobs;'"
-	@sudo -iu postgres bash -c "psql -c 'GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;'"
-	@sudo -iu postgres bash -c "psql -c 'ALTER USER coobs CREATEDB;'"
+	@psql -h localhost -U postgres -c "DROP DATABASE IF EXISTS coobs;"
+	@psql -h localhost -U postgres -c "CREATE DATABASE coobs;"
+	@psql -h localhost -U postgres -c "DROP ROLE IF EXISTS coobs;"
+	@psql -h localhost -U postgres -c "CREATE ROLE coobs WITH LOGIN CREATEDB PASSWORD 'coobspass';"
+	@psql -h localhost -U postgres -c "ALTER DATABASE coobs OWNER TO coobs;"
+	@psql -h localhost -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE coobs TO coobs;"
 	@echo "\033[0;32mDB reset done! => Running migrations.."
 	@$(MAKE) -s migration
 	@echo "\033[0;32mMigrations done! => Creating superuser.."

@@ -1,17 +1,41 @@
-# Tools
-postgres:
-  image: postgres
-  ports:
-    - "5432:5432"
-  volumes_from:
-    - 'data'
-  environment:
-    POSTGRES_USER: "postgres"
-    POSTGRES_PASSWORD: "postgres"
-  volumes:
-    - "/tmp:/tmp"
+version: "3.8"
 
-data:
-  image: busybox
-  volumes:
-    - ./data:/data
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:12.1
+    hostname: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - 'pg_data:/var/lib/postgresql/data'
+    networks:
+      close:
+        aliases:
+          - postgres
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:6.21
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@fiqus.coop
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    volumes:
+      - 'pgadmin_data:/var/lib/pgadmin'
+    networks:
+      close:
+        aliases:
+          - pgadmin
+
+networks:
+  close:
+    driver: bridge
+
+volumes:
+  pg_data:
+  pgadmin_data:
