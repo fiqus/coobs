@@ -39,7 +39,7 @@ Pillow==8.3.2
 psycopg2==2.8.6
 pycparser==2.20
 Pygments==2.8.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pylint==2.7.2
 pyparsing==2.4.7
 Pyphen==0.10.0
