@@ -1,4 +1,11 @@
-# Cooperative social balance app 
+# Cooperative social balance app
+
+## Running all the project with Docker Compose
+You need to install Docker and Docker Compose in your machine
+
+```bash
+docker compose -f docker-compose-dev.yml up
+```
 
 ## Running Backend
 

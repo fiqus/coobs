@@ -92,7 +92,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = []
+if os.environ.get('DEVELOPMENT_MODE', 'False') == 'True':
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -122,8 +123,12 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
-RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify'
-RECAPTCHA_SECRET_KEY = ''
+# reCAPTCHA Enterprise Configuration
+RECAPTCHA_VERIFY_URL = 'https://recaptchaenterprise.googleapis.com/v1/projects/{project_id}/assessments?key={api_key}'
+RECAPTCHA_PROJECT_ID = 'coobs-476415'  # Google Cloud Project ID
+RECAPTCHA_API_KEY = ''     # Google Cloud API Key
+RECAPTCHA_SITE_KEY = '6Lc_wfgrAAAAADuYYdB51FTwU6OETYbQUEP84q9u'    # reCAPTCHA Enterprise Site Key
+RECAPTCHA_SCORE_THRESHOLD = 0.5  # Minimum score to consider the request as legitimate
 
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = ''

@@ -1,0 +1,95 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: coobs_postgres
+    image: postgres:12.1
+    hostname: postgres
+    environment:
+      POSTGRES_DB: coobs
+      POSTGRES_USER: coobs
+      POSTGRES_PASSWORD: coobspass
+    ports:
+      - "5433:5432"
+    volumes:
+      - 'pg_data:/var/lib/postgresql/data'
+    networks:
+      - coobs_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U coobs -d coobs"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    container_name: coobs_backend
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      - POSTGRES_DB=coobs
+      - POSTGRES_USER=coobs
+      - POSTGRES_PASSWORD=coobspass
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - SECRET_KEY=your-secret-key-change-this-in-production
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+      - EMAIL_USE_TLS=True
+      - WEB_PROTOCOL=http
+      - WEB_URL=localhost:8080
+      - DEVELOPMENT_MODE=True
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    networks:
+      - coobs_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    container_name: coobs_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - coobs_network
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # Para hot reload en Docker
+    command: npm run start
+
+  pgadmin:
+    container_name: coobs_pgadmin
+    image: dpage/pgadmin4:6.21
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@fiqus.coop
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    volumes:
+      - 'pgadmin_data:/var/lib/pgadmin'
+    networks:
+      - coobs_network
+    depends_on:
+      - postgres
+
+networks:
+  coobs_network:
+    driver: bridge
+
+volumes:
+  pg_data:
+  pgadmin_data:

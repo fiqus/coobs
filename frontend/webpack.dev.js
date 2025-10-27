@@ -13,16 +13,26 @@ const devServer = {
   contentBase: './dist',
   compress: true,
   port: 8080,
+  host: '0.0.0.0',
   hot: true,
   watchOptions: {
     poll: true
   },
   clientLogLevel: "error", // https://webpack.js.org/configuration/dev-server/#devserverclientloglevel
+  historyApiFallback: {
+    rewrites: [
+      { from: /^\/app/, to: '/app/index.html' },
+      { from: /^\/landing/, to: '/landing/index.html' },
+      { from: /^\/help/, to: '/help/index.html' }
+    ]
+  },
   proxy: {
     "/api": {
-      target: "http://localhost:8000",
+      target: "http://backend:8000",
       ws: true,
-      changeOrigin: true
+      changeOrigin: true,
+      timeout: 60000,
+      proxyTimeout: 60000
     }
   }
 };

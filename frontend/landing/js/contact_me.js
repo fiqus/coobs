@@ -87,24 +87,22 @@ $(function() {
         return cookieValue;
       }
 
-      grecaptcha.ready(() => {
-        grecaptcha.execute('6LepzsgUAAAAAJTtaoDibT1Duf2CFQrI0RFl3srT', {action: 'signup'})
-          .then((reCaptchaToken) => {
-            data.reCaptchaToken = reCaptchaToken;
-            $.ajax({
-              url: `${scheme}://${hostname}/api/cooperatives/`,
-              type: "POST",
-              headers: {
-                "X-CSRFToken": getCookie("csrftoken"),
-                "Accept-Language": languageStr || 'en'
-              },
-              data,
-              cache: false,
-              success: (msgs) => {onSucess(msgs)},
-              error: (err) => {onError(err)},
-              complete: onComplete
-            });
-          })
+      grecaptcha.enterprise.ready(async () => {
+        const reCaptchaToken = await grecaptcha.enterprise.execute('6Lc_wfgrAAAAADuYYdB51FTwU6OETYbQUEP84q9u', {action: 'signup'})
+        data.reCaptchaToken = reCaptchaToken;
+        $.ajax({
+          url: `${scheme}://${hostname}/api/cooperatives/`,
+          type: "POST",
+          headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+            "Accept-Language": languageStr || 'en'
+          },
+          data,
+          cache: false,
+          success: (msgs) => {onSucess(msgs)},
+          error: (err) => {onError(err)},
+          complete: onComplete
+        });
       });
     },
     filter: function() {

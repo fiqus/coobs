@@ -1,0 +1,30 @@
+FROM node:16-alpine
+
+# Instalar dependencias del sistema para node-sass
+RUN apk add --no-cache python3 make g++
+
+# Establecer directorio de trabajo
+WORKDIR /app
+
+# Copiar package.json y package-lock.json
+COPY frontend/package*.json ./
+
+# Instalar dependencias principales
+RUN npm install
+
+# Instalar dependencias del landing globalmente
+RUN npm install bootstrap magnific-popup jquery jquery.easing
+
+# Copiar código fuente
+COPY frontend/ .
+
+# Crear usuario no-root y cambiar permisos
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001 && \
+    chown -R nextjs:nodejs /app
+
+# Exponer puerto
+EXPOSE 8080
+
+# Comando por defecto
+CMD ["npm", "run", "start"]
