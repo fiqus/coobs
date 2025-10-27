@@ -32,6 +32,7 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from django.urls import reverse
 from django.dispatch import receiver
 from markdownify import markdownify as md
+from api.recaptcha_utils import verify_recaptcha_enterprise, is_recaptcha_score_valid
 
 public_url = f"{settings.WEB_PROTOCOL}://{settings.WEB_URL}"
 
@@ -250,17 +251,21 @@ class CooperativeView(viewsets.ModelViewSet):
             partner.save()
             assign_principles_to_coop()
 
-        recaptchaResult = requests.post(
-            settings.RECAPTCHA_VERIFY_URL,
-            data={
-                'secret': settings.RECAPTCHA_SECRET_KEY,
-                'response': data['reCaptchaToken']
-            }
-        )
-
-        if not recaptchaResult.json()['success']:
-            return Response(data={'detail': _("There has been an error validating recaptcha. Please, contact the site administrator.")},
-                            status=status.HTTP_400_BAD_REQUEST)
+        recaptcha_result = verify_recaptcha_enterprise(data['reCaptchaToken'], 'signup')
+        
+        if not recaptcha_result['success']:
+            error_msg = recaptcha_result.get('error', 'reCAPTCHA verification failed')
+            return Response(
+                data={'detail': _("There has been an error validating recaptcha. Please, contact the site administrator.")},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        score = recaptcha_result.get('score', 0.0)
+        if not is_recaptcha_score_valid(score):
+            return Response(
+                data={'detail': _("reCAPTCHA verification failed. Please try again.")},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         coop = {'business_name': data['businessName']}
         coop_serializer = CooperativeSerializer(data=coop)
