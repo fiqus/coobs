@@ -92,7 +92,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = []
+if os.environ.get('DEVELOPMENT_MODE', 'False') == 'True':
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (

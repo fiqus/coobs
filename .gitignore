@@ -22,3 +22,4 @@ frontend/dist/
 /coobs/include/
 /coobs/lib/
 /coobs/settings/dev.py
+staticfiles/
