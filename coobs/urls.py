@@ -26,7 +26,6 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
     TokenRefreshView,
 )
-from rest_framework.documentation import include_docs_urls
 
 
 router = routers.DefaultRouter()
@@ -46,7 +45,6 @@ router.register(r'sdg-monitoring', SDGMonitoringView, basename="SDGMonitoring")
 
 urlpatterns = [
     path('', RedirectView.as_view(url='api/')),
-    path('docs/', include_docs_urls(title='COOBS API', permission_classes=[], public=False)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/public-actions/', PublicActionView.as_view(), name='public_actions'),
