@@ -1,12 +1,14 @@
-.PHONY: server backend frontend install-frontend install-requirements migration clean reset-db test
+.PHONY: server backend frontend install install-frontend install-requirements migration clean reset-db test
 
 server: backend
 backend:
-	@docker-compose up -d
+	@docker compose up -d
 	@python manage.py runserver
 
 frontend:
 	@cd frontend && npm run build-dev && npm run start
+
+install: install-frontend install-requirements
 
 install-frontend:
 	@cd frontend && npm install
