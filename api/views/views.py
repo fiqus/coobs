@@ -10,7 +10,8 @@ from django.db import transaction, IntegrityError
 from django.db.models import Count, Q
 from django.template.loader import get_template, render_to_string
 from django.utils.translation import gettext as _
-from rest_framework import viewsets, status, permissions, views
+from rest_framework import viewsets, status, permissions
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -252,6 +253,7 @@ class CooperativeView(viewsets.ModelViewSet):
             assign_principles_to_coop()
 
         recaptcha_result = verify_recaptcha_enterprise(data['reCaptchaToken'], 'signup')
+        #print(recaptcha_result)
         
         if not recaptcha_result['success']:
             error_msg = recaptcha_result.get('error', 'reCAPTCHA verification failed')
@@ -593,7 +595,7 @@ class PartnerStatsView(viewsets.ViewSet):
              'charts': charts, 'all_periods': all_periods_serializer.data})
 
 
-class PublicActionView(views.APIView):
+class PublicActionView(APIView):
     # It's a public endpoint!
     permission_classes = []
 

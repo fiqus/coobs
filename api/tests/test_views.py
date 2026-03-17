@@ -11,6 +11,7 @@ from django.test import TestCase
 from api.models import Cooperative, Partner, MainPrinciple, Principle, Action
 from api.serializers import CooperativeSerializer, ActionSerializer
 from api.views import CooperativeView, PartnerView, views_utils
+from api.recaptcha_utils import verify_recaptcha_enterprise
 from unittest.mock import patch
 from api.tests.utils import MockResponse
 
@@ -36,13 +37,15 @@ class CooperativeTest(TestCase):
         self.assertEqual(response.data, serializer.data)
 
     @patch("api.views.views_utils.create_and_send_email")
-    @patch("requests.post", return_value=MockResponse({"success": True}, 200))
-    def test_create_valid_coop_successfull(self, mock_method, create_and_send_email): 
+    @patch("api.views.views.is_recaptcha_score_valid", return_value=True)
+    @patch("api.views.views.verify_recaptcha_enterprise", return_value={"success": True, "score": 0.9, "action_matched": True})
+    def test_create_valid_coop_successfull(self, mock_method, mock_score, create_and_send_email):
         valid_payload = {"name":"new coop", "businessName":"new testing coop", "language": "es", "reCaptchaToken": "test",
             'email': 'test_user@email.com', 'username': "test_user", 'password': 'test_pass', 
             'firstName': 'name', 'lastName': 'lastName'}
         
         response = self.client.post(self.list_url, valid_payload)
+        #print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         created_coop = Cooperative.objects.filter(business_name=valid_payload["businessName"])
         created_partner = Partner.objects.filter(email=valid_payload["email"])
